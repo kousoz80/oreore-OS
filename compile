@@ -1,0 +1,5 @@
+# "cmd.r"をコンパイルしてディレクトリ"apps"にuefiアプリケーションファイルをコピーします
+
+orc uefi.rh cmd.r
+java -jar asm_x64.jar -efi asm.s apps/cmd.EFI
+objdump -fsxdt apps/cmd.EFI> apps/cmd.txt

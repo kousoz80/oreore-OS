@@ -5,6 +5,7 @@
 main:
   long cmd#,arg#,f#
 
+  cls
   "Kous-OS version 0.0.1", prints nl
   loop1:
     "$ ", prints

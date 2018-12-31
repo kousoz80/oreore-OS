@@ -1,0 +1,14 @@
+# Kous-OSの各アプリケーションのコンパイル
+
+# エディタ
+orc stdio.rh edit.r
+java -jar asm_x64.jar -efi asm.s apps/edit.EFI
+
+# コンパイラ
+orc stdio.rh orc.r
+java -jar asm_x64.jar -efi asm.s apps/orc.EFI
+
+# アセンブラ
+orc stdio.rh asm.r
+java -jar asm_x64.jar -efi asm.s apps/asm.EFI
+

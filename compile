@@ -1,5 +1,7 @@
-# "cmd.r"をコンパイルしてディレクトリ"apps"にuefiアプリケーションファイルをコピーします
+# "kous-os.r"をコンパイルしてディレクトリ"apps"にuefiアプリケーションファイルをコピーします
+# 同時にKous-OSアプリケーション用ヘッダファイル"stdio.rh"も作成します
+# (コンパイル後ヘッダファイル"stdio.rh"を開いて不要な行を削除してください)
 
-orc uefi.rh cmd.r
-java -jar asm_x64.jar -efi asm.s apps/cmd.EFI
-objdump -fsxdt apps/cmd.EFI> apps/cmd.txt
+orc uefi.rh kous-os.r
+java -jar asm_x64.jar -efi -header asm.s apps/kous-os.EFI > stdio.rh
+objdump -fsxdt apps/kous-os.EFI>kous-os.txt

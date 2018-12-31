@@ -1,31 +1,37 @@
-/*  x86-64 UEFIアプリケーションライブラリ  for oregengo-Rコンパイラ ver 1.1 */
+//  x86-64 UEFIアプリケーションライブラリ  for oregengo-Rコンパイラ ver 1.1 
 
- const EOF      255         /* ファイルの終わりをあらわす文字コード */
- const ERROR    -1          /* エラーが発生したことをあらわす */
+ const EOF       -1         /* ファイルの終わりをあらわす文字コード */
+ const ERROR  -1          /* エラーが発生したことをあらわす */
  const NULL     0           /* ヌルポインタ */
- const SPACE    32          /* 空白文字 */
- const CR       13          /* キャリッジリターンコード */
- const LF       10          /* ラインフィードコード */
+ const SPACE   32          /* 空白文字 */
+ const CR        13          /* キャリッジリターンコード */
+ const LF         10          /* ラインフィードコード */
  const PLUS     43          /* プラス記号の文字コード */
- const MINUS    45          /* マイナス記号の文字コード */
+ const MINUS  45          /* マイナス記号の文字コード */
+ const MULT    42          /* 乗算記号の文字コード */
+ const DIV       47          /* 除算記号の文字コード */
  const ESC      27          /* ESCキーの文字コード */
  const NaN      0x8000000000000000  /* ゼロ除算が発生したことをあらわす */
- const STACK_SIZE 1000
+ const STACK_SIZE 2000
  
  // ファイル関連構造体定数
-  const FILE_SIZE      0x10
-  const DIR_SIZE       0x400
-  const DIR_FP          0x00
-  const FILE_FP         0x08
-  const FILE_NAME    0x50
-  const DIR_CLOSE    0x10
-  const DIR_READ     0x20
-  const FILE_OPEN    0x08
-  const FILE_CLOSE   0x10
-  const FILE_DELETE 0x18
-  const FILE_READ    0x20
-  const FILE_WRITE   0x28
-  const FILE_FLUSH   0x50
+  const FILE_SIZE         0x10
+  const VOL_SIZE          0x400
+  const VOL_FP             0x00
+  const FILE_FP            0x08
+  const FILE_NAME       0x50
+  const VOL_CLOSE       0x10
+  const VOL_READ        0x20
+  const FILE_OPEN       0x08
+  const FILE_CLOSE      0x10
+  const FILE_DELETE    0x18
+  const FILE_READ       0x20
+  const FILE_WRITE      0x28
+  const FILE_SET_POS   0x30
+  const FILE_GET_POS   0x38
+  const FILE_GET_INFO  0x40
+  const FILE_SET_INFO  0x48
+  const FILE_FLUSH       0x50
  
  /* 作業変数 */
  char   __fbuf$(1024)
@@ -38,7 +44,7 @@
  long   __cls#,__puts#,__getch#
  long   __boot_service#
  long   __set_wdt#,__locate_protocol#
- long   __file_sys#,__dir_open#
+ long   __file_sys#,__vol_open#
  long   __fbuf_length#
  count __p0#
  long   __p1#,__p2#,__p3#,__p4#,__p5#,__p6#,__p7#
@@ -104,7 +110,7 @@ _start:
 / rdi=__file_sys/
 / rsi=(rdi)/
 / rcx=0x08(rsi)/
-/ rdi=__dir_open/
+/ rdi=__vol_open/
 / (rdi)=rcx/
 
 / rcx=0/
@@ -114,8 +120,17 @@ _start:
 / rax=__set_wdt/
 / call (rax)/
 
-// メイン関数を呼び出したあとループ
+  // ボリュームを開く
+   vol_open __p1#=
+  if __p1#<>0 then "can't open volume.", prints nl goto__start1
+
+// メイン関数を呼び出す
  main
+ 
+// ボリュームを閉じる 
+ vol_close
+ 
+ // ループ
 __start1:
   goto __start1
 
@@ -286,11 +301,6 @@ _read:
 / r8=rsi/
 / rax=FILE_READ(rcx)/
 / call (rax)/
-
-// r13="_read"/ 
-// r14=rax/
-// print_status
-
 / rax=__fbuf_length/
 / rdi=(rax)/
   end
@@ -327,18 +337,21 @@ _write:
 / r8=rsi/
 / rax=FILE_WRITE(rcx)/
 / call (rax)/
-
-// r13="_write"/ 
-// r14=rax/
-// print_status
-
 / rax=__fbuf_length/
 / rdi=(rax)/
  end
 
 
-// 書き込みモードでファイルを開く
+// 書き込みモードでファイルを開く(ファイルの内容は消去される)
 wopen:
+ long __wfname#,__wfp#
+ __wfp#= pop __wfname#=
+ __wfname#, delete
+ __wfname#, __wfp#,
+
+
+// 書き込みモードでファイルを開く(ファイルの内容は消去されない)
+_wopen:
 / rdx=0x8000000000000003/
 / jmp open/
 
@@ -350,10 +363,7 @@ ropen:
 
 // ファイルを開く (mode, fname, hfile, open)
 open:
-  long __fp#,__mode#,__name#,__dir_fp#,__file_fp#,__file_open#
-
-/ rax=0x100/
-/ rsp-=rax/
+  long __fp#,__mode#,__name#,__vol_fp#,__file_fp#,__file_open#
 
 / rax=__fp/
 / (rax)=rdi/
@@ -367,46 +377,19 @@ open:
 
 / rdx=__fp/
 / rdx=(rdx)/
-/ rax=DIR_FP/
-/ rdx+=rax/
-/ rax=__dir_fp/
-/ (rax)=rdx/
-
-/ rdx=__fp/
-/ rdx=(rdx)/
 / rax=FILE_FP/
 / rdx+=rax/
 / rax=__file_fp/
 / (rax)=rdx/
 
-/ rdi=__file_sys/
-/ rcx=(rdi)/
-/ rdx=__dir_fp/
-/ rax=__dir_open/
-/ rax=(rax)/
-/ call (rax)/
-/ rax&rax/
-/ jnz open_error/
-
-// r13="dir_open"/ 
-// r14=rax/
-// print_status
-
-// r13="dir_fp"/ 
-// rcx=__dir_fp/
-// r14=(rcx)/
-// dump
-
-// r13="fp1"/ 
-// r14=fp/
-// dump
-
-/ rcx=__dir_fp/
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=__vol_fp/
 / rcx=(rcx)/
 / rcx=FILE_OPEN(rcx)/
 / rax=__file_open/
 / (rax)=rcx/
-/ rcx=__dir_fp/
+/ rcx=__vol_fp/
 / rcx=(rcx)/
 / rdx=__file_fp/
 / rdx=(rdx)/
@@ -419,191 +402,107 @@ open:
 / rax=__file_open/
 / rax=(rax)/
 / call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
 / rax&rax/
 / jnz open_error/
-
-// r13="file open"/ 
-// r14=rax/
-// print_status
-
-// r13="fp2"/ 
-// r14=fp/
-// dump
-
-/ rax=0x100/
-/ rsp+=rax/
   0,  end 
 
-// エラー終了
+// open失敗
 open_error:
-/ rax=0x100/
-/ rsp+=rax/
-  -1, end
- 
- 
-/* ファイルを閉じる */
+ -1,  end
+
+
+// ファイルを閉じる
 rclose:
- long __t2#
- 
+  long __t2#
 / rax=__t2/
 / (rax)=rdi/
 / rcx=FILE_FP(rdi)/
-
-// r13="file_fp"/
-// r14=rcx/
-// dump
-
 / rax=FILE_CLOSE(rcx)/
 / call (rax)/
-
-// r13="file close"/ 
-// r14=rax/
-// print_status
-
-/ rcx=__dir_fp/
-/ rcx=(rcx)/
-/ rax=DIR_CLOSE(rcx)/
-/ call (rax)/
-
-// r13="dir close"/ 
-// r14=rax/
-// print_status
- end
+  0,  end 
 
  
-/* ファイルを閉じる */
+// ファイルを閉じる
 wclose:
- long __t3#
- 
+  long __t3#
 / rax=__t3/
 / (rax)=rdi/
 / rcx=FILE_FP(rdi)/
 / rax=FILE_FLUSH(rcx)/
 / call (rax)/
-
-// r13="file flush"/ 
-// r14=rax/
-// print_status
-
 / rax=__t3/
 / rdi=(rax)/
 / rcx=FILE_FP(rdi)/
 / rax=FILE_CLOSE(rcx)/
 / call (rax)/
-
-// r13="file close"/ 
-// r14=rax/
-// print_status
-
-/ rcx=__dir_fp/
-/ rcx=(rcx)/
-/ rax=DIR_CLOSE(rcx)/
-/ call (rax)/
-
-// r13="dir close"/ 
-// r14=rax/
-// print_status
-end
+  0,  end 
 
  
-/* ファイルを消去する */
+// ファイルを消去する("ファイル名", delete )
 delete:
-  long __t4#
-
-/ rax=__t4/
-/ (rax)=rdi/
+  char __dfp$(FILE_SIZE)
+  __dfp, _wopen
+  __dfp,
 / rcx=FILE_FP(rdi)/
-
-// r13="file_fp"/
-// r14=rcx/
-// dump
-
 / rax=FILE_DELETE(rcx)/
 / call (rax)/
-
-// r13="file delete"/ 
-// r14=rax/
-// print_status
-
-/ rcx=__dir_fp/
-/ rcx=(rcx)/
-/ rax=DIR_CLOSE(rcx)/
-/ call (rax)/
-
-// r13="dir close"/ 
-// r14=rax/
-// print_status
- end
+  0,  end 
 
  
-// ディレクトリを開く (fp, dopen)
-dopen:
+// ボリュームを開く
+vol_open:
+ char __vfp$(FILE_SIZE)
+/ rdi=__vfp/
 / rdx=__fp/
 / (rdx)=rdi/
 / rdx=(rdx)/
-/ rax=DIR_FP/
+/ rax=VOL_FP/
 / rdx+=rax/
-/ rax=__dir_fp/
+/ rax=__vol_fp/
 / (rax)=rdx/
 
 / rdi=__file_sys/
 / rcx=(rdi)/
-/ rdx=__dir_fp/
-/ rax=__dir_open/
+/ rdx=__vol_fp/
+/ rax=__vol_open/
 / rax=(rax)/
 / call (rax)/
 / rax&rax/
-/ jnz dopen_error/
-
-// r13="dir_open"/ 
-// r14=rax/
-// print_status
-
-// r13="dir_fp"/ 
-// rcx=__dir_fp/
-// r14=(rcx)/
-// dump
-   0, end 
+/ jnz vol_open_error/
+  0, end 
 
 // エラー終了
-dopen_error:
+vol_open_error:
    -1, end 
  
  
-/* ディレクトリを閉じる */
-dclose:
-/ rcx=__dir_fp/
+/* ボリュームを閉じる */
+vol_close:
+/ rcx=__vol_fp/
 / rcx=(rcx)/
-/ rax=DIR_CLOSE(rcx)/
+/ rax=VOL_CLOSE(rcx)/
 / call (rax)/
-
-// r13="dir close"/ 
-// r14=rax/
-// print_status
- end
+  end
 
  
-/* ディレクトリ情報を読み込む ( buf, dread : 戻り値がゼロなら終わり) */
-dread:
+/* ボリューム情報を読み込む ( buf, vol_read : 戻り値がゼロなら終わり) */
+vol_read:
 / rsi=__p1/
 / (rsi)=rdi/
-/ rcx=__dir_fp/
+/ rcx=__vol_fp/
 / rcx=(rcx)/
 / rdx=__fbuf_length/
-/ rax=DIR_SIZE/
+/ rax=VOL_SIZE/
 / (rdx)=rax/
 / rsi=__p1/
 / r8=(rsi)/
-/ rax=DIR_READ(rcx)/
+/ rax=VOL_READ(rcx)/
 / call (rax)/
-
-// r13="dir read"/ 
-// r14=rax/
-// print_status
-
 / rdi=__fbuf_length/
 / rdi=(rdi)/
- end
+  end
 
  
 /* 文字列を表示する */
@@ -648,23 +547,35 @@ fnl:
 
 // コンソールから文字列を入力する
 inputs:
- 0,
+ char __cc$
+ long __st#,__st2#
+  __st#= __st2#=
+  __inputs1:
+    getchar __cc$= putchar // １文字入力
+    if __cc$=CR then nl goto__inputs2  // Enterで入力終わり
+    if __cc$<SPACE then nl "? ", prints __st2#, __st#= gotoinputs    // 他のコントロールキーでやり直し
+    __cc$, (__st)$=
+    __st#++
+    goto __inputs1
+  __inputs2:
+  NULL, (__st)$=
+  end
 
 
 // ファイルから文字列を入力する
 finputs:
  __p7#= swap __p6#=
  __finputs1:
-  __p7#, getc __p5$=
-  if __p5$=CR   goto __finputs2
-  if __p5$=LF    goto __finputs2
-  if __p5$=EOF goto __finputs2
-  __p5$, (__p6)$=
-  __p6#, 1, + __p6#=
+  __p7#, getc __p5#=
+  if __p5#=CR   goto __finputs2
+  if __p5#=LF    goto __finputs2
+  if __p5#=EOF goto __finputs2
+  __p5#, (__p6)$=
+  __p6#++
  goto __finputs1
  __finputs2:
  NULL,  (__p6)$=
- __p5$, end
+ __p5#, end
 
 
 /* 文字列を比較する */

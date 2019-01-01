@@ -105,7 +105,7 @@ main:
   case_MEMORY:
      if ins_type#<>MEMORY goto case_ALIGN
      location#, prev_loc#, - j#=
-     if i#<1 goto memory1
+     if j#<1 goto memory1
        for i#=1 to j#
          0,  outfile, putc
        next i#

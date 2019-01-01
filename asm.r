@@ -9,6 +9,7 @@ main:
  NULL,  in_fname#= out_fname#=
  0x401000, start_adrs#=
  0, blist#=
+ if argc#<2 then "command input error", prints nl end
  for i#=2 to argc#
    argv-8#(i#), buf, strcpy
    buf, xbuf, strcpy
@@ -29,7 +30,7 @@ main:
    set_fname1:
  next i#
 
- if in_fname#=NULL then "Can't assemble", prints nl end
+ if in_fname#=NULL then "command input error", prints nl end
  if out_fname#=NULL then "a.efi", out_fname#=
 
  // 各パラメータを読み込む
@@ -83,11 +84,10 @@ main:
     line#, printd " error: ", prints xbuf, prints nl
   no_error:
 
-//  "ins_type=", prints ins_type#, printd nl
-
   // 命令タイプごとの処理
   case_NORMAL:
      if ins_type#<>NORMAL goto case_MEMORY
+     if wordlen#<1 goto case_MEMORY
      for i#=1 to wordlen#
        ins-1$(i#),  outfile, putc
      next i#
@@ -105,9 +105,11 @@ main:
   case_MEMORY:
      if ins_type#<>MEMORY goto case_ALIGN
      location#, prev_loc#, - j#=
-     for i#=1 to j#
-       0,  outfile, putc
-     next i#
+     if i#<1 goto memory1
+       for i#=1 to j#
+         0,  outfile, putc
+       next i#
+     memory1:
      // リスト出力モード
      if blist#=0 goto case_ALIGN
      address#, hex prints ": alloc", prints
@@ -116,9 +118,11 @@ main:
   case_ALIGN:
      if ins_type#<>ALIGN goto default
      location#, prev_loc#, - j#=
-     for i#=1 to j#
-       0,  outfile, putc
-     next i#
+     if j#<1 goto align1
+       for i#=1 to j#
+         0,  outfile, putc
+       next i#
+     align1:
      // リスト出力モード
      if blist#=0 goto default
      address#, hex prints ": skip", prints
@@ -152,11 +156,6 @@ asm_1line:
  location#, address#=
   0, wordlen#=  
  -1, ins_type#=
-
-// "asm1line", prints nl
-// "line=", prints line#, printd nl
-// buf, prints nl
- 
 
 // コメントを除去する 
  buf, cmnt1, strstr k#=
@@ -354,24 +353,17 @@ ext_statement:
 
  // エラー発生
  error_end:
- 
-// "error end", prints nl
- 
   ERROR,
   goto exit_asm
 
  // 正常終了
  normal_end:
- 
-// "normal end", prints nl
- 
   NULL,
 
  exit_asm:
   k#=
 
-  if  ins_type#=EQU    then value#,    address#=
-
+  if ins_type#=EQU    then value#,    address#=
   if ins_type#<>ORG goto not_ORG
     value#, location#= address#=
   not_ORG:

@@ -71,10 +71,10 @@ jump:
     if  li#>=l# then end
     loop2:
       if text#>=tail# then end
-      text#, 1, + text#=
+      text#++
     if (text)$<>0   goto loop2
     text#, 1, + text#=
-    li#,   1, + li#=
+    li#++
   goto loop1
 
 /* 前にジャンプ */
@@ -82,13 +82,13 @@ jump_reverse:
   li#,   l#, - l#=
   loop3:
     if li#<=l# goto get_command
-    text#, 1,  - text#=
+    text#--
     loop4:
       if text#<=buf then 1, li#= buf, text#= gotoget_command
-      text#, 1, - text#=
+      text#--
     if (text)$<>0 goto loop4
-    text#, 1, + text#=
-    li#,   1, - li#=
+    text#++
+    li#--
   goto loop3
 
 /* 指定行削除 */
@@ -103,8 +103,8 @@ delete_line:
   loop5:
     if text#>=tail# goto exit5
     (text)$, (temp1)$=
-    temp1#, 1, + temp1#=
-    text#,  1, + text#=
+    temp1#++
+    text#++
     goto loop5
   exit5:
   0,      (temp1)$=
@@ -125,7 +125,7 @@ copy:
     copy_p#, sbuf,  strcpy
     copy_p#, text#= 1, l#= jump_foward text#, copy_p#=
     temp1#,  text#= insert1 text#, temp1#=
-    temp2#,  1, - temp2#=
+    temp2#--
     goto loop6
   exit6:
   temp3#, li#=
@@ -142,8 +142,8 @@ modefy:
   loop7:
     if temp3#>=temp1# goto exit7
     (temp3)$, (temp4)$=
-    temp3#, 1, + temp3#=
-    temp4#, 1, + temp4#=
+    temp3#++
+    temp4#++
     goto loop7
   exit7:
   "STRING2? ", prints temp4#, inputs
@@ -199,7 +199,7 @@ read_file:
     if temp1#=EOF goto exit9
     if (text)$=0 then " ", text#, strcpy
     text#, strlen text#, + 1, + text#=
-    li#, 1, + li#=
+    li#++
     goto loop9
   exit9:
   fp, rclose
@@ -219,16 +219,16 @@ insert:
 
 /* １行挿入 */
 insert1:
-  li#,      1, + li#=
-  el#,      1, + el#=
+  li#++
+  el#++
   sbuf, strlen 1, + t1#=
   text#, t2#=  + text#=
   t1#, tail#, t3#=  + tail#= t4#=
   if copy_p#>=t2# then copy_p#, t1#, + copy_p#=
   loop10:
     (t3)$, (t4)$=
-    t3#, 1, - t3#=
-    t4#, 1, - t4#=
+    t3#--
+    t4#--
   if t3#>=t2# goto loop10
   sbuf, t2#, strcpy
   end
@@ -241,9 +241,10 @@ quit:
 /* ヘルプ */
 help:
   cls
-  "r)ead w)rite q)uit", prints nl
-  "a)ppend i)nsert .)tail", prints nl
-  "j)ump -)up +)down", prints nl
-  "d)elete m)odefy ?)line", prints nl
+  "(r) read (w) write (q) quit", prints nl
+  "(a) append (i) insert (.) tail", prints nl
+  "(j) jump (BS) up (Enter) down", prints nl
+  "(d) delete (m) modefy (?) line no", prints nl
+ nl nl nl
   goto get_command
 

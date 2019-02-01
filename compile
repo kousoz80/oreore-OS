@@ -1,7 +1,106 @@
-# "kous-os.r"をコンパイルしてディレクトリ"apps"にuefiアプリケーションファイルをコピーします
-# 同時にKous-OSアプリケーション用ヘッダファイル"stdio.rh"も作成します
-# (コンパイル後ヘッダファイル"stdio.rh"を開いて不要な行を削除してください)
+#!
+# ※注意：このスクリプトを実行するとヘッダファイル"stdio.rh"が更新されます
+# "kous-os.r"をコンパイルしてディレクトリ"bin"にuefiアプリケーションファイルをコピーします
+# 同時にKous-OSアプリケーション用ヘッダファイル"stdio.rh"も更新します
 
-orc uefi.rh kous-os.r
-java -jar asm_x64.jar -efi -header asm.s apps/kous-os.EFI > stdio.rh
-objdump -fsxdt apps/kous-os.EFI>kous-os.txt
+# オプション
+# -debug:デバッグファイル"kous-os.dump"を作成する
+# -noapp:アプリケーションをコンパイルしない
+
+option="-normal"
+if test $@ 
+then
+ option=$1
+fi
+echo "option=" $option 
+
+echo compile kous-os.r
+./orc src/kous-os.r
+
+if test $option = "-debug"
+then
+mv asm.s kous-os.s
+java -jar asm_x64.jar -efi kous-os.s bin/kous-os.EFI
+objdump -fsxdt bin/kous-os.EFI>kous-os.dump
+rm __str
+rm __var
+rm __tmp1
+rm __tmp2
+exit 0
+fi
+
+echo "// header file for Kous-OS application" > stdio.rh
+java -jar asm_x64.jar -efi -header asm.s bin/kous-os.EFI |sed -f stdio.sed >> stdio.rh
+cat stdio.base >> stdio.rh
+
+
+# アプリケーションをコンパイルしない場合はここで終了
+if test $option = "-noapp"
+then
+rm __str
+rm __var
+rm __tmp1
+rm __tmp2
+exit 0
+fi
+
+cp stdio.rh bin
+
+# Kous-OSの各アプリケーションのコンパイル
+# ※コンパイルのアドレスはページ(4KB)単位で指定すること
+
+# エディタ
+echo compile edit.r
+./orc stdio.rh src/edit.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/edit.EFI
+
+# コンパイラ
+echo compile orc.r
+./orc stdio.rh src/orc.r src/codegen.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/orc.EFI
+
+# アセンブラ
+echo compile asm.r
+./orc stdio.rh src/asm.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/asm.EFI
+
+# ls
+echo compile ls.r
+./orc stdio.rh src/ls.r
+java -jar asm_x64.jar -p0x20000 -efi asm.s bin/ls.EFI
+
+# ps
+echo compile ps.r
+./orc stdio.rh src/ps.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/ps.EFI
+
+# cat
+echo compile cat.r
+./orc stdio.rh src/cat.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/cat.EFI
+
+# cp
+echo compile cp.r
+./orc stdio.rh src/cp.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/cp.EFI
+
+# mv
+echo compile mv.r
+./orc stdio.rh src/mv.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/mv.EFI
+
+# rm
+echo compile rm.r
+./orc stdio.rh src/rm.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/rm.EFI
+
+# cls
+echo compile cls.r
+./orc stdio.rh src/cls.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/cls.EFI
+
+# 作業ファイルを消去
+rm __str
+rm __var
+rm __tmp1
+rm __tmp2

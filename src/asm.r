@@ -1,13 +1,17 @@
 // asm X64アセンブラ
 main:
+ const IMAGE_BASE 22
+ const IMAGE_SIZE  52
+ const PROG_ADDR 42
  char    buf$(128),xbuf$(128),infile$(FILE_SIZE),outfile$(FILE_SIZE)
  long    in_fname#,out_fname#,start_adrs#,blist#,prev_loc#
  count  i#,j#
  long    cmnt1#,cmnt2#,pc#,ofset#
+ long    image_size#
 
  // ファイル名・オプション設定
  NULL,  in_fname#= out_fname#=
- 0x401000, start_adrs#=
+ 0x410000, start_adrs#=
  0, blist#=
  if argc#<2 then " command input error", prints nl end
  for i#=2 to argc#
@@ -64,6 +68,16 @@ main:
  exit_pass1:
  infile, rclose
 
+ // ヘッダにプログラム情報を書き込む
+ start_adrs#, 0xffffffffff000000, and i#=
+ start_adrs#, 0xffffff, and j#=
+ i#, header#(IMAGE_BASE)=
+ j#, header!(PROG_ADDR)=
+ location#, start_adrs#, - image_size#= i#=
+ image_size#, 4096, / 4096, * image_size#=
+ if image_size#<i# then image_size#, 4096, + image_size#=
+ image_size#, header!(IMAGE_SIZE)=
+ 
  // pass2: コードの生成
  2, pass#= 0, line#=
  start_adrs#, location#=
@@ -269,7 +283,7 @@ ext_statement:
       char  op1$,op2$
       long  num#,p#,v#
 
-      PLUS, op1$=
+      '+', op1$=
       arg, num#= p#=
       0, value#=
       if arg_type#<4 then 0, value#= gotoserch_op
@@ -278,11 +292,11 @@ ext_statement:
       // 演算子を探す
       serch_op:
        (p)$, op2$= p#++
-       if op2$=PLUS    goto number2
-       if op2$=MINUS goto number2
-       if op2$=MULT   goto number2
-       if op2$=DIV      goto number2
-       if op2$=NULL   goto number1
+       if op2$='+'    goto number2
+       if op2$='-'     goto number2
+       if op2$='*'     goto number2
+       if op2$='/'      goto number2
+       if op2$=NULL goto number1
        goto serch_op
 
       number1:
@@ -316,10 +330,10 @@ ext_statement:
          if ex$=NULL then if pass#=2 goto fault_cmp
 
       serch_next:
-       if op1$=PLUS    then value#, v#, + value#=
-       if op1$=MINUS then value#, v#,  - value#=
-       if op1$=MULT   then value#, v#,  * value#=
-       if op1$=DIV      then value#, v#,  / value#=
+       if op1$='+' then value#, v#, + value#=
+       if op1$='-'  then value#, v#,  - value#=
+       if op1$='*'  then value#, v#,  * value#=
+       if op1$='/'   then value#, v#,  / value#=
        if op2$<>NULL then op2$, op1$= p#, num#= gotoserch_op
 
     // 引数の値をビット列に変換する
@@ -462,6 +476,9 @@ symbl_serch:
  next x#
  NULL, ex$=
  end
+
+// データ領域
+ .data
 
 // ファイルヘッダ
  const HEADER_SIZE 0x400

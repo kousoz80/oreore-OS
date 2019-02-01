@@ -1,4 +1,5 @@
+#!
 # ディレクトリ"apps"を起動ドライブとしてqemuを起動します
 # biosファイル"OVMF.fd"は必要に応じて各自で入手して下さい
 
-qemu-system-x86_64 -bios OVMF.fd -m 512 -cpu qemu64 -serial stdio -hda fat:rw:apps
+qemu-system-x86_64 -bios OVMF.fd -m 640 -cpu qemu64 -serial stdio -hda fat:rw:bin -D qemu.log

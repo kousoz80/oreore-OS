@@ -1,0 +1,222 @@
+// "stdio.base" the base text of "stdio.rh"
+
+__xxmain1:
+  goto __xxmain2
+
+// TCB area
+ .data
+__tcb:
+ data 0,0,0,0,0,0,0,0
+ data 0,0,0,0,0,0,0,0
+
+ long   read_p#
+
+sync:
+ @SYS_CALL(SYNC)
+  end
+create_task:
+ @SYS_CALL(CREATE_TASK)
+  end
+exit_task:
+ @SYS_CALL(EXIT_TASK)
+  end
+delete_task:
+ @SYS_CALL(DELETE_TASK)
+  end
+run_task:
+ @SYS_CALL(RUN_TASK)
+  end
+go_task:
+ @SYS_CALL(GO_TASK)
+  end
+wait_task:
+ @SYS_CALL(WAIT_TASK)
+  end
+stop_task:
+ @SYS_CALL(STOP_TASK)
+  end
+send_message:
+ @SYS_CALL(SEND_MESSAGE)
+  end
+get_message:
+ @SYS_CALL(GET_MESSAGE)
+  end
+exit_process:
+ @SYS_CALL(EXIT_PROCESS)
+  end
+_wide:
+ @SYS_CALL(_WIDE)
+  end
+_nallow:
+ @SYS_CALL(_NALLOW)
+  end
+getc:
+ @SYS_CALL(GETC)
+  end
+_read:
+ @SYS_CALL(_READ)
+  end
+putc:
+ @SYS_CALL(PUTC)
+  end
+_write:
+ @SYS_CALL(_WRITE)
+  end
+wopen:
+ @SYS_CALL(WOPEN)
+  end
+ropen:
+ @SYS_CALL(ROPEN)
+  end
+open:
+ @SYS_CALL(OPEN)
+  end
+rclose:
+ @SYS_CALL(RCLOSE)
+  end
+wclose:
+ @SYS_CALL(WCLOSE)
+  end
+delete:
+ @SYS_CALL(DELETE)
+  end
+vol_open:
+ @SYS_CALL(VOL_OPEN)
+  end
+vol_close:
+ @SYS_CALL(VOL_CLOSE)
+  end
+vol_read:
+ @SYS_CALL(VOL_READ)
+  end
+fprints:
+ @SYS_CALL(FPRINTS)
+  end
+fprintd:
+ @SYS_CALL(FPRINTD)
+  end
+fnl:
+ @SYS_CALL(FNL)
+  end
+finputs:
+ @SYS_CALL(FINPUTS)
+  end
+strcmp:
+ @SYS_CALL(STRCMP)
+  end
+strcpy:
+ @SYS_CALL(STRCPY)
+  end
+strcat:
+ @SYS_CALL(STRCAT)
+  end
+strstr:
+ @SYS_CALL(STRSTR)
+  end
+strlen:
+ @SYS_CALL(STRLEN)
+  end
+atoi:
+ @SYS_CALL(ATOI)
+  end
+itoa:
+ @SYS_CALL(ITOA)
+  end
+bin:
+ @SYS_CALL(BIN)
+  end
+oct:
+ @SYS_CALL(OCT)
+  end
+dec:
+ @SYS_CALL(DEC)
+  end
+hex:
+ @SYS_CALL(HEX)
+  end
+abs:
+ @SYS_CALL(ABS)
+  end
+palloc:
+ @SYS_CALL(PALLOC)
+  end
+pfree:
+ @SYS_CALL(PFREE)
+  end
+malloc:
+ @SYS_CALL(MALLOC)
+  end
+free:
+ @SYS_CALL(FREE)
+  end
+load:
+ @SYS_CALL(LOAD)
+  end
+cls:
+ @SYS_CALL(CLS)
+  end
+locate:
+ @SYS_CALL(LOCATE)
+  end
+cursor:
+ @SYS_CALL(CURSOR)
+  end
+inkey:
+ @SYS_CALL(INKEY)
+  end
+getch:
+ @SYS_CALL(GETCH)
+  end
+putch:
+ @SYS_CALL(PUTCH)
+  end
+
+putchar:
+  stdout#, putc
+  end
+nl:
+  stdout#, fnl
+  end
+prints:
+  stdout#, fprints
+  end
+printd:
+  stdout#, fprintd
+  end
+getchar:
+  stdin#, getc
+  end
+inputs:
+  stdin#, finputs
+  end
+
+restore:
+ read_p#=
+ end
+
+read:
+ read_p#, 8, + read_p#=
+ (read_p)#(-1), end
+
+__xxmain2:
+
+  long   _indev#,_outdev#,stdin#,stdout#,_f#
+  char  _infile$(FILE_SIZE),_outfile$(FILE_SIZE)
+
+  CONIN,    stdin#=
+  CONOUT, stdout#=
+  (present_task)#(INDEV/8),    _indev#=
+  (present_task)#(OUTDEV/8), _outdev#=
+  if (_indev)$=NULL goto __xxmain3
+    _indev#,  _infile, ropen _f#=
+    if _f#<>ERROR then _infile, stdin#=
+__xxmain3:
+  if (_outdev)$=NULL goto __xxmain4
+    _outdev#,  _outfile, wopen _f#=
+    if _f#<>ERROR then _outfile, stdout#=
+__xxmain4:
+  main
+  stdin#,   rclose
+  stdout#, wclose
+  exit_process
+  end

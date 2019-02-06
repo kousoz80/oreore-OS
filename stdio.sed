@@ -86,6 +86,7 @@
 /const INKEY / p
 /const GETCH / p
 /const PUTCH / p
+/const WPUTS / p
 /const __critical / p
 /const __stack_p / p
 /const __int_enable / p

@@ -170,6 +170,9 @@ getch:
 putch:
  @SYS_CALL(PUTCH)
   end
+wputs:
+ @SYS_CALL(WPUTS)
+  end
 
 putchar:
   stdout#, putc

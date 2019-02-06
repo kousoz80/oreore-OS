@@ -1271,6 +1271,7 @@ console_handler:
   const INKEY       103
   const GETCH      104
   const PUTCH      105
+  const WPUTS      106
 
 / rax=CLS/      // cls関数
 / r13-rax/
@@ -1290,6 +1291,9 @@ console_handler:
 / rax=PUTCH/   // putch関数
 / r13-rax/
 / jz putch/
+/ rax=WPUTS/   // wputs関数
+/ r13-rax/
+/ jz wputs/
 / rax=GETC/      // getc関数を拡張する
 / r13-rax/
 / jz getc_con/
@@ -1388,6 +1392,17 @@ getch:
 putch:
   __strbuf#=
 / rdx=__strbuf/
+/ rsi=__conout/
+/ rcx=(rsi)/
+/ rsi=__puts/
+/ rax=(rsi)/
+/ call (rax)/
+  goto handler_success
+
+
+// コンソールへワイド文字列を出力する
+wputs:
+/ rdx=rdi/
 / rsi=__conout/
 / rcx=(rsi)/
 / rsi=__puts/

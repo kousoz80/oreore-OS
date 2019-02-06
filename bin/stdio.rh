@@ -87,22 +87,23 @@
  const INKEY  0x0000000000000067
  const GETCH  0x0000000000000068
  const PUTCH  0x0000000000000069
- const __critical  0x000000000040a620
- const __stack_p  0x000000000040a628
- const __int_enable  0x000000000040a630
- const __int_busy  0x000000000040a638
- const __sys_nest  0x000000000040a640
- const time  0x000000000040a650
- const SYS_CALL  0x000000000040a658
- const SYS_EXT  0x000000000040a660
- const tasks  0x000000000040a668
- const present_task  0x000000000040a670
- const __stack_top  0x000000000040a678
- const tcb0  0x000000000040a680
- const cmd_buf  0x000000000040a990
- const argc  0x000000000040ac90
- const argv  0x000000000040ac98
- const __prog_start  0x000000000040ad78
+ const WPUTS  0x000000000000006a
+ const __critical  0x000000000040a658
+ const __stack_p  0x000000000040a660
+ const __int_enable  0x000000000040a668
+ const __int_busy  0x000000000040a670
+ const __sys_nest  0x000000000040a678
+ const time  0x000000000040a688
+ const SYS_CALL  0x000000000040a690
+ const SYS_EXT  0x000000000040a698
+ const tasks  0x000000000040a6a0
+ const present_task  0x000000000040a6a8
+ const __stack_top  0x000000000040a6b0
+ const tcb0  0x000000000040a6b8
+ const cmd_buf  0x000000000040a9c8
+ const argc  0x000000000040acc8
+ const argv  0x000000000040acd0
+ const __prog_start  0x000000000040adb0
 // "stdio.base" the base text of "stdio.rh"
 
 __xxmain1:
@@ -274,6 +275,9 @@ getch:
   end
 putch:
  @SYS_CALL(PUTCH)
+  end
+wputs:
+ @SYS_CALL(WPUTS)
   end
 
 putchar:

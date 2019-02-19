@@ -81,6 +81,7 @@
  const MALLOC  0x000000000000002d
  const FREE  0x000000000000002e
  const LOAD  0x000000000000002f
+ const LOCATE_PROTOCOL  0x0000000000000030
  const CLS  0x0000000000000064
  const LOCATE  0x0000000000000065
  const CURSOR  0x0000000000000066
@@ -88,22 +89,24 @@
  const GETCH  0x0000000000000068
  const PUTCH  0x0000000000000069
  const WPUTS  0x000000000000006a
- const __critical  0x000000000040a658
- const __stack_p  0x000000000040a660
- const __int_enable  0x000000000040a668
- const __int_busy  0x000000000040a670
- const __sys_nest  0x000000000040a678
- const time  0x000000000040a688
- const SYS_CALL  0x000000000040a690
- const SYS_EXT  0x000000000040a698
- const tasks  0x000000000040a6a0
- const present_task  0x000000000040a6a8
- const __stack_top  0x000000000040a6b0
- const tcb0  0x000000000040a6b8
- const cmd_buf  0x000000000040a9c8
- const argc  0x000000000040acc8
- const argv  0x000000000040acd0
- const __prog_start  0x000000000040adb0
+ const __sys_table  0x000000000040a5e8
+ const __boot_service  0x000000000040a628
+ const __critical  0x000000000040a6f0
+ const __stack_p  0x000000000040a6f8
+ const __int_enable  0x000000000040a700
+ const __int_busy  0x000000000040a708
+ const __sys_nest  0x000000000040a710
+ const time  0x000000000040a720
+ const SYS_CALL  0x000000000040a728
+ const SYS_EXT  0x000000000040a730
+ const tasks  0x000000000040a738
+ const present_task  0x000000000040a740
+ const __stack_top  0x000000000040a748
+ const tcb0  0x000000000040a750
+ const cmd_buf  0x000000000040aa60
+ const argc  0x000000000040ad60
+ const argv  0x000000000040ad68
+ const __prog_start  0x000000000040ae48
 // "stdio.base" the base text of "stdio.rh"
 
 __xxmain1:
@@ -257,6 +260,9 @@ free:
   end
 load:
  @SYS_CALL(LOAD)
+  end
+locate_protocol:
+ @SYS_CALL(LOCATE_PROTOCOL)
   end
 cls:
  @SYS_CALL(CLS)

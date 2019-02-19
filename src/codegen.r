@@ -46,6 +46,9 @@ codegen:
  data " /"
  data " rdx^=rdx
  rax=rsi
+ rax&rax
+ jge $+9
+ rdx--
  div rdi
  rdi=rax
 "
@@ -58,6 +61,9 @@ codegen:
  data " mod"
  data " rdx^=rdx
  rax=rsi
+ rax&rax
+ jge $+9
+ rdx--
  div rdi
  rdi=rdx
 "
@@ -147,6 +153,38 @@ codegen:
  rax=-8(rax)
  jmp (rax)
 "
+ data " endfunc"
+ data " r14=1
+ rax=__critical
+ (rax)=r14
+ rax=__stack_p
+ rcx=(rax)
+ r15=(rcx)
+ r14=8(rcx)
+ rcx+=r14
+ (rax)=rcx
+ r14=0
+ rax=__critical
+ (rax)=r14
+ rax=r15
+ jmp (rax)
+"
+ data " retf"
+ data " r14=1
+ rax=__critical
+ (rax)=r14
+ rax=__stack_p
+ rcx=(rax)
+ r15=(rcx)
+ r14=8(rcx)
+ rcx+=r14
+ (rax)=rcx
+ r14=0
+ rax=__critical
+ (rax)=r14
+ rax=r15
+ jmp (rax)
+"
  data " jmp@"
  data " jmp (rdi)
 "
@@ -175,6 +213,194 @@ codegen:
 "
  data " .data"
  data " align 8
+"
+ data " (\)#(\#).,"
+ data " rcx=&\2
+ rax=(rcx)
+ rax+=rax
+ rax+=rax
+ rax+=rax
+ rcx=&\1
+ rcx=(rcx)
+ rcx+=rax
+ rdi=(rcx)
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \#(\#).,"
+ data " rcx=&\2
+ rax=(rcx)
+ rax+=rax
+ rax+=rax
+ rax+=rax
+ rcx=&\1
+ rcx+=rax
+ rdi=(rcx)
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)!(\#).,"
+ data " rcx=&\2
+ rax=(rcx)
+ rax+=rax
+ rax+=rax
+ rcx=&\1
+ rcx=(rcx)
+ rcx+=rax
+ eax=(rcx)
+ ext eax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \!(\#).,"
+ data " rcx=&\2
+ rax=(rcx)
+ rax+=rax
+ rax+=rax
+ rcx=&\1
+ rcx+=rax
+ eax=(rcx)
+ ext eax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)%(\#).,"
+ data " rcx=&\2
+ rax=(rcx)
+ rax+=rax
+ rcx=&\1
+ rcx=(rcx)
+ rcx+=rax
+ ax=(rcx)
+ ext ax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \%(\#).,"
+ data " rcx=&\2
+ rax=(rcx)
+ rax+=rax
+ rcx=&\1
+ rcx+=rax
+ ax=(rcx)
+ ext ax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)$(\#).,"
+ data " rcx=&\2
+ rax=(rcx)
+ rcx=&\1
+ rcx=(rcx)
+ rcx+=rax
+ al=(rcx)
+ ext al
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \$(\#).,"
+ data " rcx=&\2
+ rax=(rcx)
+ rcx=&\1
+ rcx+=rax
+ al=(rcx)
+ ext al
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
 "
  data " (\)#(\#),"
  data " rdx=rsi
@@ -353,6 +579,186 @@ codegen:
  rcx+=rax
  rax=rdi
  (rcx)=al
+"
+ data " (\)#(\).,"
+ data " rax=\2
+ rax+=rax
+ rax+=rax
+ rax+=rax
+ rcx=&\1
+ rcx=(rcx)
+ rcx+=rax
+ rdi=(rcx)
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \#(\).,"
+ data " rax=\2
+ rax+=rax
+ rax+=rax
+ rax+=rax
+ rcx=&\1
+ rcx+=rax
+ rdi=(rcx)
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)!(\).,"
+ data " rax=\2
+ rax+=rax
+ rax+=rax
+ rcx=&\1
+ rcx=(rcx)
+ rcx+=rax
+ eax=(rcx)
+ ext eax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \!(\).,"
+ data " rax=\2
+ rax+=rax
+ rax+=rax
+ rcx=&\1
+ rcx+=rax
+ eax=(rcx)
+ ext eax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)%(\).,"
+ data " rax=\2
+ rax+=rax
+ rcx=&\1
+ rcx=(rcx)
+ rcx+=rax
+ ax=(rcx)
+ ext ax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \%(\).,"
+ data " rax=\2
+ rax+=rax
+ rcx=&\1
+ rcx+=rax
+ ax=(rcx)
+ ext ax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)$(\).,"
+ data " rax=\2
+ rcx=&\1
+ rcx=(rcx)
+ rcx+=rax
+ al=(rcx)
+ ext al
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \$(\).,"
+ data " rax=\2
+ rcx=&\1
+ rcx+=rax
+ al=(rcx)
+ ext al
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
 "
  data " (\)#(\),"
  data " rdx=rsi
@@ -564,6 +970,174 @@ codegen:
  al--
  (rcx)=al
 "
+ data " (\)#.,"
+ data " rax=&\1
+ rax=(rax)
+ rdi=(rax)
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \#.,"
+ data " rax=&\1
+ rdi=(rax)
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)!.,"
+ data " rax=&\1
+ rax=(rax)
+ eax=(rax)
+ ext eax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \!.,"
+ data " rax=&\1
+ eax=(rax)
+ ext eax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)%.,"
+ data " rax=&\1
+ rax=(rax)
+ ax=(rax)
+ ext ax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \%.,"
+ data " rax=&\1
+ ax=(rax)
+ ext ax
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " (\)$.,"
+ data " rax=&\1
+ rax=(rax)
+ al=(rax)
+ ext al
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \$.,"
+ data " rax=&\1
+ al=(rax)
+ ext al
+ rdi=rax
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
+ data " \.,"
+ data " rdi=\1
+ rax=__stack_p
+ rcx=(rax)
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ rcx--
+ (rax)=rcx
+ (rcx)=rdi
+ rdi=rcx
+"
  data " (\)#,"
  data " rdx=rsi
  rsi=rdi
@@ -571,20 +1145,11 @@ codegen:
  rax=(rax)
  rdi=(rax)
 "
- data " (\)#="
- data " rax=&\1
- rax=(rax)
- (rax)=rdi
-"
  data " \#,"
  data " rdx=rsi
  rsi=rdi
  rax=&\1
  rdi=(rax)
-"
- data " \#="
- data " rax=&\1
- (rax)=rdi
 "
  data " (\)!,"
  data " rdx=rsi
@@ -595,12 +1160,6 @@ codegen:
  ext eax
  rdi=rax
 "
- data " (\)!="
- data " rax=&\1
- rax=(rax)
- rcx=rdi
- (rax)=ecx
-"
  data " \!,"
  data " rdx=rsi
  rsi=rdi
@@ -608,11 +1167,6 @@ codegen:
  eax=(rax)
  ext eax
  rdi=rax
-"
- data " \!="
- data " rax=&\1
- rcx=rdi
- (rax)=ecx
 "
  data " (\)%,"
  data " rdx=rsi
@@ -623,12 +1177,6 @@ codegen:
  ext ax
  rdi=rax
 "
- data " (\)%="
- data " rax=&\1
- rax=(rax)
- rcx=rdi
- (rax)=cx
-"
  data " \%,"
  data " rdx=rsi
  rsi=rdi
@@ -636,11 +1184,6 @@ codegen:
  ax=(rax)
  ext ax
  rdi=rax
-"
- data " \%="
- data " rax=&\1
- rcx=rdi
- (rax)=cx
 "
  data " (\)$,"
  data " rdx=rsi
@@ -651,12 +1194,6 @@ codegen:
  ext al
  rdi=rax
 "
- data " (\)$="
- data " rax=&\1
- rax=(rax)
- rcx=rdi
- (rax)=cl
-"
  data " \$,"
  data " rdx=rsi
  rsi=rdi
@@ -665,15 +1202,52 @@ codegen:
  ext al
  rdi=rax
 "
- data " \$="
- data " rax=&\1
- rcx=rdi
- (rax)=cl
-"
  data " \,"
  data " rdx=rsi
  rsi=rdi
  rdi=\1
+"
+ data " (\)#="
+ data " rax=&\1
+ rax=(rax)
+ (rax)=rdi
+"
+ data " \#="
+ data " rax=&\1
+ (rax)=rdi
+"
+ data " (\)!="
+ data " rax=&\1
+ rax=(rax)
+ rcx=rdi
+ (rax)=ecx
+"
+ data " \!="
+ data " rax=&\1
+ rcx=rdi
+ (rax)=ecx
+"
+ data " (\)%="
+ data " rax=&\1
+ rax=(rax)
+ rcx=rdi
+ (rax)=cx
+"
+ data " \%="
+ data " rax=&\1
+ rcx=rdi
+ (rax)=cx
+"
+ data " (\)$="
+ data " rax=&\1
+ rax=(rax)
+ rcx=rdi
+ (rax)=cl
+"
+ data " \$="
+ data " rax=&\1
+ rcx=rdi
+ (rax)=cl
 "
  data " data\"
  data " long \1

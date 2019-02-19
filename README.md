@@ -104,8 +104,35 @@ orc stdio.rh hello.r
 
 https://github.com/kousoz80/oregengo_R
 
+   
+### startx       ・・・ウィンドウマネージャ
 
-## 3. 今後の予定
+デスクトップを表示します
+  
+![enter image description here](https://imgur.com/8TeHoEw.jpg)
+
+・操作法
+  
+insertキー・・・キーボード、マウスからの操作を切り替える
+  
+矢印キー・・・カーソルの移動
+  
+Deleteキー・・・カーソルの移動速度を切り替える
+  
+SPACEキー・・・左クリック
+  
+Enterキー・・・右クリック
+  
+Ctrl+D・・・ウィンドウマネージャを終了する
+  
+  
+## 3. 実機で動作させるには
+
+binディレクトリのファイルをUSBメモリにコピーしてパソコンに挿して起動してください。
+
+  
+  
+## 4. 今後の予定
   
 1. ~~マルチタスク化~~(完了)
 2. ウィンドウマネージャの導入

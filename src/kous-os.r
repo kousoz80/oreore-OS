@@ -535,6 +535,8 @@ jmp_tbl:
  data free
  const LOAD 47
  data load 
+ const LOCATE_PROTOCOL 48
+ data locate_protocol 
 
 
 // なにもしない（タスク切り替え・システム拡張用）
@@ -1196,6 +1198,20 @@ __load_error2:
   ERROR, end
 
 
+// UEFIプロトコルを取得する
+// 書式: uefi_guid, protocol_address, locate_protocol
+// 戻り値:成功したときは0,失敗したときは1
+locate_protocol:
+/ rcx=rsi/
+/ rdx=0/
+/ r8=rdi/
+/ rax=__locate_protocol/
+/ rax=(rax)/
+/ call (rax)/
+/ rdi=rax/
+  end
+
+
 //  以下はコンソールデバイスドライバ
 
 // ドライバ初期化
@@ -1517,7 +1533,7 @@ get_mode:
 
 // 入力デバイス名の取得 
 set_indev:
-  NULL, indev#= outdev#=
+  "", indev#= outdev#=
   cmd_buf, "<", @SYS_CALL(STRSTR) p#=
   cmd_buf, ">", @SYS_CALL(STRSTR) q#=
   if p#=NULL goto set_outdev

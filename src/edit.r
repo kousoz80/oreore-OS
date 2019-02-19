@@ -32,7 +32,6 @@ get_command:
 
 /* コマンドタイプ０：数字（パラメータ）*/
 get_command0:
-   sync
    k#, k2#=
    inkey k#=
    if k#=0     goto get_command0

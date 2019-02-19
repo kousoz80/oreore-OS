@@ -152,6 +152,9 @@ free:
 load:
  @SYS_CALL(LOAD)
   end
+locate_protocol:
+ @SYS_CALL(LOCATE_PROTOCOL)
+  end
 cls:
  @SYS_CALL(CLS)
   end

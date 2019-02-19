@@ -99,6 +99,12 @@ echo compile cls.r
 ./orc stdio.rh src/cls.r
 java -jar asm_x64.jar -p0x10000 -efi asm.s bin/cls.EFI
 
+# startx
+echo compile startx.r
+./orc stdio.rh src/startx.r
+java -jar asm_x64.jar -p0x30000 -efi asm.s bin/startx.EFI
+objdump -fsxdt bin/startx.EFI>startx.dump
+
 # 作業ファイルを消去
 rm __str
 rm __var

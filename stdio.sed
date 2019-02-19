@@ -80,6 +80,7 @@
 /const MALLOC / p
 /const FREE / p
 /const LOAD / p
+/const LOCATE_PROTOCOL / p
 /const CLS / p
 /const LOCATE / p
 /const CURSOR / p
@@ -104,4 +105,6 @@
 /const argc / p
 /const argv / p
 /const __prog_start / p
+/const __sys_table / p
+/const __boot_service / p
 d

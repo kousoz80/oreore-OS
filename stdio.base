@@ -104,11 +104,20 @@ finputs:
 strcmp:
  @SYS_CALL(STRCMP)
   end
+strncmp:
+ @SYS_CALL(STRNCMP)
+  end
 strcpy:
  @SYS_CALL(STRCPY)
   end
+strncpy:
+ @SYS_CALL(STRNCPY)
+  end
 strcat:
  @SYS_CALL(STRCAT)
+  end
+strncat:
+ @SYS_CALL(STRNCAT)
   end
 strstr:
  @SYS_CALL(STRSTR)

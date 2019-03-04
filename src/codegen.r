@@ -214,6 +214,110 @@ codegen:
  data " .data"
  data " align 8
 "
+ data " ->\#="
+ data " rcx=\1
+ rcx+=rdi
+ rax=rsi
+ (rcx)=rax
+"
+ data " ->\!="
+ data " rcx=\1
+ rcx+=rdi
+ rax=rsi
+ (rcx)=eax
+"
+ data " ->\%="
+ data " rcx=\1
+ rcx+=rdi
+ rax=rsi
+ (rcx)=ax
+"
+ data " ->\$="
+ data " rcx=\1
+ rcx+=rdi
+ rax=rsi
+ (rcx)=al
+"
+ data " ->\#"
+ data " rcx=\1
+ rcx+=rdi
+ rax=(rcx)
+ rdi=rax
+"
+ data " ->\!"
+ data " rcx=\1
+ rcx+=rdi
+ eax=(rcx)
+ ext eax
+ rdi=rax
+"
+ data " ->\%"
+ data " rcx=\1
+ rcx+=rdi
+ ax=(rcx)
+ ext ax
+ rdi=rax
+"
+ data " ->\$"
+ data " rcx=\1
+ rcx+=rdi
+ al=(rcx)
+ ext al
+ rdi=rax
+"
+ data " ->@\(\)"
+ data " r13=\2
+ rcx=\1
+ rcx+=rdi
+ rcx=(rcx)
+ r14=1
+ rax=__critical
+ (rax)=r14
+ rax=__stack_p
+ r15=(rax)
+ r15--
+ r15--
+ r15--
+ r15--
+ r15--
+ r15--
+ r15--
+ r15--
+ (rax)=r15
+ r14=0
+ rax=__critical
+ (rax)=r14
+ rax=r15
+ r15=$+15
+ (rax)=r15
+ jmp (rcx)
+"
+ data " ->@\"
+ data " rcx=\1
+ rcx+=rdi
+ rcx=(rcx)
+ r14=1
+ rax=__critical
+ (rax)=r14
+ rax=__stack_p
+ r15=(rax)
+ r15--
+ r15--
+ r15--
+ r15--
+ r15--
+ r15--
+ r15--
+ r15--
+ (rax)=r15
+ r14=0
+ rax=__critical
+ (rax)=r14
+ rax=r15
+ r15=$+15
+ (rax)=r15
+ jmp (rcx)
+"
  data " (\)#(\#).,"
  data " rcx=&\2
  rax=(rcx)

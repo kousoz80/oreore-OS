@@ -1,10 +1,10 @@
 #!
 # ※注意：このスクリプトを実行するとヘッダファイル"stdio.rh"が更新されます
-# "kous-os.r"をコンパイルしてディレクトリ"bin"にuefiアプリケーションファイルをコピーします
-# 同時にKous-OSアプリケーション用ヘッダファイル"stdio.rh"も更新します
+# "oreore-os.r"をコンパイルしてディレクトリ"bin"にuefiアプリケーションファイルをコピーします
+# 同時にoreore-OSアプリケーション用ヘッダファイル"stdio.rh"も更新します
 
 # オプション
-# -debug:デバッグファイル"kous-os.dump"を作成する
+# -debug:デバッグファイル"oreore-os.dump"を作成する
 # -noapp:アプリケーションをコンパイルしない
 
 option="-normal"
@@ -14,14 +14,15 @@ then
 fi
 echo "option=" $option 
 
-echo compile kous-os.r
-./orc src/kous-os.r
+echo compile oreore-os.r
+./orc src/oreore-os.r
 
 if test $option = "-debug"
 then
-mv asm.s kous-os.s
-java -jar asm_x64.jar -efi kous-os.s bin/kous-os.EFI
-objdump -fsxdt bin/kous-os.EFI>kous-os.dump
+mv asm.s oreore-os.s
+java -jar asm_x64.jar -efi oreore-os.s bin/oreore-os.EFI
+cp bin/oreore-os.EFI bin/efi/boot/bootx64.EFI
+objdump -fsxdt bin/oreore-os.EFI>oreore-os.dump
 rm __str
 rm __var
 rm __tmp1
@@ -29,9 +30,10 @@ rm __tmp2
 exit 0
 fi
 
-echo "// header file for Kous-OS application" > stdio.rh
-java -jar asm_x64.jar -efi -header asm.s bin/kous-os.EFI |sed -f stdio.sed >> stdio.rh
+echo "// header file for oreore-OS application" > stdio.rh
+java -jar asm_x64.jar -efi -header asm.s bin/oreore-os.EFI |sed -f stdio.sed >> stdio.rh
 cat stdio.base >> stdio.rh
+cp bin/oreore-os.EFI bin/efi/boot/bootx64.EFI
 
 
 # アプリケーションをコンパイルしない場合はここで終了
@@ -46,7 +48,7 @@ fi
 
 cp stdio.rh bin
 
-# Kous-OSの各アプリケーションのコンパイル
+# oreore-OSの各アプリケーションのコンパイル
 # ※コンパイルのアドレスはページ(4KB)単位で指定すること
 
 # エディタ
@@ -103,7 +105,7 @@ java -jar asm_x64.jar -p0x10000 -efi asm.s bin/cls.EFI
 echo compile startx.r
 ./orc stdio.rh src/startx.r
 java -jar asm_x64.jar -p0x30000 -efi asm.s bin/startx.EFI
-objdump -fsxdt bin/startx.EFI>startx.dump
+#objdump -fsxdt bin/startx.EFI>startx.dump
 
 # 作業ファイルを消去
 rm __str

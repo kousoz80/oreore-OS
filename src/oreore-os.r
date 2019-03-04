@@ -1,4 +1,4 @@
-//  "kous-os.r" Kous-OS ver 0.03  for oregengo-R (x64) UEFIアプリケーション  
+//  "oreore-os.r" oreore-OS ver 0.04  for oregengo-R (x64) UEFIアプリケーション  
 // (マルチタスク対応版)
 
  const TIMER_INTERVAL 1000000 // 割り込み周期(0.1us単位)
@@ -1513,7 +1513,7 @@ main:
 // スタートアップルーチン
   1, @SYS_CALL(CURSOR)
   @SYS_CALL(CLS)
-  "Kous-OS version 0.0.3", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
+  "oreore-OS version 0.0.4", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
 
 main_loop:
   "$ ", CONOUT, @SYS_CALL(FPRINTS)

@@ -28,6 +28,8 @@ main:
 
  // コンパイル処理
  str_procsr   // 文字列の処理
+ infile#, outfile#, infile#=  swap outfile#=
+ compile_s    // struct / enum構文の処理
  infile#, k#= outfile#, infile#= varfile#, outfile#= k#, varfile#=
  0, compile   // 宣言文の処理
  outfile#, varfile#, outfile#= swap varfile#=
@@ -70,19 +72,63 @@ cat_file:
  NULL, end
 
 
-// マクロ処理
-compile:
- const LEN_ARG 32
- char  buf$(1024),arg$(1024)
- long   pass#,line#,sou#,obj#,ref#,arg_p#
+// 文字列処理
+str_procsr:
+ const DBL_QUOT 34
+ infile#,   rfp, ropen
+ outfile#,  wfp, wopen
+ strfile#,  sfp, wopen
+ 1, j#=
+ loop4:
+  rfp, getc k#=
+  if k#=EOF goto exit4
+  if k#=SINGLE_QUOT goto case_single_quot
+  if k#<>DBL_QUOT then k#, wfp, putc gotoloop4
 
- pass#=
+  // 文字列があるときの処理
+  case_dbl_quot:
+    'S', wfp, putc j#,  wfp, fprintd
+    'S', sfp, putc  j#,  sfp, fprintd
+    ':', sfp, putc sfp, fnl
+    loop5:
+      rfp, getc k#=
+      if k#=EOF goto exit4
+      if k#=DBL_QUOT goto exit5
+      " byte ", sfp, fprints k#, sfp, fprintd sfp, fnl
+      goto loop5
+    exit5:
+    " byte NULL", sfp, fprints sfp, fnl
+    j#++
+  goto loop4
+  
+  // 文字定数があるときの処理
+  case_single_quot:
+    rfp, getc wfp, fprintd
+    loop6:
+      rfp, getc k#=
+      if k#=EOF goto exit4
+    if k#<>SINGLE_QUOT goto loop6
+  goto loop4
+     
+ exit4:
+ rfp, rclose
+ wfp, wclose
+ sfp, wclose
+ end
+
+
+// struct/enum構文の処理
+compile_s:
+ char  sbuf$(1024),sname$(1024)
+ long  mode#,offset#,s#,t#
+
+
  infile#,  rfp, ropen
  outfile#, wfp, wopen
- 1, line#=
- cmple_loop:
+
+ cmp_loop:
   buf,  rfp, finputs k#=
-  if k#=EOF goto cmple_end
+  if k#=EOF goto cmp_end
 
   // コメントを除去
   buf, "/*", strstr k#=
@@ -97,6 +143,167 @@ compile:
    k#--
   if (k)$=SPACE goto del_space
   NULL, (k)$(1)=
+
+    // 通常文の場合
+    mode0:
+    if mode#<> 0 goto mode1
+      buf, s#=
+      mode01:       // 空白を読み飛ばす
+        if (s)$<>' ' then s#++ gotomode01
+
+      // struct文が検出された場合
+      mode0_struct:
+        s#, "struct ", 7, strncmp k#=
+        if k#<>0 goto mode0_enum
+        1, mode#=
+        0, offset#=
+        mode02:
+          if (s)$<>' ' then s#++ gotomode02
+        s#, sname, strcpy
+        goto cmp_loop
+
+      // enum文が検出された場合
+      mode0_enum:
+      s#, "enum", strcmp k#=
+      if k#<>0 goto mode0_other
+      2, mode#=
+      1, offset#=
+      goto cmp_loop
+
+      // 上記以外の場合
+      mode0_other:
+         buf, wfp, fprints wfp, fnl
+         goto cmp_loop
+
+    // struct文の場合
+    mode1:
+    if mode#<> 1 goto mode2
+      buf, s#=
+      mode11:       // 空白を読み飛ばす
+        if (s)$<>' ' then s#++ gotomode11
+
+        // long文が検出された場合
+        mode1_long:
+        s#, "long ", 7, strncmp k#=
+        if k#<>0 goto mode1_int 
+        s#, 5, + s#=
+        mode12:       // 空白を読み飛ばす
+        if (s)$<>' ' then s#++ gotomode12
+        s#, "#", strstr t#=
+        if t#<>NULL then NULL, (t)$=
+        " const ", wfp, fprints  sname, wfp, fprints
+          ".",  wfp, fprints s#, wfp, fprints
+          " ", wfp, fprints offset#, wfp, fprinrd
+          wfp, fnl
+        offset#, 8, + offset#=
+        goto cmp_loop
+        
+        // int文が検出された場合
+        mode1_int:
+        s#, "int ", 4, strncmp k#=
+        if k#<>0 goto mode1_short 
+        s#, 4, + s#=
+        mode13:       // 空白を読み飛ばす
+        if (s)$<>' ' then s#++ gotomode13
+        s#, "!", strstr t#=
+        if t#<>NULL then NULL, (t)$=
+        " const ", wfp, fprints  sname, wfp, fprints
+          ".",  wfp, fprints s#, wfp, fprints
+          " ", wfp, fprints offset#, wfp, fprinrd
+          wfp, fnl
+        offset#, 4, + offset#=
+        goto cmp_loop
+        
+        // short文が検出された場合
+        mode1_short:
+        s#, "short ", 6, strncmp k#=
+        if k#<>0 goto mode1_char 
+        s#, 6, + s#=
+        mode14:       // 空白を読み飛ばす
+        if (s)$<>' ' then s#++ gotomode14
+        s#, "%", strstr t#=
+        if t#<>NULL then NULL, (t)$=
+        " const ", wfp, fprints  sname, wfp, fprints
+          ".",  wfp, fprints s#, wfp, fprints
+          " ", wfp, fprints offset#, wfp, fprinrd
+          wfp, fnl
+        offset#, 2, + offset#=
+        goto cmp_loop
+        
+        // char文が検出された場合
+        mode1_char:
+        s#, "char ", 5, strncmp k#=
+        if k#<>0 goto mode1_end 
+        s#, 5, + s#=
+        mode15:       // 空白を読み飛ばす
+        if (s)$<>' ' then s#++ gotomode15
+        s#, "%", strstr t#=
+        if t#<>NULL then NULL, (t)$=
+        " const ", wfp, fprints  sname, wfp, fprints
+          ".",  wfp, fprints s#, wfp, fprints
+          " ", wfp, fprints offset#, wfp, fprinrd
+          wfp, fnl
+        offset#, 2, + offset#=
+        goto cmp_loop
+        
+        // end文が検出された場合
+        mode1_end:
+        s#, "end", strcmp k#=
+        if k#<>0 goto cmp_loop 
+        " const ", wfp, fprints  sname, wfp, fprints
+        ".SIZE ",  wfp, fprints  offset#, wfp, fprinrd
+        wfp, fnl
+        0, mode#=
+        goto cmp_loop
+        
+    // enum文の場合
+    mode2:
+    if mode#<> 2 goto cmp_loop // 普通はないが、それ以外のモードならループの先頭にジャンプする
+      buf, s#=
+      mode21:       // 空白を読み飛ばす
+        if (s)$<>' ' then s#++ gotomode21
+
+        // end文が検出された場合
+        mode2_end:
+        s#, "end", strcmp k#=
+        if k#<>0 goto mode2_other 
+        0, mode#=
+        goto cmp_loop
+
+        // 上記以外の場合
+        mode2_other:
+        if (s)$='_'    goto def_enum
+        if (s)$>='A' goto def_enum
+        goto cmp_loop
+
+        // 列挙子を定義する
+        def_enum:
+        " const ", wfp, fprints  s#, wfp, fprints
+        " ",  wfp, fprints  offset#, wfp, fprinrd
+        wfp, fnl
+        offset#++
+        goto cmp_loop
+
+ // コンパイル終了
+ cmp_end:
+ rfp, rclose
+ wfp, wclose
+ end
+
+
+// マクロ処理
+compile:
+ const LEN_ARG 32
+ char  buf$(1024),arg$(1024)
+ long   pass#,line#,sou#,obj#,ref#,arg_p#
+
+ pass#=
+ infile#,  rfp, ropen
+ outfile#, wfp, wopen
+ 1, line#=
+ cmple_loop:
+  buf,  rfp, finputs k#=
+  if k#=EOF goto cmple_end
 
   // 文字列arg(0)に現在の行を代入
   line#, dec arg+0, strcpy
@@ -189,50 +396,6 @@ compile:
  wfp, wclose
  end
 
-
-// 文字列処理
-str_procsr:
- const DBL_QUOT 34
- infile#,   rfp, ropen
- outfile#,  wfp, wopen
- strfile#,  sfp, wopen
- 1, j#=
- loop4:
-  rfp, getc k#=
-  if k#=EOF goto exit4
-  if k#=SINGLE_QUOT goto case_single_quot
-  if k#<>DBL_QUOT then k#, wfp, putc gotoloop4
-
-  // 文字列があるときの処理
-  case_dbl_quot:
-    'S', wfp, putc j#,  wfp, fprintd
-    'S', sfp, putc  j#,  sfp, fprintd
-    ':', sfp, putc sfp, fnl
-    loop5:
-      rfp, getc k#=
-      if k#=EOF goto exit4
-      if k#=DBL_QUOT goto exit5
-      " byte ", sfp, fprints k#, sfp, fprintd sfp, fnl
-      goto loop5
-    exit5:
-    " byte NULL", sfp, fprints sfp, fnl
-    j#++
-  goto loop4
-  
-  // 文字定数があるときの処理
-  case_single_quot:
-    rfp, getc wfp, fprintd
-    loop6:
-      rfp, getc k#=
-      if k#=EOF goto exit4
-    if k#<>SINGLE_QUOT goto loop6
-  goto loop4
-     
- exit4:
- rfp, rclose
- wfp, wclose
- sfp, wclose
- end
 
 // データ領域
  .data

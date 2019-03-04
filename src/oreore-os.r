@@ -436,106 +436,114 @@ __int_entry:
 / ret/
 
 
+// システムコールパラメータ一覧
+ enum
+    SYNC
+    CREATE_TASK
+    EXIT_TASK
+    DELETE_TASK
+    RUN_TASK
+    GO_TASK
+    WAIT_TASK
+    STOP_TASK
+    SEND_MESSAGE
+    GET_MESSAGE
+    EXIT_PROCESS  
+    _WIDE
+    _NALLOW
+    GETC
+    _READ
+    PUTC
+    _WRITE
+    WOPEN
+    ROPEN
+    OPEN
+    RCLOSE
+    WCLOSE
+    DELETE
+    VOL_OPEN
+    VOL_CLOSE
+    VOL_READ
+    FPRINTS
+    FPRINTD
+    FNL
+    FINPUTS
+    STRCMP
+    STRNCMP
+    STRCPY
+    STRNCPY
+    STRCAT
+    STRNCAT
+    STRSTR
+    STRLEN
+    ATOI
+    ITOA
+    BIN
+    OCT
+    DEC
+    HEX
+    ABS
+    PALLOC
+    PFREE
+    MALLOC
+    FREE
+    LOAD
+    LOCATE_PROTOCOL
+ end
+
 // ジャンプテーブル
  .data
 jmp_tbl:
- const SYNC 0
  data sync
- const CREATE_TASK 1
  data create_task
- const EXIT_TASK 2
  data exit_task
- const DELETE_TASK 3
  data delete_task
- const RUN_TASK 4
  data run_task
- const GO_TASK 5
  data go_task
- const WAIT_TASK 6
  data wait_task
- const STOP_TASK 7
  data stop_task
- const SEND_MESSAGE 8
  data send_message
- const GET_MESSAGE 9
  data get_message
- const EXIT_PROCESS 10
  data exit_process
- const _WIDE 11
  data _wide
- const _NALLOW 12
  data _nallow
- const GETC 13
  data getc
- const _READ 14
  data _read
- const PUTC 15
  data putc
- const _WRITE 16
  data _write
- const WOPEN 17
  data wopen
- const ROPEN 18
  data ropen
- const OPEN 19
  data open
- const RCLOSE 20
  data rclose
- const WCLOSE 21
  data wclose
- const DELETE 22
  data delete
- const VOL_OPEN 23
  data vol_open
- const VOL_CLOSE 24
  data vol_close
- const VOL_READ 25
  data vol_read
- const FPRINTS 26
  data fprints
- const FPRINTD 27
  data fprintd
- const FNL 28
  data fnl
- const FINPUTS 29
  data finputs
- const STRCMP 30
  data strcmp
- const STRCPY 31
+ data strncmp
  data strcpy
- const STRNCPY 32
  data strncpy
- const STRCAT 33
  data strcat
- const STRSTR 34
+ data strncat
  data strstr
- const STRLEN 35
  data strlen
- const ATOI 36
  data atoi
- const ITOA 37
  data itoa
- const BIN 38
  data bin
- const OCT 39
  data oct
- const DEC 40
  data dec
- const HEX 41
  data hex
- const ABS 42
  data abs
- const PALLOC 43
  data palloc
- const PFREE 44
  data pfree
- const MALLOC 45
  data malloc
- const FREE 46
  data free
- const LOAD 47
  data load 
- const LOCATE_PROTOCOL 48
  data locate_protocol 
 
 
@@ -947,12 +955,25 @@ finputs:
 
 // 文字列を比較する
 strcmp:
- __p2#= swap __p1#=
+ __p2#= pop __p1#=
  __strcmp1:
   if (__p1)$<>(__p2)$ then 1, end
   if (__p1)$=NULL then 0, end
-  __p1#, 1, + __p1#=
-  __p2#, 1, + __p2#=
+  __p1#++
+  __p2#++
+ goto __strcmp1
+
+
+// 文字数制限付きで文字列を比較する
+strncmp:
+ __p3#= pop __p2#= pop __p1#=
+ __strncmp1:
+  if __p3#<=0 then 0, end
+  if (__p1)$<>(__p2)$ then 1, end
+  if (__p1)$=NULL then 0, end
+  __p1#++
+  __p2#++
+  __p3#--
  goto __strcmp1
 
 
@@ -960,10 +981,10 @@ strcmp:
 strcpy:
  __p2#= pop __p1#=
  __strcpy1:
-  (__p1)$, (__p2)$= __p3#=
+  (__p1)$, (__p2)$= __p4#=
   __p1#++
   __p2#++
- if __p3#<>NULL goto __strcpy1
+ if __p4#<>NULL goto __strcpy1
  end
 
 
@@ -982,14 +1003,29 @@ strncpy:
 
 // 文字列を連結する
 strcat:
- __p2#= swap __p1#=
+ __p2#= pop __p1#=
 __strcat1:
  if (__p2)$<>NULL then __p2#++ goto__strcat1
 __strcat2:
- (__p1)$, (__p2)$= __p3#=
+ (__p1)$, (__p2)$= __p4#=
  __p1#++
  __p2#++
- if __p3#<>NULL goto __strcat2
+ if __p4#<>NULL goto __strcat2
+ end
+
+
+// 文字数制限付きで文字列を連結する
+strncat:
+ __p3#= pop __p2#= pop __p1#=
+__strncat1:
+ if (__p2)$<>NULL then __p2#++ goto__strcat1
+__strncat2:
+ if __p3#<=0 then NULL, (__p2)$= end
+ (__p1)$, (__p2)$= __p4#=
+ __p1#++
+ __p2#++
+ __p3#--
+ if __p4#<>NULL goto __strcat2
  end
 
 

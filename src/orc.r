@@ -117,15 +117,13 @@ str_procsr:
  end
 
 
-// struct/enum構文の処理
+// struct / enum構文の処理
 compile_s:
  char  sbuf$(1024),sname$(1024)
- long  mode#,offset#,s#,t#
-
+ long  mode#,offset#,s#,p#
 
  infile#,  rfp, ropen
  outfile#, wfp, wopen
-
  cmp_loop:
   buf,  rfp, finputs k#=
   if k#=EOF goto cmp_end
@@ -139,14 +137,14 @@ compile_s:
   // 不要なスペースを除去
   buf, strlen buf, + k#=
   del_space:
-   if k#=buf goto cmple_next
+   if k#=buf goto cmp_loop
    k#--
   if (k)$=SPACE goto del_space
   NULL, (k)$(1)=
 
     // 通常文の場合
     mode0:
-    if mode#<> 0 goto mode1
+    if mode#<>0 goto mode1
       buf, s#=
       mode01:       // 空白を読み飛ばす
         if (s)$<>' ' then s#++ gotomode01
@@ -167,7 +165,7 @@ compile_s:
       s#, "enum", strcmp k#=
       if k#<>0 goto mode0_other
       2, mode#=
-      1, offset#=
+      0, offset#=
       goto cmp_loop
 
       // 上記以外の場合
@@ -177,7 +175,7 @@ compile_s:
 
     // struct文の場合
     mode1:
-    if mode#<> 1 goto mode2
+    if mode#<>1 goto mode2
       buf, s#=
       mode11:       // 空白を読み飛ばす
         if (s)$<>' ' then s#++ gotomode11
@@ -189,11 +187,11 @@ compile_s:
         s#, 5, + s#=
         mode12:       // 空白を読み飛ばす
         if (s)$<>' ' then s#++ gotomode12
-        s#, "#", strstr t#=
-        if t#<>NULL then NULL, (t)$=
+        s#, "#", strstr p#=
+        if p#<>NULL then NULL, (t)$=
         " const ", wfp, fprints  sname, wfp, fprints
           ".",  wfp, fprints s#, wfp, fprints
-          " ", wfp, fprints offset#, wfp, fprinrd
+          " ", wfp, fprints offset#, wfp, fprintd
           wfp, fnl
         offset#, 8, + offset#=
         goto cmp_loop
@@ -205,11 +203,11 @@ compile_s:
         s#, 4, + s#=
         mode13:       // 空白を読み飛ばす
         if (s)$<>' ' then s#++ gotomode13
-        s#, "!", strstr t#=
-        if t#<>NULL then NULL, (t)$=
+        s#, "!", strstr p#=
+        if p#<>NULL then NULL, (t)$=
         " const ", wfp, fprints  sname, wfp, fprints
           ".",  wfp, fprints s#, wfp, fprints
-          " ", wfp, fprints offset#, wfp, fprinrd
+          " ", wfp, fprints offset#, wfp, fprintd
           wfp, fnl
         offset#, 4, + offset#=
         goto cmp_loop
@@ -221,11 +219,11 @@ compile_s:
         s#, 6, + s#=
         mode14:       // 空白を読み飛ばす
         if (s)$<>' ' then s#++ gotomode14
-        s#, "%", strstr t#=
-        if t#<>NULL then NULL, (t)$=
+        s#, "%", strstr p#=
+        if p#<>NULL then NULL, (t)$=
         " const ", wfp, fprints  sname, wfp, fprints
           ".",  wfp, fprints s#, wfp, fprints
-          " ", wfp, fprints offset#, wfp, fprinrd
+          " ", wfp, fprints offset#, wfp, fprintd
           wfp, fnl
         offset#, 2, + offset#=
         goto cmp_loop
@@ -237,11 +235,11 @@ compile_s:
         s#, 5, + s#=
         mode15:       // 空白を読み飛ばす
         if (s)$<>' ' then s#++ gotomode15
-        s#, "%", strstr t#=
-        if t#<>NULL then NULL, (t)$=
+        s#, "%", strstr p#=
+        if p#<>NULL then NULL, (t)$=
         " const ", wfp, fprints  sname, wfp, fprints
           ".",  wfp, fprints s#, wfp, fprints
-          " ", wfp, fprints offset#, wfp, fprinrd
+          " ", wfp, fprints offset#, wfp, fprintd
           wfp, fnl
         offset#, 2, + offset#=
         goto cmp_loop
@@ -251,14 +249,14 @@ compile_s:
         s#, "end", strcmp k#=
         if k#<>0 goto cmp_loop 
         " const ", wfp, fprints  sname, wfp, fprints
-        ".SIZE ",  wfp, fprints  offset#, wfp, fprinrd
+        ".SIZE ",  wfp, fprints  offset#, wfp, fprintd
         wfp, fnl
         0, mode#=
         goto cmp_loop
         
     // enum文の場合
     mode2:
-    if mode#<> 2 goto cmp_loop // 普通はないが、それ以外のモードならループの先頭にジャンプする
+    if mode#<>2 goto cmp_loop // 普通はないが、それ以外のモードならループの先頭にジャンプする
       buf, s#=
       mode21:       // 空白を読み飛ばす
         if (s)$<>' ' then s#++ gotomode21
@@ -279,7 +277,7 @@ compile_s:
         // 列挙子を定義する
         def_enum:
         " const ", wfp, fprints  s#, wfp, fprints
-        " ",  wfp, fprints  offset#, wfp, fprinrd
+        " ",  wfp, fprints  offset#, wfp, fprintd
         wfp, fnl
         offset#++
         goto cmp_loop

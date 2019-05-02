@@ -3,6 +3,8 @@
 本プログラム群はUEFIで起動しX86-64アーキテクチャ上で動作するOSを形成します 
 
 起動画面
+
+
 ![起動画面enter image description here](https://imgur.com/fU6iAVD.jpg)
 
   
@@ -61,7 +63,8 @@ Ctrl+D・・・ウィンドウマネージャを終了する
 
 ![enter image description here](https://imgur.com/8y0rDwU.jpg)
     
-(2)   コマンド入力の時に行末に"&"をつけるとバックグラウンドで起動します。
+
+
 
 ![enter image description here](https://imgur.com/XWTbZ3G.jpg)
   

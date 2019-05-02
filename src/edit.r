@@ -24,13 +24,13 @@ main:
 
   if argc#>1 then argv#(1), fname, strcpy 0, sbuf$= read_file1
 
-/* コマンド（１文字）入力 */
+// コマンド（１文字）入力
 get_command:
   display
    0, flg$=
    1, l#=
 
-/* コマンドタイプ０：数字（パラメータ）*/
+// コマンドタイプ０：数字（パラメータ）
 get_command0:
    k#, k2#=
    inkey k#=
@@ -44,7 +44,7 @@ get_command0:
    1,  flg$=
    goto get_command0
 
-/* コマンドタイプ１：テキストが空の時は無効 */
+// コマンドタイプ１：テキストが空の時は無効
 get_command1:
    if tail#=buf# goto get_command2
    if k+2$='s'    then text#, copy_p#= 
@@ -59,7 +59,7 @@ get_command1:
    if k+2$=':'     then text#, xxtext#= li#, xxli#= serch_next
    if k+2$='w'    then write_file
 
-/* コマンドタイプ２：常に有効 */
+// コマンドタイプ２：常に有効
 get_command2:
    if k+2$='i'    then li#, xxli#= insert
    if k+2$='a'   then li#, xxli#= 1, l#= jump_foward nl insert
@@ -95,7 +95,7 @@ xjump_end:
  LINES/2, l#= jump0_reverse
  end
 
-/* 指定行削除 */
+// 指定行削除
 delete_line:
   if l#=0 then end
   text#, temp1#= temp2#=
@@ -118,7 +118,7 @@ delete_line:
   temp2#, text#=
   end
 
-/* 指定行コピー */
+// 指定行コピー
 copy:
   text#, temp1#=
   l#,    temp2#=
@@ -135,7 +135,7 @@ copy:
   temp3#, li#=
   end
 
-/* 現在の行を修正 */
+// 現在の行を修正
 modefy:
   0, LINES-1, locate erase_line 
   "STRING1? ", prints sbuf, inputs
@@ -157,7 +157,7 @@ modefy:
   1, l#= delete_line insert1
   1, l#= gotojump_reverse
 
-/* 文字列のサーチ */
+// 文字列のサーチ
 serch:
   0, LINES-1, locate erase_line 
   "STRING? ", prints sbuf, inputs
@@ -165,7 +165,7 @@ serch1:
   text#, sbuf, strstr temp1#=
   if temp1#<>NULL then   li#, li0#=  text#, text0#= end
 
-/* 続けて文字列サーチ  */
+// 続けて文字列サーチ
 serch_next:
   1, l#= jump_foward
   if text#<tail# goto serch1
@@ -173,7 +173,7 @@ serch_next:
   xxli#, li#=
   end
 
-/* ファイルに出力 */
+// ファイルに出力
 write_file:
   0, LINES-1, locate erase_line 
   "FILE NAME? ", prints sbuf, inputs
@@ -195,7 +195,7 @@ write_file:
   fp, wclose
   end
 
-/* ファイルから入力 */
+// ファイルから入力
 read_file:
   0, LINES-1, locate erase_line 
   "FILE NAME? ", prints sbuf, inputs
@@ -228,7 +228,7 @@ read_error:
    end
 
 
-/* テキスト挿入 */
+// テキスト挿入
 insert:
   erase_line
   "> ", prints sbuf, inputs
@@ -238,7 +238,7 @@ insert:
   insert1
   goto insert
 
-/* １行挿入 */
+// １行挿入
 insert1:
   li#++
   el#++
@@ -364,12 +364,12 @@ jump_reverse:
     li#--
   goto jump_reverse1
 
-/* 後ろにジャンプ */
+// 後ろにジャンプ
 jump0_foward:
   li0#, l#, + l#=
   goto jump01
 
-/* 指定行にジャンプ */
+// 指定行にジャンプ
 jump0:
   buf#, text0#=
   1,   li0#=
@@ -383,7 +383,7 @@ jump0:
     li0#++
   goto jump01
 
-/* 前にジャンプ */
+// 前にジャンプ
 jump0_reverse:
   li0#,   l#, - l#=
   jump0_reverse1:

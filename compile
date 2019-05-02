@@ -14,6 +14,32 @@ then
 fi
 echo "option=" $option 
 
+if test $option = "-startx"
+then
+./orc stdio.rh src/startx.r
+java -jar asm_x64.jar -p0x30000 -efi asm.s bin/startx.EFI
+objdump -fsxdt bin/startx.EFI>startx.dump
+rm __str
+rm __var
+rm __tmp1
+rm __tmp2
+echo compile startx end
+exit 0
+fi
+
+if test $option = "-testx"
+then
+./orc stdio.rh testx.r
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/testx.EFI
+objdump -fsxdt bin/testx.EFI>testx.dump
+rm __str
+rm __var
+rm __tmp1
+rm __tmp2
+echo compile testx end
+exit 0
+fi
+
 echo compile oreore-os.r
 ./orc src/oreore-os.r
 
@@ -30,10 +56,11 @@ rm __tmp2
 exit 0
 fi
 
+
 echo "// header file for oreore-OS application" > stdio.rh
 java -jar asm_x64.jar -efi -header asm.s bin/oreore-os.EFI |sed -f stdio.sed >> stdio.rh
 cat stdio.base >> stdio.rh
-cp asm.s oreore-os.s
+#cp asm.s oreore-os.s
 cp bin/oreore-os.EFI bin/efi/boot/bootx64.EFI
 
 
@@ -71,7 +98,7 @@ java -jar asm_x64.jar -p0x10000 -efi asm.s bin/asm.EFI
 # ls
 echo compile ls.r
 ./orc stdio.rh src/ls.r
-java -jar asm_x64.jar -p0x20000 -efi asm.s bin/ls.EFI
+java -jar asm_x64.jar -p0x10000 -efi asm.s bin/ls.EFI
 
 # ps
 echo compile ps.r
@@ -106,8 +133,8 @@ java -jar asm_x64.jar -p0x10000 -efi asm.s bin/cls.EFI
 # startx
 echo compile startx.r
 ./orc stdio.rh src/startx.r
-java -jar asm_x64.jar -p0x30000 -efi asm.s bin/startx.EFI
-#objdump -fsxdt bin/startx.EFI>startx.dump
+java -jar asm_x64.jar -p0x40000 -efi asm.s bin/startx.EFI
+objdump -fsxdt bin/startx.EFI>startx.dump
 
 # 作業ファイルを消去
 rm __str

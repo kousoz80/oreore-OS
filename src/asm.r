@@ -158,6 +158,7 @@ asm_1line:
  const EQU         2
  const MEMORY  3
  const ALIGN      4
+ const EQU_PP   5
  const LABEL      0
  const MAX_WORD 15
  const END      -1
@@ -165,7 +166,7 @@ asm_1line:
  count k#
  char  ins$(MAX_WORD),field$(MAX_WORD),arg$(128)
  long  location#,ins_type#,wordlen#,address#,line#,pass#
- long  lbl#,stt#,ref#,sou#,start_adr#,end_adr#
+ long  lbl#,stt#,ref#,sou#,start_adr#,end_adr#,last_equ#
 
  line#, 1, + line#=
  location#, address#=
@@ -378,10 +379,9 @@ ext_statement:
  exit_asm:
   k#=
 
-  if ins_type#=EQU    then value#,    address#=
-  if ins_type#<>ORG goto not_ORG
-    value#, location#= address#=
-  not_ORG:
+  if ins_type#=EQU       then value#, address#= last_equ#=
+  if ins_type#=EQU_PP then last_equ#, address#= value#, last_equ#, + last_equ#=
+  if ins_type#=ORG       then value#, location#= address#=
 
   if  ins_type#<>NORMAL goto not_NORMAL
     location#, prev_loc#= address#=
@@ -449,7 +449,7 @@ exit_pwr2:
 
  char symbl_type$,ex$
  long  symbl_name#,symbl_p#
- char symbol$(16384)
+ char symbol$(65536)
 
 def_symbl:
  z#= swap x#=
@@ -558,6 +558,10 @@ def_ins:
  data "org \0664",ORG,0
  data END
  data "equ \0664",EQU,0
+ data END
+ data "= \0664",EQU,0
+ data END
+ data "+= \0664",EQU_PP,0
  data END
  data "memory \0264",MEMORY,0
  data END

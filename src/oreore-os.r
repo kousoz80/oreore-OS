@@ -1,23 +1,26 @@
-//  "oreore-os.r" oreore-OS ver 0.04  for oregengo-R (x64) UEFIアプリケーション  
+//  "oreore-os.r" oreore-OS ver 0.05  for oregengo-R (x64) UEFIアプリケーション  
 // (マルチタスク対応版)
 
  const TIMER_INTERVAL 1000000 // 割り込み周期(0.1us単位)
- const EOF         -1         /* ファイルの終わりをあらわす文字コード */
- const ERROR    -1          /* エラーが発生したことをあらわす */
- const NULL       0           /* ヌルポインタ */
- const SPACE     32          /* 空白文字 */
- const CR          13          /* キャリッジリターンコード */
- const LF           10          /* ラインフィードコード */
- const PLUS       43          /* プラス記号の文字コード */
- const MINUS    45          /* マイナス記号の文字コード */
- const MULT      42          /* 乗算記号の文字コード */
- const DIV         47          /* 除算記号の文字コード */
- const ESC        27          /* ESCキーの文字コード */
+ const EOF         -1         // ファイルの終わりをあらわす文字コード 
+ const ERROR    -1          // エラーが発生したことをあらわす 
+ const NULL       0           // ヌルポインタ 
+ const SPACE     32          // 空白文字 
+ const CR          13          // キャリッジリターンコード 
+ const LF           10          // ラインフィードコード 
+ const PLUS       43          // プラス記号の文字コード 
+ const MINUS    45          // マイナス記号の文字コード 
+ const MULT      42          // 乗算記号の文字コード 
+ const DIV         47          // 除算記号の文字コード 
+ const ESC        27          // ESCキーの文字コード 
  const CONOUT 1
  const CONIN    2
- const NaN        0x8000000000000000  /* ゼロ除算が発生したことをあらわす */
- const STACK_SIZE 12000
- 
+ const NaN        0x8000000000000000  // ゼロ除算が発生したことをあらわす 
+
+ const MAIN_STACK_SIZE             12000
+ const DRIVER_STACK_SIZE          8192
+ const APPLICATION_STACK_SIZE 12000
+
  // ファイル関連構造体定数
   const FILE_SIZE         0x10
   const VOL_SIZE          0x400
@@ -38,7 +41,7 @@
  
 // TCBの構造 （128バイト／タスク）
   const TCB_SIZE    128
-  const STATUS       0x00  // 現在のタスクの状態 （ 1:RUN / 0:STOP ) */
+  const STATUS       0x00  // 現在のタスクの状態 （ 1:RUN / 0:STOP ) 
   const CMD_LINE  0x08  // コマンドライン
   const START         0x10  // プログラムの先頭アドレス
   const SIZE           0x18  // プログラムサイズ
@@ -51,13 +54,16 @@
   const RDX           0x50  // rdxレジスタ
   const RDI            0x58  // rdiレジスタ
   const RSI             0x60  // rsiレジスタ
-  const NEXT_TCB  0x68  // 次のTCB アドレス */
-  const PREV_TCB  0x70  // 前のTCB アドレス */
+  const NEXT_TCB  0x68  // 次のTCB アドレス 
+  const PREV_TCB  0x70  // 前のTCB アドレス 
   const SP              0x78  // スタックポインタ
 
 // タスクの状態
-  const RUN       1 // RUN状態
-  const STOP      0 // STOP状態
+  enum
+     RUN      // 0:実行(可能)状態
+     READY   // 停止状態
+     WAIT     // 待機状態
+  end
 
  // 作業変数
  char   __fbuf$(1024)
@@ -218,14 +224,14 @@ _start:
 
 // スタックポインタを初期化
 / rcx=2/
-/ rdx=STACK_SIZE/
+/ rdx=MAIN_STACK_SIZE/
 / r8=__stack_top/
 / rax=__allocate_pool/
 / rax=(rax)/
 / call (rax)/
 / rax&rax/
 / jnz __end_loop/
-  __stack_top#, STACK_SIZE, + __stack_p#=
+  __stack_top#, MAIN_STACK_SIZE-8, + __stack_p#=
 
   // 割り込み用変数の初期化
   0, __critical#= __int_enable#=  __int_busy#= time#=
@@ -280,6 +286,8 @@ _start:
 / SP(rax)=rcx/
 / rax=main/
 / (rcx)=rax /              // プログラム開始番地はmain 
+
+  "*shell", tcb0+CMD_LINE, strcpy
 
   1, __int_enable#=  // 割り込みを許可
   console_init            // コンソールデバイスドライバを初期化する
@@ -361,8 +369,8 @@ switch_task:
 switch_loop:
 / rax=NEXT_TCB(rax)/
 / r15=STATUS(rax)/
-/ r15&r15/          // タスクの状態がRUNならタスクを切り替える
-/ jz switch_loop/ // RUN状態のタスクが1つもないとハングするので注意
+/ r15&r15/            // タスクの状態がRUNならタスクを切り替える
+/ jnz switch_loop/ // RUN状態のタスクが1つもないとハングするので注意
 / rcx=present_task/
 / (rcx)=rax/
 / rcx=RCX(rax)/         // レジスタを復帰する
@@ -441,11 +449,12 @@ __int_entry:
     SYNC
     CREATE_TASK
     EXIT_TASK
-    DELETE_TASK
+    KILL_TASK
     RUN_TASK
-    GO_TASK
-    WAIT_TASK
     STOP_TASK
+    WAIT_TASK
+    GO_TASK
+    RET_TASK
     SEND_MESSAGE
     GET_MESSAGE
     EXIT_PROCESS  
@@ -488,6 +497,7 @@ __int_entry:
     MALLOC
     FREE
     LOAD
+    EXEC_COMMAND
     LOCATE_PROTOCOL
  end
 
@@ -497,11 +507,12 @@ jmp_tbl:
  data sync
  data create_task
  data exit_task
- data delete_task
+ data kill_task
  data run_task
- data go_task
- data wait_task
  data stop_task
+ data wait_task
+ data go_task
+ data ret_task
  data send_message
  data get_message
  data exit_process
@@ -544,6 +555,7 @@ jmp_tbl:
  data malloc
  data free
  data load 
+ data exec_command
  data locate_protocol 
 
 
@@ -558,17 +570,17 @@ sync:
 // (以後，タスクと呼ぶときはそのタスクのTCBアドレスを指すものとする）
 create_task:
 / (rdi)=rsi/                   // スタックポインタの示すアドレスにプログラム開始アドレスをセット
-/ rsi=STOP/
+/ rsi=READY/
 / rax=present_task/
 / rax=(rax)/                  // rax:現在のタスク
 / rcx=PREV_TCB(rax)/  // rcx:前のタスク
-/ STATUS(rdx)=rsi/       // 新しいタスクはSTOP状態にする
+/ STATUS(rdx)=rsi/       // 新しいタスクはREADY状態にする
 / NEXT_TCB(rdx)=rax/  // 新しいタスクのNEXT_TCBエリアに現在のタスクをセット
 / PREV_TCB(rdx)=rcx/  // 新しいタスクのPREV_TCBエリアに前のタスクをセット
 / SP(rdx)=rdi/              // 新しいタスクのスタックポインタ値をセット
 / NEXT_TCB(rcx)=rdx/  // 前のタスクのNEXT_TCBエリアに新しいタスクをセット
 / PREV_TCB(rax)=rdx/  // 現在のタスクのPREV_TCBエリアを新しいタスクにセット
-/ rax=tasks/                // tasksを＋１する */
+/ rax=tasks/                // tasksを＋１する 
 / rcx=(rax)/
 / rcx++/
 / (rax)=rcx/
@@ -583,10 +595,11 @@ exit_task:
 
 // タスク削除
 // 入力パラメータ｜rdi:削除するタスク
-delete_task:
+kill_task:
   long __d0#,__dn#,__dp#
   __d0#=
   if __d0#=tcb0 then end
+  READY, (__d0)#(STATUS/8)=
   (__d0)#(NEXT_TCB/8), __dn#=
   (__d0)#(PREV_TCB/8), __dp#=
   __dn#, (__dp)#(NEXT_TCB/8)=
@@ -604,24 +617,54 @@ run_task:
   end
 
 
-// タスクにメッセージを送って実行を移す
+// タスクをREADY(停止)状態にする
+// 入力パラメータ|rdi:走らせるタスク
+stop_task:
+/ rax=READY/
+/ STATUS(rdi)=rax/
+  end
+
+
+// タスクをWAIT(待ち)状態にする
+// 入力パラメータ|rdi:走らせるタスク
+wait_task:
+/ rax=WAIT/
+/ STATUS(rdi)=rax/
+  end
+
+
+// タスクにメッセージを送って実行を依頼してWAIT状態に遷移する
 // 入力パラメータ|rsi:メッセージ,rdi:呼び出すタスク
 go_task:
+/ rax=STATUS(rdi)/
+/ rcx=READY/
+/ rax-rcx/            // 呼び出すタスクがREADY状態でないときははエラー
+/ jnz error_end/
  send_message
  run_task
-
-
-// 現在実行中のタスクを一時停止する
-wait_task:
 / rdi=present_task/
 / rdi=(rdi)/
-
-
-// タスクをSTOP状態にする
-// 入力パラメータ｜rdi:停止させるタスク
-stop_task:
-/ rax=STOP/
+/ rax=WAIT/
 / STATUS(rdi)=rax/
+  end
+
+
+// 実行を依頼してきたタスクにメッセージを送って実行を移してREADY状態に遷移する
+// 入力パラメータ|rsi:メッセージ,rdi:返すタスク
+ret_task:
+/ rax=STATUS(rdi)/
+/ rcx=WAIT/
+/ rax-rcx/            // 呼び出すタスクがWAIT状態でないときははエラー
+/ jnz error_end/
+/ rcx=present_task/
+/ rcx=(rcx)/
+/ rax=CLIENT(rcx)/
+/ rax-rdi/            // 呼び出すタスクが依頼してきたタスクでないときはエラー
+/ jnz error_end/
+/ MESSAGE(rdi)=rsi/
+ run_task
+/ rax=READY/
+/ STATUS(rcx)=rax/
   end
 
 
@@ -647,13 +690,11 @@ get_message:
 // プロセスを終了して使用メモリを開放する
 exit_process:
   long __k1#,__k2#,__k3#,__k4#
-  if present_task#=tcb0 then end
    present_task#,    __k1#=
   (__k1)#(START/8),  __k2#=
   (__k1)#(SIZE/8),    __k3#=
   (__k1)#(STACK/8), __k4#=
-  __k1#, @SYS_CALL(STOP_TASK)
-  __k1#, @SYS_CALL(DELETE_TASK)
+  __k1#, @SYS_CALL(KILL_TASK)
   __k2#, __k3#, @SYS_CALL(PFREE)
   __k4#, @SYS_CALL(FREE)
 
@@ -919,7 +960,7 @@ fprints:
  __fprints1:
   if (__p6)$=NULL then NULL, end
   (__p6)$, __p7#, @SYS_CALL(PUTC) __p5#=
-  if __p5#=ERROR then ERROR, end
+  if __p5#=ERROR goto error_end
   __p6#, 1, + __p6#=
  goto __fprints1
 
@@ -1207,7 +1248,7 @@ load:
   char __load_fp$(FILE_SIZE)
 
   __load_fp, @SYS_CALL(ROPEN) __pp#=
-  if __pp#<>0 then ERROR, end
+  if __pp#<>0 goto error_end
   PROG_HEADER_SIZE, @SYS_CALL(MALLOC) __load_header#=
   if __load_header#=NULL goto __load_error2
   PROG_HEADER_SIZE, __load_header#, __load_fp, @SYS_CALL(_READ) __pp#=
@@ -1231,7 +1272,100 @@ __load_error1:
 // エラー処理2
 __load_error2:
   __load_fp, @SYS_CALL(RCLOSE)
-  ERROR, end
+  goto error_end
+
+
+// コマンドを実行する
+exec_command:
+  const MAX_CHAR 256
+  count pp0#
+  char cmd_buf$(MAX_CHAR),cmd0$(MAX_CHAR),exe_file$(MAX_CHAR)
+  long argc#
+  long argv#(16)
+  long s#,t#,u#,p#,q#
+  long indev#,outdev#,task#,stack#,sp#
+  char cc$,mode$
+
+  cmd_buf, @SYS_CALL(STRCPY)
+  cmd_buf, cmd0, @SYS_CALL(STRCPY)
+  cmd_buf, @SYS_CALL(STRLEN) cmd_buf, + p#=
+
+// 実行モード（フォアグラウンド／バックグラウンド）の取得
+get_mode:
+  p#--
+  if p#>cmd_buf then if (p)$=' ' goto get_mode
+  'F', mode$=
+  if (p)$='&' then 'B', mode$= NULL, (p)$=
+
+// 入力デバイス名の取得 
+set_indev:
+  "", indev#= outdev#=
+  cmd_buf, "<", @SYS_CALL(STRSTR) p#=
+  cmd_buf, ">", @SYS_CALL(STRSTR) q#=
+  if p#=NULL goto set_outdev
+  NULL, (p)$=
+  head_indev:
+    p#++
+  if (p)$='>'  goto set_outdev
+  if (p)$=NULL  goto set_outdev
+  if (p)$=' ' goto head_indev
+  p#, indev#=
+  tail_indev:
+    p#++
+  if (p)$<>' ' then if (p)$<>NULL goto tail_indev
+  NULL, (p)$=
+  
+// 出力デバイス名の取得
+set_outdev:
+  if q#=NULL goto split_arg
+  NULL, (q)$=
+  head_outdev:
+    q#++
+  if (q)$=NULL  goto split_arg
+  if (q)$=' ' goto head_outdev
+  q#, outdev#=
+  tail_outdev:
+    q#++
+  if (q)$<>' ' then if (q)$<>NULL goto tail_outdev
+  NULL, (q)$=
+
+// 引数の分離
+split_arg:
+  0,  argc#=   cmd_buf+MAX_CHAR-1$=
+  if cmd_buf$=NULL then end
+  ' ', cc$=
+  for pp0#=cmd_buf to cmd_buf+MAX_CHAR
+    if cc$<>' ' goto split_arg1
+      if (pp0)$<>' ' then pp0#, argv#(argc#)= argc#++
+    split_arg1:
+    if cc$=' '  then (pp0)$, cc$= gotosplit_arg2
+      (pp0)$, cc$=
+      if (pp0)$=' '  then NULL, (pp0)$=
+    split_arg2:
+  if (pp0)$(1)<>NULL then next pp0#
+
+  argv#(0), exe_file, @SYS_CALL(STRCPY)
+  ".EFI", exe_file, @SYS_CALL(STRCAT)
+
+   exe_file, @SYS_CALL(LOAD) s#= pop t#=
+   if s#=ERROR goto error_end
+   APPLICATION_STACK_SIZE, @SYS_CALL(MALLOC) stack#=
+   if stack#=NULL then s#, t#, @SYS_CALL(PFREE) gotoerror_end
+   stack#, APPLICATION_STACK_SIZE, + sp#=
+   s#, 8, + task#=                       // TCB領域はプログラム領域の先頭から8バイト目
+   task#, s#, sp#, @SYS_CALL(CREATE_TASK)
+   s#, (task)#(START/8)=
+   t#, (task)#(SIZE/8)=
+   stack#, (task)#(STACK/8)=    
+   indev#, (task)#(INDEV/8)=    
+   outdev#, (task)#(OUTDEV/8)=
+   task#, CMD_LINE, + p#=
+   mode$, (p)$= p#++                          // 実行モードを書き込む
+   cmd0, p#, 6, @SYS_CALL(STRNCPY)  // コマンドライン文字列を書き込む
+   present_task#, (task)#(CLIENT/8)=  // クライアント領域に現在のタスクを書き込む
+   task#, @SYS_CALL(RUN_TASK)
+   if mode$='F' then present_task#, @SYS_CALL(STOP_TASK) // フォアグラウンドの場合は停止状態に入る
+   0, end
 
 
 // UEFIプロトコルを取得する
@@ -1252,7 +1386,6 @@ locate_protocol:
 
 // ドライバ初期化
 console_init:
-  const DRIVER_STACK_SIZE 8192
   char keyin_task$(TCB_SIZE),inline_task$(TCB_SIZE)
   long sys_ext0#
   long _xx#,_yy#,_zz#,_uu#,_vv#
@@ -1274,8 +1407,8 @@ console_init:
 // ドライバ削除
 console_remove:
   sys_ext0#, SYS_EXT#=
-  inline_task, @SYS_CALL(DELETE_TASK)
-  keyin_task,  @SYS_CALL(DELETE_TASK)
+  inline_task, @SYS_CALL(KILL_TASK)
+  keyin_task,  @SYS_CALL(KILL_TASK)
   inline_stack#, @SYS_CALL(FREE)
   keyin_stack#,  @SYS_CALL(FREE)
   end
@@ -1290,8 +1423,8 @@ keyin:
     @SYS_CALL(SYNC)  // 他のタスクとの同期をとる
     getch k_cc#=
   if k_cc#=NULL   goto loop_keyin
-  k_cc#, (k_client)#(RDI/8)=          // 戻り値をセットする
-  k_client#, @SYS_CALL(GO_TASK) // 呼び出したタスクに戻る
+  k_cc#, (k_client)#(RDI/8)=           // 戻り値をセットする
+  k_client#, @SYS_CALL(RET_TASK) // 呼び出したタスクに戻る
   goto keyin
 
 // １行入力タスク
@@ -1310,8 +1443,8 @@ inline:
     goto loop_inline
   exit_inline:
   NULL, (i_st)$=
-  i_cc#, (i_client)#(RDI/8)=           // 戻り値をセットする
-  i_client#, @SYS_CALL(GO_TASK) // 呼び出したタスクに戻る
+  i_cc#, (i_client)#(RDI/8)=            // 戻り値をセットする
+  i_client#, @SYS_CALL(RET_TASK) // 呼び出したタスクに戻る
   goto inline
 
 // ファンクションコールハンドラ
@@ -1537,129 +1670,38 @@ finputs_con:
 
 // 入力したコマンドを実行する
 main:
-  const MAX_CHAR 256
-  count pp0#
-  char cmd_buf$(MAX_CHAR),cmd0$(MAX_CHAR),exe_file$(MAX_CHAR)
-  long argc#
-  long argv#(16)
-  long f#,s#,t#,u#,p#,q#
-  long indev#,outdev#,task#,stack#,sp#
-  char cc$,mode$
+  char bat_file$(FILE_SIZE)
+  long infile#,f#
 
 // スタートアップルーチン
   1, @SYS_CALL(CURSOR)
   @SYS_CALL(CLS)
-  "oreore-OS version 0.0.4", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
+  "oreore-OS version 0.0.5", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
+
+  // バッチファイル"autoexec.bat"が存在すれば、それを実行する
+  "autoexec.bat", bat_file, ropen f#=
+  bat_file, infile#=
+  if f#=ERROR then CONIN, infile#=  
 
 main_loop:
-  "$ ", CONOUT, @SYS_CALL(FPRINTS)
+  "# ", CONOUT, @SYS_CALL(FPRINTS)
   fault:
-  cmd_buf, CONIN, @SYS_CALL(FINPUTS) f#=
+  cmd_buf, infile#, @SYS_CALL(FINPUTS) f#=
+  // バッチファイルの終わりに達したらコンソール入力に切り替える
+  if f#=EOF then infile#, rclose CONIN, infile#= gotofault
+  if f#=LF goto main2
   if f#<>CR then CONOUT, @SYS_CALL(FNL)  "? ", CONOUT, @SYS_CALL(FPRINTS) gotofault
+main2:
   if cmd_buf$=NULL goto main_loop
-  cmd_buf, cmd0, strcpy
-  cmd_buf, @SYS_CALL(STRLEN) cmd_buf, + p#=
-
-// 実行モード（フォアグラウンド／バックグラウンド）の取得
-get_mode:
-  p#--
-  if p#>cmd_buf then if (p)$=' ' goto get_mode
-  0, mode$=
-  if (p)$='&' then 1, mode$= NULL, (p)$=
-
-// 入力デバイス名の取得 
-set_indev:
-  "", indev#= outdev#=
-  cmd_buf, "<", @SYS_CALL(STRSTR) p#=
-  cmd_buf, ">", @SYS_CALL(STRSTR) q#=
-  if p#=NULL goto set_outdev
-  NULL, (p)$=
-  head_indev:
-    p#++
-  if (p)$='>'  goto set_outdev
-  if (p)$=NULL  goto set_outdev
-  if (p)$=' ' goto head_indev
-  p#, indev#=
-  tail_indev:
-    p#++
-  if (p)$<>' ' then if (p)$<>NULL goto tail_indev
-  NULL, (p)$=
-  
-// 出力デバイス名の取得
-set_outdev:
-  if q#=NULL goto split_arg
-  NULL, (q)$=
-  head_outdev:
-    q#++
-  if (q)$=NULL  goto split_arg
-  if (q)$=' ' goto head_outdev
-  q#, outdev#=
-  tail_outdev:
-    q#++
-  if (q)$<>' ' then if (q)$<>NULL goto tail_outdev
-  NULL, (q)$=
-
-// 引数の分離
-split_arg:
-  0,  argc#=   cmd_buf+MAX_CHAR-1$=
-  if cmd_buf$=NULL then end
-  ' ', cc$=
-  for pp0#=cmd_buf to cmd_buf+MAX_CHAR
-    if cc$<>' ' goto split_arg1
-      if (pp0)$<>' ' then pp0#, argv#(argc#)= argc#++
-    split_arg1:
-    if cc$=' '  then (pp0)$, cc$= gotosplit_arg2
-      (pp0)$, cc$=
-      if (pp0)$=' '  then NULL, (pp0)$=
-    split_arg2:
-  if (pp0)$(1)<>NULL then next pp0#
-
-  argv#(0), exe_file, @SYS_CALL(STRCPY)
-  ".EFI", exe_file, @SYS_CALL(STRCAT)
-
-// フォアグラウンドで実行する
-foreground:
-   if mode$=1 goto background
-   exe_file, @SYS_CALL(LOAD) s#= pop t#=
-   if s#=ERROR goto program_error
-   s#, (present_task)#(START/8)=
-   t#, (present_task)#(SIZE/8)=
-   __stack_p#, (present_task)#(STACK/8)=    
-   indev#, (present_task)#(INDEV/8)=    
-   outdev#, (present_task)#(OUTDEV/8)=
-   present_task#, CMD_LINE, + p#=  // コマンドライン領域に文字列を書き込む
-   cmd0, p#, 7, @SYS_CALL(STRNCPY)
-   NULL, (present_task)#(CLIENT/8)=  // フォアグラウンドの場合クライアント領域にNULLが書き込まれる
-   s#, call@
-   s#, t#, @SYS_CALL(PFREE)
-   goto main_loop
-
-// バックグラウンドで実行する
-background:
-   "*** background ***", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
-   exe_file, @SYS_CALL(LOAD) s#= pop t#=
-   if s#=ERROR goto program_error
-   STACK_SIZE, @SYS_CALL(MALLOC) stack#=
-   if stack#=NULL then s#, t#, @SYS_CALL(PFREE) gotoprogram_error
-   stack#, STACK_SIZE, + sp#=
-   s#, 8, + task#=                       // TCB領域はプログラム領域の先頭から8バイト目
-   task#, s#, sp#, @SYS_CALL(CREATE_TASK)
-   s#, (task)#(START/8)=
-   t#, (task)#(SIZE/8)=
-   stack#, (task)#(STACK/8)=    
-   indev#, (task)#(INDEV/8)=    
-   outdev#, (task)#(OUTDEV/8)=
-   task#, CMD_LINE, + p#=  // コマンドライン領域に文字列を書き込む
-   cmd0, p#, 7, @SYS_CALL(STRNCPY)
-   present_task#, (task)#(CLIENT/8)=  // クライアント領域に現在のタスクが書き込まれる
-   task#, @SYS_CALL(RUN_TASK)
-   goto main_loop
-
-// エラー処理
-program_error:
-  "command not found", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
+  cmd_buf, @SYS_CALL(EXEC_COMMAND) f#=
+  if f#=ERROR then "command input error",  CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
   goto main_loop
+
+
+// エラーを返して終了する
+error_end:
+  ERROR, end
+
 
 // ここからアプリケーション領域
   char __prog_start$(0)
- 

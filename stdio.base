@@ -20,20 +20,23 @@ create_task:
 exit_task:
  @SYS_CALL(EXIT_TASK)
   end
-delete_task:
- @SYS_CALL(DELETE_TASK)
+kill_task:
+ @SYS_CALL(KILL_TASK)
   end
 run_task:
  @SYS_CALL(RUN_TASK)
   end
-go_task:
- @SYS_CALL(GO_TASK)
+stop_task:
+ @SYS_CALL(STOP_TASK)
   end
 wait_task:
  @SYS_CALL(WAIT_TASK)
   end
-stop_task:
- @SYS_CALL(STOP_TASK)
+go_task:
+ @SYS_CALL(GO_TASK)
+  end
+ret_task:
+ @SYS_CALL(RET_TASK)
   end
 send_message:
  @SYS_CALL(SEND_MESSAGE)
@@ -185,6 +188,9 @@ putch:
 wputs:
  @SYS_CALL(WPUTS)
   end
+exec_command:
+ @SYS_CALL(EXEC_COMMAND)
+  end
 
 putchar:
   stdout#, putc
@@ -230,8 +236,10 @@ __xxmain3:
     _outdev#,  _outfile, wopen _f#=
     if _f#<>ERROR then _outfile, stdout#=
 __xxmain4:
+  if (present_task)$(CMD_LINE)='B' then "*** background ***", prints nl
   main
   stdin#,   rclose
   stdout#, wclose
+  if (present_task)$(CMD_LINE)='F' then  (present_task)#(CLIENT/8), run_task
   exit_process
   end

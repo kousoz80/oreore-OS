@@ -1,0 +1,3737 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+<!-- なんちゃってXML version 0.1( ObjectEditor専用 ) -->
+<xobject>
+<ID>project</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>200</width>
+<height>100</height>
+<ID_maker>31</ID_maker>
+<objectname>startx</objectname>
+<description>新規のアプリケーション</description>
+<プロパティ>
+<ID>properties</ID>
+<LookandFeel>javax.swing.plaf.metal.MetalLookAndFeel</LookandFeel>
+<MainWinx0>0</MainWinx0>
+<MainWiny0>0</MainWiny0>
+<MainWinWidth>1024</MainWinWidth>
+<MainWinHeight>745</MainWinHeight>
+<MesgWinx0>0</MesgWinx0>
+<MesgWiny0>566</MesgWiny0>
+<MesgWinWidth>1024</MesgWinWidth>
+<MesgWinHeight>174</MesgWinHeight>
+<FileWinx0>36</FileWinx0>
+<FileWiny0>478</FileWiny0>
+<FileWinWidth>578</FileWinWidth>
+<FileWinHeight>262</FileWinHeight>
+<EditWinx0>347</EditWinx0>
+<EditWiny0>0</EditWiny0>
+<EditWinWidth>676</EditWinWidth>
+<EditWinHeight>541</EditWinHeight>
+<PropWinx0>1</PropWinx0>
+<PropWiny0>1</PropWiny0>
+<PropWinWidth>615</PropWinWidth>
+<PropWinHeight>448</PropWinHeight>
+<DividerLocation1>2</DividerLocation1>
+<DividerLocation2>2</DividerLocation2>
+<ToolBarVisible>1</ToolBarVisible>
+<ViewSourceAtCompile>0</ViewSourceAtCompile>
+<NoSourceCreate>0</NoSourceCreate>
+<JavaEditCommand>geany</JavaEditCommand>
+<JavaViewCommand></JavaViewCommand>
+<HelpCommand></HelpCommand>
+<ApplicationType>7</ApplicationType>
+<CompileCommand0>./compile_java</CompileCommand0>
+<RunCommand0>./run_java</RunCommand0>
+<GUIDesignerCommand0>java -jar guidsin.jar -java</GUIDesignerCommand0>
+<ImportFiles0> import java.awt.*;
+ import java.awt.event.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import javax.swing.border.*;
+import javax.swing.filechooser.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.image.BufferedImage;
+import javax.sound.sampled.*;
+
+class Starter{
+  public static void main( String args[] ){
+    %AppName% ap = new %AppName%();
+    ap.ARGS = args;
+    ap.Start();
+  }
+}
+</ImportFiles0>
+<ProgramStartupCode0> String[] ARGS;
+</ProgramStartupCode0>
+<NativeHelpCommand0></NativeHelpCommand0>
+<CompileCommand1></CompileCommand1>
+<RunCommand1></RunCommand1>
+<GUIDesignerCommand1>java -jar guidsin.jar -applet</GUIDesignerCommand1>
+<ImportFiles1> import java.awt.*;
+ import java.awt.event.*;
+ import java.applet.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+ public class javatext extends Applet {
+   %AppName% ap;
+   public void init() {
+     ap = new %AppName%();
+     ap.APPLET = this;
+     ap.Start();
+   }
+ }
+</ImportFiles1>
+<ProgramStartupCode1> Applet APPLET;
+</ProgramStartupCode1>
+<NativeHelpCommand1></NativeHelpCommand1>
+<CompileCommand2></CompileCommand2>
+<RunCommand2></RunCommand2>
+<GUIDesignerCommand2></GUIDesignerCommand2>
+<ImportFiles2>#include &lt;stdio.h&gt;
+
+void Startup();
+</ImportFiles2>
+<ProgramStartupCode2>int main(){
+ Startup();
+ %AppName%::Start();
+ }
+</ProgramStartupCode2>
+<NativeHelpCommand2></NativeHelpCommand2>
+<CompileCommand3></CompileCommand3>
+<RunCommand3></RunCommand3>
+<GUIDesignerCommand3>java -jar guidsin.jar -cpp</GUIDesignerCommand3>
+<ImportFiles3>#include &lt;stdio.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;math.h&gt;
+#include &quot;Ekagen.h&quot;
+void Startup();
+</ImportFiles3>
+<ProgramStartupCode3>void Emain(){
+Startup();
+%AppName%::Start();
+}
+</ProgramStartupCode3>
+<NativeHelpCommand3></NativeHelpCommand3>
+<MoveStep>8</MoveStep>
+<ImageEditCommand></ImageEditCommand>
+<CompilerFileName>javac.exe</CompilerFileName>
+<CompileCommand4>./compile_android Test com example test</CompileCommand4>
+<RunCommand4>echo no action</RunCommand4>
+<GUIDesignerCommand4>java -jar guidsin.jar -android</GUIDesignerCommand4>
+<ImportFiles4>package com.example.test;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.widget.Button;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.widget.EditText;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.graphics.Matrix;
+import android.graphics.Typeface;
+import android.graphics.RectF;
+import android.graphics.BitmapFactory;
+import java.io.*;
+ import java.net.*;
+import java.util.*;
+import java.text.SimpleDateFormat;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.content.res.Configuration;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.app.Activity;
+import android.graphics.Color;
+
+import android.widget.AbsoluteLayout;
+import android.widget.*;
+import android.view.Gravity;
+import android.view.View.OnClickListener;
+
+import android.hardware.Camera;
+
+public class HelloWorld extends Activity {
+  public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    %AppName% ap = new %AppName%();
+    ap.ACTIVITY = this;
+    ap.Start();
+  }
+}
+</ImportFiles4>
+<ProgramStartupCode4>Activity ACTIVITY;
+</ProgramStartupCode4>
+<NativeHelpCommand4>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.test&quot;
+    android:versionCode=&quot;1&quot;
+    android:versionName=&quot;1.0&quot; &gt;
+
+    
+    
+  &lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.usb.host&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.RECORD_AUDIO&quot;/&gt;
+  &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+
+  &lt;uses-sdk android:minSdkVersion=&quot;3&quot; android:targetSdkVersion=&quot;21&quot;/&gt;
+  
+ 
+    &lt;application android:label=&quot;@string/app_name&quot; &gt;
+        &lt;activity
+            android:name=&quot;HelloWorld&quot;
+            android:label=&quot;@string/app_name&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</NativeHelpCommand4>
+<HtmlEditCommand></HtmlEditCommand>
+<CompileCommand5></CompileCommand5>
+<RunCommand5></RunCommand5>
+<GUIDesignerCommand5></GUIDesignerCommand5>
+<ImportFiles5></ImportFiles5>
+<ProgramStartupCode5>gosub @_PSTART
+end
+</ProgramStartupCode5>
+<NativeHelpCommand5></NativeHelpCommand5>
+<NoOptimizePin>0</NoOptimizePin>
+<CompileCommand6>./compile_c</CompileCommand6>
+<RunCommand6>./run_c</RunCommand6>
+<GUIDesignerCommand6></GUIDesignerCommand6>
+<ImportFiles6>#include &lt;setjmp.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;math.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netdb.h&gt;
+
+#include &lt;X11/Xlib.h&gt;
+#include &lt;X11/Xutil.h&gt;
+#include &lt;X11/Xlocale.h&gt; /* ロケール用ヘッダーファイル */
+#include &lt;X11/xpm.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;errno.h&gt;
+</ImportFiles6>
+<ProgramStartupCode6>int ARGC; char** ARGV;
+int main( int argc, char** argv ){
+  ARGC=argc;
+  ARGV=argv;
+  _PSTART();
+}
+</ProgramStartupCode6>
+<NativeHelpCommand6></NativeHelpCommand6>
+<CompileCommand7>./compile_startx</CompileCommand7>
+<RunCommand7>./run_startx</RunCommand7>
+<GUIDesignerCommand7></GUIDesignerCommand7>
+<ImportFiles7></ImportFiles7>
+<ProgramStartupCode7>main:
+  goto _PSTART
+</ProgramStartupCode7>
+<NativeHelpCommand7></NativeHelpCommand7>
+</プロパティ>
+<pin>
+<ID>_PSTART</ID>
+<x0>7</x0>
+<y0>361</y0>
+<width>55</width>
+<height>24</height>
+<text>Start()</text>
+<px>50</px>
+<py>50</py>
+</pin>
+<codeclip>
+<ID>_C1</ID>
+<x0>15</x0>
+<y0>4</y0>
+<width>315</width>
+<height>22</height>
+<codetext>// ウィンドウシステム for oreore-OS ver 0.0.5
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C2</ID>
+<x0>95</x0>
+<y0>69</y0>
+<width>224</width>
+<height>20</height>
+<codetext> // GUIコンポーネントの基底クラス
+ class Component
+  long   subclass#         // サブクラスへのポインタ 
+  long   type#               // コンポーネントのタイプ
+  long   parent#            // 親コンポーネント 
+  long   top_child#        // 最初の子供コンポーネント 
+  long   end_child#        // 最後の子供コンポーネント 
+  long   next#               // 次の兄弟コンポーネント 
+  long   prev#               // 前の兄弟コンポーネント 
+  long   look_and_feel# // コンポーネントのLook&amp;Feel 
+  long   status#            // コンポーネントの状態 
+  long   is_visible#       // コンポーネントが可視状態であるかどうかを示す 
+  long   is_focusable#   // コンポーネントがフォーカス可能であるかどうかを示す 
+  long   is_painting#    // コンポーネントが描画中であるかどうかを示す 
+  long   foreground#    // コンポーネントの文字色（カラーコード） 
+  long   background#    // コンポーネントの背景色（ブラシ番号） 
+  long   border#           // コンポーネントの境界のスタイル 
+  long   x#                    // コンポーネントの左上の親コンポーネントにおけるX座標 
+  long   y#                   // コンポーネントの左上の親コンポーネントにおけるY座標 
+  long   width#            // コンポーネントの幅 
+  long   height#           // コンポーネントの高さ 
+  long   left#                // コンポーネントの左のスクリーン上のX座標 
+  long   top#                // コンポーネントの上のスクリーン上のY座標 
+  long   right#             // コンポーネントの右のスクリーン上のX座標 
+  long   bottom#         // コンポーネントの下のスクリーン上のY座標 
+ end
+
+
+// GUIコンポーネントのlook&amp;feelを決定するインターフェース
+// ( 基本的なイベント処理の関数ポインタを持つ 
+ class LookAndFeel
+  long paint_component#  // 描画処理 
+  long key_pressed#     // コンポーネントがフォーカスを得た状態でキーが押されたときのイベント処理
+  long mouse_lclicked#    // コンポーネント上でマウスを左クリックしたときのイベント処理
+  long mouse_rclicked#    // コンポーネント上でマウスを右クリックしたときのイベント処理
+  long mouse_lclicked2#  // コンポーネント上でマウスをクリック後もう一度左クリックしたときのイベント処理
+  long mouse_rclicked2#  // コンポーネント上でマウスをクリック後もう一度右クリックしたときのイベント処理
+  long remove_component# // 削除処理
+ end
+
+
+// GUIコンポーネントのタイプ
+ enum
+   TYPE_OTHER
+   TYPE_LABEL
+   TYPE_BUTTON
+   TYPE_CHECKBOX
+   TYPE_RADIOBUTTON
+   TYPE_HSCROLLBAR
+   TYPE_VSCROLLBAR
+   TYPE_TEXTFIELD
+   TYPE_TEXTAREA
+   TYPE_WINDOW
+   TYPE_DESKTOP
+   TYPE_MENU
+   TYPE_LIST
+   TYPE_TABLE
+  end
+
+// 定数
+ const DEFAULT_COMPONENT_WIDTH  100  // 幅の初期値
+ const DEFAULT_COMPONENT_HEIGHT 100  // 高さの初期値
+
+// 専用変数
+ long com#,com0#,com1#,parent#,next#,prev#
+
+// GUIコンポーネントを生成する
+// 使用法: com, subclass, parent, look_and_feel create_component
+create_component:
+  tt#= pop parent#= pop ss#= pop com#=
+
+//  &quot;create component&quot;, log, fprints log, fnl
+//  &quot;com=&quot;, log, fprints com#, hex log, fprints
+//  log, fnl
+
+  ss#,  com#, -&gt;Component.subclass#=
+  TYPE_OTHER, com#, -&gt;Component.type#=
+  parent#, com#, -&gt;Component.parent#=
+  NULL, com#, -&gt;Component.top_child#=
+  NULL, com#, -&gt;Component.end_child#=
+  tt#, com#, -&gt;Component.look_and_feel#=
+  0, com#, -&gt;Component.status#=
+  TRUE, com#, -&gt;Component.is_visible#=
+  FALSE, com#, -&gt;Component.is_focusable#=
+  FALSE, com#, -&gt;Component.is_painting#=
+  COLOR_BLACK, com#, -&gt;Component.foreground#=
+  COLOR_LIGHT_GRAY,   com#, -&gt;Component.background#=
+  LINE_BORDER, com#, -&gt;Component.border#=
+  0, com#, -&gt;Component.x#=
+  0, com#, -&gt;Component.y#=
+  DEFAULT_COMPONENT_WIDTH, com#, -&gt;Component.width#=
+  DEFAULT_COMPONENT_HEIGHT, com#, -&gt;Component.height#=
+  com#, set_component_rect
+  NULL, com#, -&gt;Component.prev#=
+  parent#, -&gt;Component.top_child# com#, -&gt;Component.next#=
+  com#, parent#, -&gt;Component.top_child#=
+  parent#, -&gt;Component.end_child# tt#=
+  if tt#=NULL then com#, parent#, -&gt;Component.end_child#=
+  if tt#&lt;&gt;NULL then com#, com#, -&gt;Component.next# -&gt;Component.prev#=
+ end
+
+
+// GUIコンポーネントを削除する
+remove_component:
+  com#=
+  com#, -&gt;Component.parent# parent#=
+  com#, -&gt;Component.prev# prev#=
+  com#, -&gt;Component.next# next#=
+  if prev#=NULL   then next#, parent#, -&gt;Component.top_child#=
+  if prev#&lt;&gt;NULL then next#, prev#, -&gt;Component.next#=
+  if next#=NULL   then prev#, parent#, -&gt;Component.end_child#=
+  if next#&lt;&gt;NULL then prev#, next#, -&gt;Component.prev#=
+  com#, com#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.remove_component
+  if com#=clicked_component#  then NULL, clicked_component#=
+  if com#=focused_component# then NULL, focused_component#=
+  end
+
+
+// GUIコンポーネントにマウスイベントを割り当てる
+// ( 戻り値：コンポーネント内でイベントを処理したときTRUE、そうでないときFALSE )
+dispatch_mouse_event:
+  com#=
+  
+  // マウス状態の定義
+  enum
+    MOUSE_RELEASE
+    MOUSE_PRESS_L
+    MOUSE_PRESS_R
+  end
+
+
+//  &quot;dispatch mouse event:&quot;, log, fprints log, fnl
+//  &quot;com=&quot;, log, fprints com#, hex log, fprints
+//   log, fnl
+
+  
+  // GUIコンポーネントが不可視状態ならイベント処理をしない
+  com#, -&gt;Component.is_visible# tt#=
+  if tt#=0 then FALSE, end
+  
+  com#, -&gt;Component.top# com#, -&gt;Component.bottom# - tt#=
+  if tt#&gt;=0 then FALSE, end
+    
+  com#, -&gt;Component.left# com#, -&gt;Component.right# - tt#=
+  if tt#&gt;=0 then FALSE, end
+    
+  // まず子供コンポーネントのイベント割り当てを行う
+
+//  &quot;dispatch child mouse event:&quot;, log, fprints log, fnl
+
+  com#, -&gt;Component.top_child# tt#=
+  dispatch_mouse_event1:
+    if tt#=NULL goto dispatch_mouse_event2
+    com#, PUSH tt#, PUSH
+      tt#, dispatch_mouse_event ss#=
+    POP tt#= POP com#=
+    if ss#=TRUE then TRUE, end
+    tt#, -&gt;Component.next# tt#=
+    goto dispatch_mouse_event1
+   
+  // 次にクリックの処理をする
+  dispatch_mouse_event2:
+
+//  &quot;end dispatch child &quot;, log, fprints log, fnl
+
+    com#, -&gt;Component.status# tt#=
+
+//  &quot;status=&quot;, log, fprints tt#, log, fprintd log, fnl
+
+  // GUIコンポーネント上でマウスボタンが押されていない状態
+
+  // 左ボタンのチェック
+  dispatch_mouse_event3:
+    if tt#&lt;&gt;MOUSE_RELEASE goto dispatch_mouse_event5
+    if mouse_left#=0 goto dispatch_mouse_event4
+
+//  &quot;L button ON:&quot;, log, fprints log, fnl
+
+    mouse_x#, mouse_y#, com#, is_on_component ss#=
+    if ss#=0 then FALSE, end
+    MOUSE_PRESS_L, com#, -&gt;Component.status#=
+    TRUE, end
+
+  // 右ボタンのチェック
+  dispatch_mouse_event4:
+    if mouse_right#=0 then FALSE, end
+
+//  &quot;R button ON:&quot;, log, fprints log, fnl
+
+    mouse_x#, mouse_y#, com#, is_on_component ss#=
+    if ss#=0 then FALSE, end
+    MOUSE_PRESS_R, com#, -&gt;Component.status#=
+    TRUE, end
+
+  // GUIコンポーネント上で左マウスボタンが押された状態
+  dispatch_mouse_event5:
+    if tt#&lt;&gt;MOUSE_PRESS_L goto dispatch_mouse_event6
+    if mouse_left#&lt;&gt;0 then TRUE, end
+
+//  &quot;L button OFF:&quot;, log, fprints log, fnl
+
+    MOUSE_RELEASE, com#, -&gt;Component.status#=
+    if clicked_component#&lt;&gt;NULL then com#, clicked_component#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.mouse_lclicked2
+    com#, com#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.mouse_lclicked
+    com#, clicked_component#=
+    com#, -&gt;Component.is_focusable# tt#=
+    if tt#=TRUE then com#, focused_component#=  //    log_focus
+    TRUE, end
+      
+  // GUIコンポーネント上で右マウスボタンが押された状態
+  dispatch_mouse_event6:
+    if tt#&lt;&gt;MOUSE_PRESS_R goto dispatch_mouse_event7
+    if mouse_right#&lt;&gt;0 then TRUE, end
+
+//  &quot;R button OFF:&quot;, log, fprints log, fnl
+
+    MOUSE_RELEASE, com#, -&gt;Component.status#=
+    if clicked_component#&lt;&gt;NULL then com#, clicked_component#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.mouse_rclicked2
+    com#, com#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.mouse_rclicked
+    com#, clicked_component#=
+    com#, -&gt;Component.is_focusable# tt#=
+    if tt#=TRUE then com#, focused_component#=   //        log_focus
+    TRUE, end
+      
+  // 異常系処理
+  dispatch_mouse_event7:
+    MOUSE_RELEASE, com#, -&gt;Component.status#=
+    FALSE, end
+
+
+// GUIコンポーネントを描画する
+repaint:
+ tt#=
+
+// &quot;repaint:&quot;, log, fprints log, fnl
+
+  tt#, paint_component
+  _disp
+  end
+
+
+// GUIコンポーネント描画処理
+paint_component:
+  com#=
+
+//  &quot;focused component=&quot;, log, fprints  
+//  focused_component#, hex log, fprints log, fnl
+
+//  &quot;clicked component=&quot;, log, fprints  
+//  clicked_component#, hex log, fprints log, fnl
+
+  // 描画可能でなければリターン
+  com#, -&gt;Component.is_visible# tt#=
+  if tt#=0 then end
+  
+  // 描画中であればリターン
+  com#, -&gt;Component.is_painting# tt#=
+  if tt#=TRUE then end
+
+//  &quot;paint component2:&quot;, log, fprints log, fnl  
+
+  // 矩形領域をセットする
+  com#, set_component_rect
+
+
+//  &quot;paint component:&quot;, log, fprints log, fnl  
+//  &quot;com=&quot;, log, fprints
+//  com#, hex log, fprints log, fnl
+//  &quot;parent=&quot;, log, fprints
+//  com#, -&gt;Component.parent# tt#=
+//  tt#, hex log, fprints log, fnl
+//  &quot;background=&quot;, log, fprints
+//  com#, -&gt;Component.background# tt#=
+//  tt#, hex log, fprints log, fnl
+//  &quot;is_visible=&quot;, log, fprints
+//  com#, -&gt;Component.is_visible# tt#=
+//  tt#, log, fprintd log, fnl
+//  &quot;is_painting=&quot;, log, fprints
+//  com#, -&gt;Component.is_painting# tt#=
+//  tt#, log, fprintd log, fnl
+
+//  &quot;x=&quot;, log, fprints
+//  com#, -&gt;Component.x# tt#=
+//  tt#, log, fprintd log, fnl
+//  &quot;y=&quot;, log, fprints
+//  com#, -&gt;Component.y# tt#=
+//  tt#, log, fprintd log, fnl
+//  &quot;width=&quot;, log, fprints
+//  com#, -&gt;Component.width# tt#=
+//  tt#, log, fprintd log, fnl
+//  &quot;height=&quot;, log, fprints
+//  com#, -&gt;Component.height# tt#=
+//  tt#, log, fprintd log, fnl
+//  &quot;left=&quot;, log, fprints
+//  com#, -&gt;Component.left# tt#=
+//  tt#, log, fprintd log, fnl
+//  &quot;top=&quot;, log, fprints
+//  com#, -&gt;Component.top# tt#=
+//  tt#, log, fprintd log, fnl
+//  &quot;right=&quot;, log, fprints
+//  com#, -&gt;Component.right# tt#=
+//  tt#, log, fprintd log, fnl
+//  &quot;bottom=&quot;, log, fprints
+//  com#, -&gt;Component.bottom# tt#=
+//  tt#, log, fprintd log, fnl
+
+
+  // 矩形領域が有効でないときはリターン
+  com#, -&gt;Component.left# com#, -&gt;Component.right# - tt#=
+  if tt#&gt;=0 then return
+  
+  com#, -&gt;Component.top# com#, -&gt;Component.bottom# - tt#=
+  if tt#&gt;=0 then return
+  
+  // 描画処理
+  TRUE, com#, -&gt;Component.is_painting#=
+
+
+//  &quot;look and feel=&quot;, log, fprints
+//  com#, -&gt;Component.look_and_feel# tt#=
+//  tt#, hex log, fprints log, fnl
+//  &quot;paint component=&quot;, log, fprints
+//  tt#, -&gt;LookAndFeel.paint_component# tt#=
+//  tt#, hex log, fprints log, fnl
+
+  // 自分の描画
+  com#, -&gt;Component.look_and_feel# -&gt;LookAndFeel.paint_component# tt#=
+
+// &quot;xxxpaint component=&quot;, log, fprints
+// tt#, hex log, fprints log, fnl
+
+  com#, com#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.paint_component
+//  com#, @tt
+  com#, -&gt;Component.end_child# tt#=
+
+  paint_component1:
+    if tt#=NULL goto paint_component2
+    com#, PUSH tt#, PUSH
+    tt#, paint_component
+    POP tt#= POP com#=
+    tt#, -&gt;Component.prev# tt#=
+    goto paint_component1
+  paint_component2:
+  FALSE, com#, -&gt;Component.is_painting#=
+  end
+
+
+// GUIコンポーネントの基盤部分と境界を描く
+paint_base:
+  com#=
+  
+//  &quot;paint base:&quot;, log, fprints log, fnl  
+//  &quot;com=&quot;, log, fprints  
+//  com#, hex log, fprints log, fnl
+
+
+  // 境界のリスト
+  enum
+    NULL_BORDER
+    LINE_BORDER
+    RAISED_BORDER
+    LOWERD_BORDER
+  end
+
+//  &quot;color=&quot;, log, fprints  
+//  com#, -&gt;Component.background# hex log, fprints log, fnl
+
+
+  // 背景を描く
+  com#, -&gt;Component.background# set_color
+  com#, -&gt;Component.left#       x0#=
+  com#, -&gt;Component.top#       y0#=
+  com#, -&gt;Component.right#     x1#=
+  com#, -&gt;Component.bottom# y1#=
+  fill_rect
+
+  // 境界を描く
+  com#, -&gt;Component.border# tt#=
+
+  // 単純な線の境界
+  paint_base1:
+  if tt#&lt;&gt;LINE_BORDER goto paint_base2
+    COLOR_BLACK, set_color
+    x0#, y0#, x1#, y0#, draw_line
+    x1#, y0#, x1#, y1#, draw_line
+    x1#, y1#, x0#, y1#, draw_line
+    x0#, y1#, x0#, y0#, draw_line
+    goto paint_base4
+
+   // 凸境界
+  paint_base2:
+  if tt#&lt;&gt;RAISED_BORDER goto paint_base3
+    COLOR_WHITE, set_color
+    x0#, y0#, x1#, y0#, draw_line
+    x1#, y0#, x1#, y1#, draw_line
+    COLOR_BLACK, set_color
+    x1#, y1#, x0#, y1#, draw_line
+    x0#, y1#, x0#, y0#, draw_line
+    goto paint_base4
+
+   // 凹境界
+  paint_base3:
+  if tt#&lt;&gt;LOWERD_BORDER goto paint_base4
+    COLOR_BLACK, set_color
+    x0#, y0#, x1#, y0#, draw_line
+    x1#, y0#, x1#, y1#, draw_line
+    COLOR_WHITE, set_color
+    x1#, y1#, x0#, y1#, draw_line
+    x0#, y1#, x0#, y0#, draw_line
+    goto paint_base4
+
+   // デフォルトの処理(何もしない)
+  paint_base4:
+  
+//  &quot;paint base end&quot;, log, fprints log, fnl  
+
+  end
+
+// GUIコンポーネントの矩形領域をセットする
+set_component_rect:
+  long lf0#,tp0#,ri0#,bt0#
+  
+  com#=
+
+//  &quot;set component rect:&quot;, log, fprints log, fnl  
+
+  com#, -&gt;Component.parent# parent#=
+  if parent#&lt;&gt;NULL goto set_component_rect1
+  
+//  &quot;set component(desktop)&quot;, log, fprints log, fnl
+   
+    // デスクトップコンポーネントの場合
+    com#, -&gt;Component.x# ss#= com#, -&gt;Component.left#= lf0#=
+    com#, -&gt;Component.y# tt#= com#, -&gt;Component.top#= tp0#=
+  
+    com#, -&gt;Component.width#   ss#, + 1, -  ri0#= 
+    com#,  -&gt;Component.right#=
+  
+    com#, -&gt;Component.height#  tt#, + 1, -  bt0#=
+    com#, -&gt;Component.bottom#=
+
+//  &quot;left=&quot;,       log, fprints lf0#,  log, fprintd log, fnl
+//  &quot;top=&quot;,       log, fprints tp0#, log, fprintd log, fnl
+//  &quot;right=&quot;,     log, fprints ri0#, log, fprintd log, fnl
+//  &quot;bottom=&quot;, log, fprints bt0#, log, fprintd log, fnl
+
+    end
+  
+// デスクトップコンポーネント以外の場合
+set_component_rect1:
+  
+//  &quot;set component(no desktop)&quot;, log, fprints log, fnl
+   
+  parent#, -&gt;Component.left# com#, -&gt;Component.x# +  lf0#=
+  com#, -&gt;Component.left#=
+  
+  parent#, -&gt;Component.top# com#, -&gt;Component.y# +  tp0#=
+  com#, -&gt;Component.top#=
+  
+  com#, -&gt;Component.width#  lf0#, + 1, - ri0#=
+  com#, -&gt;Component.right#=
+  
+  parent#, -&gt;Component.right# tt#=
+  if ri0#&gt;tt# then tt#, ri0#= com#, -&gt;Component.right#=
+
+  com#, -&gt;Component.height# tp0#, + 1, - bt0#=
+  com#, -&gt;Component.bottom#=
+  
+  parent#, -&gt;Component.bottom# tt#=
+  if bt0#&gt;tt# then tt#, bt0#= com#, -&gt;Component.bottom#=
+
+//  &quot;left=&quot;,       log, fprints lf0#,  log, fprintd log, fnl
+//  &quot;top=&quot;,       log, fprints tp0#, log, fprintd log, fnl
+//  &quot;right=&quot;,     log, fprints ri0#, log, fprintd log, fnl
+//  &quot;bottom=&quot;, log, fprints bt0#, log, fprintd log, fnl
+
+  end
+
+
+// GUIコンポーネントの可視状態を返す
+is_visible:
+  com#=
+  if com#=NULL then TRUE, end
+  desktop, -&gt;Desktop.component tt#=
+  if com#=tt# then TRUE, end
+  com#, PUSH
+  com#, -&gt;Component.parent# is_visible tt#=
+  POP com#=
+  if tt#=FALSE then FALSE, end
+  com#, -&gt;Component.is_visible# tt#=
+  if tt#=FALSE then FALSE, end
+  com#, -&gt;Component.right# com#, -&gt;Component.left# - tt#=
+  if tt#&lt;=0 then FALSE, end
+  com#, -&gt;Component.bottom# com#, -&gt;Component.top# - tt#=
+  if tt#&lt;=0 then FALSE, end
+  TRUE, end
+
+
+// GUIコンポーネントの可視状態を設定する
+set_visible:
+  tt#= pop com#=
+  tt#, com#, -&gt;Component.is_visible#=
+  com#, -&gt;Component.parent# tt#=
+  if tt#&lt;&gt;NULL then tt#, repaint 
+  end
+
+
+// 座標(x,y)が矩形(left,top,right,bottom)上にあるかどうかを返す
+// 使用法： x, y, left, top, right, bottom, is_on_rectangle
+is_on_rectangle:
+  long ox#,oy#,ol#,ot#,ori#,ob#
+
+  ob#= pop ori#= pop ot#= pop ol#= pop
+  oy#= pop ox#= 
+
+//  &quot;is on rectangle:&quot;, log, fprints log, fnl
+//   ox#, log, fprintd &quot;,&quot;, log, fprints
+//   oy#, log, fprintd  log, fnl
+//  &quot;on&quot;, log, fprints log, fnl
+//   ol#, log, fprintd &quot;,&quot;, log, fprints
+//   ot#, log, fprintd &quot;,&quot;, log, fprints
+//   ori#, log, fprintd &quot;,&quot;, log, fprints
+//   ob#, log, fprintd  log, fnl
+   
+     
+  if ox#&lt;ol#  then FALSE, end
+  if ox#&gt;ori# then FALSE, end
+  if oy#&lt;ot#  then FALSE, end
+  if oy#&gt;ob#  then FALSE, end
+  TRUE, end
+
+
+// 座標(x,y)がGUIコンポーネントcom上にあるかどうかを返す
+is_on_component:
+  com#= pop iy#= pop ix#=
+  
+//  &quot;is on component:&quot;, log, fprints log, fnl
+//  &quot;com=&quot;, log, fprints com#, hex log, fprints
+//   log, fnl
+  
+  if com#=NULL then TRUE, end
+  desktop, -&gt;Desktop.component tt#=
+  if com#=tt# then TRUE, end
+  ix#,
+  iy#,
+  com#, -&gt;Component.left#
+  com#, -&gt;Component.top#
+  com#, -&gt;Component.right#
+  com#, -&gt;Component.bottom#
+  is_on_rectangle
+  end
+
+
+// マウスが指しているGUIコンポーネントを返す
+get_component_under_mouse_cursor:
+  long c1#,c2#
+  com#=
+
+  // 不可視状態ならNULLを返す
+  is_visible tt#=
+  if tt#=FALSE then NULL, end
+
+  // 子供のコンポーネントから調べる
+  com#, -&gt;Component.top_child# c1#=
+  get_component_under_mouse_cursor1:
+    if c1#=NULL goto get_component_under_mouse_cursor2
+    c1#, PUSH com#, PUSH
+    c1#, get_component_under_mouse_cursor c2#=
+    POP com#= POP c1#=
+    if c2#&lt;&gt;NULL then c2#, end
+    c1#, -&gt;Component.next# c1#=
+    goto get_component_under_mouse_cursor1
+  get_component_under_mouse_cursor2:
+  mouse_x#, mouse_y#, com#, is_on_component tt#=
+  if tt#=TRUE then com#, end
+  NULL, end
+
+
+// 子供のコンポーネントの数を返す 
+get_child_count:
+  com#= 
+  0, ii#=
+
+  com#, -&gt;Component.top_child# c1#=
+  get_child_count1:
+    if c1#=NULL goto get_child_count2
+    ii#++
+    c1#, -&gt;Component.next# c1#=
+    goto  get_child_count1
+  get_child_count2:
+  ii#, end
+
+
+// 可視状態にある子供のコンポーネントの数を返す 
+get_visible_child_count:
+  com#= 
+  0, ii#=
+
+  com#, -&gt;Component.top_child# c1#=
+  get_visible_child_count1:
+    if c1#=NULL goto get_child_count2
+    c1#, PUSH com#, PUSH
+    c1#, is_visible tt#=
+    POP com#= POP c1#=
+    if tt#=TRUE then ii#++
+    c1#, -&gt;Component.next# c1#=
+    goto  get_visible_child_count1
+  get_visible_child_count2:
+  ii#, end
+
+
+// GUIコンポーネントZオーダーを最上位に持ってくる
+pop_up_component:
+  long top#,second#
+  com#=
+  com#, -&gt;Component.parent# parent#=
+  com#, -&gt;Component.prev#    prev#=
+  com#, -&gt;Component.next#    next#=
+  parent#, -&gt;Component.top_child# top#=
+  if prev#=NULL then end
+  top#, second#=
+  com#, parent#, -&gt;Component.top_child#=
+  NULL, com#, -&gt;Component.prev#=
+  second#, com#, -&gt;Component.next#=
+  com#, second#, -&gt;Component.prev#=
+  next#, prev#, -&gt;Component.next#=
+  if next#&lt;&gt;NULL then prev#, next#, -&gt;Component.prev#= end
+  prev#, parent#, -&gt;Component.end_child#=
+  end
+
+
+// GUIコンポーネントの位置と大きさを設定する
+// 使用法： com, x, y, width, height, set_bounds
+set_bounds:
+  ss#= pop tt#= pop iy#= pop ix#= pop
+  com#=
+  ix#, com#, -&gt;Component.x#=
+  iy#, com#, -&gt;Component.y#=
+  tt#, com#, -&gt;Component.width#=
+  ss#, com#, -&gt;Component.height#=
+  com#, -&gt;Component.is_visible# tt#=
+  if tt#=FALSE then end
+  com#, -&gt;Component.parent# tt#=
+  if tt#&lt;&gt;NULL then tt#, repaint 
+  end
+
+
+// 何もしない
+no_operation:
+ end
+
+
+//log_focus:
+//   long zzz#
+//   zzz#=
+//  &quot;set focused: &quot;, log, fprints 
+//  zzz#, hex log, fprints log, fnl
+//  end
+</codetext>
+</codeclip>
+<operation>
+<ID>_O3</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>87</x0>
+<y0>357</y0>
+<width>212</width>
+<height>50</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>1</inpinx0>
+<inpiny0>30</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// ウィンドウシステムメイン関数
+
+
+// char log$(FILE_SIZE)
+//  &quot;log&quot;, log, wopen
+
+
+  graphic_guid, graphic_protocol, locate_protocol    // UEFIのグラフィックAPIを取得する
+  (graphic_protocol)#(1), set_mode#=
+  (graphic_protocol)#(3), graphic_mode#=
+  (graphic_mode)#(1), graphic_info#=
+  (graphic_mode)#(3), graphic_base#=
+  (graphic_info)!(1), screen_width#=
+  (graphic_info)!(2), screen_height#=
+  pointer_guid, pointer_protocol, locate_protocol    // UEFIのマウスAPIを取得する
+  (pointer_protocol)#(0), mouse_reset#=
+  (pointer_protocol)#(1), mouse_get_state#=
+
+  screen_width#, screen_height#, * 4, * malloc screen_buffer#=
+  if screen_buffer#=NULL then end
+  screen_width#, screen_height#, * 4, * malloc copy_area#=
+  if copy_area#=NULL then end
+  FONT_WIDTH, FONT_HEIGHT, * 256, * tt#= malloc font_area#=
+  if font_area#=NULL then end
+
+  // フォントエリアをクリア
+  tt#, 8, / 1, - tt#=
+  for ii#=0 to tt#
+    0, (font_area)#(ii#)=
+  next ii#
+
+  load_cursor tt#=
+  if tt#&lt;0 then end    // マウスカーソルが取得できなかったら終了
+  load_font tt#=
+  if tt#&lt;0 then end    // フォントが取得できなかったら終了
+  
+  0xffffff, color#=
+  0, mouse_mode#=
+  1, mouse_speed#=
+  screen_width#,  2, / mouse_x#=
+  screen_height#, 2, / mouse_y#=
+  init_mouse
+  
+  // 各種キー割り当て
+  MAX_MOUSE_SPEED, max_speed#=
+  CTRL_D_KEY, quit_key#=
+  INS_KEY,        mode_key#=
+  DEL_KEY,       speed_key#=
+  LEFT_KEY,      left_key#=
+  RIGHT_KEY,    right_key#=
+  UP_KEY,         up_key#=
+  DOWN_KEY,   down_key#=
+  ENTER_KEY,   lclick_key#=
+  SPACE_KEY,    rclick_key#=
+  
+  1, gui_is_running#=
+  NULL, focused_component#= clicked_component#=
+
+  create_desktop               // デスクトップコンポーネントを生成
+  create_desktop_menu     // デスクトップメニューを作成
+  create_icon_menu           // アイコンメニューを作成
+  create_property_sheet   // プロパティシートを作成
+  load_desktop                  // デスクトップの設定を読み込む
+
+
+  desktop, -&gt;Desktop.component  input_client#= tt#=
+  show_desktop_menu, desktop, -&gt;Desktop.rclicked#= // デスクトップの右クリック動作を定義
+
+
+  
+//  &quot;desktop repaint: com=&quot;, log, fprints
+//  tt#, hex log, fprints log, fnl
+  
+//  &quot;focused component=&quot;, log, fprints
+//  focused_component#, hex log, fprints log, fnl
+
+//  &quot;clicked component=&quot;, log, fprints
+//  clicked_component#, hex log, fprints log, fnl
+
+  tt#, repaint
+
+event_loop: 
+
+  if gui_is_running#=0 goto event_loop_exit
+
+  // マウス・キーボード等の状態を読み込んでマウスカーソルの位置を更新する
+  read_input_device
+
+key_event:
+
+  // ESCキー入力があったときは全画面を再描画する
+//  if key_code#=ESC_KEY then desktop, -&gt;Desktop.component repaint gotomouse_event  
+
+  // キー入力があったときにキーボードイベントの処理をする
+  if key_code#=0 goto mouse_event
+
+  // フォーカスされているGUIコンポーネントがあればキーボードイベントを処理する
+  if focused_component#=NULL goto mouse_event
+  
+  // キーボードイベント処理アドレスにジャンプする
+  focused_component#, focused_component#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.key_pressed
+
+mouse_event:
+
+  // マウスボタンの状態が変化したときマウスイベントの割り当てをおこなう
+  if mouse_left#&lt;&gt;mouse_left0#     then  input_client#, dispatch_mouse_event gotomouse_event1
+  if mouse_right#&lt;&gt;mouse_right0# then  input_client#, dispatch_mouse_event gotomouse_event1
+
+mouse_event1:
+  mouse_left#,   mouse_left0#=
+  mouse_right#, mouse_right0#=
+  goto event_loop
+  
+event_loop_exit:
+  save_desktop
+  remove_desktop
+  property_text, remove_textfield
+  property_file,   remove_textfield
+  property_cmd, remove_textfield
+  screen_buffer#, free
+  copy_area#, free
+  font_area#, free
+  cls
+
+// log, wclose
+ 
+  end
+
+</codetext>
+</operation>
+<relation>
+<ID>_R4</ID>
+<pin1name>_PSTART</pin1name>
+<pin2name>_O3</pin2name>
+</relation>
+<codeclip>
+<ID>_C5</ID>
+<x0>357</x0>
+<y0>5</y0>
+<width>559</width>
+<height>387</height>
+<codetext>// 変数一覧
+ long graphic_protocol#
+ long pointer_protocol#
+ long graphic_mode#,graphic_info#,graphic_base#
+ long set_mode#,screen_width#,screen_height#,color#,co#
+ long mouse_reset#,mouse_get_state#
+ long mouse_x#,mouse_y#,mouse_left#,mouse_right#,mouse_mode#,mouse_speed#
+ long mouse_left0#,mouse_right0#,mouse_dx#,mouse_dy#
+ long copy_area#,font_area#,screen_buffer#
+ long gui_is_running#,input_client#,key_code#,key0#
+ long focused_component#,clicked_component#
+ char mouse_cursor$(1024),mouse_cursor_area$(1024),mouse_data$(16)
+
+ count ii#,jj#,ix#,iy#
+ long   x0#,y0#,x1#,y1#,pp#,qq#,rr#
+ long   x2#,x3#,y2#,y3#,ss#,tt#,uu#
+ long   px#,py#,qx#,qy#
+ long   tx#,ty#,rx#,ry#
+ long   vx#,vy#,vx1#,vy1#,flg#
+ long   gx#,gx1#,gx2#,gx3#,gx4#
+ long   gy#,gy1#,gy2#,gy3#,gy4#
+ long   sx#,sx1#,sx2#,sy#,sy1#,sy2#
+ char  fp$(FILE_SIZE)
+
+
+ long max_speed#,quit_key#,mode_key#,speed_key#
+ long left_key#,right_key#,up_key#,down_key#,lclick_key#,rclick_key#
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C6</ID>
+<x0>98</x0>
+<y0>97</y0>
+<width>100</width>
+<height>20</height>
+<codetext>// ラベル
+ class Label
+  long subclass#      // サブクラスへのポインタ
+  long text#             // 表示テキスト
+
+  // イベント拡張
+  long paint#   // 描画処理
+
+  // コンポーネント本体
+  Component component
+ end
+
+// look&amp;feel
+ .data
+lf_label:
+  data paint_label     // paint_component
+  data no_operation  // key_pressed
+  data no_operation  // mouse_lclicked
+  data no_operation  // mouse_rclicked
+  data no_operation  // mouse_lclicked2
+  data no_operation  // mouse_rclicked2
+  data no_operation  // remove_component
+
+
+// ラベルを生成する
+// lbl, subclass, parent, txt, create_label 
+create_label:
+ long lbltxt#,lblprnt#,lblsub#,lbl#
+
+ lbltxt#= pop lblprnt#= pop lblsub#= pop lbl#=
+ lblsub#, lbl#, -&gt;Label.subclass#=
+ no_operation, lbl#, -&gt;Label.paint#=
+ lbltxt#,   lbl#, -&gt;Label.text#=
+ lbl#, -&gt;Label.component com#=
+ com#, lbl#, lblprnt#, lf_label, create_component
+ TYPE_LABEL, com#, -&gt;Component.type#=
+ FALSE, com#, -&gt;Component.is_focusable#=
+ COLOR_BLACK, com#, -&gt;Component.foreground#=
+ COLOR_LIGHT_GRAY, com#, -&gt;Component.background#=
+ LINE_BORDER, com#, -&gt;Component.border#=
+ end
+ 
+
+// ラベルを表示する( 直接呼び出し不可 )
+paint_label:
+  com#= is_visible tt#=
+  if tt#=FALSE then end
+  com#, -&gt;Component.subclass# lbl#=
+
+  // 基盤を描く
+  com#, paint_base
+
+  // 表示テキストを描く
+  com#, -&gt;Component.foreground# set_color
+  com#, -&gt;Component.left#     
+  com#, -&gt;Component.top#
+  com#, -&gt;Component.width#
+  lbl#, -&gt;Label.text#
+  draw_string
+  com#, lbl#, -&gt;@Label.paint
+  end
+
+
+// 表示テキストを設定する
+set_label_text:
+  lbltxt#= pop lbl#=
+  lbltxt#, lbl#, -&gt;Label.text#=
+  lbl#, -&gt;Label.component repaint
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C7</ID>
+<x0>96</x0>
+<y0>124</y0>
+<width>134</width>
+<height>20</height>
+<codetext>// ボタン(アイコン)
+ class Button
+  long   subclass#         // サブクラスへのポインタ 
+  long   text#                // テキスト 
+  long   imagefile#        // 画像ファイル名 
+  long   image#             // 画像 
+  long   command#       // コマンド 
+
+  // イベント拡張 
+  long lclicked#           // 左ボタンクリック
+  long lclicked2#         // 左ボタンクリック2回目
+  long rclicked#           // 右ボタンクリック
+  long paint#              // 描画処理
+
+  // コンポーネントの本体 
+  Component component 
+ end
+
+// look&amp;feel
+ .data
+lf_button:
+  data paint_button             // paint_component
+  data no_operation             // key_pressed
+  data button_lclicked          // mouse_lclicked
+  data button_rclicked         // mouse_rclicked
+  data button_lclicked2        // mouse_lclicked2
+  data no_operation             // mouse_rclicked2
+  data no_operation             // remove_component
+
+
+// ボタンを生成する
+// btn, subclass, parent, txt, create_button 
+create_button:
+ long btntxt#,btnprnt#,btnsub#,btn#
+
+ btntxt#= pop btnprnt#= pop btnsub#= pop btn#=
+ btnsub#, btn#, -&gt;Button.subclass#=
+ no_operation, btn#, -&gt;Button.paint#=
+ no_operation, btn#, -&gt;Button.lclicked#=
+ no_operation, btn#, -&gt;Button.lclicked2#=
+ no_operation, btn#, -&gt;Button.rclicked#=
+ btntxt#,   btn#, -&gt;Button.text#=
+ NULL,   btn#, -&gt;Button.command#=
+ NULL,   btn#, -&gt;Button.image#=
+ btn#, -&gt;Button.component com#=
+ com#, btn#, btnprnt#, lf_button, create_component
+ TYPE_BUTTON, com#, -&gt;Component.type#=
+ FALSE, com#, -&gt;Component.is_focusable#=
+ COLOR_BLACK, com#, -&gt;Component.foreground#=
+ COLOR_LIGHT_GRAY, com#, -&gt;Component.background#=
+ RAISED_BORDER, com#, -&gt;Component.border#=
+ end
+ 
+
+// ボタンを表示する( 直接呼び出し不可 )
+paint_button:
+  long bx#,bw#
+  com#= is_visible tt#=
+  if tt#=FALSE then end
+  com#, -&gt;Component.subclass# btn#=
+
+  // 基盤を描く
+  com#, paint_base
+
+  // 画像を描く
+  com#, -&gt;Component.top# pp#=
+  btn#,  -&gt;Button.image# tt#=
+  if tt#=NULL goto paint_button1
+  com#, -&gt;Component.left#
+  pp#,
+  btn#, -&gt;Button.image#
+  draw_image pp#=
+
+// テキストを描く
+paint_button1:
+  com#, -&gt;Component.foreground# set_color
+  com#, -&gt;Component.left#
+  pp#,
+  com#, -&gt;Component.width#
+  btn#,  -&gt;Button.text#
+  draw_string
+
+  btn#, btn#, -&gt;@Button.paint
+  end
+
+
+// 左クリックで呼ばれる
+button_lclicked:
+  com#=
+  com#, -&gt;Component.subclass# btn#=
+  btn#, btn#, -&gt;@Button.lclicked
+  end
+
+
+// 左クリック2回目で呼ばれる
+button_lclicked2:
+  com#=
+  com#, -&gt;Component.subclass# btn#=
+  btn#, btn#, -&gt;@Button.lclicked2
+  end
+
+
+// 右クリックで呼ばれる
+button_rclicked:
+  com#=
+  com#, -&gt;Component.subclass# btn#=
+  btn#, btn#, -&gt;@Button.rclicked
+  end
+
+
+// 左クリックで呼ばれる関数を設定
+set_button_lclicked:
+  tt#= pop btn#=
+  tt#, btn#, -&gt;Button.lclicked#=
+  end
+
+
+// 左クリック2回目で呼ばれる関数を設定
+set_button_lclicked2:
+  tt#= pop btn#=
+  tt#, btn#, -&gt;Button.lclicked2#=
+  end
+
+
+// 右クリックで呼ばれる関数を設定
+set_button_rclicked:
+  tt#= pop btn#=
+  tt#, btn#, -&gt;Button.rclicked#=
+  end
+
+
+// テキストを設定する
+set_button_text:
+  tt#= pop btn#=
+  tt#, btn#, -&gt;Button.text#=
+  btn#, -&gt;Button.component repaint
+  end
+
+
+// 画像を設定する
+set_button_image:
+  tt#= pop btn#=
+  tt#, btn#, -&gt;Button.image#=
+  btn#, -&gt;Button.component repaint
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C8</ID>
+<x0>95</x0>
+<y0>149</y0>
+<width>141</width>
+<height>20</height>
+<codetext>// チェックボックス
+ class CheckBox
+  long    subclass#         // サブクラスへのポインタ 
+  long    is_selected#     // 選択状態を示す 
+
+  // イベント拡張 
+  long changed#            // 選択状態が変化した 
+  long paint#                 // 描画処理 
+
+  // コンポーネントの本体 
+  Component component 
+ end
+
+// look&amp;feel
+ .data
+lf_checkbox:
+  data paint_checkbox             // paint_component
+  data no_operation                 // key_pressed
+  data checkbox_clicked           // mouse_lclicked
+  data checkbox_clicked           // mouse_rclicked
+  data no_operation                 // mouse_lclicked2
+  data no_operation                 // mouse_rclicked2
+  data no_operation                 // remove_component
+
+// チェックボックスを生成する
+// chk, subclass, parent, create_chrckbox 
+create_checkbox:
+ long chkprnt#,chksub#,chk#
+
+ chkprnt#= pop chksub#= pop chk#=
+ chksub#, chk#, -&gt;CheckBox.subclass#=
+ no_operation, chk#, -&gt;CheckBox.paint#=
+ no_operation, chk#, -&gt;CheckBox.changed#=
+ chk#, -&gt;CheckBox.component com#=
+ com#, chk#, chkprnt#, lf_checkbox, create_component
+ TYPE_CHECKBOX, com#, -&gt;Component.type#=
+ FALSE, com#, -&gt;Component.is_focusable#=
+ COLOR_BLACK, com#, -&gt;Component.foreground#=
+ COLOR_WHITE, com#, -&gt;Component.background#=
+ LOWERD_BORDER, com#, -&gt;Component.border#=
+ end
+ 
+// チェックボックスを表示する( 直接呼び出し不可 )
+paint_checkbox:
+ com#= is_visible tt#=
+ if tt#=FALSE then end
+ com#, -&gt;Component.subclass# chk#=
+
+ // 基盤を描く
+ com#, paint_base
+
+ // 選択状態ならばチェックを描画する
+ chk#, -&gt;CheckBox.is_selected# tt#=
+ if tt#=0 goto paint_checkbox1
+ COLOR_BLACK, set_color
+ com#, -&gt;Component.left# com#, -&gt;Component.right#    + 2, / sx#=
+ com#, -&gt;Component.top# com#, -&gt;Component.bottom# + 2, / sy#=
+ sx#, 4, -  sx1#=
+ sy#, 4, -  sy1#=
+ sx#, 7, + sx1#=
+ sy#, 6, -  sy1#=
+ sx#, sy#, sx1#, sy1#, draw_line
+ sx#, sy#, sx2#, sy2#, draw_line
+
+paint_checkbox1:
+ com#, chk#, -&gt;@CheckBox.paint
+ end
+
+
+// チェックボックスをクリックしたときの処理( 直接呼び出し不可 )
+checkbox_clicked:
+ com#= -&gt;Component.subclass# chk#=
+ 1, chk#, -&gt;CheckBox.is_selected# - chk#, -&gt;CheckBox.is_selected#=
+ chk#, -&gt;@CheckBox.changed
+ com#, repaint
+ end
+
+
+// 状態変化で呼ばれる関数を設定
+set_checkbox_changed:
+ tt#= pop chk#=
+ tt#, chk#, -&gt;CheckBox.changed#=
+ end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C9</ID>
+<x0>96</x0>
+<y0>175</y0>
+<width>144</width>
+<height>20</height>
+<codetext>// ラジオボタン 
+ class RadioButton
+  long     subclass#         // サブクラスへのポインタ 
+  long     is_selected#     // 選択状態を示す 
+
+  // イベント拡張 
+  long changed#             // 選択状態が変化した 
+  long paint#                  // 描画処理 
+
+  // コンポーネントの本体 
+  Component component 
+ end
+
+// look&amp;feel
+ .data
+lf_radiobutton:
+  data paint_radiobutton             // paint_component
+  data no_operation                     // key_pressed
+  data radiobutton_clicked           // mouse_lclicked
+  data radiobutton_clicked           // mouse_rclicked
+  data no_operation                     // mouse_lclicked2
+  data no_operation                     // mouse_rclicked2
+  data no_operation                     // remove_component
+
+// ラジオボタンを生成する
+// rbt, subclass, parent, create_radiobutton 
+create_radiobutton:
+ long rbtprnt#,rbtsub#,rbt#
+
+ rbtprnt#= pop rbtsub#= pop rbt#=
+ rbtsub#, rbt#, -&gt;RadioButton.subclass#=
+ no_operation, rbt#, -&gt;RadioButton.paint#=
+ no_operation, rbt#, -&gt;RadioButton.changed#=
+ rbt#, -&gt;RadioButton.component com#=
+ com#, rbt#, rbtprnt#, lf_radiobutton, create_component
+ TYPE_RADIOBUTTON, com#, -&gt;Component.type#=
+ FALSE, com#, -&gt;Component.is_focusable#=
+ COLOR_BLACK, com#, -&gt;Component.foreground#=
+ COLOR_WHITE, com#, -&gt;Component.background#=
+ NULL_BORDER, com#, -&gt;Component.border#=
+ end
+ 
+// ラジオボタンを表示する( 直接呼び出し不可 )
+paint_radiobutton:
+ com#= is_visible tt#=
+ if tt#=FALSE then end
+ com#, -&gt;Component.subclass# rbt#=
+
+ // 基盤を描く
+ com#, -&gt;Component.background# set_color
+ com#, -&gt;Component.left#
+ com#, -&gt;Component.top#
+ com#, -&gt;Component.right#
+ com#, -&gt;Component.bottom#
+ fill_circle
+ com#, -&gt;Component.foreground# set_color
+ com#, -&gt;Component.left#
+ com#, -&gt;Component.top#
+ com#, -&gt;Component.right#
+ com#, -&gt;Component.bottom#
+ draw_circle
+
+ // 選択状態ならばチェックを描画する
+ rbt#, -&gt;RadioButton.is_selected# tt#=
+ if tt#=0 goto paint_radiobutton1
+ com#, -&gt;Component.foreground# set_color
+ com#, -&gt;Component.left# com#, -&gt;Component.right#    + 2, / sx#=
+ com#, -&gt;Component.top# com#, -&gt;Component.bottom# + 2, / sy#=
+ sx#, 2, -  sx1#=
+ sy#, 2, -  sy1#=
+ sx#, 2, + sx2#=
+ sy#, 2, +  sy2#=
+ sx1#, sy1#, sx2#, sy2#, fill_circle
+
+paint_radiobutton1:
+ com#, rbt#, -&gt;@RadioButton.paint
+ end
+
+
+// ラジオボタンをクリックしたときの処理( 直接呼び出し不可 )
+radiobutton_clicked:
+ com#= -&gt;Component.subclass# rbt#=
+ 1, rbt#, -&gt;RadioButton.is_selected# - chk#, -&gt;RadioButton.is_selected#=
+ rbt#, -&gt;@RadioButton.changed
+ com#, repaint
+ end
+
+
+// 状態変化で呼ばれる関数を設定
+// rbt,  func, set_radiobutton_changed 
+set_radiobutton_changed:
+ tt#= pop rbt#=
+ tt#, rbt#, -&gt;RadioButton.changed#=
+ end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C10</ID>
+<x0>92</x0>
+<y0>199</y0>
+<width>149</width>
+<height>20</height>
+<codetext>// 水平スクロールバー 
+ class  HScrollBar
+  long       subclass#             // サブクラスへのポインタ 
+  long       value#                 // スクロールバーの値 
+  long       min#                   // スクロールバーの最小値 
+  long       max#                  // スクロールバーの最大値 
+  long       handle_size#      // ハンドルの大きさ 
+
+  // イベント拡張 
+  long        changed#           // スクロールバーの値が変化した 
+  long        paint#               // 描画処理 
+
+  // コンポーネント本体 
+  Component component 
+ end
+
+// look&amp;feel
+ .data
+lf_hscrollbar:
+  data paint_hscrollbar            // paint_component
+  data no_operation                 // key_pressed
+  data hscrollbar_clicked          // mouse_lclicked
+  data hscrollbar_clicked          // mouse_rclicked
+  data no_operation                 // mouse_lclicked2
+  data no_operation                 // mouse_rclicked2
+  data no_operation                 // remove_component
+
+
+// チェックボックスを生成する
+// hsb, subclass, parent, create_hscrollbar 
+create_hscrollbar:
+ long hsbprnt#,hsbsub#,hsb#
+
+ hsbprnt#= pop hsbsub#= pop hsb#=
+ hsbsub#, hsb#, -&gt;HScrollBar.subclass#=
+ 0, hsb#, -&gt;HScrollBar.value#=
+ 0, hsb#, -&gt;HScrollBar.min#=
+ 100, hsb#, -&gt;HScrollBar.max#=
+ 10, hsb#, -&gt;HScrollBar.handle_size#=
+ no_operation, hsb#, -&gt;HScrollBar.paint#=
+ no_operation, hsb#, -&gt;HScrollBar.changed#=
+ hsb#, -&gt;HScrollBar.component com#=
+ com#, hsb#, hsbprnt#, lf_hscrollbar, create_component
+ TYPE_HSCROLLBAR, com#, -&gt;Component.type#=
+ FALSE, com#, -&gt;Component.is_focusable#=
+ COLOR_BLACK, com#, -&gt;Component.foreground#=
+ COLOR_LIGHT_GRAY, com#, -&gt;Component.background#=
+ LINE_BORDER, com#, -&gt;Component.border#=
+ end
+ 
+ 
+// スクロールバーを表示する( 直接呼び出し不可 )
+paint_hscrollbar:
+ com#= is_visible tt#=
+ if tt#=FALSE then end
+ com#, -&gt;Component.subclass# hsb#=
+
+ // 基盤を描く
+ com#, paint_base
+
+ hsb#, -&gt;HScrollBar.max# hsb#, -&gt;HScrollBar.min# - pp#=
+ if pp#&lt;0 then  paint_hscrollbar1
+
+ hsb#, -&gt;HScrollBar.value# hsb#, -&gt;HScrollBar.min# - qq#=
+ if qq#&lt;0 then  paint_hscrollbar1
+
+ hsb#, -&gt;HScrollBar.max# hsb#, -&gt;HScrollBar.value# - tt#=
+ if tt#&lt;0 then  paint_hscrollbar1
+
+ qq#, com#, -&gt;Component.width# * pp#, /
+ com#, -&gt;Component.left# + pp#=
+ hsb#, -&gt;HScrollBar.handle_size# + qq#=
+ com#, -&gt;Component.right# - tt#=
+ if tt#&gt;0 then com#, -&gt;Component.right# qq#=
+ com#, -&gt;Component.foreground# set_color
+ pp#,
+ com#, -&gt;Component.top#
+ qq#,
+ com#, -&gt;Component.bottom#
+ fill_rect
+
+paint_hscrollbar1:
+ com#, hsb#, -&gt;@HScrollBar.paint
+ end
+
+
+// チェックボックスをクリックしたときの処理( 直接呼び出し不可 )
+hscrollbar_clicked:
+ com#= -&gt;Component.subclass# hsb#=
+ hsb#, -&gt;HScrollBar.max# hsb#, -&gt;HScrollBar.min# pp#= - qq#= 
+ mouse_x#,  com#, -&gt;Component.left# -  qq#, *
+ com#, -&gt;Component.width# / pp#, + hsb#, -&gt;HScrollBar.value#= 
+ hsb#, -&gt;@HScrollBar.changed
+ com#, repaint
+ end
+
+
+// 状態変化で呼ばれる関数を設定
+set_hscrollbar_changed:
+ tt#= pop hsb#=
+ tt#, hsb#, -&gt;HScrollBar.changed#=
+ end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C11</ID>
+<x0>88</x0>
+<y0>224</y0>
+<width>151</width>
+<height>18</height>
+<codetext>// 垂直スクロールバー 
+ class  VScrollBar
+  long       subclass#             // サブクラスへのポインタ 
+  long       value#                 // スクロールバーの値 
+  long       min#                   // スクロールバーの最小値 
+  long       max#                  // スクロールバーの最大値 
+  long       handle_size#      // ハンドルの大きさ 
+
+  // イベント拡張 
+  long        changed#          // スクロールバーの値が変化した 
+  long        paint#               // 描画処理 
+
+  // コンポーネント本体 
+  Component component 
+ end
+
+// look&amp;feel
+ .data
+lf_vscrollbar:
+  data paint_vscrollbar            // paint_component
+  data no_operation                 // key_pressed
+  data vscrollbar_clicked          // mouse_lclicked
+  data vscrollbar_clicked          // mouse_rclicked
+  data no_operation                 // mouse_lclicked2
+  data no_operation                 // mouse_rclicked2
+  data no_operation                 // remove_component
+
+
+// チェックボックスを生成する
+// vsb, subclass, parent, create_vscrollbar 
+create_vscrollbar:
+ long vsbprnt#,vsbsub#,vsb#
+
+ vsbprnt#= pop vsbsub#= pop vsb#=
+ vsbsub#, vsb#, -&gt;VScrollBar.subclass#=
+ 0, vsb#, -&gt;VScrollBar.value#=
+ 0, vsb#, -&gt;VScrollBar.min#=
+ 100, vsb#, -&gt;VScrollBar.max#=
+ 10, vsb#, -&gt;VScrollBar.handle_size#=
+ no_operation, vsb#, -&gt;VScrollBar.paint#=
+ no_operation, vsb#, -&gt;VScrollBar.changed#=
+ vsb#, -&gt;VScrollBar.component com#=
+ com#, vsb#, vsbprnt#, lf_vscrollbar, create_component
+ TYPE_VSCROLLBAR, com#, -&gt;Component.type#=
+ FALSE, com#, -&gt;Component.is_focusable#=
+ COLOR_BLACK, com#, -&gt;Component.foreground#=
+ COLOR_LIGHT_GRAY, com#, -&gt;Component.background#=
+ LINE_BORDER, com#, -&gt;Component.border#=
+ end
+ 
+ 
+// スクロールバーを表示する( 直接呼び出し不可 )
+paint_vscrollbar:
+ com#= is_visible tt#=
+ if tt#=FALSE then end
+ com#, -&gt;Component.subclass# vsb#=
+
+ // 基盤を描く
+ com#, paint_base
+
+ vsb#, -&gt;VScrollBar.max# vsb#, -&gt;VScrollBar.min# - pp#=
+ if pp#&lt;0 then  paint_vscrollbar1
+
+ vsb#, -&gt;VScrollBar.value# vsb#, -&gt;VScrollBar.min# - qq#=
+ if qq#&lt;0 then  paint_vscrollbar1
+
+ vsb#, -&gt;VScrollBar.max# vsb#, -&gt;VScrollBar.value# - tt#=
+ if tt#&lt;0 then  paint_vscrollbar1
+
+ qq#, com#, -&gt;Component.height# * pp#, /
+ com#, -&gt;Component.top# + pp#=
+ hsb#, -&gt;HScrollBar.handle_size# + qq#=
+ com#, -&gt;Component.bottom# - tt#=
+ if tt#&gt;0 then com#, -&gt;Component.bottom# qq#=
+ com#, -&gt;Component.foreground# set_color
+ com#, -&gt;Component.left#
+ pp#,
+ com#, -&gt;Component.right#
+ qq#,
+ fill_rect
+
+paint_vscrollbar1:
+ com#, vsb#, -&gt;@VScrollBar.paint
+ end
+
+
+// チェックボックスをクリックしたときの処理( 直接呼び出し不可 )
+vscrollbar_clicked:
+ com#= -&gt;Component.subclass# vsb#=
+ vsb#, -&gt;VScrollBar.max# vsb#, -&gt;VScrollBar.min# pp#= - qq#= 
+ mouse_y#,  com#, -&gt;Component.top# -  qq#, *
+ com#, -&gt;Component.height# / pp#, + vsb#, -&gt;VScrollBar.value#= 
+ vsb#, -&gt;@VScrollBar.changed
+ com#, repaint
+ end
+
+
+// 状態変化で呼ばれる関数を設定
+set_vscrollbar_changed:
+ tt#= pop vsb#=
+ tt#, vsb#, -&gt;VScrollBar.changed#=
+ end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C12</ID>
+<x0>91</x0>
+<y0>251</y0>
+<width>167</width>
+<height>19</height>
+<codetext>// １行テキストボックス 
+ class TextField
+  long   subclass#      // サブクラスへのポインタ 
+  long   text#             // 編集テキスト 
+  long   display_pos# // テキスト上の表示ポイント 
+  long   edit_pos#      // テキスト上の編集ポイント 
+
+  // イベント拡張 
+  long   input#              // テキスト編集時にEnterキーが押された 
+  long   paint#              // 描画処理 
+
+  // コンポーネント本体
+  Component component
+ end
+
+// look&amp;feel
+ .data
+lf_textfield:
+  data paint_textfield    // paint_component
+  data textfield_input    // key_pressed
+  data textfield_clicked  // mouse_lclicked
+  data no_operation       // mouse_rclicked
+  data no_operation       // mouse_lclicked2
+  data no_operation       // mouse_rclicked2
+  data no_operation       // remove_component
+
+// 最大文字数
+  const TEXTFIELD_MAX 255
+
+// キャレットの大きさ
+ const CARET_SIZE 12
+
+// キャレットの位置シフト
+ const CARET_SHIFTX  2
+ const CARET_SHIFTY  3
+
+ long pp0#,qq0#,rr0#,ss0#,tt0#,uu0#
+
+// テキストフィールドを生成する
+// fld, subclass, parent, txt, create_textfield 
+create_textfield:
+  long fldtxt#,fldprnt#,fldsub#,fld#
+
+  fldtxt#= pop fldprnt#= pop fldsub#= pop fld#=
+  fldsub#, fld#, -&gt;TextField.subclass#=
+  no_operation, fld#, -&gt;TextField.paint#=
+  no_operation, fld#, -&gt;TextField.input#=
+  TEXTFIELD_MAX+1, malloc tt0#=
+  fldtxt#, tt0#, TEXTFIELD_MAX, strncpy
+  tt0#, fld#, -&gt;TextField.text#=
+  0, fld#, -&gt;TextField.display_pos#=
+  0, fld#, -&gt;TextField.edit_pos#=
+  fld#, -&gt;TextField.component com#=
+  com#, fld#, fldprnt#, lf_textfield, create_component
+  TYPE_TEXTFIELD, com#, -&gt;Component.type#=
+  TRUE, com#, -&gt;Component.is_focusable#=
+  COLOR_BLACK, com#, -&gt;Component.foreground#=
+  COLOR_WHITE, com#, -&gt;Component.background#=
+  LOWERD_BORDER, com#, -&gt;Component.border#=
+  end
+ 
+
+// テキストフィールドを削除する
+// fld,  remove_textfield 
+remove_textfield:
+  fld#= -&gt;TextField.component com#=
+  com#, remove_component
+  fld#, -&gt;TextField.text# tt0#=
+  tt0#, free
+  end
+
+
+// テキストフィールドを表示する( 直接呼び出し不可 )
+paint_textfield:
+  com#=
+  
+//  &quot;paint textfield&quot;, log, fprints log, fnl
+  
+  com#, is_visible tt0#=
+  if tt0#&lt;&gt;FALSE goto paint_textfield1
+  if focused_component#=com# then NULL, focused_component#=
+  end
+paint_textfield1:
+  com#, -&gt;Component.subclass# fld#=
+
+  // 基盤を描く
+  com#, paint_base
+
+  // 表示テキストを求める
+  fld#, -&gt;TextField.text#  fld#, -&gt;TextField.display_pos# + pp0#=
+
+  // テキスト表示開始位置を求める
+  com#, -&gt;Component.left#  qq0#=
+
+  // テキスト表示終了位置を求める
+  com#, -&gt;Component.right#  FONT_WIDTH, - rr0#=
+
+//  &quot;display pos: &quot;, log, fprints
+//  fld#, -&gt;TextField.display_pos# log, fprintd
+// log, fnl
+//  &quot;display-range: &quot;, log, fprints
+//  qq0#, log, fprintd
+//  &quot;-&quot;, log, fprints
+//  rr0#, log, fprintd
+// log, fnl
+//  &quot;string1: &quot;, log, fprints
+//  fld#, -&gt;TextField.text# log, fprints
+// log, fnl
+//  &quot;string2: &quot;, log, fprints
+//  pp0#, log, fprints
+// log, fnl
+
+
+  // テキストを描く
+  com#, -&gt;Component.foreground# set_color
+paint_textfield2:
+  if  qq0#&gt;rr0# goto paint_textfield3
+  qq0#, com#, -&gt;Component.top# (pp0)$, draw_font
+  qq0#, FONT_WIDTH, + qq0#=
+
+//  &quot;draw &quot;, log, fprints
+//  (pp0)$, log, putc
+//   log, fnl
+
+
+  pp0#++
+  if  (pp0)$&lt;&gt;NULL goto paint_textfield2
+  
+// フォーカスがあたっているときは編集ポイントにキャレットを描画する
+paint_textfield3:
+  if com#&lt;&gt;focused_component# goto paint_textfield4
+  
+//  &quot;focused!&quot;, log, fprints log, fnl
+//  &quot;lf_textfield=&quot;, log, fprints lf_textfield, hex log, fprints
+//  log, fnl
+//  &quot;textfield_input=&quot;, log, fprints textfield_input, hex log, fprints
+//  log, fnl
+  
+  
+    fld#, -&gt;TextField.edit_pos# fld#, -&gt;TextField.display_pos# - FONT_WIDTH, * 
+    com#, -&gt;Component.left# + CARET_SHIFTX, + pp0#=
+    com#, -&gt;Component.top#     CARET_SHIFTY, + qq0#= CARET_SIZE, + rr0#=
+    pp0#, qq0#, pp0#, rr0#, draw_line 
+paint_textfield4:
+  fld#, fld#, -&gt;@TextField.paint
+  end
+
+
+// フォーカスを得た状態でキーが押されたときの処理( 直接呼び出し不可 )
+// (キーボード編集)
+textfield_input:
+  com#= is_visible tt0#=
+  if tt0#=FALSE then NULL, focused_component#= end  // 不可視J状態になったときはフォーカスを外して終了する
+  com#, -&gt;Component.subclass# fld#=
+
+//  &quot;textfield key input&quot;, log, fprints log, fnl
+
+     fld#, -&gt;TextField.text# xstrlen qq0#=                             // テキストの長さを求める
+     com#, -&gt;Component.width# FONT_WIDTH, / 1, - rr0#= // 表示桁数-1を求める
+
+     // 右矢印キーが押されたときの処理
+     textfield_input1:
+       if key_code#&lt;&gt;RIGHT_KEY goto textfield_input2
+       fld#, -&gt;TextField.edit_pos#  1, + tt0#=
+       if tt0#&gt;qq0# then qq0#, tt0#=
+       tt0#,  fld#, -&gt;TextField.edit_pos#=
+       tt0#,  rr0#, - ss0#= 
+       fld#, -&gt;TextField.display_pos#  uu0#=
+       if uu0#&lt;ss0# then ss0#,  fld#, -&gt;TextField.display_pos#=
+       goto textfield_input10
+
+     // 左矢印キーが押されたときの処理
+     textfield_input2:
+       if key_code#&lt;&gt;LEFT_KEY goto textfield_input3
+       fld#, -&gt;TextField.edit_pos#  1, - tt0#=
+       if tt0#&lt;0 then 0, tt0#=
+       tt0#, fld#, -&gt;TextField.edit_pos#=
+       fld#, -&gt;TextField.display_pos# pp0#=
+       if tt0#&lt;pp0# then tt0#, pp0#=
+       pp0#, fld#, -&gt;TextField.display_pos#=
+       goto textfield_input10
+
+     // 上矢印キーが押されたときの処理
+     textfield_input3:
+       if key_code#&lt;&gt;UP_KEY goto textfield_input4
+       0, fld#, -&gt;TextField.edit_pos#=
+       0, fld#, -&gt;TextField.display_pos#=
+       goto textfield_input10
+
+     // 下矢印キーが押されたときの処理
+     textfield_input4:
+       if key_code#&lt;&gt;DOWN_KEY goto textfield_input5
+       qq0#, fld#, -&gt;TextField.edit_pos#=
+       qq0#,  rr0#, - ss0#=
+       fld#, -&gt;TextField.display_pos#  uu0#=
+       if uu0#&lt;ss0# then ss0#,  fld#, -&gt;TextField.display_pos#=
+       goto textfield_input10
+
+     // BS キーが押されたときの処理
+     textfield_input5:
+       if key_code#&lt;&gt;BS_KEY goto textfield_input7
+       if qq0#&lt;1 goto textfield_input10
+
+       // テキストから１文字削除
+       fld#, -&gt;TextField.edit_pos# uu0#=
+       uu0#--
+       if uu0#&lt;0 then 0, uu0#=
+       uu0#, fld#, -&gt;TextField.edit_pos#=
+       fld#, -&gt;TextField.display_pos#   pp0#=
+       if uu0#&lt;pp0# then uu0#, fld#, -&gt;TextField.display_pos#=
+       fld#, -&gt;TextField.text# uu0#, + ss0#= 
+       fld#, -&gt;TextField.text# qq0#, + tt0#= 
+       textfield_input6:
+       (ss0)$(1), (ss0)$=
+       ss0#++
+       if ss0#&lt;tt0# goto textfield_input6 
+       goto textfield_input10
+
+     // Enter キーが押されたときの処理
+     textfield_input7:
+       if key_code#&lt;&gt;ENTER_KEY goto textfield_input8
+
+       // イベント処置
+       fld#, fld#, -&gt;@TextField.input 
+       goto textfield_input10
+
+     // 上記以外のキー(通常の文字)が押されたときの処理
+     textfield_input8:
+
+       // テキストのサイズが余裕がないときは何もしない
+       if qq0#&gt;=TEXTFIELD_MAX  goto textfield_input10
+
+       // 編集ポイントに１文字挿入
+       fld#, -&gt;TextField.text# qq0#, + ss0#=
+       fld#, -&gt;TextField.text# fld#, -&gt;TextField.edit_pos# pp0#= + tt0#=
+       textfield_input9:
+       (ss0)$, (ss0)$(1)=
+       ss0#--
+       if ss0#&gt;=tt0# goto textfield_input9
+       if key_code+2%&gt;=&apos; &apos; then key_code+2%,  (ss0)$(1)=  // 入力した文字を編集ポイントに挿入する
+       pp0#++
+       pp0#, fld#, -&gt;TextField.edit_pos#= 
+       pp0#, rr0#, - ss0#= 
+       fld#, -&gt;TextField.display_pos#  uu0#=
+       if uu0#&lt;ss0# then ss0#,  fld#, -&gt;TextField.display_pos#=
+       
+     textfield_input10:
+       com#, repaint
+       end
+
+
+// テキストボックスをクリックしたときの処理( 直接呼び出し不可 )
+// (フォーカスとキャレットを移動させる)
+textfield_clicked:
+  com#= -&gt;Component.subclass# fld#=
+  fld#, -&gt;TextField.text# xstrlen qq0#=                             // テキストの長さを求める
+
+//  &quot;textfield clicked&quot;, log, fprints log, fnl
+
+  com#, focused_component#=       //       log_focus
+
+  // マウスカーソルがある桁を求める
+  mouse_x#, com#, -&gt;Component.left# - FONT_WIDTH, / 
+  fld#, -&gt;TextField.display_pos# +  pp0#=
+  if pp0#&gt;qq0# then qq0#, pp0#=
+  pp0#, fld#, -&gt;TextField.edit_pos#=
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// 入力完了で呼ばれる関数を設定
+set_textfield_input:
+ tt0#= pop fld#=
+ tt0#, fld#, -&gt;TextField.input#=
+ end
+
+
+// 表示テキストを設定する
+set_textfield_text:
+  fld#= pop fldtxt#=
+  fld#, -&gt;TextField.text# tt0#=
+  fldtxt#, tt0#, TEXTFIELD_MAX, strncpy
+  0, fld#, -&gt;TextField.edit_pos#=
+  0, fld#, -&gt;TextField.display_pos#=
+//  fld#, -&gt;TextField.component repaint
+  end
+
+
+
+
+xstrlen:
+  long xxx#,yyy#
+  xxx#=
+  0, yyy#=
+xstrlen1:
+  if (xxx)$=NULL then yyy#, end
+  if yyy#&gt;255 then 255, end
+  xxx#++
+  yyy#++
+  goto xstrlen1
+     
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C19</ID>
+<x0>94</x0>
+<y0>38</y0>
+<width>110</width>
+<height>20</height>
+<codetext>// 描画関数
+// グラフィック画面を初期化する
+init_screen:
+/ rcx=graphic_protocol/
+/ rcx=(rcx)/
+/ rdx=rdi/
+/ rax=set_mode/
+/ rax=(rax)/
+/ call (rax)/
+  end
+
+
+// マウスを初期化する
+init_mouse:
+/ rcx=pointer_protocol/
+/ rcx=(rcx)/
+/ rdx=0/
+/ rax=mouse_reset/
+/ rax=(rax)/
+/ call (rax)/
+  end
+
+
+// 入力デバイスの状態を読み取る
+read_input_device:
+  0, mouse_left#= mouse_right#= mouse_dx#= mouse_dy#= key_code#=
+  inkey key0#=
+  if key0#=quit_key# then 0, gui_is_running#= end                       // 終了
+  if key0#=mode_key# then 1, mouse_mode#, - mouse_mode#=    // マウス・キーボードの切り替え
+  if mouse_mode#=0 goto get_keyboad_mouse
+  
+// マウスの状態を読み込む
+/ rcx=pointer_protocol/
+/ rcx=(rcx)/
+/ rdx=mouse_data/
+/ rax=mouse_get_state/
+/ rax=(rax)/
+/ call (rax)/
+/ rdi=rax/
+  tt#=
+  if tt#&lt;&gt;0 then 1, mouse_mode#= gotoget_keyboad_mouse // エラーが出たときはキーボードマウスを有効にする
+  
+  // マウスのデータを読み込む
+  mouse_data+MOUSE_X!, MOUSE_SENSIVITY, / mouse_dx#=
+  mouse_data+MOUSE_Y!, MOUSE_SENSIVITY, / mouse_dy#=
+  mouse_data+MOUSE_LEFT$,   mouse_left#=
+  mouse_data+MOUSE_RIGHT$, mouse_right#=
+  goto set_cursor_position
+
+// キーボードマウス
+get_keyboad_mouse:
+  if key0#=0 then 0, end
+  if key0#=speed_key# then max_speed#, mouse_speed#, - mouse_speed#= // カーソル移動速度の切り替え
+  if key0#=up_key#     then 0, mouse_speed#, - mouse_dy#=   //  マウスカーソルの移動
+  if key0#=down_key# then mouse_speed#, mouse_dy#=
+  if key0#=right_key#  then mouse_speed#, mouse_dx#=
+  if key0#=left_key#    then 0, mouse_speed#, -   mouse_dx#=
+  if key0#=lclick_key#  then 1, mouse_left#=      // 左クリック
+  if key0#=rclick_key#  then 1, mouse_right#=  // 右クリック
+
+// マウスカーソルの位置(とキーコード)を設定する
+set_cursor_position:
+  key0#, key_code#=
+  restore_cursor_area
+  mouse_x#, mouse_dx#, + mouse_x#=
+  mouse_y#, mouse_dy#, + mouse_y#=
+  if mouse_x#&lt;0 then 0, mouse_x#=
+  if mouse_x#&gt;=screen_width#  then screen_width#,  1, - mouse_x#=
+  if mouse_y#&lt;0 then 0, mouse_y#=
+  if mouse_y#&gt;=screen_height# then screen_height#, 1, - mouse_y#=
+  save_cursor_area
+  draw_cursor
+  end
+
+
+// マウスカーソル領域を復帰する
+restore_cursor_area:
+  mouse_x#, x0#= CURSOR_SIZE-1, + x1#=
+  if x1#&gt;=screen_width#  then screen_width#,  1, - x1#= 
+  mouse_y#, y0#= CURSOR_SIZE-1, + y1#=
+  if y1#&gt;=screen_height# then screen_height#, 1, - y1#= 
+  mouse_cursor_area, qq#=
+  for ii#=y0# to y1#
+    for jj#=x0# to x1#
+      ii#, screen_width#, * jj#, +
+      4, * graphic_base#, + pp#=
+      (qq)!, (pp)!=
+      qq#, 4, + qq#=
+    next jj#
+  next ii#
+  end
+
+  
+// マウスカーソル領域を退避する
+save_cursor_area:
+  mouse_x#, x0#= CURSOR_SIZE-1, + x1#=
+  if x1#&gt;=screen_width#  then screen_width#,  1, - x1#= 
+  mouse_y#, y0#= CURSOR_SIZE-1, + y1#=
+  if y1#&gt;=screen_height# then screen_height#, 1, - y1#= 
+  mouse_cursor_area, qq#=
+  for ii#=y0# to y1#
+    for jj#=x0# to x1#
+      ii#, screen_width#, * jj#, +
+      4, * graphic_base#, + pp#=
+      (pp)!, (qq)!=
+      qq#, 4, + qq#=
+    next jj#
+  next ii#
+  end
+
+
+// マウスカーソルを描く
+draw_cursor:
+  mouse_x#, x2#= CURSOR_SIZE-1, + x3#=
+  if x3#&gt;=screen_width#  then screen_width#,   1, - x3#= 
+  mouse_y#, y2#= CURSOR_SIZE-1, + y3#=
+  if y3#&gt;=screen_height# then screen_height#, 1, - y3#= 
+  for ii#=y2# to y3#
+    for jj#=x2# to x3#
+      ii#, y2#, - CURSOR_SIZE, * jj#, +
+       x2#, -  4, * mouse_cursor, + qq#=
+      ii#, screen_width#, * jj#, +
+      4, * graphic_base#, + pp#=
+      (qq)!,  0xff000000, and tt#= 
+      if tt#=0 then (qq)!, (pp)!=  // 最上位の8ビットが0でないときは透明色とする
+    next jj#
+  next ii#
+  end
+
+  
+// マウスカーソルをロード
+load_cursor:
+  CURSOR_SIZE, CURSOR_SIZE, * 4, * pp#=
+  &quot;cursor.dat&quot;, fp, ropen qq#=
+  if qq#=ERROR then -1, end
+  pp#, mouse_cursor, fp, _read
+  fp, rclose 
+  0, end
+
+  
+// フォントをロード
+load_font:
+  FONT_WIDTH, FONT_HEIGHT, * 256, * pp#=
+  &quot;font.dat&quot;, fp, ropen qq#=
+  if qq#=ERROR then -1, end
+  pp#, font_area#, fp, _read
+  fp, rclose 
+  0, end
+
+  
+// 描画色をセット
+set_color:
+  color#=
+  end
+  
+
+// 描画色を得る
+get_color:
+  color#,
+  end
+
+// スクリーンバッファを描画する
+_disp:
+  screen_width#, screen_height#, * 1, - ii#=
+_disp1:
+  (screen_buffer)!(ii#), (graphic_base)!(ii#)=
+  ii#--
+  if ii#&gt;=0 goto _disp1
+  save_cursor_area
+  draw_cursor
+  end
+
+
+// 画面を指定した色で塗りつぶす
+gcls:
+  pp#=
+  screen_width#, screen_height#, * 1, - ii#=
+gcls1:
+  pp#, (screen_buffer)!(ii#)=
+  ii#--
+  if ii#&gt;=0 goto gcls1
+  _disp
+  end
+
+
+// 点を打つ
+draw_point:
+  py#= pop px#=
+  if color#=COLOR_CLEAR then end
+  py#, screen_width#, * px#, +
+  4, * screen_buffer#, + pp#=
+//  4, * graphic_base#, + pp#=
+  color#, (pp)!=
+  end
+
+
+// 与えられた座標の色を返す
+get_point:
+  py#= pop px#=
+  py#, screen_width#, * px#, +
+  4, * screen_buffer#, + pp#=
+  (pp)!,  end
+
+  
+// 線を引く
+// 使用法: gx, gy, gx1, gy1, draw_line
+draw_line:
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if color#=COLOR_CLEAR then end
+
+line:
+  gx#, gx1#, - tx#= abs rx#=
+  gy#, gy1#, - ty#= abs ry#=
+  if ry#&gt;rx# goto line_y
+  if gx#=gx1# then gx#, gy#, draw_point end
+  
+  // モードX
+  line_x:
+    1, rx#=
+    if tx#&lt;0  then -1, rx#=
+    for ix#=0 to tx# step rx#
+      ix#, ty#,  * tx#, / gy1#, + ry#=
+      ix#, gx1#, + ry#, draw_point
+    next ix#
+    end
+    
+  line_y: /* モード　ｙ */
+    1, ry#=
+    if ty#&lt;0  then -1, ry#=
+    for iy#=0 to ty# step ry#
+      iy#, tx#,  * ty#, / gx1#, + rx#=
+      iy#, gy1#, + rx#, swap draw_point
+    next iy#
+    end
+    
+// 長方形を描いてうめる
+// 使用法: gx, gy, gx1, gy1, fill_rect
+fill_rect: 
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if color#=COLOR_CLEAR then end
+
+// &quot;fill rect:&quot;, log, fprints log, fnl
+
+  1, rx#= ry#=
+  if gy#&lt;gy1# then -1, ry#=
+  if gx#&lt;gx1# then -1, rx#=
+  for iy#=gy1# to gy# step ry#
+    for ix#=gx1# to gx# step rx#
+      ix#,  iy#, draw_point
+    next ix#
+  next iy#
+  end
+
+// 長方形を描く
+// 使用法: gx, gy, gx1, gy1, draw_rect
+draw_rect: 
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if color#=COLOR_CLEAR then end
+  1, rx#= ry#=
+  if gy#&lt;gy1# then -1, ry#=
+  if gx#&lt;gx1# then -1, rx#=
+  for ix#=gx1# to gx# step rx#
+    ix#, gy#,  draw_point
+    ix#, gy1#, draw_point
+  next ix#
+  for iy#=gy1# to gy# step ry#
+    gx#,  iy#, draw_point
+    gx1#, iy#, draw_point
+  next iy#
+  end
+  
+// 楕円を描いてうめる
+// 使用法: gx, gy, gx1, gy1, fill_circle
+fill_circle:
+  draw_circle
+  ox1#, oy1#, paint
+  end
+
+// 楕円を描く
+// 使用法: gx, gy, gx1, gy1, draw_circle
+draw_circle:
+  long ox1#,oy1#
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if color#=COLOR_CLEAR then end
+  gx#,  vx#=  gy#,  vy#=
+  gx1#, vx1#= gy1#, vy1#=
+  if gx1#&gt;gx# then gx1#, gx#, swap gx#= swap gx1#=
+  if gy1#&gt;gy# then gy1#, gy#, swap gy#= swap gy1#=
+  gx#, gx1#, + 2, / ox1#=
+  gy#, gy1#, + 2, / oy1#=
+  gx#, gx1#, - 2, / qx#=
+  if qx#=0 then line end
+  gy#, gy1#, - 2, / qy#=
+  if qy#=0 then line end
+  gx#, gx1#=  oy1#, gy1#=
+  for ii#=0 to TABLE_N
+    qx#, cos2table#(ii#), * 32767, / ox1#, + gx#=
+    qy#, sin2table#(ii#), * 32767, / oy1#, + gy#=
+    line
+    gx#, gx1#= gy#, gy1#=
+  next ii#
+  end
+
+
+// 三角形を描いてうめる
+// 使用法: sx, sy, sx1, sy1, sx2, sy2, fill_triangle
+fill_triangle:
+  draw_triangle
+  trx#, trx1#, + trx2#, + 3, / trx#= 
+  try#, try1#, + try2#, + 3, / try#= 
+  trx#, try#, paint
+  end
+
+
+// 三角形を描く
+// 使用法: sx, sy, sx1, sy1, sx2, sy2, draw_triangle
+draw_triangle:
+  long trx#,try#,trx1#,try1#,trx2#,try2#
+  try2#= pop trx2#= pop
+  try1#= pop trx1#= pop
+  try#=   pop trx#=
+  if color#=COLOR_CLEAR then end
+  trx#, try#, trx1#, try1#, draw_line
+  trx1#, try1#, trx2#, try2#, draw_line
+  trx2#, try2#, trx#, try#, draw_line
+  end
+
+
+// 塗る
+paint:
+  const Q_SIZE   4096
+  long   q_buf#(Q_SIZE)
+  long   put_p#,get_p#
+  
+  gy#= pop gx#=
+  if color#=COLOR_CLEAR then end
+  0, put_p#= get_p#=
+  gx#, gy#, get_point co#=
+  if co#=color# then end
+  gx#, gy#, put_pset
+
+  paint1:  // うった点の座標を求める
+    if get_p#=put_p# then end
+    q_buf#(get_p#), vx#=   get_p#++
+    q_buf#(get_p#), vy#=   get_p#++
+    if get_p#&gt;=Q_SIZE then 0, get_p#=
+
+    // うった点の四方にまた点をうつ
+    vx#, 1, + vy#, put_pset
+    vx#, 1,  - vy#, put_pset
+    vy#, 1, + vx#, swap put_pset
+    vy#, 1,  -  vx#, swap put_pset
+  goto paint1
+  
+  //  点をうってその座標を記録する
+  put_pset:
+    qy#= pop qx#=
+    if qx#&lt;0     then end  // 範囲外ならしない
+    if qx#&gt;=screen_width#  then end
+    if qy#&lt;0     then end
+    if qy#&gt;=screen_height# then end
+    qx#, qy#, get_point co#=
+    if co#=color# then end // すでに点がうってあるときもしない
+    qx#, qy#, draw_point
+    qx#, q_buf#(put_p#)=  put_p#++
+    qy#, q_buf#(put_p#)=  put_p#++
+    if put_p#&gt;=Q_SIZE then 0, put_p#=
+    end
+
+
+// 画像を描画
+// 使用法: gx, gy, address, draw_image
+draw_image:
+  qq#= pop gy#= pop gx#=
+  (qq)!, rx#=
+  qq#, 4, + qq#=
+  (qq)!, ry#=
+  qq#, 4, + qq#=
+  gx#, rx#, + 1, - gx1#=
+  gy#, ry#, + 1, - gy1#=
+  for ii#=gy# to gy1#
+    for jj#=gx# to gx1#
+      ii#, screen_width#, * jj#, +
+      4, * screen_buffer#, + pp#=
+      if (qq)$(3)=0 then (qq)!, (pp)!=
+      qq#, 4, + qq#=
+    next jj#
+  next ii#
+  ii#, end
+    
+
+// コピーエリアに画像をコピー
+// 使用法: gx, gy, gx1, gy1, copy_image
+copy_image:
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if gx1#&gt;=screen_width#  then screen_width#,  1, - gx1#= 
+  if gy1#&gt;=screen_height# then screen_height#, 1, - gy1#= 
+  copy_area#, qq#=
+  gx1#, gx#, - 1, + (qq)!=
+  qq#, 4, + qq#=
+  gy1#, gy#, - 1, + (qq)!=
+  qq#, 4, + qq#=
+  for ii#=gy# to gy1#
+    for jj#=gx# to gx1#
+      ii#, screen_width#, * jj#, +
+      4, * screen_buffer#, + pp#=
+      (pp)!, (qq)!=
+      qq#, 4, + qq#=
+    next jj#
+  next ii#
+  end
+
+
+// コピーエリアから貼り付ける
+// 使用法: gx, gy, paste_image
+paste_image:
+  copy_area#, draw_image
+  end
+    
+
+// 画像をロード
+// 使用法:  fname, load_image address#=
+load_image:
+  char image_fp$(FILE_SIZE)
+  long fnm#
+
+  fnm#=
+
+// &quot;load image:&quot;, log, fprints
+// fnm#, log, fprints log, fnl
+
+  fnm#, image_fp, ropen tt#=
+  if tt#=ERROR then NULL, end
+  4, sx, image_fp, _read
+  4, sy, image_fp, _read
+
+//  &quot;width=&quot;,     log, fprints sx!, log, fprintd
+//  &quot;, height=&quot;, log, fprints sy!, log, fprintd log, fnl
+  
+  sx!, sy!, *  4, * tt#=
+  8, +  malloc pp#=
+  sx!, (pp)!(0)=   sy!, (pp)!(1)= 
+  pp#, 8, + qq#=
+  tt#, qq#,  image_fp, _read
+  image_fp, rclose
+  
+// &quot;load image end&quot;, log, fprints log, fnl
+  
+  pp#, end
+
+  
+// 画像をセーブ
+// 使用法: address, fname, save_image
+save_image:
+  pp#= pop qq#=
+  pp#, fp, wopen tt#=
+  if tt#=ERROR then ERROR, end
+  qq#, 4, + tt#=
+  4, qq#, fp, _write
+  4, tt#,  fp, _write
+  (qq)!, (tt)!, *  4, * tt#=
+  qq#, 8, + qq#=
+  tt#, qq#, fp, _write
+  fp, wclose
+  0, end
+
+  
+// 文字列描画
+draw_string:
+  long dsx#,dsy#,dsw#,dss#,dsr#
+  dss#= pop dsw#= pop dsy#= pop dsx#=
+  if color#=COLOR_CLEAR then end
+  dsx#, dsw#, + FONT_WIDTH, - dsw#=
+  draw_string1:
+    if (dss)$=NULL then end
+    dsx#, dsy#, (dss)$, draw_font dsr#=
+    dsx#, FONT_WIDTH, + dsx#=
+    dss#++
+  if dsx#&lt;dsw# goto draw_string1
+  dsr#, end
+
+
+// 1文字描画
+draw_font:
+  pp#= pop ty#= pop tx#=
+  pp#, FONT_WIDTH, * FONT_HEIGHT, * font_area#, + qq#=
+  tx#, FONT_WIDTH-1,  + rx#=
+  ty#, FONT_HEIGHT-1, + ry#=
+  for ii#=ty# to ry#
+     for jj#=tx# to rx#
+        if (qq)$&lt;&gt;0 then jj#, ii#, draw_point
+        qq#++
+     next jj#
+  next ii#
+  ii#, end
+
+
+ .data
+
+// グラフィックAPIのガイド
+graphic_guid:
+ data 0x4a3823dc9042a9de
+ data 0x6a5180d0de7afb96
+
+// マウスAPIのガイド
+pointer_guid:
+ data 0x11d50b7531878c87
+ data 0x4dc13f2790004f9a
+
+ .data
+ 
+// 三角関数テーブル
+  const TABLE_N 256 // 区分点 （全データ数＝３２１）
+sin2table: // ｆ（ｘ）＝３２７６７＊ｓｉｎ（ｘ）
+  data 0,804,1607,2410
+  data 3211,4011,4807,5601
+  data 6392,7179,7961,8739
+  data 9511,10278,11038,11792
+  data 12539,13278,14009,14732
+  data 15446,16150,16845,17530
+  data 18204,18867,19519,20159
+  data 20787,21402,22004,22594
+  data 23169,23731,24278,24811
+  data 25329,25831,26318,26789
+  data 27244,27683,28105,28510
+  data 28897,29268,29621,29955
+  data 30272,30571,30851,31113
+  data 31356,31580,31785,31970
+  data 32137,32284,32412,32520
+  data 32609,32678,32727,32757
+cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
+  data 32767,32757,32727,32678
+  data 32609,32520,32412,32284
+  data 32137,31970,31785,31580
+  data 31356,31113,30851,30571
+  data 30272,29955,29621,29268
+  data 28897,28510,28105,27683
+  data 27244,26789,26318,25831
+  data 25329,24811,24278,23731
+  data 23169,22594,22004,21402
+  data 20787,20159,19519,18867
+  data 18204,17530,16845,16150
+  data 15446,14732,14009,13278
+  data 12539,11792,11038,10278
+  data 9511,8739,7961,7179
+  data 6392,5601,4807,4011
+  data 3211,2410,1607,804
+  data 0,-805,-1608,-2411
+  data -3212,-4012,-4808,-5602
+  data -6393,-7180,-7962,-8740
+  data -9512,-10279,-11039,-11793
+  data -12540,-13279,-14010,-14733
+  data -15447,-16151,-16846,-17531
+  data -18205,-18868,-19520,-20160
+  data -20788,-21403,-22005,-22595
+  data -23170,-23732,-24279,-24812
+  data -25330,-25832,-26319,-26790
+  data -27245,-27684,-28106,-28511
+  data -28898,-29269,-29622,-29956
+  data -30273,-30572,-30852,-31114
+  data -31357,-31581,-31786,-31971
+  data -32138,-32285,-32413,-32521
+  data -32610,-32679,-32728,-32758
+  data -32767,-32758,-32728,-32679
+  data -32610,-32521,-32413,-32285
+  data -32138,-31971,-31786,-31581
+  data -31357,-31114,-30852,-30572
+  data -30273,-29956,-29622,-29269
+  data -28898,-28511,-28106,-27684
+  data -27245,-26790,-26319,-25832
+  data -25330,-24812,-24279,-23732
+  data -23170,-22595,-22005,-21403
+  data -20788,-20160,-19520,-18868
+  data -18205,-17531,-16846,-16151
+  data -15447,-14733,-14010,-13279
+  data -12540,-11793,-11039,-10279
+  data -9512,-8740,-7962,-7180
+  data -6393,-5602,-4808,-4012
+  data -3212,-2411,-1608,-805
+  data -1,804,1607,2410
+  data 3211,4011,4807,5601
+  data 6392,7179,7961,8739
+  data 9511,10278,11038,11792
+  data 12539,13278,14009,14732
+  data 15446,16150,16845,17530
+  data 18204,18867,19519,20159
+  data 20787,21402,22004,22594
+  data 23169,23731,24278,24811
+  data 25329,25831,26318,26789
+  data 27244,27683,28105,28510
+  data 28897,29268,29621,29955
+  data 30272,30571,30851,31113
+  data 31356,31580,31785,31970
+  data 32137,32284,32412,32520
+  data 32609,32678,32727,32757
+  data 32767,32757,32727,32678
+  data 32609,32520,32412,32284
+  data 32137,31970,31785,31580
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C26</ID>
+<x0>358</x0>
+<y0>404</y0>
+<width>285</width>
+<height>168</height>
+<codetext>// 色の定義 
+ const COLOR_BLACK 0x000000
+ const COLOR_WHITE 0xffffff
+ const COLOR_RED 0xff0000
+ const COLOR_BLUE 0x0000ff
+ const COLOR_GREEN 00ff00
+ const COLOR_MOSGREEN 0x308060
+ const COLOR_GRAY  0x808080
+ const COLOR_LIGHT_GRAY 0xc0c0c0
+ const COLOR_CLEAR 0xff000000
+</codetext>
+</codeclip>
+<xobject>
+<ID>_X27</ID>
+<x0>84</x0>
+<y0>303</y0>
+<width>187</width>
+<height>46</height>
+<ID_maker>6</ID_maker>
+<objectname>複合GUIコンポーネント</objectname>
+<description></description>
+<codeclip>
+<ID>_C0</ID>
+<x0>20</x0>
+<y0>89</y0>
+<width>124</width>
+<height>20</height>
+<codetext>// ウィンドウ 
+ class Window
+  long       subclass#            // サブクラスへのポインタ 
+  long       title#                  // ウィンドウのタイトル 
+  long       state#                 // ウィンドウの状態 
+  long       resizable#          // サイズ変更可能フラグ（デフォルトでTRUE） 
+  long       height#              // ウィンドウの高さ(MINIMIZE状態の時に保存する)
+
+  // イベント拡張 
+  long        resized#               // ウィンドウサイズを変えた時の処理 
+  long        closed#                // ウィンドウを閉じた時の処理 
+  long        keyinput#            // キー入力したときの処理 
+  long        lclicked#              // 左クリックしたときの処理 
+  long        rclicked#              // 右クリックしたときの処理 
+  long        paint#                 // 描画処理 
+  long        removed#            // 削除処理
+
+  // コンポーネント本体 
+  Component  component
+
+  // 閉じるボタン 
+  Button  close_button
+
+ end
+
+// look&amp;feel
+ .data
+lf_window:
+  data paint_window      // paint_component
+  data window_keyinput // key_pressed
+  data window_lclicked   // mouse_lclicked
+  data window_rclicked   // mouse_rclicked
+  data window_clicked2  // mouse_lclicked2
+  data no_operation       // mouse_rclicked2
+  data window_removed // remove_component
+
+  // ウィンドウの状態
+  enum
+    WINDOW_NORMAL
+    WINDOW_MOVE
+    WINDOW_RESIZE
+    WINDOW_MINIMIZE
+    WINDOW_MOVE2
+  end
+  
+// 定数
+  const CORNER_RANGE 20
+
+// ウィンドウを生成する
+create_window:
+  long wintitle#,winsub#,win#,close_btn#
+
+  wintitle#= pop winsub#= pop win#=
+  winsub#, win#, -&gt;Window.subclass#=
+  wintitle#, win#, -&gt;Window.title#=
+  WINDOW_NORMAL, win#, -&gt;Window.state#=
+  TRUE, win#, -&gt;Window.resizable#=
+  no_operation, win#, -&gt;Window.resized#=
+  no_operation, win#, -&gt;Window.closed#=
+  no_operation, win#, -&gt;Window.keyinput#=
+  no_operation, win#, -&gt;Window.lclicked#=
+  no_operation, win#, -&gt;Window.rclicked#=
+  no_operation, win#, -&gt;Window.paint#=
+  no_operation, win#, -&gt;Window.removed#=
+  win#, -&gt;Window.component com#=
+  com#, win#, desktop, -&gt;Desktop.component lf_window, create_component
+  TYPE_WINDOW, com#, -&gt;Component.type#=
+  FALSE, com#, -&gt;Component.is_focusable#=
+  COLOR_BLACK, com#, -&gt;Component.foreground#=
+  COLOR_LIGHT_GRAY, com#, -&gt;Component.background#=
+  RAISED_BORDER, com#, -&gt;Component.border#=
+
+  // &quot;閉じる&quot;ボタンを生成
+  win#, -&gt;Window.close_button close_btn#=
+  win#,
+  win#, -&gt;Window.component
+  &quot;x&quot;,
+  create_button 
+  close_btn#, close_button_clicked, set_button_lclicked
+  set_close_button
+  end
+
+ 
+// ウィンドウを表示する( 直接呼び出し不可 )
+paint_window:
+  com#=
+  com#, -&gt;Component.subclass# win#=
+  win#, -&gt;Window.close_button close_btn#=
+  set_close_button
+  
+  // 基盤を描く
+  com#, paint_base
+
+  // タイトルバーを描画
+  COLOR_BLUE, set_color
+  com#, -&gt;Component.left#   1, + pp#=
+  com#, -&gt;Component.top#   1, + qq#=
+  com#, -&gt;Component.right# 1, -  rr#=
+  com#, -&gt;Component.top# FONT_HEIGHT+2, + ss#=
+  pp#, qq#, rr#, ss#, draw_rect
+  
+  // タイトルを描く
+  com#, -&gt;Component.foreground# set_color
+  com#, -&gt;Component.left# 1, + pp#=
+  com#, -&gt;Component.top# 1, + qq#=
+  pp#, qq#, win#,  -&gt;Window.title#  draw_string
+
+  win#, win#, -&gt;@Window.paint
+  end
+
+
+// ウィンドウのキー入力したときの処理( 直接呼び出し不可 )
+window_keyinput:
+  com#= -&gt;Component.subclass# win#=
+  WINDOW_NORMAL, win#, -&gt;Window.state#=
+  win#, win#, -&gt;@Window.keyinput
+  end
+
+
+// ウインドウ上で左クリックしたときの処理( 直接呼び出し不可 )
+window_lclicked:
+  long rx1#,ry1#
+  com#= 
+  com#, -&gt;Component.left#        rx#=
+  com#, -&gt;Component.top#        ry#=
+  com#, -&gt;Component.right#      rx1#=
+  com#, -&gt;Component.bottom#  ry1#=
+  com#, -&gt;Component.subclass# win#= -&gt;Window.state# pp#=
+
+// ノーマルモード
+window_lclicked1:
+  if pp#&lt;&gt;WINDOW_NORMAL goto window_lclicked3
+  ry#, FONT_HEIGHT, + qq#=
+  mouse_x#, mouse_y#, rx#, ry#, rx1#, qq#, is_on_rectangle tt#=
+  if tt#=TRUE then WINDOW_MOVE, win#, Window.state#= gotowindow_lclicked2
+  rx1#, CORNER_RANGE, -  qq#=
+  ry1#, CORNER_RANGE, -  rr#=
+  mouse_x#, mouse_y#, qq#, rr#, rx1#, ry1#, is_on_rectangle
+  win#, -&gt;Window.resizable# and tt#=
+  if tt#=TRUE then WINDOW_RESIZE, win#, Window.state#=
+window_lclicked2:
+  win#, win#, -&gt;@Window.lclicked
+  end
+
+// 移動モード
+window_lclicked3:
+  if pp#&lt;&gt;WINDOW_MOVE goto window_lclicked4
+  mouse_x#, com#, -&gt;Component.x#=
+  mouse_y#, com#, -&gt;Component.y#=
+  WINDOW_NORMAL, win#, -&gt;Window.state#=
+  desktop, -&gt;Desktop.component  repaint
+  end
+
+// リサイズモード
+window_lclicked4:
+  if pp#&lt;&gt;WINDOW_RESIZE then end
+  mouse_x#, rx#, - com#, -&gt;Component.width#=
+  mouse_y#, ry#, - com#, -&gt;Component.height#=
+  WINDOW_NORMAL, win#, -&gt;Window.state#=
+  desktop, -&gt;Desktop.component  repaint
+  win#, win#, -&gt;@Window.resized // リサイズのコールバックを実行
+  end
+
+
+// ウインドウ上で右クリックしたときの処理( 直接呼び出し不可 )
+window_rclicked:
+  -&gt;Component.subclass# win#=
+  desktop, -&gt;Desktop.component  repaint
+  win#, win#, -&gt;@Window.rclicked  // 右クリックのコールバックを実行
+  end
+
+
+// 2回めクリックしたときの処理( 直接呼び出し不可 )
+window_clicked2:
+  clicked_component#, com#=
+  com#, -&gt;Component.left#        rx#=
+  com#, -&gt;Component.top#        ry#=
+  com#, -&gt;Component.right#      rx1#=
+  com#, -&gt;Component.bottom#  ry1#=
+  com#, -&gt;Component.subclass# win#= -&gt;Window.state# pp#=
+
+// 移動モード
+window_clicked2_1:
+  if pp#&lt;&gt;WINDOW_MOVE goto window_clicked2_2
+  mouse_x#, com#, -&gt;Component.x#=
+  mouse_y#, com#, -&gt;Component.y#=
+  WINDOW_NORMAL, win#, -&gt;Window.state#=
+  desktop, -&gt;Desktop.component  repaint
+  end
+
+// リサイズモード
+window_clicked2_2:
+  if pp#&lt;&gt;WINDOW_RESIZE then end
+  mouse_x#, rx#, - com#, -&gt;Component.width#=
+  mouse_y#, ry#, - com#, -&gt;Component.height#=
+  WINDOW_NORMAL, win#, -&gt;Window.state#=
+  desktop, -&gt;Desktop.component  repaint
+  win#, win#, -&gt;@Window.resized // リサイズのコールバックを実行
+  end
+
+
+// ウィンドウを削除するときの処理( 直接呼び出し不可 )
+window_removed:
+  -&gt;Component.subclass# win#=
+  win#, win#, -&gt;@Window.removed // 削除処理のコールバックを実行
+  end
+
+
+// &quot;閉じる&quot; ボタンをクリックしたときの処理( 直接呼び出し不可 )
+close_button_clicked:
+  -&gt;Component.subclass# -&gt;Button.subclass# win#= -&gt;Window.component com#=
+  win#, -&gt;Window.state# tt#=
+
+// 通常状態の場合
+close_button_clicked1:
+  if tt#&lt;&gt;WINDOW_NORMAL goto close_button_clicked2
+  WINDOW_MINIMIZE, win#, -&gt;Window.state#=
+  com#, -&gt;Component.height# win#, -&gt;Window.height#=
+  win#, win#, -&gt;@Window.closed // 閉じるコールバックを実行
+  desktop, -&gt;Desktop.component repaint
+  end
+
+// 最小化状態の場合
+close_button_clicked2:
+  if tt#&lt;&gt;WINDOW_MINIMIZE then end
+  WINDOW_NORMAL, win#, -&gt;Window.state#=
+  win#, -&gt;Window.height# com#, -&gt;Component.height#=
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// 閉じるボタンの位置・大きさを設定する
+// (変数win#,close_btn#があらがじめ設定されていること)
+set_close_button:
+  win#, -&gt;Window.component com#=
+  com#, -&gt;Component.width# FONT_WIDTH+2, - pp#=
+  if pp#&lt;1 then 1, pp#= 
+  close_btn#, -&gt;Button.component# com#=
+  pp#, com#, -&gt;Component.x#=
+  1,     com#, -&gt;Component.y#=
+  FONT_WIDTH,  com#, -&gt;Component.width#=
+  FONT_HEIGHT, com#, -&gt;Component.height#=
+  end
+
+
+// タイトルを設定する
+set_window_title:
+ wintitle#= pop win#=
+ wintitle#, win#, -&gt;Window.title#=
+ win#, -&gt;Window.component repaint
+ end
+
+
+// サイズ変更可能フラグを設定する
+set_window_resizable:
+ tt#= pop win#=
+ tt#, win#, -&gt;Window.resizable#=
+ end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C1</ID>
+<x0>17</x0>
+<y0>114</y0>
+<width>171</width>
+<height>20</height>
+<codetext>// デスクトップメニュー
+ 
+  char desktop_menu$(Label.SIZE)
+  char desktop_menu_create_icon$(Button.SIZE)
+  char desktop_menu_cancel$(Button.SIZE)
+ 
+
+// デスクトップメニューを作成する
+create_desktop_menu:
+  desktop, -&gt;Desktop.component com#=
+
+  // シートを生成
+  desktop_menu, desktop, com#, &quot;&quot;, create_label 
+  desktop_menu, -&gt;Label.component com0#=
+  200, com0#, -&gt;Component.width#=
+  40,   com0#, -&gt;Component.height#=
+  RAISED_BORDER, com#, -&gt;Component.border#=
+  FALSE, com#, -&gt;Component.is_visible#=
+
+  // アイコン作成ボタンを生成
+  desktop_menu_create_icon, desktop, com0#, &quot; create icon&quot;, create_button 
+  desktop_menu_create_icon, -&gt;Button.component com1#=
+  0,     com1#, -&gt;Component.x#=
+  0,     com1#, -&gt;Component.y#=
+  200, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  desktop_menu_create_icon, desktop_menu_create_icon_clicked, set_button_lclicked
+
+  // キャンセルボタンを生成
+  desktop_menu_cancel, desktop, com0#, &quot;    cancel&quot;, create_button 
+  desktop_menu_cancel, -&gt;Button.component com1#=
+  0,     com1#, -&gt;Component.x#=
+  20,   com1#, -&gt;Component.y#=
+  200, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  desktop_menu_cancel, desktop_menu_cancel_clicked, set_button_lclicked
+  end
+
+
+// デスクトップメニューを表示する
+show_desktop_menu:
+
+// &quot;show desktop memu:&quot;, log, fprints log, fnl
+
+  desktop_menu, -&gt;Label.component com#=
+  mouse_x#, com#, -&gt;Component.x#=
+  mouse_y#, com#, -&gt;Component.y#=
+  TRUE, com#, -&gt;Component.is_visible#=
+  com#, pop_up_component
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// アイコン作成をクリックしたとき
+desktop_menu_create_icon_clicked:
+  desktop_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  com#, -&gt;Component.x# sx#=
+  com#, -&gt;Component.y# sy#=
+  NULL, &quot; &quot;, &quot; &quot;, &quot; &quot;, sx#, sy#, show_property_sheet
+  end
+
+
+// キャンセルをクリックしたとき
+desktop_menu_cancel_clicked:
+  desktop_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C2</ID>
+<x0>20</x0>
+<y0>141</y0>
+<width>171</width>
+<height>21</height>
+<codetext>// アイコンメニュー
+ 
+  char icon_menu$(Label.SIZE)
+  char icon_menu_move$(Button.SIZE)
+  char icon_menu_delete$(Button.SIZE)
+  char icon_menu_property$(Button.SIZE)
+  char icon_menu_cancel$(Button.SIZE)
+ 
+
+// アイコンメニューを作成する
+create_icon_menu:
+  desktop, -&gt;Desktop.component com#=
+
+  // シートを生成
+  icon_menu, desktop, com#, &quot;&quot;, create_label 
+  icon_menu, -&gt;Label.component com0#=
+  160, com0#, -&gt;Component.width#=
+  80, com0#, -&gt;Component.height#=
+  RAISED_BORDER, com#, -&gt;Component.border#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+
+  // アイコン移動ボタンを生成
+  icon_menu_move, desktop, com0#, &quot;    move&quot;, create_button 
+  icon_menu_move, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  0,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  icon_menu_move, icon_menu_move_clicked, set_button_lclicked
+
+  // アイコン削除ボタンを生成
+  icon_menu_delete, desktop, com0#, &quot;   delete&quot;, create_button 
+  icon_menu_delete, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  20,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  icon_menu_delete, icon_menu_delete_clicked, set_button_lclicked
+
+  // アイコンプロパティボタンを生成
+  icon_menu_property, desktop, com0#, &quot;  property&quot;, create_button 
+  icon_menu_property, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  40,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  icon_menu_property, icon_menu_property_clicked, set_button_lclicked
+
+  // キャンセルボタンを生成
+  icon_menu_cancel, desktop, com0#, &quot;   cancel&quot;, create_button 
+  icon_menu_cancel, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  60,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  icon_menu_cancel, icon_menu_cancel_clicked, set_button_lclicked
+  end
+
+
+// アイコンメニューを表示する
+show_icon_menu:
+  long icon#
+  icon#=
+  icon_menu, -&gt;Label.component com#=
+  mouse_x#, com#, -&gt;Component.x#=
+  mouse_y#, com#, -&gt;Component.y#=
+  TRUE, com#, -&gt;Component.is_visible#=
+  com#, pop_up_component
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// アイコン移動をクリックしたとき
+icon_menu_move_clicked:
+  icon_menu_move_clicked2, desktop, -&gt;Desktop.lclicked#=
+  icon_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// アイコン移動モード
+icon_menu_move_clicked2:
+  icon#, -&gt;Button.component com#=
+  mouse_x#, com#, -&gt;Component.x#=
+  mouse_y#, com#, -&gt;Component.y#=
+  no_operation, desktop, -&gt;Desktop.lclicked#=
+  desktop, -&gt;Desktop.component repaint
+  end
+
+// アイコン削除をクリックしたとき
+icon_menu_delete_clicked:
+  icon_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  icon#, remove_desktop_icon
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// アイコンのプロパティをクリックしたとき
+icon_menu_property_clicked:
+  icon#, -&gt;Button.text# pp#=
+  icon#, -&gt;Button.imagefile# qq#=
+  icon#, -&gt;Button.command# rr#=
+  icon#, -&gt;Button.component com#=
+  com#, -&gt;Component.x# sx#=
+  com#, -&gt;Component.y# sy#=
+  icon_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  icon#, pp#, qq#, rr#, sx#, sy#, show_property_sheet
+  end
+
+
+// キャンセルをクリックしたとき
+icon_menu_cancel_clicked:
+  icon_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C3</ID>
+<x0>16</x0>
+<y0>169</y0>
+<width>171</width>
+<height>20</height>
+<codetext>// プロパティシート
+ 
+  char property_sheet$(Label.SIZE)
+  char property_text$(TextField.SIZE)
+  char property_file$(TextField.SIZE)
+  char property_cmd$(TextField.SIZE)
+  char property_ok$(Button.SIZE)
+  char property_cancel$(Button.SIZE)
+ 
+
+// プロパティシートを作成する
+create_property_sheet:
+  desktop, -&gt;Desktop.component com#=
+
+  // シートを生成
+  property_sheet, desktop, com#, &quot;&quot;, create_label 
+  property_sheet, -&gt;Label.component com0#=
+  paint_property_sheet, property_sheet, -&gt;Label.paint#=
+  300, com0#, -&gt;Component.width#=
+  170, com0#, -&gt;Component.height#=
+  RAISED_BORDER, com0#, -&gt;Component.border#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+
+  // テキストプロパティ用テキストボックスを生成
+  property_text, desktop, com0#, &quot;&quot;, create_textfield 
+  property_text, -&gt;TextField.component com1#=
+  20,   com1#, -&gt;Component.x#=
+  30,   com1#, -&gt;Component.y#=
+  260, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+
+  // ファイル名プロパティ用テキストボックスを生成
+  property_file, desktop, com0#, &quot;&quot;, create_textfield 
+  property_file, -&gt;TextField.component com1#=
+  20,   com1#, -&gt;Component.x#=
+  70,   com1#, -&gt;Component.y#=
+  260, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+
+  // コマンド用テキストボックスを生成
+  property_cmd, desktop, com0#, &quot;&quot;, create_textfield 
+  property_cmd, -&gt;TextField.component com1#=
+  20,   com1#, -&gt;Component.x#=
+  110, com1#, -&gt;Component.y#=
+  260, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+
+  // OKボタンを生成
+  property_ok, desktop, com0#, &quot;   OK&quot;, create_button 
+  property_ok, -&gt;Button.component com1#=
+  24,   com1#, -&gt;Component.x#=
+  140, com1#, -&gt;Component.y#=
+  118, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  property_ok, property_sheet_ok_clicked, set_button_lclicked
+
+  // キャンセルボタンを生成
+  property_cancel, desktop, com0#, &quot; CANCEL&quot;, create_button 
+  property_cancel, -&gt;Button.component com1#=
+  164, com1#, -&gt;Component.x#=
+  140, com1#, -&gt;Component.y#=
+  114, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  property_cancel, property_sheet_cancel_clicked, set_button_lclicked
+  end
+
+
+// プロパティシートを表示するとき呼ばれる関数
+paint_property_sheet:
+  long mx#,my#
+  property_sheet, -&gt;Label.component com#=
+  com#, -&gt;Component.left# 20, + mx#=
+  com#, -&gt;Component.top# 10, + my#=
+  mx#, my#, 200, &quot;text&quot;,         draw_string
+  my#, 42, + my#=
+  mx#, my#, 200, &quot;icon file&quot;,   draw_string
+  my#, 40, + my#=
+  mx#, my#, 200, &quot;command&quot;, draw_string
+  end
+
+
+// プロパティシートを表示する
+show_property_sheet:
+  long icon2#,itxt#,ifile#,icmd#,ix1#,iy1#
+  iy1#= pop ix1#= pop
+  icmd#= pop ifile#= pop itxt#= pop
+  icon2#=
+  property_sheet, -&gt;Label.component com#=
+  mouse_x#, com#, -&gt;Component.x#=
+  mouse_y#, com#, -&gt;Component.y#=
+  itxt#,  property_text,  set_textfield_text
+  ifile#,  property_file,   set_textfield_text
+  icmd#, property_cmd, set_textfield_text
+  TRUE, com#, -&gt;Component.is_visible#=
+  com#, pop_up_component
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// OKボタンをクリックしたとき
+property_sheet_ok_clicked:
+  property_text, -&gt;TextField.text# itxt#=
+  itxt#, xstrlen 1, + malloc tt#=
+  itxt#, tt#, itxt#= strcpy
+  property_file, -&gt;TextField.text# ifile#=
+  ifile#, xstrlen 1, + malloc tt#=
+  ifile#, tt#, ifile#= strcpy
+  property_cmd, -&gt;TextField.text# icmd#=
+  icmd#, xstrlen 1, + malloc tt#=
+  icmd#, tt#, icmd#= strcpy
+  if icon2#&lt;&gt;NULL then icon2#, remove_desktop_icon
+  itxt#, ifile#, icmd#, ix1#, iy1#, create_desktop_icon 
+  property_sheet, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// キャンセルボタンをクリックしたとき
+property_sheet_cancel_clicked:
+  property_sheet, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C5</ID>
+<x0>20</x0>
+<y0>24</y0>
+<width>419</width>
+<height>55</height>
+<codetext>// 複合GUIコンポーネントとは
+// ボタンやラベル等の基本GUIコンポーネントを組み合わせて作られた
+// GUIコンポーネントです</codetext>
+</codeclip>
+</xobject>
+<codeclip>
+<ID>_C28</ID>
+<x0>649</x0>
+<y0>405</y0>
+<width>245</width>
+<height>196</height>
+<codetext>// 定数定義
+ const TRUE 1
+ const FALSE 0
+ const MOUSE_X 0
+ const MOUSE_Y 4
+ const MOUSE_LEFT 12
+ const MOUSE_RIGHT 13
+ const MOUSE_SENSIVITY 6000
+ const MAX_MOUSE_SPEED 10
+ const CURSOR_SIZE 16
+ const FONT_WIDTH  14
+ const FONT_HEIGHT 18
+ const ESC_KEY  23
+ const CTRL_D_KEY 262144
+ const DEL_KEY 8
+ const UP_KEY 1
+ const DOWN_KEY 2
+ const RIGHT_KEY 3
+ const LEFT_KEY 4
+ const INS_KEY 7
+ const BS_KEY 524288
+ const SPACE_KEY 2097152
+ const ENTER_KEY 851968
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C29</ID>
+<x0>89</x0>
+<y0>275</y0>
+<width>113</width>
+<height>19</height>
+<codetext>// デスクトップ
+ class Desktop
+  long   image#      // 壁紙
+
+  // イベント拡張
+  long   lclicked#   // 左クリックしたときの処理 
+  long   rclicked#   // 右クリックしたときの処理 
+  long   paint#       // 描画処理 
+
+  // コンポーネント本体 
+  Component  component
+ end
+
+
+// look&amp;feel
+ .data
+lf_desktop:
+  data paint_desktop     // paint_component
+  data no_operation       // key_pressed
+  data desktop_lclicked  // mouse_lclicked
+  data desktop_rclicked  // mouse_rclicked
+  data no_operation       // mouse_lclicked2
+  data no_operation       // mouse_rclicked2
+  data no_operation       // remove_component
+
+  
+  char desktop$(Desktop.SIZE)
+
+// デスクトップを生成する
+create_desktop:
+
+// &quot;create desktop:&quot;, log, fprints log, fnl
+
+  NULL, desktop, -&gt;Desktop.image#=
+  no_operation, desktop, -&gt;Desktop.lclicked#=
+  no_operation, desktop, -&gt;Desktop.rclicked#=
+  no_operation, desktop, -&gt;Desktop.paint#=
+  desktop, -&gt;Desktop.component com#=
+  NULL, com#,  -&gt;Component.subclass#=
+  TYPE_DESKTOP, com#, -&gt;Component.type#=
+  NULL, com#,  -&gt;Component.parent#=
+  NULL, com#,  -&gt;Component.top_child#=
+  NULL, com#,  -&gt;Component.end_child#=
+  lf_desktop, com#, -&gt;Component.look_and_feel#=
+  0, com#, -&gt;Component.status#=
+  TRUE, com#, -&gt;Component.is_visible#=
+  FALSE, com#, -&gt;Component.is_focusable#=
+  FALSE, com#, -&gt;Component.is_painting#=
+  COLOR_WHITE, com#, -&gt;Component.foreground#=
+  COLOR_MOSGREEN,  com#, -&gt;Component.background#=
+  NULL_BORDER, com#, -&gt;Component.border#=
+  0, com#, -&gt;Component.x#=
+  0, com#, -&gt;Component.y#=
+  0, com#, -&gt;Component.left#=
+  0, com#, -&gt;Component.top#=
+  screen_width#,  com#, -&gt;Component.width#=
+  screen_height#, com#, -&gt;Component.height#=
+  screen_width#,  com#, -&gt;Component.right#=
+  screen_height#, com#, -&gt;Component.bottom#=
+  NULL, com#, -&gt;Component.prev#=
+  NULL, com#, -&gt;Component.next#=
+
+
+
+//  &quot;com=&quot;, log, fprints com#, hex log, fprints
+//   log, fnl
+//  com#, -&gt;Component.is_visible# tt#=
+//  &quot;is_visible=&quot;, log, fprints tt#, log, fprintd log, fnl
+//  com#, -&gt;Component.background# tt#=
+//  &quot;background=&quot;, log, fprints tt#, hex log, fprints 
+//  log, fnl
+//  com#, -&gt;Component.look_and_feel# tt#=
+//  &quot;look and feel=&quot;, log, fprints tt#, hex log, fprints
+//   log, fnl
+//  tt#, -&gt;LookAndFeel.paint_component# tt#=
+//  &quot;paint component=&quot;, log, fprints tt#, hex log, fprints
+//   log, fnl
+//  &quot;paint desktop=&quot;, log, fprints paint_desktop, hex log, fprints
+//   log, fnl
+
+
+// &quot;create desktop end&quot;, log, fprints log, fnl
+
+ end
+
+ 
+// ウィンドウを表示する( 直接呼び出し不可 )
+paint_desktop:
+  com#=
+
+// &quot;paint desktop:&quot;, log, fprints log, fnl
+//  &quot;com=&quot;, log, fprints com#, hex log, fprints
+//  log, fnl
+
+  com#, -&gt;Component.top# pp#=
+  desktop, -&gt;Desktop.image# tt#=
+  if tt#=NULL then com#, paint_base gotopaint_desktop1
+  com#, -&gt;Component.left#
+  com#, -&gt;Component.top#
+  desktop, -&gt;Desktop.image#
+  draw_image
+paint_desktop1:
+  desktop, -&gt;@Desktop.paint
+  end
+
+
+// デスクトップ上で左クリックしたときの処理( 直接呼び出し不可 )
+desktop_lclicked:
+  desktop, -&gt;@Desktop.lclicked  // 右クリックのコールバックを実行
+  desktop, -&gt;Desktop.component  repaint
+  end
+
+
+// デスクトップ上で右クリックしたときの処理( 直接呼び出し不可 )
+desktop_rclicked:
+  desktop, -&gt;@Desktop.rclicked  // 右クリックのコールバックを実行
+  desktop, -&gt;Desktop.component  repaint
+  end
+
+
+// デスクトップの設定を読み込む
+load_desktop:
+  char dbuf$(64),wallpaper$(64)
+  long dfile#,dimg#,dtxt#,dcmd#,dbtn#
+
+
+//  &quot;load desktop:&quot;, log, fprints log, fnl
+
+
+  &quot;desktop.ini&quot;,  fp, ropen  tt#=
+  if tt#=ERROR then end
+
+  // 各種キー割り当て
+  dbuf,  fp, finputs  dbuf, 10, atoi  max_speed#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  quit_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  mode_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  speed_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  left_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  right_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  up_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  down_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  lclick_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  rclick_key#=
+
+  // 文字色
+  dbuf,  fp, finputs
+  dbuf, 16, atoi desktop, -&gt;Desktop.component -&gt;Component.foreground#=
+  
+  // 背景色
+  dbuf,  fp, finputs
+  dbuf, 16, atoi desktop, -&gt;Desktop.component -&gt;Component.background#=
+  
+  // 壁紙
+  wallpaper,  fp, finputs
+  wallpaper, load_image  desktop, -&gt;Desktop.image#=
+
+  // アイコン
+  load_desktop1:
+    dbuf,  fp, finputs  tt#=
+    if tt#=EOF goto load_desktop2
+
+//  &quot;icon=&quot;, log, fprints
+//   dbuf, log, fprints log, fnl
+
+    dbuf, &quot;end&quot;, strcmp tt#= 
+    if tt#=0 goto load_desktop2
+    dbuf, strlen 1, + malloc dfile#=            // 画像ファイル名
+    dbuf, dfile#, strcpy 
+    dbuf,  fp, finputs
+    dbuf, strlen 1, + malloc dtxt#=            // テキスト
+    dbuf, dtxt#, strcpy 
+    dbuf,  fp, finputs
+    dbuf, strlen 1, + malloc dcmd#=          // コマンド
+    dbuf, dcmd#, strcpy 
+    dbuf,  fp, finputs dbuf, 10, atoi sx#=   // X座標
+    dbuf,  fp, finputs dbuf, 10, atoi sy#=   // Y座標
+    dtxt#, dfile#, dcmd#, sx#, sy#, create_desktop_icon
+    goto load_desktop1
+  load_desktop2:
+  fp, rclose
+  end
+
+
+// デスクトップの設定を保存する
+save_desktop:
+
+
+//  &quot;save desktop:&quot;, log, fprints log, fnl
+
+  &quot;desktop.ini&quot;,  fp, wopen  tt#=
+  if tt#=ERROR then end  
+
+  // 各種キー割り当て
+  max_speed#,  fp,  fprintd fp, fnl
+  quit_key#,      fp,  fprintd fp, fnl
+  mode_key#,    fp,  fprintd fp, fnl
+  speed_key#,   fp,  fprintd fp, fnl
+  left_key#,       fp,  fprintd fp, fnl
+  right_key#,     fp,  fprintd fp, fnl
+  up_key#,         fp,  fprintd fp, fnl
+  down_key#,     fp,  fprintd fp, fnl
+  lclick_key#,     fp,  fprintd fp, fnl
+  rclick_key#,     fp,  fprintd fp, fnl
+
+  // 文字色
+  desktop, -&gt;Desktop.component -&gt;Component.foreground#  hex fp, fprints fp, fnl
+
+  // 背景色
+  desktop, -&gt;Desktop.component -&gt;Component.background#  hex fp, fprints fp, fnl
+
+  // 壁紙
+  wallpaper, fp, fprints fp, fnl
+
+  // アイコン
+  desktop, -&gt;Desktop.component -&gt;Component.top_child# com#=
+  save_desktop1:
+    if com#=NULL goto save_desktop3
+    com#, -&gt;Component.type# tt#=
+    
+//    &quot;type=&quot;, log, fprints tt#, log, fprintd log, fnl
+    
+    if tt#&lt;&gt;TYPE_BUTTON goto save_desktop2
+    com#, -&gt;Component.subclass# dbtn#=
+    
+    
+    
+    dbtn#, -&gt;Button.imagefile#    fp, fprints  fp, fnl    // 画像ファイル名
+    dbtn#, -&gt;Button.text#            fp, fprints  fp, fnl    // テキスト
+    dbtn#, -&gt;Button.command#    fp, fprints  fp, fnl    // コマンド
+    com#, -&gt;Component.x#          fp, fprintd  fp, fnl   // X座標
+    com#, -&gt;Component.y#          fp, fprintd  fp, fnl   // Y座標
+    save_desktop2:
+    com#, -&gt;Component.next# com#=
+    goto save_desktop1
+  save_desktop3:
+  &quot;end&quot;, fp, fprints fp, fnl
+  fp, wclose
+
+//  &quot;save desktop end&quot;, log, prints log, fnl
+
+  end
+
+
+// デスクトップを削除する
+remove_desktop:
+  long dsk#
+
+//  &quot;remove desktop:&quot;, log, prints log, fnl
+
+  desktop, -&gt;Desktop.image# tt#=
+  if tt#&lt;&gt;NULL then tt#, free
+  desktop, -&gt;Desktop.component dsk#=
+  remove_desktop1:
+    dsk#, -&gt;Component.top_child# com#=
+    if com#=NULL goto remove_desktop2
+    com#, -&gt;Component.type# tt#=
+    if tt#=TYPE_BUTTON   then  com#, remove_component //-&gt;Component.subclass# remove_desktop_icon
+    if tt#&lt;&gt;TYPE_BUTTON then  com#, remove_component
+    goto remove_desktop1
+  remove_desktop2:
+
+//  &quot;remove desktop end&quot;, log, prints log, fnl
+
+  end
+
+
+// デスクトップのアイコンをクリックしたとき呼ばれる
+desktop_icon_lclicked:
+  -&gt;Button.command# exec_command
+  desktop, -&gt;Desktop.component repaint
+  end  
+
+
+// デスクトップのアイコンを作成する
+create_desktop_icon:
+  sy2#= pop sx2#= pop
+  dcmd#= pop dfile#= pop dtxt#=
+  
+//  &quot;create desktop icon:&quot;, log, fprints log, fnl
+//  &quot;txt=&quot;, log, fprints  dtxt#, log, fprints   log, fnl
+//  &quot;file=&quot;, log, fprints  dfile#, log, fprints   log, fnl
+//  &quot;cmd=&quot;, log, fprints  dcmd#, log, fprints   log, fnl
+
+  
+  dfile#, load_image dimg#=
+  
+//  &quot;image address=&quot;, log, fprints  dimg#, hex log, fprints
+//   log, fnl
+  
+  
+  Button.SIZE, malloc dbtn#=
+
+//  &quot;alloc icon=&quot;, log, fprints  dbtn#, hex log, fprints
+//   log, fnl
+
+  dtxt#, strlen 1, + FONT_WIDTH, * sx1#=
+  FONT_HEIGHT+2, sy1#=
+
+  if dimg#=NULL goto create_desktop_icon1
+    if (dimg)!&gt;sx1# then (dimg)!, sx1#=  // アイコン画像の幅がテキスト幅より大きいときはそっちに合わせる
+    (dimg)!(1), sy1#, + sy1#=                  // アイコン画像の高さとテキストの高さを加えてアイコンの高さとする
+  create_desktop_icon1:
+  desktop, -&gt;Desktop.component com#=
+
+//  &quot;create button&quot;, log, fprints log, fnl
+
+  dbtn#, desktop, com#, dtxt#, create_button 
+
+//  &quot;create icon end&quot;, log, fprints log, fnl
+
+  dfile#,  dbtn#, -&gt;Button.imagefile#=
+  dimg#, dbtn#, -&gt;Button.image#=
+  dcmd#, dbtn#, -&gt;Button.command#=
+  dbtn#, -&gt;Button.component com#=
+  sx2#, com#, -&gt;Component.x#=
+  sy2#, com#, -&gt;Component.y#=
+  sx1#, com#, -&gt;Component.width#=
+  sy1#, com#, -&gt;Component.height#=
+  desktop, -&gt;Desktop.component -&gt;Component.foreground# com#, -&gt;Component.foreground#=
+  COLOR_CLEAR, com#, -&gt;Component.background#=
+  NULL_BORDER, com#, -&gt;Component.border#=
+  desktop_icon_lclicked, dbtn#, -&gt;Button.lclicked#=  // 左クリックすると呼ばれる関数を設定
+  show_icon_menu,         dbtn#, -&gt;Button.rclicked#= // 右クリックすると呼ばれる関数を設定
+
+//  &quot;create desktop icon end&quot;, log, fprints log, fnl
+
+  end
+
+
+// デスクトップのアイコンを削除する
+remove_desktop_icon:
+  dbtn#=
+  if dbtn#=NULL then end
+  dbtn#, -&gt;Button.text#  tt#=          // テキスト
+  if tt#&lt;&gt;NULL then tt#, free
+  dbtn#, -&gt;Button.imagefile# tt#=   // 画像ファイル名
+  if tt#&lt;&gt;NULL then tt#, free
+  dbtn#, -&gt;Button.image#  tt#=      // 画像
+  if tt#&gt;0 then tt#, free
+  dbtn#, -&gt;Button.command# tt#= // コマンド
+  if tt#&lt;&gt;NULL then tt#, free
+  dbtn#, -&gt;Button.component com#=
+  com#, remove_component
+  dbtn#, free
+  end
+</codetext>
+</codeclip>
+</xobject>

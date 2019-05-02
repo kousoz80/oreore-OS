@@ -117,9 +117,9 @@ str_procsr:
  end
 
 
-// struct / enum構文の処理
+// struct / class / enum構文の処理
 compile_s:
- char  sbuf$(1024),sname$(1024)
+ char  sbuf$(1024),sname$(512),cname$(512)
  long  mode#,offset#,s#,p#
 
  infile#,  rfp, ropen
@@ -139,25 +139,43 @@ compile_s:
   del_space:
    if k#=buf goto cmp_loop
    k#--
-  if (k)$=SPACE goto del_space
+  if (k)$=' ' goto del_space
   NULL, (k)$(1)=
 
+  // 空文の場合はファイルからの読み込みに戻る
+  if buf$=NULL goto cmp_loop
+  
     // 通常文の場合
     mode0:
     if mode#<>0 goto mode1
       buf, s#=
       mode01:       // 空白を読み飛ばす
-        if (s)$<>' ' then s#++ gotomode01
+        if (s)$=' ' then s#++ gotomode01
 
       // struct文が検出された場合
       mode0_struct:
         s#, "struct ", 7, strncmp k#=
+        if k#<>0 goto mode0_class
+        1, mode#=
+        0, offset#=
+        s#, 7, + s#=
+        mode02:
+        if (s)$=' ' then s#++ gotomode02
+        s#, sname, strcpy
+        " const0", wfp, fprints wfp, fnl
+        goto cmp_loop
+
+      // class文が検出された場合
+      mode0_class:
+        s#, "class ", 6, strncmp k#=
         if k#<>0 goto mode0_enum
         1, mode#=
         0, offset#=
-        mode02:
-          if (s)$<>' ' then s#++ gotomode02
+        s#, 6, + s#=
+        mode03:
+        if (s)$=' ' then s#++ gotomode03
         s#, sname, strcpy
+        " const0", wfp, fprints wfp, fnl
         goto cmp_loop
 
       // enum文が検出された場合
@@ -173,27 +191,25 @@ compile_s:
          buf, wfp, fprints wfp, fnl
          goto cmp_loop
 
-    // struct文の場合
+    // struct/class 文の場合
     mode1:
     if mode#<>1 goto mode2
       buf, s#=
       mode11:       // 空白を読み飛ばす
-        if (s)$<>' ' then s#++ gotomode11
+        if (s)$=' ' then s#++ gotomode11
 
         // long文が検出された場合
         mode1_long:
-        s#, "long ", 7, strncmp k#=
+        s#, "long ", 5, strncmp k#=
         if k#<>0 goto mode1_int 
         s#, 5, + s#=
         mode12:       // 空白を読み飛ばす
-        if (s)$<>' ' then s#++ gotomode12
+        if (s)$=' ' then s#++ gotomode12
         s#, "#", strstr p#=
-        if p#<>NULL then NULL, (t)$=
-        " const ", wfp, fprints  sname, wfp, fprints
-          ".",  wfp, fprints s#, wfp, fprints
-          " ", wfp, fprints offset#, wfp, fprintd
-          wfp, fnl
-        offset#, 8, + offset#=
+        if p#<>NULL then NULL, (p)$=
+        " const_plus ", wfp, fprints  sname, wfp, fprints
+        ".",  wfp, fprints s#, wfp, fprints
+        " 8", wfp, fprints wfp, fnl
         goto cmp_loop
         
         // int文が検出された場合
@@ -202,14 +218,12 @@ compile_s:
         if k#<>0 goto mode1_short 
         s#, 4, + s#=
         mode13:       // 空白を読み飛ばす
-        if (s)$<>' ' then s#++ gotomode13
+        if (s)$=' ' then s#++ gotomode13
         s#, "!", strstr p#=
-        if p#<>NULL then NULL, (t)$=
-        " const ", wfp, fprints  sname, wfp, fprints
-          ".",  wfp, fprints s#, wfp, fprints
-          " ", wfp, fprints offset#, wfp, fprintd
-          wfp, fnl
-        offset#, 4, + offset#=
+        if p#<>NULL then NULL, (p)$=
+        " const_plus ", wfp, fprints  sname, wfp, fprints
+        ".",  wfp, fprints s#, wfp, fprints
+        " 4", wfp, fprints wfp, fnl
         goto cmp_loop
         
         // short文が検出された場合
@@ -218,14 +232,12 @@ compile_s:
         if k#<>0 goto mode1_char 
         s#, 6, + s#=
         mode14:       // 空白を読み飛ばす
-        if (s)$<>' ' then s#++ gotomode14
+        if (s)$=' ' then s#++ gotomode14
         s#, "%", strstr p#=
-        if p#<>NULL then NULL, (t)$=
-        " const ", wfp, fprints  sname, wfp, fprints
-          ".",  wfp, fprints s#, wfp, fprints
-          " ", wfp, fprints offset#, wfp, fprintd
-          wfp, fnl
-        offset#, 2, + offset#=
+        if p#<>NULL then NULL, (p)$=
+        " const_plus ", wfp, fprints  sname, wfp, fprints
+        ".",  wfp, fprints s#, wfp, fprints
+        " 2", wfp, fprints wfp, fnl
         goto cmp_loop
         
         // char文が検出された場合
@@ -234,32 +246,43 @@ compile_s:
         if k#<>0 goto mode1_end 
         s#, 5, + s#=
         mode15:       // 空白を読み飛ばす
-        if (s)$<>' ' then s#++ gotomode15
-        s#, "%", strstr p#=
-        if p#<>NULL then NULL, (t)$=
-        " const ", wfp, fprints  sname, wfp, fprints
-          ".",  wfp, fprints s#, wfp, fprints
-          " ", wfp, fprints offset#, wfp, fprintd
-          wfp, fnl
-        offset#, 2, + offset#=
+        if (s)$=' ' then s#++ gotomode15
+        s#, "$", strstr p#=
+        if p#<>NULL then NULL, (p)$=
+        " const_plus ", wfp, fprints  sname, wfp, fprints
+        ".",  wfp, fprints s#, wfp, fprints
+        " 1", wfp, fprints wfp, fnl
         goto cmp_loop
         
         // end文が検出された場合
         mode1_end:
         s#, "end", strcmp k#=
-        if k#<>0 goto cmp_loop 
-        " const ", wfp, fprints  sname, wfp, fprints
-        ".SIZE ",  wfp, fprints  offset#, wfp, fprintd
-        wfp, fnl
+        if k#<>0 goto mode1_class 
+        " const_plus ", wfp, fprints  sname, wfp, fprints
+        ".SIZE 0",  wfp, fprints  wfp, fnl
         0, mode#=
         goto cmp_loop
         
+        // クラスが検出された場合
+        mode1_class:
+        cname, p#=
+        mode16:  // クラス名を読み込む
+        if (s)$<>' ' then (s)$, (p)$= s#++ p#++ gotomode16
+        NULL, (p)$=
+        mode17:  // 空白を読み飛ばす
+        if (s)$=' ' then s#++ gotomode17
+        " const_plus ", wfp, fprints  sname, wfp, fprints
+        ".", wfp, fprints s#, wfp, fprints
+        " ", wfp, fprints cname, wfp, fprints
+        ".SIZE",  wfp, fprints wfp, fnl
+        goto cmp_loop
+
     // enum文の場合
     mode2:
     if mode#<>2 goto cmp_loop // 普通はないが、それ以外のモードならループの先頭にジャンプする
       buf, s#=
       mode21:       // 空白を読み飛ばす
-        if (s)$<>' ' then s#++ gotomode21
+        if (s)$=' ' then s#++ gotomode21
 
         // end文が検出された場合
         mode2_end:
@@ -862,7 +885,13 @@ pass3:
  data " count \"
  data ""
  data " const \ \"
- data "/\1: equ \2/
+ data "/\1: = \2/
+"
+ data " const_plus \ \"
+ data "/\1: += \2/
+"
+ data " const0"
+ data "/ = 0/
 "
  data " if \<>\ goto \"
  data " \1,
@@ -921,7 +950,7 @@ pass3:
  data " next \#"
  data " \1#,
  \1+8#,
- jz $+73
+ jz $+118
  \1#,
  \1+16#,
  +
@@ -929,344 +958,6 @@ pass3:
  \1+24#,
  jmp@
 "
-
-// スタック引数関数呼び出し
- data "@\(\)[\,\,\,\,\] \"
- data " \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- 56.,
- @\1(\2)
- \8
-"
- data "@\(\)[\,\,\,\] \"
- data " \6.,
- \5.,
- \4.,
- \3.,
- 48.,
- @\1(\2)
- \7
-"
-
- data "@\(\)[\,\,\] \"
- data " \5.,
- \4.,
- \3.,
- 40.,
- @\1(\2)
- \6
-"
-
- data "@\(\)[\,\] \"
- data " \4.,
- \3.,
- 32.,
- @\1(\2)
- \5
-"
-
- data "@\(\)[\] \"
- data " \3.,
- 24.,
- @\1(\2)
- \4
-"
- data "@\(\)[\,\,\,\,\,\]"
- data " \8.,
- \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- 64.,
- @\1(\2)
-"
-
- data "@\(\)[\,\,\,\,\]"
- data " \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- 56.,
- @\1(\2)
-"
-
- data "@\(\)[\,\,\,\]"
- data " \6.,
- \5.,
- \4.,
- \3.,
- 48.,
- @\1(\2)
-"
-
- data "@\(\)[\,\,\]"
- data " \5.,
- \4.,
- \3.,
- 40.,
- @\1(\2)
-"
-
- data "@\(\)[\,\]"
- data " \4.,
- \3.,
- 32.,
- @\1(\2)
-"
-
- data "@\(\)[\]"
- data " \3.,
- 24.,
- @\1(\2)
-"
-
-
- data "@\[\,\,\,\,\,\] \"
- data " \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 64.,
- @\1
- \8
-"
-
- data "@\[\,\,\,\,\] \"
- data " \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 56.,
- @\1
- \7
-"
-
- data "@\[\,\,\,\] \"
- data " \5.,
- \4.,
- \3.,
- \2.,
- 48.,
- @\1
- \6
-"
-
- data "@\[\,\,\] \"
- data " \4.,
- \3.,
- \2.,
- 40.,
- @\1
- \5
-"
-
- data "@\[\,\] \"
- data " \4.,
- \3.,
- 32.,
- @\1
- \4
-"
-
- data "@\[\] \"
- data " \2.,
- 24.,
- @\1
- \3
-"
-
-
- data "@\[\,\,\,\,\,\,\]"
- data " \8.,
- \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 72.,
- @\1
-"
-
- data "@\[\,\,\,\,\,\]"
- data " \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 64.,
- @\1
-"
-
- data "@\[\,\,\,\,\]"
- data " \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 56.,
- @\1
-"
-
- data "@\[\,\,\,\]"
- data " \5.,
- \4.,
- \3.,
- \2.,
- 48.,
- @\1
-"
-
- data "@\[\,\,\]"
- data " \4.,
- \3.,
- \2.,
- 40.,
- @\1
-"
-
- data "@\[\,\]"
- data " \4.,
- \3.,
- 32.,
- @\1
-"
-
- data "@\[\]"
- data " \2.,
- 24.,
- @\1
-"
-
- data "\[\,\,\,\,\,\] \"
- data " \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 64.,
- \1
- \8
-"
-
- data "\[\,\,\,\,\] \"
- data " \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 56.,
- \1
- \7
-"
-
- data "\[\,\,\,\] \"
- data " \5.,
- \4.,
- \3.,
- \2.,
- 48.,
- \1
- \6
-"
-
- data "\[\,\,\] \"
- data " \4.,
- \3.,
- \2.,
- 40.,
- \1
- \5
-"
-
- data "\[\,\] \"
- data " \4.,
- \3.,
- 32.,
- \1
- \4
-"
-
- data "\[\] \"
- data " \2.,
- 24.,
- \1
- \3
-"
-
- data "\[\,\,\,\,\,\,\]"
- data " \8.,
- \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 72.,
- \\1
-"
-
- data "\[\,\,\,\,\,\]"
- data " \7.,
- \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 64.,
- \1
-"
-
- data "\[\,\,\,\,\]"
- data " \6.,
- \5.,
- \4.,
- \3.,
- \2.,
- 56.,
- \\1
-"
-
- data "\[\,\,\,\]"
- data " \5.,
- \4.,
- \3.,
- \2.,
- 48.,
- \1
-"
-
- data "\[\,\,\]"
- data " \4.,
- \\3.,
- \2.,
- 40.,
- \1
-"
-
- data "\[\,\]"
- data " \4.,
- \3.,
- 32.,
- \1
-"
-
- data "\[\]"
- data " \2.,
- 24.,
- \1
-"
-
  data " data \,\,\,\,\,\,\,\"
  data " data\1
  data\2

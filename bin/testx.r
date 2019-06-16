@@ -10,4 +10,4 @@ main:
   "a+b=", prints 
   aa#, bb#, + printd nl
   end
-nd
+

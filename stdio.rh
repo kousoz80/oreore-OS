@@ -95,24 +95,24 @@
  const GETCH  0x0000000000000068
  const PUTCH  0x0000000000000069
  const WPUTS  0x000000000000006a
- const __sys_table  0x000000000040c798
- const __boot_service  0x000000000040c7d8
- const __critical  0x000000000040c8a0
- const __stack_p  0x000000000040c8a8
- const __int_enable  0x000000000040c8b0
- const __int_busy  0x000000000040c8b8
- const __sys_nest  0x000000000040c8c0
- const time  0x000000000040c8d0
- const SYS_CALL  0x000000000040c8d8
- const SYS_EXT  0x000000000040c8e0
- const tasks  0x000000000040c8e8
- const present_task  0x000000000040c8f0
- const __stack_top  0x000000000040c8f8
- const tcb0  0x000000000040c900
- const cmd_buf  0x000000000040ca98
- const argc  0x000000000040cd98
- const argv  0x000000000040cda0
- const __prog_start  0x000000000040d010
+ const __sys_table  0x000000000040c570
+ const __boot_service  0x000000000040c5b0
+ const __critical  0x000000000040c680
+ const __stack_p  0x000000000040c688
+ const __int_enable  0x000000000040c690
+ const __int_busy  0x000000000040c698
+ const __sys_nest  0x000000000040c6a0
+ const time  0x000000000040c6b0
+ const SYS_CALL  0x000000000040c6b8
+ const SYS_EXT  0x000000000040c6c0
+ const tasks  0x000000000040c6c8
+ const present_task  0x000000000040c6d0
+ const __stack_top  0x000000000040c6d8
+ const tcb0  0x000000000040c6e0
+ const cmd_buf  0x000000000040c870
+ const argc  0x000000000040cb70
+ const argv  0x000000000040cb78
+ const __prog_start  0x000000000040cde8
 // "stdio.base" the base text of "stdio.rh"
 
 __xxmain1:

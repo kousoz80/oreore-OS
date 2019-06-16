@@ -2,7 +2,8 @@
 main:
   long p#,mode#
   
-   argv#(1), "-wait", strcmp mode#=
+   1, mode#=
+   if argc#>1 then argv#(1), "-wait", strcmp mode#=
    tcb0, p#=
    loop:
     if (p)#(STATUS)=RUN    then "RUN     ", prints

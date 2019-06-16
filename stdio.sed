@@ -114,4 +114,5 @@
 /const __sys_table / p
 /const __boot_service / p
 /const dprint / p
+/const no_operation / p
 d

@@ -1,4 +1,4 @@
-//  "oreore-os.r" oreore-OS ver 0.05  for oregengo-R (x64) UEFIアプリケーション  
+//  "oreore-os.r" oreore-OS ver 0.0.6  for oregengo-R (x64) UEFIアプリケーション  
 // (マルチタスク対応版)
 
  const TIMER_INTERVAL 1000000 // 割り込み周期(0.1us単位)
@@ -17,9 +17,11 @@
  const CONIN    2
  const NaN        0x8000000000000000  // ゼロ除算が発生したことをあらわす 
 
- const MAIN_STACK_SIZE             12000
- const DRIVER_STACK_SIZE          8192
- const APPLICATION_STACK_SIZE 12000
+// OSのメモリ領域を決める定数(この辺はトライ＆エラーで決める必要あり)
+ const MAX_PROG_PAGES             1024    // 4MBプログラムエリア
+ const MAIN_STACK_SIZE             1000000
+ const DRIVER_STACK_SIZE          16384
+ const APPLICATION_STACK_SIZE 1000000
 
  // ファイル関連構造体定数
   const FILE_SIZE         0x10
@@ -83,8 +85,9 @@
  long   __create_event#,__set_timer#
  long   __fbuf_length#
  count __p0#
- long   __p1#,__p2#,__p3#,__p4#,__p5#,__p6#,__p7#
- long   __t#,read_p# // data文へのポインタ
+ long   __p1#,__p2#,__p3#,__p4#,__p5#,__p6#,__p7#,__t#
+ long   __paddr#        // palloc関数用のポインタ
+ long   read_p#         // data文へのポインタ
 
  // クリティカルセクションに入ったことを示すフラグ
  long __critical#
@@ -220,8 +223,6 @@ _start:
 / rax=(rax)/
 / call (rax)/
 
- nop, SYS_EXT#= sys_ext0#= // システムコール拡張ベクタの初期化
-
 // スタックポインタを初期化
 / rcx=2/
 / rdx=MAIN_STACK_SIZE/
@@ -230,11 +231,14 @@ _start:
 / rax=(rax)/
 / call (rax)/
 / rax&rax/
-/ jnz __end_loop/
+/ jnz __end_loop/        // 初期化に失敗したときは無限ループ
   __stack_top#, MAIN_STACK_SIZE-8, + __stack_p#=
 
-  // 割り込み用変数の初期化
-  0, __critical#= __int_enable#=  __int_busy#= time#=
+ // システムコール拡張ベクタの初期化
+ nop, SYS_EXT#= sys_ext0#=
+
+ // 割り込み用変数の初期化
+ 0, __critical#= __int_enable#=  __int_busy#= time#=
 
 // タイマー割り込みを設定
 / rax=0x40/
@@ -289,9 +293,9 @@ _start:
 
   "*shell", tcb0+CMD_LINE, strcpy
 
-  1, __int_enable#=  // 割り込みを許可
-  console_init            // コンソールデバイスドライバを初期化する
-  goto switch_task     // メインタスクに切り替える
+  1, __int_enable#=                                 // 割り込みを許可
+  console_init                                           // コンソールデバイスドライバを初期化する
+  goto switch_task                                   // メインタスクに切り替える
  
 
 // エラートラップ(無限ループ)
@@ -695,7 +699,6 @@ exit_process:
   (__k1)#(SIZE/8),    __k3#=
   (__k1)#(STACK/8), __k4#=
   __k1#, @SYS_CALL(KILL_TASK)
-  __k2#, __k3#, @SYS_CALL(PFREE)
   __k4#, @SYS_CALL(FREE)
 
   0, __sys_nest#=  // システムコール状態を解除する
@@ -774,7 +777,7 @@ putc:
   __t#= pop __fbuf$=
   0, __fbuf$(1)=
   1, __fbuf, __t#, _write
-  return
+  end
 
 
 // ファイルへ書き込む( size, buf, fp, _write ) ,戻り値は書き込んだバイト数
@@ -1170,7 +1173,6 @@ abs:
 // 書式: address, pages, palloc
 // 戻り値:成功したときはアドレス,失敗したときはNULL
 palloc:
-  long __paddr#
 / rax=__paddr/
 / (rax)=rsi/
 / rcx=2/
@@ -1258,9 +1260,6 @@ load:
   (__load_header)!(PROG_ADDR), (__load_header)#(IMAGE_BASE), + __load_addr#=
   (__load_header)!(PROG_SIZE), __load_size#=
   __load_header#, @SYS_CALL(FREE)
-  __load_size#, 4096, / __pp#=
-  __load_addr#, __pp#, @SYS_CALL(PALLOC) __pp#=
-  if __pp#=NULL goto __load_error2
   __load_size#, __load_addr#, __load_fp, @SYS_CALL(_READ) __pp#=
   __load_fp, @SYS_CALL(RCLOSE)
   __load_size#, __load_addr#, end
@@ -1345,12 +1344,13 @@ split_arg:
   if (pp0)$(1)<>NULL then next pp0#
 
   argv#(0), exe_file, @SYS_CALL(STRCPY)
-  ".EFI", exe_file, @SYS_CALL(STRCAT)
+  exe_file, ".EFI", @SYS_CALL(STRSTR) t#=
+  if t#=NULL then ".EFI", exe_file, @SYS_CALL(STRCAT)
 
    exe_file, @SYS_CALL(LOAD) s#= pop t#=
    if s#=ERROR goto error_end
    APPLICATION_STACK_SIZE, @SYS_CALL(MALLOC) stack#=
-   if stack#=NULL then s#, t#, @SYS_CALL(PFREE) gotoerror_end
+//   if stack#=NULL then s#, t#, @SYS_CALL(PFREE) gotoerror_end
    stack#, APPLICATION_STACK_SIZE, + sp#=
    s#, 8, + task#=                       // TCB領域はプログラム領域の先頭から8バイト目
    task#, s#, sp#, @SYS_CALL(CREATE_TASK)
@@ -1676,7 +1676,7 @@ main:
 // スタートアップルーチン
   1, @SYS_CALL(CURSOR)
   @SYS_CALL(CLS)
-  "oreore-OS version 0.0.5", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
+  "oreore-OS version 0.0.6", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
 
   // バッチファイル"autoexec.bat"が存在すれば、それを実行する
   "autoexec.bat", bat_file, ropen f#=
@@ -1704,4 +1704,4 @@ error_end:
 
 
 // ここからアプリケーション領域
-  char __prog_start$(0)
+  char __prog_start$(4000000)

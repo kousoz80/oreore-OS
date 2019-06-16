@@ -4,7 +4,8 @@ main:
   char buf$(1024)
   long t#,mode#
 
-  argv#(1), "-wait", strcmp mode#=
+   1, mode#=
+   if argc#>1 then argv#(1), "-wait", strcmp mode#=
    buf, vol_read  t#=   // ディレクトリ情報を一つ分読み込む
     if t#=0 goto exit1
       0, buf+20$=

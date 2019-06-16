@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+<!-- なんちゃってXML version 0.1( ObjectEditor専用 ) -->
+<xobject>
+<ID>project</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>200</width>
+<height>100</height>
+<ID_maker>23</ID_maker>
+<objectname>oreore_note</objectname>
+<description>新規のアプリケーション</description>
+<pin>
+<ID>_PSTART</ID>
+<x0>13</x0>
+<y0>138</y0>
+<width>55</width>
+<height>24</height>
+<text>Start()</text>
+<px>50</px>
+<py>50</py>
+</pin>
+<relation>
+<ID>_R6</ID>
+<pin1name>_A7(_Pfile_menu)</pin1name>
+<pin2name>_X_G10(_P11)</pin2name>
+</relation>
+<relation>
+<ID>_R4</ID>
+<pin1name>_PSTART</pin1name>
+<pin2name>_A7(_Pstart)</pin2name>
+</relation>
+<xobject>
+<ID>_X_G10</ID>
+<x0>435</x0>
+<y0>249</y0>
+<width>180</width>
+<height>87</height>
+<objectname>Control</objectname>
+<description></description>
+<operation>
+<ID>_O5</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>309</x0>
+<y0>85</y0>
+<width>426</width>
+<height>64</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>43</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext> NULL, file_menu,  -&gt;Button.component -&gt;Component.border#=
+</codetext>
+</operation>
+<pin>
+<ID>_P11</ID>
+<text>menu_created()</text>
+<x0>146</x0>
+<y0>80</y0>
+<width>102</width>
+<height>23</height>
+<px>17</px>
+<py>55</py>
+</pin>
+<relation>
+<ID>_R12</ID>
+<pin2name>_O5</pin2name>
+<pin1name>_P11</pin1name>
+</relation>
+<ID_maker>18</ID_maker>
+<pin>
+<ID>_P13</ID>
+<x0>149</x0>
+<y0>184</y0>
+<width>104</width>
+<height>25</height>
+<text>show_memu()</text>
+<px>24</px>
+<py>34</py>
+</pin>
+<codeclip>
+<ID>_C15</ID>
+<x0>320</x0>
+<y0>40</y0>
+<width>135</width>
+<height>22</height>
+<codetext>// ファイルメニュー
+ 
+  char fmenu$(Label.SIZE)
+  char fmenu_open$(Button.SIZE)
+  char fmenu_save$(Button.SIZE)
+  char fmenu_exit$(Button.SIZE)
+  long com0#,com1#
+  
+
+// ファイルメニューを作成する
+create_fmenu:
+  GUI, -&gt;Window.component com#=
+
+  // シートを生成
+  fmenu, GUI, com#, &quot;&quot;, create_label 
+  fmenu, -&gt;Label.component com0#=
+  160, com0#, -&gt;Component.width#=
+  60, com0#, -&gt;Component.height#=
+  RAISED_BORDER, com#, -&gt;Component.border#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+
+  // 開くボタンを生成
+  fmenu_open, desktop, com0#, &quot;   open&quot;, create_button 
+  fmenu_open, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  0,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  fmenu_open, fmenu_open_clicked, set_button_lclicked
+
+  // 保存ボタンを生成
+ fmenu_save, desktop, com0#, &quot;  save&quot;, create_button 
+ fmenu_save, -&gt;Button.component com1#=
+  0,    com1#, -&gt;Component.x#=
+  20,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+ fmenu_save, fmenu_save_clicked, set_button_lclicked
+
+  // 終了ボタンを生成
+  fmenu_exit, desktop, com0#, &quot;  exit&quot;, create_button 
+  fmenu_exit, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  40,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  fmenu_exit, fmenu_exit_clicked, set_button_lclicked
+  end
+
+
+// ファイルメニューを表示する
+show_fmenu:
+  1, key_mask#=
+  GUI, -&gt;Window.component com0#=
+  fmenu, -&gt;Label.component com1#=
+  mouse_x#, com0#, -&gt;Component.left# - com1#, -&gt;Component.x#=
+  mouse_y#, com0#, -&gt;Component.top# - com1#, -&gt;Component.y#=
+  TRUE, com1#, -&gt;Component.is_visible#=
+  com1#, pop_up_component
+  com0#, repaint
+  end
+
+
+// ファイルメニューを非表示にする
+hide_fmenu:
+  0, key_mask#=
+  GUI, -&gt;Window.component com0#=
+  fmenu, -&gt;Label.component com1#=
+  TRUE, com1#, -&gt;Component.is_visible#=
+  com0#, repaint
+  end
+
+
+// 開くボタンをクリックしたとき
+fmenu_open_clicked:
+  0, key_mask#=
+  fmenu, -&gt;Label.component com0#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  file_open, show_open_dialog
+  end
+
+
+// 保存ボタンをクリックしたとき
+fmenu_save_clicked:
+  0, key_mask#=
+  fmenu, -&gt;Label.component com0#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  file_save, show_save_dialog
+  end
+
+
+// 終了ボタンをクリックしたとき
+fmenu_exit_clicked:
+  0, key_mask#=
+  fmenu, -&gt;Label.component com0#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+  exit_program
+  end
+</codetext>
+</codeclip>
+<operation>
+<ID>_O16</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>309</x0>
+<y0>170</y0>
+<width>386</width>
+<height>79</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>60</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext> fmenu, -&gt;Label.component -&gt;Component.is_visible# tt#=
+ if tt#=FALSE then show_fmenu
+ if tt#=TRUE  then hide_fmenu
+
+</codetext>
+</operation>
+<relation>
+<ID>_R17</ID>
+<pin1name>_P13</pin1name>
+<pin2name>_O16</pin2name>
+</relation>
+</xobject>
+<relation>
+<ID>_R11</ID>
+<pin1name>_A7(_PAfile_menu)</pin1name>
+<pin2name>_X_G10(_P13)</pin2name>
+</relation>
+<aobject>
+<ID>_A7</ID>
+<x0>94</x0>
+<y0>160</y0>
+<width>280</width>
+<objectname>GUI</objectname>
+<description>GUIオブジェクト
+</description>
+<state>
+<ID>_SINIT</ID>
+<x0>0</x0>
+<y0>40</y0>
+<width>70</width>
+<height>40</height>
+<text>  InitState</text>
+<isinitstate>1</isinitstate>
+</state>
+<pin>
+<ID>_Pstart</ID>
+<x0>400</x0>
+<y0>100</y0>
+<width>80</width>
+<height>26</height>
+<text>Start()</text>
+<px>0</px>
+<py>36</py>
+</pin>
+<pin>
+<ID>_PGUIout</ID>
+<x0>0</x0>
+<y0>84</y0>
+<width>180</width>
+<height>26</height>
+<text>GUI_created(GUI)</text>
+<px>0</px>
+<py>54</py>
+</pin>
+<pin>
+<ID>_PGUIclosed</ID>
+<x0>310</x0>
+<y0>0</y0>
+<width>180</width>
+<height>26</height>
+<text>GUI_closed()</text>
+<px>100</px>
+<py>6</py>
+</pin>
+<action>
+<ID>_Astart</ID>
+<comp1name>_Pstart</comp1name>
+<comp2name>_Ocreate</comp2name>
+</action>
+<operation>
+<ID>_Ocreate</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>220</x0>
+<y0>40</y0>
+<width>130</width>
+<height>64</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>30</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>30</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>90</inpinx0>
+<inpiny0>43</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// GUIを作成する
+ create_gui
+
+</codetext>
+</operation>
+<pin>
+<ID>_PAfile_menu</ID>
+<x0>0</x0>
+<y0>110</y0>
+<width>200</width>
+<height>26</height>
+<text>file_menu_clicked()</text>
+<px>0</px>
+<py>72</py>
+</pin>
+<pin>
+<ID>_Pfile_menu</ID>
+<x0>0</x0>
+<y0>138</y0>
+<width>200</width>
+<height>26</height>
+<text>file_menu_created(file_menu)</text>
+<px>0</px>
+<py>90</py>
+</pin>
+<pin>
+<ID>_Ptextarea</ID>
+<x0>0</x0>
+<y0>166</y0>
+<width>200</width>
+<height>26</height>
+<text>textarea_created(textarea)</text>
+<px>0</px>
+<py>108</py>
+</pin>
+<codeclip>
+<ID>_CXSTART</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>300</width>
+<height>26</height>
+<codetext>create_gui:
+ char GUI$(Window.SIZE)
+ long guicom#,com#
+ GUI, desktop, &quot;NotePad&quot;, create_window
+ GUI, -&gt;Window.component guicom#=
+  0, guicom#, -&gt;Component.x#=
+ 0, guicom#, -&gt;Component.y#=
+ 430, guicom#, -&gt;Component.width#=
+ 329, guicom#, -&gt;Component.height#=
+  FALSE, GUI, -&gt;Window.resizable#=
+ GUI_closed, GUI, -&gt;Window.minimized#=
+ 13421772, guicom#, -&gt;Component.background#=
+  char file_menu$(Button.SIZE)
+  file_menu, GUI, guicom#, &quot;File&quot;, create_button
+ file_menu, -&gt;Button.component com#=
+ 9, com#, -&gt;Component.x#=
+ 25, com#, -&gt;Component.y#=
+ 68, com#, -&gt;Component.width#=
+ 26, com#, -&gt;Component.height#=
+ 3355443, com#, -&gt;Component.foreground#=
+ 13421772, com#, -&gt;Component.background#=
+ file_menu_clicked, file_menu, -&gt;Button.lclicked#=
+ file_menu_created
+ char textarea$(TextArea.SIZE)
+  textarea, GUI, guicom#, &quot;&quot;, create_textarea
+ textarea, -&gt;TextArea.component com#=
+ 21, com#, -&gt;Component.x#=
+ 55, com#, -&gt;Component.y#=
+ 391, com#, -&gt;Component.width#=
+ 259, com#, -&gt;Component.height#=
+ 3355443, com#, -&gt;Component.foreground#=
+ 16777215, com#, -&gt;Component.background#=
+ textarea_created
+ GUI_created
+ end
+</codetext>
+</codeclip>
+<ID_maker>23</ID_maker>
+<height>130</height>
+<レイアウト>NotePad
+422
+301
+204
+204
+204
+xxscale=1
+BUTTON;file_menu;File;6;0;68;26;51;51;51;204;204;204;Dialog;12;null;0;0;1;1;1;Button;
+TEXTAREA;textarea;null;18;30;391;259;51;51;51;255;255;255;Dialog;12;1;1;1;TextArea;
+</レイアウト>
+</aobject>
+<プロパティ>
+<ID>properties</ID>
+<LookandFeel>javax.swing.plaf.metal.MetalLookAndFeel</LookandFeel>
+<MainWinx0>0</MainWinx0>
+<MainWiny0>0</MainWiny0>
+<MainWinWidth>1024</MainWinWidth>
+<MainWinHeight>745</MainWinHeight>
+<MesgWinx0>0</MesgWinx0>
+<MesgWiny0>561</MesgWiny0>
+<MesgWinWidth>1024</MesgWinWidth>
+<MesgWinHeight>179</MesgWinHeight>
+<FileWinx0>398</FileWinx0>
+<FileWiny0>433</FileWiny0>
+<FileWinWidth>578</FileWinWidth>
+<FileWinHeight>262</FileWinHeight>
+<EditWinx0>347</EditWinx0>
+<EditWiny0>0</EditWiny0>
+<EditWinWidth>676</EditWinWidth>
+<EditWinHeight>541</EditWinHeight>
+<PropWinx0>0</PropWinx0>
+<PropWiny0>1</PropWiny0>
+<PropWinWidth>617</PropWinWidth>
+<PropWinHeight>448</PropWinHeight>
+<DividerLocation1>2</DividerLocation1>
+<DividerLocation2>2</DividerLocation2>
+<ToolBarVisible>1</ToolBarVisible>
+<ViewSourceAtCompile>0</ViewSourceAtCompile>
+<NoSourceCreate>0</NoSourceCreate>
+<JavaEditCommand>geany</JavaEditCommand>
+<JavaViewCommand></JavaViewCommand>
+<HelpCommand></HelpCommand>
+<ApplicationType>7</ApplicationType>
+<CompileCommand0>./compile_java</CompileCommand0>
+<RunCommand0>./run_java</RunCommand0>
+<GUIDesignerCommand0>java -jar guidsin.jar -java</GUIDesignerCommand0>
+<ImportFiles0> import java.awt.*;
+ import java.awt.event.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import javax.swing.border.*;
+import javax.swing.filechooser.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.image.BufferedImage;
+import javax.sound.sampled.*;
+
+class Starter{
+  public static void main( String args[] ){
+    %AppName% ap = new %AppName%();
+    ap.ARGS = args;
+    ap.Start();
+  }
+}
+</ImportFiles0>
+<ProgramStartupCode0> String[] ARGS;
+</ProgramStartupCode0>
+<NativeHelpCommand0></NativeHelpCommand0>
+<CompileCommand1></CompileCommand1>
+<RunCommand1></RunCommand1>
+<GUIDesignerCommand1>java -jar guidsin.jar -applet</GUIDesignerCommand1>
+<ImportFiles1> import java.awt.*;
+ import java.awt.event.*;
+ import java.applet.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+ public class javatext extends Applet {
+   %AppName% ap;
+   public void init() {
+     ap = new %AppName%();
+     ap.APPLET = this;
+     ap.Start();
+   }
+ }
+</ImportFiles1>
+<ProgramStartupCode1> Applet APPLET;
+</ProgramStartupCode1>
+<NativeHelpCommand1></NativeHelpCommand1>
+<CompileCommand2></CompileCommand2>
+<RunCommand2></RunCommand2>
+<GUIDesignerCommand2></GUIDesignerCommand2>
+<ImportFiles2>#include &lt;stdio.h&gt;
+
+void Startup();
+</ImportFiles2>
+<ProgramStartupCode2>int main(){
+ Startup();
+ %AppName%::Start();
+ }
+</ProgramStartupCode2>
+<NativeHelpCommand2></NativeHelpCommand2>
+<CompileCommand3></CompileCommand3>
+<RunCommand3></RunCommand3>
+<GUIDesignerCommand3>java -jar guidsin.jar -cpp</GUIDesignerCommand3>
+<ImportFiles3>#include &lt;stdio.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;math.h&gt;
+#include &quot;Ekagen.h&quot;
+void Startup();
+</ImportFiles3>
+<ProgramStartupCode3>void Emain(){
+Startup();
+%AppName%::Start();
+}
+</ProgramStartupCode3>
+<NativeHelpCommand3></NativeHelpCommand3>
+<MoveStep>8</MoveStep>
+<ImageEditCommand></ImageEditCommand>
+<CompilerFileName>javac.exe</CompilerFileName>
+<CompileCommand4>./compile_android Test com example test</CompileCommand4>
+<RunCommand4>echo no action</RunCommand4>
+<GUIDesignerCommand4>java -jar guidsin.jar -android</GUIDesignerCommand4>
+<ImportFiles4>package com.example.test;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.widget.Button;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.widget.EditText;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.graphics.Matrix;
+import android.graphics.Typeface;
+import android.graphics.RectF;
+import android.graphics.BitmapFactory;
+import java.io.*;
+ import java.net.*;
+import java.util.*;
+import java.text.SimpleDateFormat;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.content.res.Configuration;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.app.Activity;
+import android.graphics.Color;
+
+import android.widget.AbsoluteLayout;
+import android.widget.*;
+import android.view.Gravity;
+import android.view.View.OnClickListener;
+
+import android.hardware.Camera;
+
+public class HelloWorld extends Activity {
+  public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    %AppName% ap = new %AppName%();
+    ap.ACTIVITY = this;
+    ap.Start();
+  }
+}
+</ImportFiles4>
+<ProgramStartupCode4>Activity ACTIVITY;
+</ProgramStartupCode4>
+<NativeHelpCommand4>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.test&quot;
+    android:versionCode=&quot;1&quot;
+    android:versionName=&quot;1.0&quot; &gt;
+
+    
+    
+  &lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.usb.host&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.RECORD_AUDIO&quot;/&gt;
+  &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+
+  &lt;uses-sdk android:minSdkVersion=&quot;3&quot; android:targetSdkVersion=&quot;21&quot;/&gt;
+  
+ 
+    &lt;application android:label=&quot;@string/app_name&quot; &gt;
+        &lt;activity
+            android:name=&quot;HelloWorld&quot;
+            android:label=&quot;@string/app_name&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</NativeHelpCommand4>
+<HtmlEditCommand></HtmlEditCommand>
+<CompileCommand5></CompileCommand5>
+<RunCommand5></RunCommand5>
+<GUIDesignerCommand5></GUIDesignerCommand5>
+<ImportFiles5></ImportFiles5>
+<ProgramStartupCode5>gosub @_PSTART
+end
+</ProgramStartupCode5>
+<NativeHelpCommand5></NativeHelpCommand5>
+<NoOptimizePin>0</NoOptimizePin>
+<CompileCommand6>./compile_c</CompileCommand6>
+<RunCommand6>./run_c</RunCommand6>
+<GUIDesignerCommand6></GUIDesignerCommand6>
+<ImportFiles6>#include &lt;setjmp.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;math.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netdb.h&gt;
+
+#include &lt;X11/Xlib.h&gt;
+#include &lt;X11/Xutil.h&gt;
+#include &lt;X11/Xlocale.h&gt; /* ロケール用ヘッダーファイル */
+#include &lt;X11/xpm.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;errno.h&gt;
+</ImportFiles6>
+<ProgramStartupCode6>int ARGC; char** ARGV;
+int main( int argc, char** argv ){
+  ARGC=argc;
+  ARGV=argv;
+  _PSTART();
+}
+</ProgramStartupCode6>
+<NativeHelpCommand6></NativeHelpCommand6>
+<CompileCommand7>./compile_notepad</CompileCommand7>
+<RunCommand7></RunCommand7>
+<GUIDesignerCommand7>java -jar guidsin.jar -ore</GUIDesignerCommand7>
+<ImportFiles7></ImportFiles7>
+<ProgramStartupCode7>main:
+  _INIT_STATES
+  goto _PSTART
+</ProgramStartupCode7>
+<NativeHelpCommand7></NativeHelpCommand7>
+</プロパティ>
+<operation>
+<ID>_O13</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>406</x0>
+<y0>29</y0>
+<width>139</width>
+<height>52</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>31</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>  exit_program
+</codetext>
+</operation>
+<relation>
+<ID>_R14</ID>
+<pin1name>_A7(_PGUIclosed)</pin1name>
+<pin2name>_O13</pin2name>
+</relation>
+<operation>
+<ID>_O15</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>419</x0>
+<y0>106</y0>
+<width>334</width>
+<height>130</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>111</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext> long ico#
+ &quot;text.ico&quot;, load_image ico#=
+ GUI, ico#, set_window_icon
+ textarea, -&gt;TextArea.component request_focus
+ if argc#&gt;1 then argv#(1), file_open
+ create_fmenu 
+ 
+</codetext>
+</operation>
+<relation>
+<ID>_R16</ID>
+<pin1name>_A7(_PGUIout)</pin1name>
+<pin2name>_O15</pin2name>
+</relation>
+<codeclip>
+<ID>_C19</ID>
+<x0>637</x0>
+<y0>275</y0>
+<width>324</width>
+<height>67</height>
+<codetext>// プログラム終了
+exit_program:
+  GUI, -&gt;Window.component remove_component
+  end</codetext>
+</codeclip>
+<codeclip>
+<ID>_C20</ID>
+<x0>45</x0>
+<y0>364</y0>
+<width>292</width>
+<height>196</height>
+<codetext>// テキストを読み込む
+file_open:
+  char infile$(FILE_SIZE),buf$(65536)
+  pp#=
+  pp#, infile, ropen tt#=
+  if tt#=ERROR then end
+  65536, buf, infile, _read tt#=
+  infile, rclose
+  NULL, buf$(tt#)=
+  buf, textarea, set_textarea_text
+  desktop, -&gt;Desktop.component repaint
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C21</ID>
+<x0>91</x0>
+<y0>30</y0>
+<width>266</width>
+<height>40</height>
+<codetext>// メモ帳 for oreoer-OS ver 0.0.6
+ long pp#,tt#
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C22</ID>
+<x0>352</x0>
+<y0>372</y0>
+<width>317</width>
+<height>191</height>
+<codetext>// テキストを保存する
+file_save:
+  char outfile$(FILE_SIZE)
+  pp#=
+  pp#, outfile, wopen tt#=
+  if tt#=ERROR then end
+  textarea, -&gt;TextArea.text# pp#= strlen tt#=
+  tt#, pp#, outfile, _write
+  outfile, wclose
+  end
+</codetext>
+</codeclip>
+</xobject>

@@ -6,7 +6,7 @@
 <y0>0</y0>
 <width>200</width>
 <height>100</height>
-<ID_maker>31</ID_maker>
+<ID_maker>47</ID_maker>
 <objectname>startx</objectname>
 <description>新規のアプリケーション</description>
 <プロパティ>
@@ -17,11 +17,11 @@
 <MainWinWidth>1024</MainWinWidth>
 <MainWinHeight>745</MainWinHeight>
 <MesgWinx0>0</MesgWinx0>
-<MesgWiny0>566</MesgWiny0>
+<MesgWiny0>561</MesgWiny0>
 <MesgWinWidth>1024</MesgWinWidth>
-<MesgWinHeight>174</MesgWinHeight>
-<FileWinx0>36</FileWinx0>
-<FileWiny0>478</FileWiny0>
+<MesgWinHeight>179</MesgWinHeight>
+<FileWinx0>426</FileWinx0>
+<FileWiny0>487</FileWiny0>
 <FileWinWidth>578</FileWinWidth>
 <FileWinHeight>262</FileWinHeight>
 <EditWinx0>347</EditWinx0>
@@ -266,9 +266,10 @@ int main( int argc, char** argv ){
 <NativeHelpCommand6></NativeHelpCommand6>
 <CompileCommand7>./compile_startx</CompileCommand7>
 <RunCommand7>./run_startx</RunCommand7>
-<GUIDesignerCommand7></GUIDesignerCommand7>
+<GUIDesignerCommand7>java -jar guidsin.jar -ore</GUIDesignerCommand7>
 <ImportFiles7></ImportFiles7>
 <ProgramStartupCode7>main:
+  _INIT_STATES
   goto _PSTART
 </ProgramStartupCode7>
 <NativeHelpCommand7></NativeHelpCommand7>
@@ -276,7 +277,7 @@ int main( int argc, char** argv ){
 <pin>
 <ID>_PSTART</ID>
 <x0>7</x0>
-<y0>361</y0>
+<y0>377</y0>
 <width>55</width>
 <height>24</height>
 <text>Start()</text>
@@ -285,17 +286,17 @@ int main( int argc, char** argv ){
 </pin>
 <codeclip>
 <ID>_C1</ID>
-<x0>15</x0>
-<y0>4</y0>
-<width>315</width>
-<height>22</height>
-<codetext>// ウィンドウシステム for oreore-OS ver 0.0.5
-</codetext>
+<x0>14</x0>
+<y0>9</y0>
+<width>312</width>
+<height>38</height>
+<codetext>// Xsys ウィンドウシステム for oreore-OS
+// ver 0.06</codetext>
 </codeclip>
 <codeclip>
 <ID>_C2</ID>
 <x0>95</x0>
-<y0>69</y0>
+<y0>85</y0>
 <width>224</width>
 <height>20</height>
 <codetext> // GUIコンポーネントの基底クラス
@@ -355,6 +356,8 @@ int main( int argc, char** argv ){
    TYPE_MENU
    TYPE_LIST
    TYPE_TABLE
+   TYPE_FITEM
+   TYPE_FILER
   end
 
 // 定数
@@ -367,12 +370,10 @@ int main( int argc, char** argv ){
 // GUIコンポーネントを生成する
 // 使用法: com, subclass, parent, look_and_feel create_component
 create_component:
+
+// &quot;create component&quot;, log, fprints log, fnl
+
   tt#= pop parent#= pop ss#= pop com#=
-
-//  &quot;create component&quot;, log, fprints log, fnl
-//  &quot;com=&quot;, log, fprints com#, hex log, fprints
-//  log, fnl
-
   ss#,  com#, -&gt;Component.subclass#=
   TYPE_OTHER, com#, -&gt;Component.type#=
   parent#, com#, -&gt;Component.parent#=
@@ -403,6 +404,18 @@ create_component:
 // GUIコンポーネントを削除する
 remove_component:
   com#=
+
+  // 子供のコンポーネントから削除する
+  remove_component1:
+    com#, -&gt;Component.top_child# tt#=
+    if tt#=NULL goto remove_component2
+    com#, PUSH
+    tt#, remove_component
+    POP com#=
+    goto remove_component1
+  
+  //  コンポーネント本体を削除する
+  remove_component2:
   com#, -&gt;Component.parent# parent#=
   com#, -&gt;Component.prev# prev#=
   com#, -&gt;Component.next# next#=
@@ -429,11 +442,6 @@ dispatch_mouse_event:
   end
 
 
-//  &quot;dispatch mouse event:&quot;, log, fprints log, fnl
-//  &quot;com=&quot;, log, fprints com#, hex log, fprints
-//   log, fnl
-
-  
   // GUIコンポーネントが不可視状態ならイベント処理をしない
   com#, -&gt;Component.is_visible# tt#=
   if tt#=0 then FALSE, end
@@ -445,9 +453,6 @@ dispatch_mouse_event:
   if tt#&gt;=0 then FALSE, end
     
   // まず子供コンポーネントのイベント割り当てを行う
-
-//  &quot;dispatch child mouse event:&quot;, log, fprints log, fnl
-
   com#, -&gt;Component.top_child# tt#=
   dispatch_mouse_event1:
     if tt#=NULL goto dispatch_mouse_event2
@@ -460,12 +465,7 @@ dispatch_mouse_event:
    
   // 次にクリックの処理をする
   dispatch_mouse_event2:
-
-//  &quot;end dispatch child &quot;, log, fprints log, fnl
-
     com#, -&gt;Component.status# tt#=
-
-//  &quot;status=&quot;, log, fprints tt#, log, fprintd log, fnl
 
   // GUIコンポーネント上でマウスボタンが押されていない状態
 
@@ -473,9 +473,6 @@ dispatch_mouse_event:
   dispatch_mouse_event3:
     if tt#&lt;&gt;MOUSE_RELEASE goto dispatch_mouse_event5
     if mouse_left#=0 goto dispatch_mouse_event4
-
-//  &quot;L button ON:&quot;, log, fprints log, fnl
-
     mouse_x#, mouse_y#, com#, is_on_component ss#=
     if ss#=0 then FALSE, end
     MOUSE_PRESS_L, com#, -&gt;Component.status#=
@@ -484,9 +481,6 @@ dispatch_mouse_event:
   // 右ボタンのチェック
   dispatch_mouse_event4:
     if mouse_right#=0 then FALSE, end
-
-//  &quot;R button ON:&quot;, log, fprints log, fnl
-
     mouse_x#, mouse_y#, com#, is_on_component ss#=
     if ss#=0 then FALSE, end
     MOUSE_PRESS_R, com#, -&gt;Component.status#=
@@ -496,9 +490,6 @@ dispatch_mouse_event:
   dispatch_mouse_event5:
     if tt#&lt;&gt;MOUSE_PRESS_L goto dispatch_mouse_event6
     if mouse_left#&lt;&gt;0 then TRUE, end
-
-//  &quot;L button OFF:&quot;, log, fprints log, fnl
-
     MOUSE_RELEASE, com#, -&gt;Component.status#=
     if clicked_component#&lt;&gt;NULL then com#, clicked_component#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.mouse_lclicked2
     com#, com#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.mouse_lclicked
@@ -511,9 +502,6 @@ dispatch_mouse_event:
   dispatch_mouse_event6:
     if tt#&lt;&gt;MOUSE_PRESS_R goto dispatch_mouse_event7
     if mouse_right#&lt;&gt;0 then TRUE, end
-
-//  &quot;R button OFF:&quot;, log, fprints log, fnl
-
     MOUSE_RELEASE, com#, -&gt;Component.status#=
     if clicked_component#&lt;&gt;NULL then com#, clicked_component#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.mouse_rclicked2
     com#, com#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.mouse_rclicked
@@ -531,9 +519,6 @@ dispatch_mouse_event:
 // GUIコンポーネントを描画する
 repaint:
  tt#=
-
-// &quot;repaint:&quot;, log, fprints log, fnl
-
   tt#, paint_component
   _disp
   end
@@ -543,12 +528,6 @@ repaint:
 paint_component:
   com#=
 
-//  &quot;focused component=&quot;, log, fprints  
-//  focused_component#, hex log, fprints log, fnl
-
-//  &quot;clicked component=&quot;, log, fprints  
-//  clicked_component#, hex log, fprints log, fnl
-
   // 描画可能でなければリターン
   com#, -&gt;Component.is_visible# tt#=
   if tt#=0 then end
@@ -557,53 +536,8 @@ paint_component:
   com#, -&gt;Component.is_painting# tt#=
   if tt#=TRUE then end
 
-//  &quot;paint component2:&quot;, log, fprints log, fnl  
-
   // 矩形領域をセットする
   com#, set_component_rect
-
-
-//  &quot;paint component:&quot;, log, fprints log, fnl  
-//  &quot;com=&quot;, log, fprints
-//  com#, hex log, fprints log, fnl
-//  &quot;parent=&quot;, log, fprints
-//  com#, -&gt;Component.parent# tt#=
-//  tt#, hex log, fprints log, fnl
-//  &quot;background=&quot;, log, fprints
-//  com#, -&gt;Component.background# tt#=
-//  tt#, hex log, fprints log, fnl
-//  &quot;is_visible=&quot;, log, fprints
-//  com#, -&gt;Component.is_visible# tt#=
-//  tt#, log, fprintd log, fnl
-//  &quot;is_painting=&quot;, log, fprints
-//  com#, -&gt;Component.is_painting# tt#=
-//  tt#, log, fprintd log, fnl
-
-//  &quot;x=&quot;, log, fprints
-//  com#, -&gt;Component.x# tt#=
-//  tt#, log, fprintd log, fnl
-//  &quot;y=&quot;, log, fprints
-//  com#, -&gt;Component.y# tt#=
-//  tt#, log, fprintd log, fnl
-//  &quot;width=&quot;, log, fprints
-//  com#, -&gt;Component.width# tt#=
-//  tt#, log, fprintd log, fnl
-//  &quot;height=&quot;, log, fprints
-//  com#, -&gt;Component.height# tt#=
-//  tt#, log, fprintd log, fnl
-//  &quot;left=&quot;, log, fprints
-//  com#, -&gt;Component.left# tt#=
-//  tt#, log, fprintd log, fnl
-//  &quot;top=&quot;, log, fprints
-//  com#, -&gt;Component.top# tt#=
-//  tt#, log, fprintd log, fnl
-//  &quot;right=&quot;, log, fprints
-//  com#, -&gt;Component.right# tt#=
-//  tt#, log, fprintd log, fnl
-//  &quot;bottom=&quot;, log, fprints
-//  com#, -&gt;Component.bottom# tt#=
-//  tt#, log, fprintd log, fnl
-
 
   // 矩形領域が有効でないときはリターン
   com#, -&gt;Component.left# com#, -&gt;Component.right# - tt#=
@@ -615,24 +549,10 @@ paint_component:
   // 描画処理
   TRUE, com#, -&gt;Component.is_painting#=
 
-
-//  &quot;look and feel=&quot;, log, fprints
-//  com#, -&gt;Component.look_and_feel# tt#=
-//  tt#, hex log, fprints log, fnl
-//  &quot;paint component=&quot;, log, fprints
-//  tt#, -&gt;LookAndFeel.paint_component# tt#=
-//  tt#, hex log, fprints log, fnl
-
   // 自分の描画
   com#, -&gt;Component.look_and_feel# -&gt;LookAndFeel.paint_component# tt#=
-
-// &quot;xxxpaint component=&quot;, log, fprints
-// tt#, hex log, fprints log, fnl
-
   com#, com#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.paint_component
-//  com#, @tt
   com#, -&gt;Component.end_child# tt#=
-
   paint_component1:
     if tt#=NULL goto paint_component2
     com#, PUSH tt#, PUSH
@@ -648,11 +568,6 @@ paint_component:
 // GUIコンポーネントの基盤部分と境界を描く
 paint_base:
   com#=
-  
-//  &quot;paint base:&quot;, log, fprints log, fnl  
-//  &quot;com=&quot;, log, fprints  
-//  com#, hex log, fprints log, fnl
-
 
   // 境界のリスト
   enum
@@ -661,10 +576,6 @@ paint_base:
     RAISED_BORDER
     LOWERD_BORDER
   end
-
-//  &quot;color=&quot;, log, fprints  
-//  com#, -&gt;Component.background# hex log, fprints log, fnl
-
 
   // 背景を描く
   com#, -&gt;Component.background# set_color
@@ -711,9 +622,6 @@ paint_base:
 
    // デフォルトの処理(何もしない)
   paint_base4:
-  
-//  &quot;paint base end&quot;, log, fprints log, fnl  
-
   end
 
 // GUIコンポーネントの矩形領域をセットする
@@ -721,59 +629,32 @@ set_component_rect:
   long lf0#,tp0#,ri0#,bt0#
   
   com#=
-
-//  &quot;set component rect:&quot;, log, fprints log, fnl  
-
   com#, -&gt;Component.parent# parent#=
   if parent#&lt;&gt;NULL goto set_component_rect1
-  
-//  &quot;set component(desktop)&quot;, log, fprints log, fnl
-   
+
     // デスクトップコンポーネントの場合
     com#, -&gt;Component.x# ss#= com#, -&gt;Component.left#= lf0#=
     com#, -&gt;Component.y# tt#= com#, -&gt;Component.top#= tp0#=
-  
     com#, -&gt;Component.width#   ss#, + 1, -  ri0#= 
     com#,  -&gt;Component.right#=
-  
     com#, -&gt;Component.height#  tt#, + 1, -  bt0#=
     com#, -&gt;Component.bottom#=
-
-//  &quot;left=&quot;,       log, fprints lf0#,  log, fprintd log, fnl
-//  &quot;top=&quot;,       log, fprints tp0#, log, fprintd log, fnl
-//  &quot;right=&quot;,     log, fprints ri0#, log, fprintd log, fnl
-//  &quot;bottom=&quot;, log, fprints bt0#, log, fprintd log, fnl
-
     end
   
 // デスクトップコンポーネント以外の場合
 set_component_rect1:
-  
-//  &quot;set component(no desktop)&quot;, log, fprints log, fnl
-   
   parent#, -&gt;Component.left# com#, -&gt;Component.x# +  lf0#=
   com#, -&gt;Component.left#=
-  
   parent#, -&gt;Component.top# com#, -&gt;Component.y# +  tp0#=
   com#, -&gt;Component.top#=
-  
   com#, -&gt;Component.width#  lf0#, + 1, - ri0#=
   com#, -&gt;Component.right#=
-  
   parent#, -&gt;Component.right# tt#=
   if ri0#&gt;tt# then tt#, ri0#= com#, -&gt;Component.right#=
-
   com#, -&gt;Component.height# tp0#, + 1, - bt0#=
   com#, -&gt;Component.bottom#=
-  
   parent#, -&gt;Component.bottom# tt#=
   if bt0#&gt;tt# then tt#, bt0#= com#, -&gt;Component.bottom#=
-
-//  &quot;left=&quot;,       log, fprints lf0#,  log, fprintd log, fnl
-//  &quot;top=&quot;,       log, fprints tp0#, log, fprintd log, fnl
-//  &quot;right=&quot;,     log, fprints ri0#, log, fprintd log, fnl
-//  &quot;bottom=&quot;, log, fprints bt0#, log, fprintd log, fnl
-
   end
 
 
@@ -812,17 +693,6 @@ is_on_rectangle:
 
   ob#= pop ori#= pop ot#= pop ol#= pop
   oy#= pop ox#= 
-
-//  &quot;is on rectangle:&quot;, log, fprints log, fnl
-//   ox#, log, fprintd &quot;,&quot;, log, fprints
-//   oy#, log, fprintd  log, fnl
-//  &quot;on&quot;, log, fprints log, fnl
-//   ol#, log, fprintd &quot;,&quot;, log, fprints
-//   ot#, log, fprintd &quot;,&quot;, log, fprints
-//   ori#, log, fprintd &quot;,&quot;, log, fprints
-//   ob#, log, fprintd  log, fnl
-   
-     
   if ox#&lt;ol#  then FALSE, end
   if ox#&gt;ori# then FALSE, end
   if oy#&lt;ot#  then FALSE, end
@@ -833,11 +703,6 @@ is_on_rectangle:
 // 座標(x,y)がGUIコンポーネントcom上にあるかどうかを返す
 is_on_component:
   com#= pop iy#= pop ix#=
-  
-//  &quot;is on component:&quot;, log, fprints log, fnl
-//  &quot;com=&quot;, log, fprints com#, hex log, fprints
-//   log, fnl
-  
   if com#=NULL then TRUE, end
   desktop, -&gt;Desktop.component tt#=
   if com#=tt# then TRUE, end
@@ -945,17 +810,20 @@ set_bounds:
   end
 
 
+// フォーカスを要求する
+request_focus:
+  long rcom#
+  rcom#= is_visible tt#=
+  if tt#=0 then end
+  rcom#,  -&gt;Component.is_focusable tt#=
+  if tt#=0 then end
+  rcom#, focused_component#=
+  end
+
+
 // 何もしない
 no_operation:
  end
-
-
-//log_focus:
-//   long zzz#
-//   zzz#=
-//  &quot;set focused: &quot;, log, fprints 
-//  zzz#, hex log, fprints log, fnl
-//  end
 </codetext>
 </codeclip>
 <operation>
@@ -963,7 +831,7 @@ no_operation:
 <state1>_SINIT</state1>
 <state2>_SINIT</state2>
 <x0>87</x0>
-<y0>357</y0>
+<y0>373</y0>
 <width>212</width>
 <height>50</height>
 <inconnectx0>0</inconnectx0>
@@ -986,8 +854,9 @@ no_operation:
 
 
 // char log$(FILE_SIZE)
-//  &quot;log&quot;, log, wopen
-
+// &quot;log&quot;, log, wopen
+ 
+ 
 
   graphic_guid, graphic_protocol, locate_protocol    // UEFIのグラフィックAPIを取得する
   (graphic_protocol)#(1), set_mode#=
@@ -1000,11 +869,11 @@ no_operation:
   (pointer_protocol)#(0), mouse_reset#=
   (pointer_protocol)#(1), mouse_get_state#=
 
-  screen_width#, screen_height#, * 4, * malloc screen_buffer#=
+  screen_width#, screen_height#, * 4, * xmalloc screen_buffer#=
   if screen_buffer#=NULL then end
-  screen_width#, screen_height#, * 4, * malloc copy_area#=
+  screen_width#, screen_height#, * 4, * xmalloc copy_area#=
   if copy_area#=NULL then end
-  FONT_WIDTH, FONT_HEIGHT, * 256, * tt#= malloc font_area#=
+  FONT_WIDTH, FONT_HEIGHT, * 256, * tt#= xmalloc font_area#=
   if font_area#=NULL then end
 
   // フォントエリアをクリア
@@ -1021,6 +890,8 @@ no_operation:
   0xffffff, color#=
   0, mouse_mode#=
   1, mouse_speed#=
+  COLOR_WHITE, color_title#=
+  COLOR_BLUE,   color_titlebar#=
   screen_width#,  2, / mouse_x#=
   screen_height#, 2, / mouse_y#=
   init_mouse
@@ -1034,34 +905,26 @@ no_operation:
   RIGHT_KEY,    right_key#=
   UP_KEY,         up_key#=
   DOWN_KEY,   down_key#=
-  ENTER_KEY,   lclick_key#=
-  SPACE_KEY,    rclick_key#=
-  
-  1, gui_is_running#=
+  END_KEY,      lclick_key#=
+  PGDN_KEY,    rclick_key#=
+
+  TRUE, gui_is_running#=
+  FALSE, key_mask#=
   NULL, focused_component#= clicked_component#=
 
-  create_desktop               // デスクトップコンポーネントを生成
-  create_desktop_menu     // デスクトップメニューを作成
-  create_icon_menu           // アイコンメニューを作成
-  create_property_sheet   // プロパティシートを作成
-  load_desktop                  // デスクトップの設定を読み込む
-
+  create_desktop                     // デスクトップコンポーネントを生成
+  create_desktop_menu           // デスクトップメニューを作成
+  create_icon_menu                 // アイコンメニューを作成
+  create_property_sheet         // プロパティシートを作成
+  create_file_menu                  // ファイルメニューを作成
+  create_file_property_sheet   // ファイルプロパティシートを作成
+  load_desktop                        // デスクトップの設定を読み込む
+  create_xdialog                      // 開く・保存用のダイアログを作成
+  create_xfiler                         // 内部ファイラーを作成
 
   desktop, -&gt;Desktop.component  input_client#= tt#=
   show_desktop_menu, desktop, -&gt;Desktop.rclicked#= // デスクトップの右クリック動作を定義
-
-
-  
-//  &quot;desktop repaint: com=&quot;, log, fprints
-//  tt#, hex log, fprints log, fnl
-  
-//  &quot;focused component=&quot;, log, fprints
-//  focused_component#, hex log, fprints log, fnl
-
-//  &quot;clicked component=&quot;, log, fprints
-//  clicked_component#, hex log, fprints log, fnl
-
-  tt#, repaint
+  desktop, -&gt;Desktop.component repaint
 
 event_loop: 
 
@@ -1069,20 +932,6 @@ event_loop:
 
   // マウス・キーボード等の状態を読み込んでマウスカーソルの位置を更新する
   read_input_device
-
-key_event:
-
-  // ESCキー入力があったときは全画面を再描画する
-//  if key_code#=ESC_KEY then desktop, -&gt;Desktop.component repaint gotomouse_event  
-
-  // キー入力があったときにキーボードイベントの処理をする
-  if key_code#=0 goto mouse_event
-
-  // フォーカスされているGUIコンポーネントがあればキーボードイベントを処理する
-  if focused_component#=NULL goto mouse_event
-  
-  // キーボードイベント処理アドレスにジャンプする
-  focused_component#, focused_component#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.key_pressed
 
 mouse_event:
 
@@ -1093,23 +942,34 @@ mouse_event:
 mouse_event1:
   mouse_left#,   mouse_left0#=
   mouse_right#, mouse_right0#=
+
+keyboad_event:
+
+  // キー入力がマスクされているならキーボードイベントの処理はしない
+  if key_mask#=TRUE goto event_loop
+
+  // キー入力があればキーボードイベントの処理をする
+  if key_code#=0 goto event_loop
+
+  // フォーカスされているGUIコンポーネントがあればキーボードイベントを処理する
+  if focused_component#=NULL goto event_loop
+  
+  // キーボードイベント処理アドレスにジャンプする
+  focused_component#, focused_component#, -&gt;Component.look_and_feel# -&gt;@LookAndFeel.key_pressed
   goto event_loop
   
+// イベントループ終了処理
 event_loop_exit:
   save_desktop
   remove_desktop
-  property_text, remove_textfield
-  property_file,   remove_textfield
-  property_cmd, remove_textfield
-  screen_buffer#, free
-  copy_area#, free
-  font_area#, free
+  screen_buffer#, xfree
+  copy_area#, xfree
+  font_area#, xfree
   cls
-
-// log, wclose
- 
+  
+//  log, wclose
+  
   end
-
 </codetext>
 </operation>
 <relation>
@@ -1120,9 +980,9 @@ event_loop_exit:
 <codeclip>
 <ID>_C5</ID>
 <x0>357</x0>
-<y0>5</y0>
-<width>559</width>
-<height>387</height>
+<y0>21</y0>
+<width>566</width>
+<height>392</height>
 <codetext>// 変数一覧
  long graphic_protocol#
  long pointer_protocol#
@@ -1132,8 +992,9 @@ event_loop_exit:
  long mouse_x#,mouse_y#,mouse_left#,mouse_right#,mouse_mode#,mouse_speed#
  long mouse_left0#,mouse_right0#,mouse_dx#,mouse_dy#
  long copy_area#,font_area#,screen_buffer#
- long gui_is_running#,input_client#,key_code#,key0#
+ long gui_is_running#,input_client#,key_code#,key_mask#
  long focused_component#,clicked_component#
+ long color_title#,color_titlebar#
  char mouse_cursor$(1024),mouse_cursor_area$(1024),mouse_data$(16)
 
  count ii#,jj#,ix#,iy#
@@ -1147,7 +1008,9 @@ event_loop_exit:
  long   sx#,sx1#,sx2#,sy#,sy1#,sy2#
  char  fp$(FILE_SIZE)
 
-
+ char dbuf$(256)
+ count ii0#,jj0#
+ long nn0#,pp0#,qq0#,rr0#,ss0#,tt0#,uu0#
  long max_speed#,quit_key#,mode_key#,speed_key#
  long left_key#,right_key#,up_key#,down_key#,lclick_key#,rclick_key#
 </codetext>
@@ -1155,7 +1018,7 @@ event_loop_exit:
 <codeclip>
 <ID>_C6</ID>
 <x0>98</x0>
-<y0>97</y0>
+<y0>113</y0>
 <width>100</width>
 <height>20</height>
 <codetext>// ラベル
@@ -1164,7 +1027,8 @@ event_loop_exit:
   long text#             // 表示テキスト
 
   // イベント拡張
-  long paint#   // 描画処理
+  long paint#      // 描画処理
+  long removed# // 削除処理
 
   // コンポーネント本体
   Component component
@@ -1173,13 +1037,13 @@ event_loop_exit:
 // look&amp;feel
  .data
 lf_label:
-  data paint_label     // paint_component
-  data no_operation  // key_pressed
-  data no_operation  // mouse_lclicked
-  data no_operation  // mouse_rclicked
-  data no_operation  // mouse_lclicked2
-  data no_operation  // mouse_rclicked2
-  data no_operation  // remove_component
+  data paint_label      // paint_component
+  data no_operation   // key_pressed
+  data no_operation   // mouse_lclicked
+  data no_operation   // mouse_rclicked
+  data no_operation   // mouse_lclicked2
+  data no_operation   // mouse_rclicked2
+  data label_removed // remove_component
 
 
 // ラベルを生成する
@@ -1190,6 +1054,7 @@ create_label:
  lbltxt#= pop lblprnt#= pop lblsub#= pop lbl#=
  lblsub#, lbl#, -&gt;Label.subclass#=
  no_operation, lbl#, -&gt;Label.paint#=
+ no_operation, lbl#, -&gt;Label.removed#=
  lbltxt#,   lbl#, -&gt;Label.text#=
  lbl#, -&gt;Label.component com#=
  com#, lbl#, lblprnt#, lf_label, create_component
@@ -1197,7 +1062,7 @@ create_label:
  FALSE, com#, -&gt;Component.is_focusable#=
  COLOR_BLACK, com#, -&gt;Component.foreground#=
  COLOR_LIGHT_GRAY, com#, -&gt;Component.background#=
- LINE_BORDER, com#, -&gt;Component.border#=
+ NULL_BORDER, com#, -&gt;Component.border#=
  end
  
 
@@ -1217,7 +1082,14 @@ paint_label:
   com#, -&gt;Component.width#
   lbl#, -&gt;Label.text#
   draw_string
-  com#, lbl#, -&gt;@Label.paint
+  lbl#, lbl#, -&gt;@Label.paint
+  end
+
+
+// ラベルを消去したときの処理
+label_removed:
+  com#= -&gt;Component.subclass# lbl#=
+  lbl#, lbl#, -&gt;@Label.removed
   end
 
 
@@ -1232,7 +1104,7 @@ set_label_text:
 <codeclip>
 <ID>_C7</ID>
 <x0>96</x0>
-<y0>124</y0>
+<y0>140</y0>
 <width>134</width>
 <height>20</height>
 <codetext>// ボタン(アイコン)
@@ -1248,6 +1120,7 @@ set_label_text:
   long lclicked2#         // 左ボタンクリック2回目
   long rclicked#           // 右ボタンクリック
   long paint#              // 描画処理
+  long removed#         // 削除処理
 
   // コンポーネントの本体 
   Component component 
@@ -1262,7 +1135,7 @@ lf_button:
   data button_rclicked         // mouse_rclicked
   data button_lclicked2        // mouse_lclicked2
   data no_operation             // mouse_rclicked2
-  data no_operation             // remove_component
+  data button_removed        // remove_component
 
 
 // ボタンを生成する
@@ -1276,6 +1149,7 @@ create_button:
  no_operation, btn#, -&gt;Button.lclicked#=
  no_operation, btn#, -&gt;Button.lclicked2#=
  no_operation, btn#, -&gt;Button.rclicked#=
+ no_operation, btn#, -&gt;Button.removed#=
  btntxt#,   btn#, -&gt;Button.text#=
  NULL,   btn#, -&gt;Button.command#=
  NULL,   btn#, -&gt;Button.image#=
@@ -1323,25 +1197,29 @@ paint_button1:
 
 // 左クリックで呼ばれる
 button_lclicked:
-  com#=
-  com#, -&gt;Component.subclass# btn#=
+  com#= -&gt;Component.subclass# btn#=
   btn#, btn#, -&gt;@Button.lclicked
   end
 
 
 // 左クリック2回目で呼ばれる
 button_lclicked2:
-  com#=
-  com#, -&gt;Component.subclass# btn#=
+  com#= -&gt;Component.subclass# btn#=
   btn#, btn#, -&gt;@Button.lclicked2
   end
 
 
 // 右クリックで呼ばれる
 button_rclicked:
-  com#=
-  com#, -&gt;Component.subclass# btn#=
+  com#= -&gt;Component.subclass# btn#=
   btn#, btn#, -&gt;@Button.rclicked
+  end
+
+
+// ボタンを消去したときの処理
+button_removed:
+  com#= -&gt;Component.subclass# btn#=
+  btn#, btn#, -&gt;@Button.removed
   end
 
 
@@ -1385,7 +1263,7 @@ set_button_image:
 <codeclip>
 <ID>_C8</ID>
 <x0>95</x0>
-<y0>149</y0>
+<y0>165</y0>
 <width>141</width>
 <height>20</height>
 <codetext>// チェックボックス
@@ -1396,6 +1274,7 @@ set_button_image:
   // イベント拡張 
   long changed#            // 選択状態が変化した 
   long paint#                 // 描画処理 
+  long removed#            // 削除処理
 
   // コンポーネントの本体 
   Component component 
@@ -1410,7 +1289,7 @@ lf_checkbox:
   data checkbox_clicked           // mouse_rclicked
   data no_operation                 // mouse_lclicked2
   data no_operation                 // mouse_rclicked2
-  data no_operation                 // remove_component
+  data checkbox_removed        // remove_component
 
 // チェックボックスを生成する
 // chk, subclass, parent, create_chrckbox 
@@ -1421,6 +1300,7 @@ create_checkbox:
  chksub#, chk#, -&gt;CheckBox.subclass#=
  no_operation, chk#, -&gt;CheckBox.paint#=
  no_operation, chk#, -&gt;CheckBox.changed#=
+ no_operation, chk#, -&gt;CheckBox.removed#=
  chk#, -&gt;CheckBox.component com#=
  com#, chk#, chkprnt#, lf_checkbox, create_component
  TYPE_CHECKBOX, com#, -&gt;Component.type#=
@@ -1442,18 +1322,16 @@ paint_checkbox:
  // 選択状態ならばチェックを描画する
  chk#, -&gt;CheckBox.is_selected# tt#=
  if tt#=0 goto paint_checkbox1
- COLOR_BLACK, set_color
- com#, -&gt;Component.left# com#, -&gt;Component.right#    + 2, / sx#=
- com#, -&gt;Component.top# com#, -&gt;Component.bottom# + 2, / sy#=
- sx#, 4, -  sx1#=
- sy#, 4, -  sy1#=
- sx#, 7, + sx1#=
- sy#, 6, -  sy1#=
+ com#, -&gt;Component.foreground# set_color
+ com#, -&gt;Component.left#            sx#=
+ com#, -&gt;Component.right#          sx1#=
+ com#, -&gt;Component.top#            sy#=
+ com#, -&gt;Component.bottom#      sy1#=
  sx#, sy#, sx1#, sy1#, draw_line
- sx#, sy#, sx2#, sy2#, draw_line
+ sx1#, sy#, sx#, sy1#, draw_line
 
 paint_checkbox1:
- com#, chk#, -&gt;@CheckBox.paint
+ chk#, chk#, -&gt;@CheckBox.paint
  end
 
 
@@ -1461,9 +1339,16 @@ paint_checkbox1:
 checkbox_clicked:
  com#= -&gt;Component.subclass# chk#=
  1, chk#, -&gt;CheckBox.is_selected# - chk#, -&gt;CheckBox.is_selected#=
- chk#, -&gt;@CheckBox.changed
+ chk#, chk#, -&gt;@CheckBox.changed
  com#, repaint
  end
+
+
+// チェックボックスを消去したときの処理
+checkbox_removed:
+  com#= -&gt;Component.subclass# chk#=
+  chk#, chk#, -&gt;@CheckBox.removed
+  end
 
 
 // 状態変化で呼ばれる関数を設定
@@ -1476,7 +1361,7 @@ set_checkbox_changed:
 <codeclip>
 <ID>_C9</ID>
 <x0>96</x0>
-<y0>175</y0>
+<y0>191</y0>
 <width>144</width>
 <height>20</height>
 <codetext>// ラジオボタン 
@@ -1487,6 +1372,7 @@ set_checkbox_changed:
   // イベント拡張 
   long changed#             // 選択状態が変化した 
   long paint#                  // 描画処理 
+  long removed#            // 削除処理
 
   // コンポーネントの本体 
   Component component 
@@ -1501,7 +1387,7 @@ lf_radiobutton:
   data radiobutton_clicked           // mouse_rclicked
   data no_operation                     // mouse_lclicked2
   data no_operation                     // mouse_rclicked2
-  data no_operation                     // remove_component
+  data radiobutton_removed        // remove_component
 
 // ラジオボタンを生成する
 // rbt, subclass, parent, create_radiobutton 
@@ -1512,6 +1398,7 @@ create_radiobutton:
  rbtsub#, rbt#, -&gt;RadioButton.subclass#=
  no_operation, rbt#, -&gt;RadioButton.paint#=
  no_operation, rbt#, -&gt;RadioButton.changed#=
+ no_operation, rbt#, -&gt;RadioButton.removed#=
  rbt#, -&gt;RadioButton.component com#=
  com#, rbt#, rbtprnt#, lf_radiobutton, create_component
  TYPE_RADIOBUTTON, com#, -&gt;Component.type#=
@@ -1543,7 +1430,7 @@ paint_radiobutton:
 
  // 選択状態ならばチェックを描画する
  rbt#, -&gt;RadioButton.is_selected# tt#=
- if tt#=0 goto paint_radiobutton1
+ if tt#=FALSE goto paint_radiobutton1
  com#, -&gt;Component.foreground# set_color
  com#, -&gt;Component.left# com#, -&gt;Component.right#    + 2, / sx#=
  com#, -&gt;Component.top# com#, -&gt;Component.bottom# + 2, / sy#=
@@ -1554,17 +1441,24 @@ paint_radiobutton:
  sx1#, sy1#, sx2#, sy2#, fill_circle
 
 paint_radiobutton1:
- com#, rbt#, -&gt;@RadioButton.paint
+ rbt#, rbt#, -&gt;@RadioButton.paint
  end
 
 
 // ラジオボタンをクリックしたときの処理( 直接呼び出し不可 )
 radiobutton_clicked:
  com#= -&gt;Component.subclass# rbt#=
- 1, rbt#, -&gt;RadioButton.is_selected# - chk#, -&gt;RadioButton.is_selected#=
+ 1, rbt#, -&gt;RadioButton.is_selected# - rbt#, -&gt;RadioButton.is_selected#=
  rbt#, -&gt;@RadioButton.changed
  com#, repaint
  end
+
+
+// ラジオボタンを消去したときの処理
+radiobutton_removed:
+  com#= -&gt;Component.subclass# rbt#=
+  rbt#, rbt#, -&gt;@RadioButton.removed
+  end
 
 
 // 状態変化で呼ばれる関数を設定
@@ -1578,7 +1472,7 @@ set_radiobutton_changed:
 <codeclip>
 <ID>_C10</ID>
 <x0>92</x0>
-<y0>199</y0>
+<y0>215</y0>
 <width>149</width>
 <height>20</height>
 <codetext>// 水平スクロールバー 
@@ -1592,6 +1486,7 @@ set_radiobutton_changed:
   // イベント拡張 
   long        changed#           // スクロールバーの値が変化した 
   long        paint#               // 描画処理 
+  long        removed#          // 削除処理
 
   // コンポーネント本体 
   Component component 
@@ -1603,10 +1498,10 @@ lf_hscrollbar:
   data paint_hscrollbar            // paint_component
   data no_operation                 // key_pressed
   data hscrollbar_clicked          // mouse_lclicked
-  data hscrollbar_clicked          // mouse_rclicked
+  data no_operation                 // mouse_rclicked
   data no_operation                 // mouse_lclicked2
   data no_operation                 // mouse_rclicked2
-  data no_operation                 // remove_component
+  data hscrollbar_removed       // remove_component
 
 
 // チェックボックスを生成する
@@ -1619,9 +1514,10 @@ create_hscrollbar:
  0, hsb#, -&gt;HScrollBar.value#=
  0, hsb#, -&gt;HScrollBar.min#=
  100, hsb#, -&gt;HScrollBar.max#=
- 10, hsb#, -&gt;HScrollBar.handle_size#=
+ 8, hsb#, -&gt;HScrollBar.handle_size#=
  no_operation, hsb#, -&gt;HScrollBar.paint#=
  no_operation, hsb#, -&gt;HScrollBar.changed#=
+ no_operation, hsb#, -&gt;HScrollBar.removed#=
  hsb#, -&gt;HScrollBar.component com#=
  com#, hsb#, hsbprnt#, lf_hscrollbar, create_component
  TYPE_HSCROLLBAR, com#, -&gt;Component.type#=
@@ -1663,19 +1559,26 @@ paint_hscrollbar:
  fill_rect
 
 paint_hscrollbar1:
- com#, hsb#, -&gt;@HScrollBar.paint
+ hsb#, hsb#, -&gt;@HScrollBar.paint
  end
 
 
-// チェックボックスをクリックしたときの処理( 直接呼び出し不可 )
+// スクロールバーをクリックしたときの処理( 直接呼び出し不可 )
 hscrollbar_clicked:
  com#= -&gt;Component.subclass# hsb#=
  hsb#, -&gt;HScrollBar.max# hsb#, -&gt;HScrollBar.min# pp#= - qq#= 
  mouse_x#,  com#, -&gt;Component.left# -  qq#, *
  com#, -&gt;Component.width# / pp#, + hsb#, -&gt;HScrollBar.value#= 
- hsb#, -&gt;@HScrollBar.changed
+ hsb#, hsb#, -&gt;@HScrollBar.changed
  com#, repaint
  end
+
+
+// スクロールバーを消去したときの処理
+hscrollbar_removed:
+  com#= -&gt;Component.subclass# hsb#=
+  hsb#, hsb#, -&gt;@HScrollBar.removed
+  end
 
 
 // 状態変化で呼ばれる関数を設定
@@ -1688,7 +1591,7 @@ set_hscrollbar_changed:
 <codeclip>
 <ID>_C11</ID>
 <x0>88</x0>
-<y0>224</y0>
+<y0>240</y0>
 <width>151</width>
 <height>18</height>
 <codetext>// 垂直スクロールバー 
@@ -1702,6 +1605,7 @@ set_hscrollbar_changed:
   // イベント拡張 
   long        changed#          // スクロールバーの値が変化した 
   long        paint#               // 描画処理 
+  long        removed#          // 削除処理
 
   // コンポーネント本体 
   Component component 
@@ -1713,10 +1617,10 @@ lf_vscrollbar:
   data paint_vscrollbar            // paint_component
   data no_operation                 // key_pressed
   data vscrollbar_clicked          // mouse_lclicked
-  data vscrollbar_clicked          // mouse_rclicked
+  data no_operation                 // mouse_rclicked
   data no_operation                 // mouse_lclicked2
   data no_operation                 // mouse_rclicked2
-  data no_operation                 // remove_component
+  data vscrollbar_removed       // remove_component
 
 
 // チェックボックスを生成する
@@ -1729,9 +1633,10 @@ create_vscrollbar:
  0, vsb#, -&gt;VScrollBar.value#=
  0, vsb#, -&gt;VScrollBar.min#=
  100, vsb#, -&gt;VScrollBar.max#=
- 10, vsb#, -&gt;VScrollBar.handle_size#=
+ 8, vsb#, -&gt;VScrollBar.handle_size#=
  no_operation, vsb#, -&gt;VScrollBar.paint#=
  no_operation, vsb#, -&gt;VScrollBar.changed#=
+ no_operation, vsb#, -&gt;VScrollBar.removed#=
  vsb#, -&gt;VScrollBar.component com#=
  com#, vsb#, vsbprnt#, lf_vscrollbar, create_component
  TYPE_VSCROLLBAR, com#, -&gt;Component.type#=
@@ -1773,11 +1678,11 @@ paint_vscrollbar:
  fill_rect
 
 paint_vscrollbar1:
- com#, vsb#, -&gt;@VScrollBar.paint
+ vsb#, vsb#, -&gt;@VScrollBar.paint
  end
 
 
-// チェックボックスをクリックしたときの処理( 直接呼び出し不可 )
+// スクロールバーをクリックしたときの処理( 直接呼び出し不可 )
 vscrollbar_clicked:
  com#= -&gt;Component.subclass# vsb#=
  vsb#, -&gt;VScrollBar.max# vsb#, -&gt;VScrollBar.min# pp#= - qq#= 
@@ -1786,6 +1691,13 @@ vscrollbar_clicked:
  vsb#, -&gt;@VScrollBar.changed
  com#, repaint
  end
+
+
+// スクロールバーを消去したときの処理
+vscrollbar_removed:
+  com#= -&gt;Component.subclass# vsb#=
+  vsb#, vsb#, -&gt;@VScrollBar.removed
+  end
 
 
 // 状態変化で呼ばれる関数を設定
@@ -1798,7 +1710,7 @@ set_vscrollbar_changed:
 <codeclip>
 <ID>_C12</ID>
 <x0>91</x0>
-<y0>251</y0>
+<y0>267</y0>
 <width>167</width>
 <height>19</height>
 <codetext>// １行テキストボックス 
@@ -1811,6 +1723,7 @@ set_vscrollbar_changed:
   // イベント拡張 
   long   input#              // テキスト編集時にEnterキーが押された 
   long   paint#              // 描画処理 
+  long   removed#         // 削除処理
 
   // コンポーネント本体
   Component component
@@ -1819,13 +1732,13 @@ set_vscrollbar_changed:
 // look&amp;feel
  .data
 lf_textfield:
-  data paint_textfield    // paint_component
-  data textfield_input    // key_pressed
-  data textfield_clicked  // mouse_lclicked
-  data no_operation       // mouse_rclicked
-  data no_operation       // mouse_lclicked2
-  data no_operation       // mouse_rclicked2
-  data no_operation       // remove_component
+  data paint_textfield      // paint_component
+  data textfield_input      // key_pressed
+  data textfield_clicked    // mouse_lclicked
+  data no_operation         // mouse_rclicked
+  data no_operation         // mouse_lclicked2
+  data no_operation         // mouse_rclicked2
+  data textfield_removed  // remove_component
 
 // 最大文字数
   const TEXTFIELD_MAX 255
@@ -1837,8 +1750,6 @@ lf_textfield:
  const CARET_SHIFTX  2
  const CARET_SHIFTY  3
 
- long pp0#,qq0#,rr0#,ss0#,tt0#,uu0#
-
 // テキストフィールドを生成する
 // fld, subclass, parent, txt, create_textfield 
 create_textfield:
@@ -1848,7 +1759,8 @@ create_textfield:
   fldsub#, fld#, -&gt;TextField.subclass#=
   no_operation, fld#, -&gt;TextField.paint#=
   no_operation, fld#, -&gt;TextField.input#=
-  TEXTFIELD_MAX+1, malloc tt0#=
+  no_operation, fld#, -&gt;TextField.removed#=
+  TEXTFIELD_MAX+1, xmalloc tt0#=
   fldtxt#, tt0#, TEXTFIELD_MAX, strncpy
   tt0#, fld#, -&gt;TextField.text#=
   0, fld#, -&gt;TextField.display_pos#=
@@ -1863,22 +1775,9 @@ create_textfield:
   end
  
 
-// テキストフィールドを削除する
-// fld,  remove_textfield 
-remove_textfield:
-  fld#= -&gt;TextField.component com#=
-  com#, remove_component
-  fld#, -&gt;TextField.text# tt0#=
-  tt0#, free
-  end
-
-
 // テキストフィールドを表示する( 直接呼び出し不可 )
 paint_textfield:
   com#=
-  
-//  &quot;paint textfield&quot;, log, fprints log, fnl
-  
   com#, is_visible tt0#=
   if tt0#&lt;&gt;FALSE goto paint_textfield1
   if focused_component#=com# then NULL, focused_component#=
@@ -1898,48 +1797,19 @@ paint_textfield1:
   // テキスト表示終了位置を求める
   com#, -&gt;Component.right#  FONT_WIDTH, - rr0#=
 
-//  &quot;display pos: &quot;, log, fprints
-//  fld#, -&gt;TextField.display_pos# log, fprintd
-// log, fnl
-//  &quot;display-range: &quot;, log, fprints
-//  qq0#, log, fprintd
-//  &quot;-&quot;, log, fprints
-//  rr0#, log, fprintd
-// log, fnl
-//  &quot;string1: &quot;, log, fprints
-//  fld#, -&gt;TextField.text# log, fprints
-// log, fnl
-//  &quot;string2: &quot;, log, fprints
-//  pp0#, log, fprints
-// log, fnl
-
-
   // テキストを描く
   com#, -&gt;Component.foreground# set_color
 paint_textfield2:
   if  qq0#&gt;rr0# goto paint_textfield3
+  if  (pp0)$=NULL goto paint_textfield3
   qq0#, com#, -&gt;Component.top# (pp0)$, draw_font
   qq0#, FONT_WIDTH, + qq0#=
-
-//  &quot;draw &quot;, log, fprints
-//  (pp0)$, log, putc
-//   log, fnl
-
-
   pp0#++
-  if  (pp0)$&lt;&gt;NULL goto paint_textfield2
+  goto paint_textfield2
   
 // フォーカスがあたっているときは編集ポイントにキャレットを描画する
 paint_textfield3:
   if com#&lt;&gt;focused_component# goto paint_textfield4
-  
-//  &quot;focused!&quot;, log, fprints log, fnl
-//  &quot;lf_textfield=&quot;, log, fprints lf_textfield, hex log, fprints
-//  log, fnl
-//  &quot;textfield_input=&quot;, log, fprints textfield_input, hex log, fprints
-//  log, fnl
-  
-  
     fld#, -&gt;TextField.edit_pos# fld#, -&gt;TextField.display_pos# - FONT_WIDTH, * 
     com#, -&gt;Component.left# + CARET_SHIFTX, + pp0#=
     com#, -&gt;Component.top#     CARET_SHIFTY, + qq0#= CARET_SIZE, + rr0#=
@@ -1955,9 +1825,6 @@ textfield_input:
   com#= is_visible tt0#=
   if tt0#=FALSE then NULL, focused_component#= end  // 不可視J状態になったときはフォーカスを外して終了する
   com#, -&gt;Component.subclass# fld#=
-
-//  &quot;textfield key input&quot;, log, fprints log, fnl
-
      fld#, -&gt;TextField.text# xstrlen qq0#=                             // テキストの長さを求める
      com#, -&gt;Component.width# FONT_WIDTH, / 1, - rr0#= // 表示桁数-1を求める
 
@@ -2031,7 +1898,11 @@ textfield_input:
      textfield_input8:
 
        // テキストのサイズが余裕がないときは何もしない
-       if qq0#&gt;=TEXTFIELD_MAX  goto textfield_input10
+       if qq0#&gt;=TEXTFIELD_MAX  then end
+
+       // 無効なコードは無視する
+       if key_code+2%&lt;32   then end
+       if key_code+2%&gt;127 then end
 
        // 編集ポイントに１文字挿入
        fld#, -&gt;TextField.text# qq0#, + ss0#=
@@ -2040,7 +1911,7 @@ textfield_input:
        (ss0)$, (ss0)$(1)=
        ss0#--
        if ss0#&gt;=tt0# goto textfield_input9
-       if key_code+2%&gt;=&apos; &apos; then key_code+2%,  (ss0)$(1)=  // 入力した文字を編集ポイントに挿入する
+       key_code+2%,  (ss0)$(1)=  // 入力した文字を編集ポイントに挿入する
        pp0#++
        pp0#, fld#, -&gt;TextField.edit_pos#= 
        pp0#, rr0#, - ss0#= 
@@ -2057,9 +1928,6 @@ textfield_input:
 textfield_clicked:
   com#= -&gt;Component.subclass# fld#=
   fld#, -&gt;TextField.text# xstrlen qq0#=                             // テキストの長さを求める
-
-//  &quot;textfield clicked&quot;, log, fprints log, fnl
-
   com#, focused_component#=       //       log_focus
 
   // マウスカーソルがある桁を求める
@@ -2067,7 +1935,16 @@ textfield_clicked:
   fld#, -&gt;TextField.display_pos# +  pp0#=
   if pp0#&gt;qq0# then qq0#, pp0#=
   pp0#, fld#, -&gt;TextField.edit_pos#=
-  desktop, -&gt;Desktop.component repaint
+  desktop, -&gt;Desktop.component repaint  // どこにフォーカスが移っても良いようにデスクトップ全体を再描画
+  end
+
+
+// テキストフィールドを削除する
+textfield_removed:
+  com#= -&gt;Component.subclass# fld#=
+  fld#, -&gt;TextField.text# tt0#=
+  tt0#, xfree
+  fld#, fld#, -&gt;@TextField.removed
   end
 
 
@@ -2087,27 +1964,12 @@ set_textfield_text:
   0, fld#, -&gt;TextField.display_pos#=
 //  fld#, -&gt;TextField.component repaint
   end
-
-
-
-
-xstrlen:
-  long xxx#,yyy#
-  xxx#=
-  0, yyy#=
-xstrlen1:
-  if (xxx)$=NULL then yyy#, end
-  if yyy#&gt;255 then 255, end
-  xxx#++
-  yyy#++
-  goto xstrlen1
-     
 </codetext>
 </codeclip>
 <codeclip>
 <ID>_C19</ID>
 <x0>94</x0>
-<y0>38</y0>
+<y0>54</y0>
 <width>110</width>
 <height>20</height>
 <codetext>// 描画関数
@@ -2136,9 +1998,9 @@ init_mouse:
 // 入力デバイスの状態を読み取る
 read_input_device:
   0, mouse_left#= mouse_right#= mouse_dx#= mouse_dy#= key_code#=
-  inkey key0#=
-  if key0#=quit_key# then 0, gui_is_running#= end                       // 終了
-  if key0#=mode_key# then 1, mouse_mode#, - mouse_mode#=    // マウス・キーボードの切り替え
+  inkey key_code#= key_code#=
+  if key_code#=quit_key# then 0, gui_is_running#= end                       // 終了
+  if key_code#=mode_key# then 1, mouse_mode#, - mouse_mode#=    // マウス・キーボードの切り替え
   if mouse_mode#=0 goto get_keyboad_mouse
   
 // マウスの状態を読み込む
@@ -2161,18 +2023,17 @@ read_input_device:
 
 // キーボードマウス
 get_keyboad_mouse:
-  if key0#=0 then 0, end
-  if key0#=speed_key# then max_speed#, mouse_speed#, - mouse_speed#= // カーソル移動速度の切り替え
-  if key0#=up_key#     then 0, mouse_speed#, - mouse_dy#=   //  マウスカーソルの移動
-  if key0#=down_key# then mouse_speed#, mouse_dy#=
-  if key0#=right_key#  then mouse_speed#, mouse_dx#=
-  if key0#=left_key#    then 0, mouse_speed#, -   mouse_dx#=
-  if key0#=lclick_key#  then 1, mouse_left#=      // 左クリック
-  if key0#=rclick_key#  then 1, mouse_right#=  // 右クリック
+  if key_code#=0 then 0, end
+  if key_code#=speed_key# then max_speed#, mouse_speed#, - mouse_speed#= // カーソル移動速度の切り替え
+  if key_code#=up_key#     then 0, mouse_speed#, - mouse_dy#=   //  マウスカーソルの移動
+  if key_code#=down_key# then mouse_speed#, mouse_dy#=
+  if key_code#=right_key#  then mouse_speed#, mouse_dx#=
+  if key_code#=left_key#    then 0, mouse_speed#, -   mouse_dx#=
+  if key_code#=lclick_key#  then 1, mouse_left#=      // 左クリック
+  if key_code#=rclick_key#  then 1, mouse_right#=  // 右クリック
 
 // マウスカーソルの位置(とキーコード)を設定する
 set_cursor_position:
-  key0#, key_code#=
   restore_cursor_area
   mouse_x#, mouse_dx#, + mouse_x#=
   mouse_y#, mouse_dy#, + mouse_y#=
@@ -2351,8 +2212,6 @@ fill_rect:
   gy1#= pop gx1#= pop gy#= pop gx#=
   if color#=COLOR_CLEAR then end
 
-// &quot;fill rect:&quot;, log, fprints log, fnl
-
   1, rx#= ry#=
   if gy#&lt;gy1# then -1, ry#=
   if gx#&lt;gx1# then -1, rx#=
@@ -2498,7 +2357,7 @@ draw_image:
       qq#, 4, + qq#=
     next jj#
   next ii#
-  ii#, end
+  jj#, ii#, end
     
 
 // コピーエリアに画像をコピー
@@ -2531,49 +2390,39 @@ paste_image:
     
 
 // 画像をロード
-// 使用法:  fname, load_image address#=
+// 使用法:  fname, load_image address#= pop size#=
 load_image:
   char image_fp$(FILE_SIZE)
-  long fnm#
+  long fnm#,fsz#
 
   fnm#=
-
-// &quot;load image:&quot;, log, fprints
-// fnm#, log, fprints log, fnl
-
   fnm#, image_fp, ropen tt#=
   if tt#=ERROR then NULL, end
   4, sx, image_fp, _read
   4, sy, image_fp, _read
 
-//  &quot;width=&quot;,     log, fprints sx!, log, fprintd
-//  &quot;, height=&quot;, log, fprints sy!, log, fprintd log, fnl
-  
-  sx!, sy!, *  4, * tt#=
-  8, +  malloc pp#=
+  sx!, sy!, *  4, *  tt#=
+  8, +  fsz#=  xmalloc pp#=
   sx!, (pp)!(0)=   sy!, (pp)!(1)= 
   pp#, 8, + qq#=
   tt#, qq#,  image_fp, _read
   image_fp, rclose
-  
-// &quot;load image end&quot;, log, fprints log, fnl
-  
-  pp#, end
+  fsz#, pp#, end
 
   
 // 画像をセーブ
 // 使用法: address, fname, save_image
 save_image:
   pp#= pop qq#=
-  pp#, fp, wopen tt#=
+  pp#, image_fp, wopen tt#=
   if tt#=ERROR then ERROR, end
   qq#, 4, + tt#=
-  4, qq#, fp, _write
-  4, tt#,  fp, _write
+  4, qq#, image_fp, _write
+  4, tt#,  image_fp, _write
   (qq)!, (tt)!, *  4, * tt#=
   qq#, 8, + qq#=
-  tt#, qq#, fp, _write
-  fp, wclose
+  tt#, qq#, image_fp, _write
+  image_fp, wclose
   0, end
 
   
@@ -2713,7 +2562,7 @@ cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
 <codeclip>
 <ID>_C26</ID>
 <x0>358</x0>
-<y0>404</y0>
+<y0>420</y0>
 <width>285</width>
 <height>168</height>
 <codetext>// 色の定義 
@@ -2731,10 +2580,10 @@ cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
 <xobject>
 <ID>_X27</ID>
 <x0>84</x0>
-<y0>303</y0>
+<y0>319</y0>
 <width>187</width>
 <height>46</height>
-<ID_maker>6</ID_maker>
+<ID_maker>10</ID_maker>
 <objectname>複合GUIコンポーネント</objectname>
 <description></description>
 <codeclip>
@@ -2746,25 +2595,27 @@ cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
 <codetext>// ウィンドウ 
  class Window
   long       subclass#            // サブクラスへのポインタ 
+  long       icon#
   long       title#                  // ウィンドウのタイトル 
   long       state#                 // ウィンドウの状態 
   long       resizable#          // サイズ変更可能フラグ（デフォルトでTRUE） 
   long       height#              // ウィンドウの高さ(MINIMIZE状態の時に保存する)
 
   // イベント拡張 
-  long        resized#               // ウィンドウサイズを変えた時の処理 
-  long        closed#                // ウィンドウを閉じた時の処理 
   long        keyinput#            // キー入力したときの処理 
   long        lclicked#              // 左クリックしたときの処理 
   long        rclicked#              // 右クリックしたときの処理 
+  long        resized#               // ウィンドウサイズを変えた時の処理 
+  long        minimized#         // 最小化したときの処理 
+  long        normalized#        // 普通に戻ったときの処理 
   long        paint#                 // 描画処理 
   long        removed#            // 削除処理
 
-  // コンポーネント本体 
-  Component  component
-
   // 閉じるボタン 
   Button  close_button
+
+  // コンポーネント本体 
+  Component  component
 
  end
 
@@ -2785,42 +2636,44 @@ lf_window:
     WINDOW_MOVE
     WINDOW_RESIZE
     WINDOW_MINIMIZE
-    WINDOW_MOVE2
+    WINDOW_MINIMIZE_MOVE
   end
   
 // 定数
   const CORNER_RANGE 20
+  const TITLEBAR_HEIGHT FONT_HEIGHT+4
+  const TITLEBAR_MARGIN 3
 
 // ウィンドウを生成する
 create_window:
-  long wintitle#,winsub#,win#,close_btn#
+  long win#,wincom#,winsub#,winpar#,wintitle#,close_btn#
 
   wintitle#= pop winsub#= pop win#=
   winsub#, win#, -&gt;Window.subclass#=
   wintitle#, win#, -&gt;Window.title#=
+  NULL, win#, -&gt;Window.icon#=
   WINDOW_NORMAL, win#, -&gt;Window.state#=
   TRUE, win#, -&gt;Window.resizable#=
-  no_operation, win#, -&gt;Window.resized#=
-  no_operation, win#, -&gt;Window.closed#=
   no_operation, win#, -&gt;Window.keyinput#=
   no_operation, win#, -&gt;Window.lclicked#=
   no_operation, win#, -&gt;Window.rclicked#=
+  no_operation, win#, -&gt;Window.resized#=
+  no_operation, win#, -&gt;Window.minimized#=
+  no_operation, win#, -&gt;Window.normalized#=
   no_operation, win#, -&gt;Window.paint#=
   no_operation, win#, -&gt;Window.removed#=
-  win#, -&gt;Window.component com#=
-  com#, win#, desktop, -&gt;Desktop.component lf_window, create_component
-  TYPE_WINDOW, com#, -&gt;Component.type#=
-  FALSE, com#, -&gt;Component.is_focusable#=
-  COLOR_BLACK, com#, -&gt;Component.foreground#=
-  COLOR_LIGHT_GRAY, com#, -&gt;Component.background#=
-  RAISED_BORDER, com#, -&gt;Component.border#=
+  win#, -&gt;Window.component wincom#=
+  desktop, -&gt;Desktop.component winpar#=
+  wincom#, win#, winpar#, lf_window, create_component
+  TYPE_WINDOW, wincom#, -&gt;Component.type#=
+  FALSE, wincom#, -&gt;Component.is_focusable#=
+  COLOR_BLACK, wincom#, -&gt;Component.foreground#=
+  COLOR_LIGHT_GRAY, wincom#, -&gt;Component.background#=
+  RAISED_BORDER, wincom#, -&gt;Component.border#=
 
   // &quot;閉じる&quot;ボタンを生成
   win#, -&gt;Window.close_button close_btn#=
-  win#,
-  win#, -&gt;Window.component
-  &quot;x&quot;,
-  create_button 
+  close_btn#, win#, wincom#, &quot;x&quot;, create_button
   close_btn#, close_button_clicked, set_button_lclicked
   set_close_button
   end
@@ -2828,36 +2681,53 @@ create_window:
  
 // ウィンドウを表示する( 直接呼び出し不可 )
 paint_window:
-  com#=
-  com#, -&gt;Component.subclass# win#=
+  wincom#=
+  wincom#, -&gt;Component.subclass# win#=
   win#, -&gt;Window.close_button close_btn#=
+
+  // 閉じるボタンの位置を設定
   set_close_button
   
   // 基盤を描く
-  com#, paint_base
+  wincom#, paint_base
 
   // タイトルバーを描画
-  COLOR_BLUE, set_color
-  com#, -&gt;Component.left#   1, + pp#=
-  com#, -&gt;Component.top#   1, + qq#=
-  com#, -&gt;Component.right# 1, -  rr#=
-  com#, -&gt;Component.top# FONT_HEIGHT+2, + ss#=
-  pp#, qq#, rr#, ss#, draw_rect
+  color_titlebar#, set_color
+  wincom#, -&gt;Component.left#   pp0#=
+  wincom#, -&gt;Component.top#   qq0#=
+  wincom#, -&gt;Component.right# rr0#=
+  wincom#, -&gt;Component.top# TITLEBAR_HEIGHT, + ss0#=
+  pp0#, qq0#, rr0#, ss0#, fill_rect
   
-  // タイトルを描く
-  com#, -&gt;Component.foreground# set_color
-  com#, -&gt;Component.left# 1, + pp#=
-  com#, -&gt;Component.top# 1, + qq#=
-  pp#, qq#, win#,  -&gt;Window.title#  draw_string
+  
+// アイコンを描く
+  pp0#, TITLEBAR_MARGIN, + pp0#=
+  qq0#, TITLEBAR_MARGIN, +  qq0#=
+  wincom#, -&gt;Component.width# rr0#= 
+  win#,  -&gt;Window.icon# ss0#=
+  if ss0#=NULL goto paint_window1
+  pp0#,
+  qq0#,
+  ss0#,
+  draw_image pop pp0#= pp0#++
+  wincom#, -&gt;Component.right# pp0#, - rr0#=
 
+// タイトルを描く
+paint_window1:
+  color_title#, set_color
+  rr0#,  FONT_WIDTH+3, - rr0#=
+  if rr0#&gt;=FONT_WIDTH then  pp0#, qq0#, rr0#, win#,  -&gt;Window.title#  draw_string
+
+  // 拡張用コールバックを呼び出す
   win#, win#, -&gt;@Window.paint
   end
 
 
 // ウィンドウのキー入力したときの処理( 直接呼び出し不可 )
 window_keyinput:
-  com#= -&gt;Component.subclass# win#=
-  WINDOW_NORMAL, win#, -&gt;Window.state#=
+  wincom#= -&gt;Component.subclass# win#=
+  if key_code+2%&lt;32   then end // 有効な文字コードでないときは無視する
+  if key_code+2%&gt;127 then end
   win#, win#, -&gt;@Window.keyinput
   end
 
@@ -2865,51 +2735,68 @@ window_keyinput:
 // ウインドウ上で左クリックしたときの処理( 直接呼び出し不可 )
 window_lclicked:
   long rx1#,ry1#
-  com#= 
-  com#, -&gt;Component.left#        rx#=
-  com#, -&gt;Component.top#        ry#=
-  com#, -&gt;Component.right#      rx1#=
-  com#, -&gt;Component.bottom#  ry1#=
-  com#, -&gt;Component.subclass# win#= -&gt;Window.state# pp#=
+  wincom#= 
+  wincom#, -&gt;Component.left#        rx#=
+  wincom#, -&gt;Component.top#        ry#=
+  wincom#, -&gt;Component.right#      rx1#=
+  wincom#, -&gt;Component.bottom#  ry1#=
+  wincom#, -&gt;Component.subclass# win#= -&gt;Window.state# pp0#=
+  wincom#, pop_up_component
 
 // ノーマルモード
 window_lclicked1:
-  if pp#&lt;&gt;WINDOW_NORMAL goto window_lclicked3
-  ry#, FONT_HEIGHT, + qq#=
-  mouse_x#, mouse_y#, rx#, ry#, rx1#, qq#, is_on_rectangle tt#=
-  if tt#=TRUE then WINDOW_MOVE, win#, Window.state#= gotowindow_lclicked2
-  rx1#, CORNER_RANGE, -  qq#=
-  ry1#, CORNER_RANGE, -  rr#=
-  mouse_x#, mouse_y#, qq#, rr#, rx1#, ry1#, is_on_rectangle
+  if pp0#&lt;&gt;WINDOW_NORMAL goto window_lclicked3
+  ry#, TITLEBAR_HEIGHT, + qq0#=
+  mouse_x#, mouse_y#, rx#, ry#, rx1#, qq0#, is_on_rectangle tt#=
+  if tt#=TRUE then WINDOW_MOVE, win#, -&gt;Window.state#= gotowindow_lclicked2
+  rx1#, CORNER_RANGE, -  qq0#=
+  ry1#, CORNER_RANGE, -  rr0#=
+  mouse_x#, mouse_y#, qq0#, rr0#, rx1#, ry1#, is_on_rectangle
   win#, -&gt;Window.resizable# and tt#=
-  if tt#=TRUE then WINDOW_RESIZE, win#, Window.state#=
+  if tt#=TRUE then WINDOW_RESIZE, win#, -&gt;Window.state#=
 window_lclicked2:
+//  desktop, -&gt;Desktop.component  repaint
   win#, win#, -&gt;@Window.lclicked
   end
 
 // 移動モード
 window_lclicked3:
-  if pp#&lt;&gt;WINDOW_MOVE goto window_lclicked4
-  mouse_x#, com#, -&gt;Component.x#=
-  mouse_y#, com#, -&gt;Component.y#=
+  if pp0#&lt;&gt;WINDOW_MOVE goto window_lclicked4
+  mouse_x#, wincom#, -&gt;Component.x#=
+  mouse_y#, wincom#, -&gt;Component.y#=
   WINDOW_NORMAL, win#, -&gt;Window.state#=
   desktop, -&gt;Desktop.component  repaint
   end
 
 // リサイズモード
 window_lclicked4:
-  if pp#&lt;&gt;WINDOW_RESIZE then end
-  mouse_x#, rx#, - com#, -&gt;Component.width#=
-  mouse_y#, ry#, - com#, -&gt;Component.height#=
+  if pp0#&lt;&gt;WINDOW_RESIZE goto window_lclicked5
+  mouse_x#, rx#, - wincom#, -&gt;Component.width#=
+  mouse_y#, ry#, - wincom#, -&gt;Component.height#=
   WINDOW_NORMAL, win#, -&gt;Window.state#=
   desktop, -&gt;Desktop.component  repaint
   win#, win#, -&gt;@Window.resized // リサイズのコールバックを実行
   end
 
+// 最小化モード
+window_lclicked5:
+  if pp0#&lt;&gt;WINDOW_MINIMIZE goto window_lclicked6
+  WINDOW_MINIMIZE_MOVE, win#, -&gt;Window.state#=
+  end
+
+// 最小化+移動モード
+window_lclicked6:
+  if pp0#&lt;&gt;WINDOW_MINIMIZE_MOVE then end
+  mouse_x#, wincom#, -&gt;Component.x#=
+  mouse_y#, wincom#, -&gt;Component.y#=
+  WINDOW_MINIMIZE, win#, -&gt;Window.state#=
+  desktop, -&gt;Desktop.component  repaint
+  end
+
 
 // ウインドウ上で右クリックしたときの処理( 直接呼び出し不可 )
 window_rclicked:
-  -&gt;Component.subclass# win#=
+  wincom#= -&gt;Component.subclass# win#=
   desktop, -&gt;Desktop.component  repaint
   win#, win#, -&gt;@Window.rclicked  // 右クリックのコールバックを実行
   end
@@ -2917,30 +2804,39 @@ window_rclicked:
 
 // 2回めクリックしたときの処理( 直接呼び出し不可 )
 window_clicked2:
-  clicked_component#, com#=
-  com#, -&gt;Component.left#        rx#=
-  com#, -&gt;Component.top#        ry#=
-  com#, -&gt;Component.right#      rx1#=
-  com#, -&gt;Component.bottom#  ry1#=
-  com#, -&gt;Component.subclass# win#= -&gt;Window.state# pp#=
+  clicked_component#, wincom#=
+  wincom#, -&gt;Component.left#        rx#=
+  wincom#, -&gt;Component.top#        ry#=
+  wincom#, -&gt;Component.right#      rx1#=
+  wincom#, -&gt;Component.bottom#  ry1#=
+  wincom#, -&gt;Component.subclass# win#= -&gt;Window.state# pp0#=
 
 // 移動モード
 window_clicked2_1:
-  if pp#&lt;&gt;WINDOW_MOVE goto window_clicked2_2
-  mouse_x#, com#, -&gt;Component.x#=
-  mouse_y#, com#, -&gt;Component.y#=
+  if pp0#&lt;&gt;WINDOW_MOVE goto window_clicked2_2
+  mouse_x#, wincom#, -&gt;Component.x#=
+  mouse_y#, wincom#, -&gt;Component.y#=
   WINDOW_NORMAL, win#, -&gt;Window.state#=
   desktop, -&gt;Desktop.component  repaint
   end
 
 // リサイズモード
 window_clicked2_2:
-  if pp#&lt;&gt;WINDOW_RESIZE then end
-  mouse_x#, rx#, - com#, -&gt;Component.width#=
-  mouse_y#, ry#, - com#, -&gt;Component.height#=
+  if pp0#&lt;&gt;WINDOW_RESIZE goto window_clicked2_3
+  mouse_x#, rx#, - wincom#, -&gt;Component.width#=
+  mouse_y#, ry#, - wincom#, -&gt;Component.height#=
   WINDOW_NORMAL, win#, -&gt;Window.state#=
   desktop, -&gt;Desktop.component  repaint
   win#, win#, -&gt;@Window.resized // リサイズのコールバックを実行
+  end
+
+// 最小化+移動モード
+window_clicked2_3:
+  if pp0#&lt;&gt;WINDOW_MINIMIZE_MOVE then end
+  mouse_x#, wincom#, -&gt;Component.x#=
+  mouse_y#, wincom#, -&gt;Component.y#=
+  WINDOW_MINIMIZE, win#, -&gt;Window.state#=
+  desktop, -&gt;Desktop.component  repaint
   end
 
 
@@ -2953,23 +2849,29 @@ window_removed:
 
 // &quot;閉じる&quot; ボタンをクリックしたときの処理( 直接呼び出し不可 )
 close_button_clicked:
-  -&gt;Component.subclass# -&gt;Button.subclass# win#= -&gt;Window.component com#=
-  win#, -&gt;Window.state# tt#=
-
+  -&gt;Button.subclass# win#= -&gt;Window.component wincom#=
+  win#, -&gt;Window.state# tt0#=
+  
 // 通常状態の場合
 close_button_clicked1:
-  if tt#&lt;&gt;WINDOW_NORMAL goto close_button_clicked2
+  if tt0#&lt;&gt;WINDOW_NORMAL goto close_button_clicked2
   WINDOW_MINIMIZE, win#, -&gt;Window.state#=
-  com#, -&gt;Component.height# win#, -&gt;Window.height#=
-  win#, win#, -&gt;@Window.closed // 閉じるコールバックを実行
+  wincom#, -&gt;Component.height# win#, -&gt;Window.height#=
+  TITLEBAR_HEIGHT, wincom#, -&gt;Component.height#=
+  win#, win#, -&gt;@Window.minimized // 最小化コールバックを実行
   desktop, -&gt;Desktop.component repaint
   end
 
 // 最小化状態の場合
 close_button_clicked2:
-  if tt#&lt;&gt;WINDOW_MINIMIZE then end
+  if tt0#=WINDOW_MINIMIZE goto close_button_clicked3
+  if tt0#&lt;&gt;WINDOW_MINIMIZE_MOVE then end
+
+// 元に戻す 
+close_button_clicked3:
   WINDOW_NORMAL, win#, -&gt;Window.state#=
-  win#, -&gt;Window.height# com#, -&gt;Component.height#=
+  win#, -&gt;Window.height# wincom#, -&gt;Component.height#=
+  win#, win#, -&gt;@Window.normalized // 最小化から戻るコールバックを実行
   desktop, -&gt;Desktop.component repaint
   end
 
@@ -2977,22 +2879,29 @@ close_button_clicked2:
 // 閉じるボタンの位置・大きさを設定する
 // (変数win#,close_btn#があらがじめ設定されていること)
 set_close_button:
-  win#, -&gt;Window.component com#=
-  com#, -&gt;Component.width# FONT_WIDTH+2, - pp#=
-  if pp#&lt;1 then 1, pp#= 
-  close_btn#, -&gt;Button.component# com#=
-  pp#, com#, -&gt;Component.x#=
-  1,     com#, -&gt;Component.y#=
-  FONT_WIDTH,  com#, -&gt;Component.width#=
-  FONT_HEIGHT, com#, -&gt;Component.height#=
+  long btncom#
+  win#, -&gt;Window.component wincom#=
+  wincom#, -&gt;Component.width# FONT_WIDTH+3, - pp0#=
+  if pp0#&lt;1 then 1, pp0#= 
+  close_btn#, -&gt;Button.component btncom#=
+  pp0#, btncom#, -&gt;Component.x#=
+  3,       btncom#, -&gt;Component.y#=
+  FONT_WIDTH,  btncom#, -&gt;Component.width#=
+  FONT_HEIGHT, btncom#, -&gt;Component.height#=
   end
 
 
 // タイトルを設定する
 set_window_title:
- wintitle#= pop win#=
- wintitle#, win#, -&gt;Window.title#=
- win#, -&gt;Window.component repaint
+ tt#= pop win#=
+ tt#, win#, -&gt;Window.title#=
+ end
+
+
+// アイコンを設定する
+set_window_icon:
+ tt#= pop win#=
+ tt#, win#, -&gt;Window.icon#=
  end
 
 
@@ -3050,12 +2959,14 @@ create_desktop_menu:
 
 // デスクトップメニューを表示する
 show_desktop_menu:
-
-// &quot;show desktop memu:&quot;, log, fprints log, fnl
-
+  TRUE, key_mask#=
   desktop_menu, -&gt;Label.component com#=
   mouse_x#, com#, -&gt;Component.x#=
+  mouse_x#, com#, -&gt;Component.width# + screen_width#, - tt#=
+  if tt#&gt;0 then mouse_x#, tt#, - com#, -&gt;Component.x#=
   mouse_y#, com#, -&gt;Component.y#=
+  mouse_y#, com#, -&gt;Component.height# + screen_height#, - tt#=
+  if tt#&gt;0 then mouse_y#, tt#, - com#, -&gt;Component.y#=
   TRUE, com#, -&gt;Component.is_visible#=
   com#, pop_up_component
   desktop, -&gt;Desktop.component repaint
@@ -3064,16 +2975,18 @@ show_desktop_menu:
 
 // アイコン作成をクリックしたとき
 desktop_menu_create_icon_clicked:
+  FALSE, key_mask#=
   desktop_menu, -&gt;Label.component com#=
   FALSE, com#, -&gt;Component.is_visible#=
   com#, -&gt;Component.x# sx#=
   com#, -&gt;Component.y# sy#=
-  NULL, &quot; &quot;, &quot; &quot;, &quot; &quot;, sx#, sy#, show_property_sheet
+  NULL, &quot;&quot;, &quot;&quot;, &quot;&quot;, sx#, sy#, show_property_sheet
   end
 
 
 // キャンセルをクリックしたとき
 desktop_menu_cancel_clicked:
+  FALSE, key_mask#=
   desktop_menu, -&gt;Label.component com#=
   FALSE, com#, -&gt;Component.is_visible#=
   desktop, -&gt;Desktop.component repaint
@@ -3149,9 +3062,17 @@ create_icon_menu:
 show_icon_menu:
   long icon#
   icon#=
+  TRUE, key_mask#=
   icon_menu, -&gt;Label.component com#=
+
   mouse_x#, com#, -&gt;Component.x#=
+  mouse_x#, com#, -&gt;Component.width# + screen_width#, - tt#=
+  if tt#&gt;0 then mouse_x#, tt#, - com#, -&gt;Component.x#=
+  
   mouse_y#, com#, -&gt;Component.y#=
+  mouse_y#, com#, -&gt;Component.height# + screen_height#, - tt#=
+  if tt#&gt;0 then mouse_y#, tt#, - com#, -&gt;Component.y#=
+
   TRUE, com#, -&gt;Component.is_visible#=
   com#, pop_up_component
   desktop, -&gt;Desktop.component repaint
@@ -3160,6 +3081,7 @@ show_icon_menu:
 
 // アイコン移動をクリックしたとき
 icon_menu_move_clicked:
+  FALSE, key_mask#=
   icon_menu_move_clicked2, desktop, -&gt;Desktop.lclicked#=
   icon_menu, -&gt;Label.component com#=
   FALSE, com#, -&gt;Component.is_visible#=
@@ -3178,6 +3100,7 @@ icon_menu_move_clicked2:
 
 // アイコン削除をクリックしたとき
 icon_menu_delete_clicked:
+  FALSE, key_mask#=
   icon_menu, -&gt;Label.component com#=
   FALSE, com#, -&gt;Component.is_visible#=
   icon#, remove_desktop_icon
@@ -3187,6 +3110,7 @@ icon_menu_delete_clicked:
 
 // アイコンのプロパティをクリックしたとき
 icon_menu_property_clicked:
+  FALSE, key_mask#=
   icon#, -&gt;Button.text# pp#=
   icon#, -&gt;Button.imagefile# qq#=
   icon#, -&gt;Button.command# rr#=
@@ -3201,6 +3125,7 @@ icon_menu_property_clicked:
 
 // キャンセルをクリックしたとき
 icon_menu_cancel_clicked:
+  FALSE, key_mask#=
   icon_menu, -&gt;Label.component com#=
   FALSE, com#, -&gt;Component.is_visible#=
   desktop, -&gt;Desktop.component repaint
@@ -3301,8 +3226,15 @@ show_property_sheet:
   icmd#= pop ifile#= pop itxt#= pop
   icon2#=
   property_sheet, -&gt;Label.component com#=
+
   mouse_x#, com#, -&gt;Component.x#=
+  mouse_x#, com#, -&gt;Component.width# + screen_width#, - tt#=
+  if tt#&gt;0 then mouse_x#, tt#, - com#, -&gt;Component.x#=
+  
   mouse_y#, com#, -&gt;Component.y#=
+  mouse_y#, com#, -&gt;Component.height# + screen_height#, - tt#=
+  if tt#&gt;0 then mouse_y#, tt#, - com#, -&gt;Component.y#=
+
   itxt#,  property_text,  set_textfield_text
   ifile#,  property_file,   set_textfield_text
   icmd#, property_cmd, set_textfield_text
@@ -3315,13 +3247,13 @@ show_property_sheet:
 // OKボタンをクリックしたとき
 property_sheet_ok_clicked:
   property_text, -&gt;TextField.text# itxt#=
-  itxt#, xstrlen 1, + malloc tt#=
+  itxt#, xstrlen 1, + xmalloc tt#=
   itxt#, tt#, itxt#= strcpy
   property_file, -&gt;TextField.text# ifile#=
-  ifile#, xstrlen 1, + malloc tt#=
+  ifile#, xstrlen 1, + xmalloc tt#=
   ifile#, tt#, ifile#= strcpy
   property_cmd, -&gt;TextField.text# icmd#=
-  icmd#, xstrlen 1, + malloc tt#=
+  icmd#, xstrlen 1, + xmalloc tt#=
   icmd#, tt#, icmd#= strcpy
   if icon2#&lt;&gt;NULL then icon2#, remove_desktop_icon
   itxt#, ifile#, icmd#, ix1#, iy1#, create_desktop_icon 
@@ -3349,11 +3281,1540 @@ property_sheet_cancel_clicked:
 // ボタンやラベル等の基本GUIコンポーネントを組み合わせて作られた
 // GUIコンポーネントです</codetext>
 </codeclip>
+<codeclip>
+<ID>_C7</ID>
+<x0>19</x0>
+<y0>200</y0>
+<width>182</width>
+<height>23</height>
+<codetext>// 複数行テキストボックス
+
+  class TextArea
+    long subclass#                    // サブクラスへのポインタ 
+    long text#                           //  編集テキスト 
+    long line#                           // テキストの各行の先頭のポインタ
+    long size#                           // テキストのサイズ 
+    long lines#                          // テキストの行数 
+    long edit_pos#                    // テキスト上の編集する桁の位置 
+    long display_pos#               // テキスト上の表示開始する桁の位置 
+    long edit_line#                   // テキスト上の編集行の位置 
+    long display_line#              // テキスト上の表示開始行の位置 
+
+    // イベント拡張
+    long paint#      // 描画処理 
+    long removed# // 削除処理
+
+    Component  component     // コンポーネント本体 
+    HScrollBar    hscrollbar       // 水平スクロールバー 
+    VScrollBar    vscrollbar        // 垂直スクロールバー 
+  end
+
+
+// look&amp;feel
+ .data
+lf_textarea:
+  data paint_textarea      // paint_component
+  data textarea_input      // key_pressed
+  data textarea_clicked    // mouse_lclicked
+  data no_operation         // mouse_rclicked
+  data no_operation         // mouse_lclicked2
+  data no_operation         // mouse_rclicked2
+  data textarea_removed // remove_component
+
+  const TEXTAREA_MAX_CHARS   65536  // 最大文字数
+  const TEXTAREA_MAX_LINES     8192   // 最大行数
+  const SCROLLBAR_SIZE            16        // スクロールバーの幅
+  const NEW_LINE                       10        // 改行コード
+  
+// テキストエリアを生成する
+// ara, subclass, parent, txt, create_textarea 
+create_textarea:
+  long aratxt#,araprnt#,arasub#,ara#
+
+  aratxt#= pop araprnt#= pop arasub#= pop ara#=
+  arasub#, ara#, -&gt;TextArea.subclass#=
+  no_operation, ara#, -&gt;TextArea.paint#=
+  no_operation, ara#, -&gt;TextArea.removed#=
+  TEXTAREA_MAX_CHARS+1, xmalloc tt#=
+  tt#, ara#, -&gt;TextArea.text#=
+  TEXTAREA_MAX_LINES+1,     xmalloc tt#=
+  tt#, ara#, -&gt;TextArea.line#=
+  ara#, -&gt;TextArea.component com#=
+  com#, ara#, araprnt#, lf_textarea, create_component
+  TYPE_TEXTAREA, com#, -&gt;Component.type#=
+  TRUE, com#, -&gt;Component.is_focusable#=
+  COLOR_BLACK, com#, -&gt;Component.foreground#=
+  COLOR_WHITE, com#, -&gt;Component.background#=
+  LOWERD_BORDER, com#, -&gt;Component.border#=
+  ara#, -&gt;TextArea.hscrollbar  ara#,  ara#, -&gt;TextArea.component  create_hscrollbar 
+  ara#, -&gt;TextArea.vscrollbar  ara#,  ara#, -&gt;TextArea.component  create_vscrollbar 
+  hscroll_changed_textarea, ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.changed#=
+  vscroll_changed_textarea, ara#, -&gt;TextArea.vscrollbar -&gt;VScrollBar.changed#=
+  aratxt#, ara#, set_textarea_text
+  end
+ 
+ 
+// テキストフエリアを表示する( 直接呼び出し不可 )
+paint_textarea:
+  long tp#,left#,right#,botm#,text#,maxpos#,disp_line#
+  long disppos#,displin#,endlin#,pos#,dispx#,dispy#,disptxt#
+  long max_line#,max_col#
+
+  com#= is_visible tt#=
+  if tt#&lt;&gt;FALSE goto paint_textarea1
+  if com#=focused_component# then NULL, focused_component#=
+  end
+paint_textarea1:
+  com#, -&gt;Component.subclass# ara#=
+
+  // 基盤を描く
+  com#, paint_base
+  com#, -&gt;Component.foreground# set_color
+
+  // テキスト表示領域を求める
+  com#, -&gt;Component.top#      tp#=
+  com#, -&gt;Component.left#      left#=
+  com#, -&gt;Component.right#    SCROLLBAR_SIZE, -  right#=
+  com#, -&gt;Component.bottom# SCROLLBAR_SIZE, - botm#=
+  botm#, tp#,  - FONT_HEIGHT, / 1, - max_line#=
+  right#, left#, - FONT_WIDTH,  / 1, - max_col#=
+
+  // 表示終了位置または最終行までループ
+  0, maxpos#=
+  ara#, -&gt;TextArea.display_pos# disppos#=  // 表示開始桁
+  ara#, -&gt;TextArea.display_line#  displin#=  // 表示開始行
+  ara#, -&gt;TextArea.lines# endlin#=               // 最終行
+  tp#,  dispy#=                                              // 表示位置(y座標)
+  paint_textarea_loop:
+    if dispy#&gt;=botm#     goto paint_textarea_caret
+    if displin#&gt;=endlin# goto paint_textarea_caret
+
+    // 表示開始位置までスキップ
+    ara#, -&gt;TextArea.line# tt#=  (tt)#(displin#), disptxt#= // 行ごとの表示テキスト
+    0,  pos#=
+  paint_textarea3:
+    if (disptxt)$=NULL goto paint_textarea_exitloop           // テキストの終わりが検出されたらループを抜ける
+    if (disptxt)$=NEW_LINE goto paint_textarea_nextline   // 改行するなら次の行に移る
+    if pos#&gt;=disppos# goto paint_textarea4
+    pos#++
+    disptxt#++
+    goto paint_textarea3
+
+   // 表示開始位置から表示終了位置までを描く
+  paint_textarea4:
+    if (disptxt)$=NULL goto paint_textarea_exitloop            // テキストの終わりが検出されたらループを抜ける
+    if (disptxt)$=NEW_LINE goto paint_textarea_nextline    // 改行するなら次の行に移る
+     pos#, disppos#, - FONT_WIDTH, * left#, + dispx#=
+    if dispx#&gt;=right# goto paint_textarea5
+    dispx#, dispy#, (disptxt)$, draw_font
+    pos#++
+    disptxt#++
+    goto   paint_textarea4
+
+   // 行の終了位置を求める
+  paint_textarea5:
+    if (disptxt)$=NULL goto paint_textarea_exitloop            // テキストの終わりが検出されたらループを抜ける
+    if (disptxt)$=NEW_LINE goto paint_textarea_nextline    // 改行するなら次の行に移る
+    pos#++
+    disptxt#++
+    goto   paint_textarea5
+
+  // 次の行に移る
+  paint_textarea_nextline:
+    displin#++
+    dispy#, FONT_HEIGHT, + dispy#=
+    if pos#&gt;maxpos# then pos#, maxpos#=
+    goto paint_textarea_loop
+
+  // ループ終了
+  paint_textarea_exitloop:
+    if pos#&gt;maxpos# then pos#, maxpos#=
+
+  // フォーカスがあたっていてキャレットが表示範囲内にあるときは描画する
+  paint_textarea_caret:
+    if com#&lt;&gt;focused_component# goto paint_textarea_corner
+    ara#, -&gt;TextArea.edit_pos# disppos#, -
+    FONT_WIDTH,  * left#, + pp0#=
+    ara#, -&gt;TextArea.edit_line# ara#, -&gt;TextArea.display_line# -
+    FONT_HEIGHT, * tp#, +  qq0#= 
+    if pp0#&lt;left#      goto paint_textarea_corner
+    if pp0#&gt;=right# goto paint_textarea_corner
+    if qq0#&lt;tp#        goto paint_textarea_corner
+    if qq0#&gt;=botm#  goto paint_textarea_corner
+    pp0#, CARET_SHIFTX, + pp0#=
+    qq0#,  CARET_SHIFTY,  + qq0#= CARET_SIZE, + rr0#=
+    pp0#, qq0#, pp0#, rr0#, draw_line 
+
+  // コンポーネントの右下の空白部分を塗りつぶす
+  paint_textarea_corner:
+    COLOR_LIGHT_GRAY, set_color
+    right#,   SCROLLBAR_SIZE, + pp0#=
+    botm#,   SCROLLBAR_SIZE, + qq0#=
+    right#, botm#, pp0#, qq0#, fill_rect
+
+  // スクロールバーのパラメータを設定
+  paint_textarea_set_params:
+    0, ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.component -&gt;Component.x#=
+    com#, -&gt;Component.height# SCROLLBAR_SIZE, -
+    ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.component -&gt;Component.y#=
+    com#, -&gt;Component.width# SCROLLBAR_SIZE, -  
+    ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.component -&gt;Component.width#=
+    SCROLLBAR_SIZE, ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.component -&gt;Component.height#=
+    0, ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.min#=
+    maxpos#,  1, + ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.max#=
+    ara#, -&gt;TextArea.display_pos# ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.value#=
+    com#, -&gt;Component.width# SCROLLBAR_SIZE, -
+    ara#, -&gt;TextArea.vscrollbar -&gt;VScrollBar.component -&gt;Component.x#=
+    0, ara#, -&gt;TextArea.vscrollbar -&gt;VScrollBar.component -&gt;Component.y#=
+    SCROLLBAR_SIZE, ara#, -&gt;TextArea.vscrollbar -&gt;VScrollBar.component -&gt;Component.width#=
+    com#, -&gt;Component.height#  SCROLLBAR_SIZE, -
+    ara#, -&gt;TextArea.vscrollbar -&gt;VScrollBar.component -&gt;Component.height#=
+    0, ara#, -&gt;TextArea.vscrollbar -&gt;VScrollBar.min#=
+    ara#, -&gt;TextArea.lines# ara#, -&gt;TextArea.vscrollbar -&gt;VScrollBar.max#=
+    ara#, -&gt;TextArea.display_line# ara#, -&gt;TextArea.vscrollbar -&gt;VScrollBar.value#=
+    end
+  
+
+// フォーカスを得た状態でキーが押されたときの処理( 直接呼び出し不可 )
+// (キーボード編集)
+textarea_input:
+  char del_char$
+  long edit_p#,prev_line#,prev_length#
+
+  com#= is_visible tt#=
+  if tt#=FALSE then NULL, focused_component#= end  // 不可視J状態になったときはフォーカスを外して終了する
+
+  com#, -&gt;Component.subclass# ara#=
+  ara#, -&gt;TextArea.line#  pp#=
+  ara#, -&gt;TextArea.edit_line# qq#=
+  (pp)#(qq#), ara#, -&gt;TextArea.edit_pos# + edit_p#=
+
+  // &quot;→&quot; キーが押されたときの処理
+  textarea_input_right_key:
+     if key_code#&lt;&gt;RIGHT_KEY goto textarea_input_left_key
+      
+      // 編集ポイントが範囲外のときは抜ける
+      ara#, -&gt;TextArea.text# ara#, -&gt;TextArea.size# + 1, - tt#= 
+      if edit_p#&gt;=tt# goto textarea_input_break
+      
+      // 編集ポイントが改行コードの場合
+      textarea_input_right_key_new_line:
+      if (edit_p)$&lt;&gt;NEW_LINE goto textarea_input_right_key_not_new_line
+
+        // 次の行に移る
+        ara#, -&gt;TextArea.edit_line# 1, + ara#, -&gt;TextArea.edit_line#=
+
+        // 編集ポイントを最初の桁にする
+        0, ara#, -&gt;TextArea.edit_pos#=
+        goto textarea_input_break
+
+      // 改行コードでない場合 */
+      textarea_input_right_key_not_new_line:
+
+        // 編集ポイントを１つ進める
+        ara#, -&gt;TextArea.edit_pos# 1, + ara#, -&gt;TextArea.edit_pos#=
+        goto textarea_input_break
+
+   // &quot;←&quot; キーが押されたときの処理
+  textarea_input_left_key:
+     if key_code#&lt;&gt;LEFT_KEY goto textarea_input_down_key
+
+      // 編集ポイントが範囲外のときは抜ける
+      ara#, -&gt;TextArea.text# tt#= 
+      if edit_p#&lt;=tt# goto textarea_input_break
+      
+      // 編集ポイント位置が最初の桁の場合
+      textarea_input_left_key_new_line:
+        ara#, -&gt;TextArea.edit_pos# tt#=
+        if tt#&gt;0 goto textarea_input_left_key_not_new_line
+
+        // 前の行に移る
+        ara#, -&gt;TextArea.line#  pp#=
+        ara#, -&gt;TextArea.edit_line# 1, - qq#= ara#, -&gt;TextArea.edit_line#=
+        (pp)#(qq#), pp#=   0, qq#=
+
+        // 行の長さを求めてその値を編集ポイントの位置とする
+        TEXTAREA_MAX_CHARS, adjust_edit_pos
+        goto textarea_input_break
+
+     // 改行コードでない場合
+     textarea_input_left_key_not_new_line:
+
+        // 編集ポイントを一つ後退させる
+        ara#, -&gt;TextArea.edit_pos# 1, - ara#, -&gt;TextArea.edit_pos#=
+        goto textarea_input_break
+
+    // &quot;↓&quot; キーが押されたときの処理
+    textarea_input_down_key:
+     if key_code#&lt;&gt;DOWN_KEY goto textarea_input_up_key
+
+       // 次の行に移る
+       ara#, -&gt;TextArea.edit_line#  1, + tt0#=
+       ara#, -&gt;TextArea.lines#  1, -  uu0#=
+       if tt0#&gt;uu0# then uu0#, tt0#=
+       tt0#, ara#, -&gt;TextArea.edit_line#=
+      
+       // 編集ポイントの位置を調整する
+       ara#, -&gt;TextArea.edit_pos# adjust_edit_pos
+       goto textarea_input_break
+
+    // &quot;↑&quot; キーが押されたときの処理
+    textarea_input_up_key:
+     
+     if key_code#&lt;&gt;UP_KEY goto textarea_input_bs_key
+       ara#, -&gt;TextArea.edit_line#  tt#=
+       if tt#&lt;=0 then 0, ara#, -&gt;TextArea.edit_pos#= gototextarea_input_break
+      
+       // 前の行に移る
+       ara#, -&gt;TextArea.edit_line#  1, - tt0#=
+       if tt0#&lt;0 then 0, tt0#=
+       tt0#, ara#, -&gt;TextArea.edit_line#=
+      
+       // 編集ポイントの位置を調整する
+       ara#, -&gt;TextArea.edit_pos# adjust_edit_pos
+       goto textarea_input_break
+
+    // 編集位置を編集行のテキスト長に応じて調整する
+    adjust_edit_pos:
+       qq0#=
+       ara#, -&gt;TextArea.edit_line#  get_line_length pp0#=
+       if qq0#&gt;pp0# then pp0#, qq0#=
+       qq0#, ara#, -&gt;TextArea.edit_pos#=
+       end        
+
+    // 与えられた行の長さを求める
+    get_line_length:
+      tt#=
+       ara#, -&gt;TextArea.line#  uu#=
+       (uu)#(tt#), qq#= 
+       0, pp#=
+       get_line_length1:
+          if (qq)$(pp#)=NEW_LINE goto  get_line_length2
+          if (qq)$(pp#)=NULL goto  get_line_length2
+          pp#++
+          goto get_line_length1
+       get_line_length2:
+       pp#, end
+
+     // BSキーが押されたときの処理
+     textarea_input_bs_key:
+     if key_code#&lt;&gt;BS_KEY goto textarea_input_enter_key
+     edit_p#, ara#, -&gt;TextArea.text# - tt#=
+     if tt#&lt;=0 goto textarea_input_break
+     ara#, -&gt;TextArea.edit_line# 1, - prev_line#=
+     if prev_line#&lt;0 then 0, prev_line#=
+     (edit_p)$(-1), del_char$=
+     if del_char$=NEW_LINE then prev_line#, get_line_length prev_length#=
+
+     // １文字削除
+     ara#, -&gt;TextArea.text# ara#, -&gt;TextArea.size# + rr0#=
+     textarea_input_bs_key1:
+       (edit_p)$, (edit_p)$(-1)=
+       edit_p#++
+     if edit_p#&lt;=rr0#  goto textarea_input_bs_key1
+     ara#, -&gt;TextArea.size# 1, - ara#, -&gt;TextArea.size#=
+     if del_char$=NEW_LINE goto textarea_input_bs_key4
+
+     // 行の格納情報を修正
+     ara#, -&gt;TextArea.edit_line# 1, + pp0#= // 修正行の次の行から変更
+     ara#, -&gt;TextArea.lines#    rr0#=
+     ara#, -&gt;TextArea.line#      uu0#=
+     textarea_input_bs_key2:
+       if pp0#&gt;=rr0# goto  textarea_input_bs_key3
+       (uu0)#(pp0#), 1, - (uu0)#(pp0#)=
+       pp0#++
+       goto textarea_input_bs_key2
+     textarea_input_bs_key3:
+     ara#, -&gt;TextArea.edit_pos# 1, - tt#=
+     if tt#&lt;0 then 0, tt#=
+     tt#, ara#, -&gt;TextArea.edit_pos#=
+     goto textarea_input_break
+
+     // 消去した文字が改行文字の場合は１行削除
+     textarea_input_bs_key4:
+       ara#, -&gt;TextArea.edit_line# pp0#= 1, + qq0#= // 修正行から変更
+       ara#, -&gt;TextArea.lines#       rr0#=
+       ara#, -&gt;TextArea.line#         uu0#=
+       textarea_input_bs_key5:
+         (uu0)#(qq0#),  1, - (uu0)#(pp0#)=
+         pp0#++
+         qq0#++
+       if pp0#&lt;rr0# goto  textarea_input_bs_key5
+       rr0#, 1, - ara#, -&gt;TextArea.lines#=
+       prev_line#, ara#, -&gt;TextArea.edit_line#=
+       prev_length#, ara#, -&gt;TextArea.edit_pos#=
+       goto textarea_input_break
+
+    // Enter キーが押されたときの処理
+    textarea_input_enter_key:
+     if key_code#&lt;&gt;ENTER_KEY goto textarea_input_other_key
+     ara#, -&gt;TextArea.size# tt#=
+     if tt#&gt;TEXTAREA_MAX_CHARS then end
+     ara#, -&gt;TextArea.lines# tt#=
+     if tt#&gt;TEXTAREA_MAX_LINES then end
+
+     // 改行コードを挿入
+     ara#, -&gt;TextArea.text# ara#, -&gt;TextArea.size# + pp0#=
+     textarea_input_enter_key1:
+       (pp0)$, (pp0)$(1)=
+       pp0#--
+       if pp0#&gt;=edit_p#  goto textarea_input_enter_key1
+       NEW_LINE, (edit_p)$=
+
+      // １行挿入して次の行に移る
+      ara#, -&gt;TextArea.edit_line# rr0#=
+      ara#, -&gt;TextArea.lines#  pp0#= 1, + qq0#=
+      ara#, -&gt;TextArea.line#   uu0#=
+      textarea_input_enter_key2:
+        (uu0)#(pp0#), 1, + (uu0)#(qq0#)=
+        pp0#--
+        qq0#--
+      if pp0#&gt;rr0# goto  textarea_input_enter_key2
+      edit_p#, 1, + (uu0)#(qq0#)=
+
+    // 編集ポイントを初期化
+    textarea_input_enter_key3:
+      0, ara#, -&gt;TextArea.edit_pos#=
+      ara#, -&gt;TextArea.edit_line# 1, + ara#, -&gt;TextArea.edit_line#=
+      ara#, -&gt;TextArea.size# 1, + ara#, -&gt;TextArea.size#=
+      ara#, -&gt;TextArea.lines# 1, + ara#, -&gt;TextArea.lines#=
+      goto textarea_input_break
+
+    // 上記以外のキーが押されたときの処理 
+    textarea_input_other_key:
+    
+     // テキストのサイズが余裕がないときは何もしない
+     ara#, -&gt;TextArea.size# tt#=
+     if tt#&gt;TEXTAREA_MAX_CHARS then end
+     ara#, -&gt;TextArea.lines# tt#=
+     if tt#&gt;TEXTAREA_MAX_LINES then end
+
+     // 無効なコードは無視する
+     if key_code+2%&lt;32   then end
+     if key_code+2%&gt;127 then end
+
+     // キーコードを挿入
+     ara#, -&gt;TextArea.text# ara#, -&gt;TextArea.size# + pp0#=
+     textarea_input_other_key1:
+       (pp0)$, (pp0)$(1)=
+       pp0#--
+       if pp0#&gt;=edit_p#  goto textarea_input_other_key1
+       key_code+2%, (edit_p)$=
+       ara#, -&gt;TextArea.size# 1, + ara#, -&gt;TextArea.size#=
+       ara#, -&gt;TextArea.edit_pos# 1, + ara#, -&gt;TextArea.edit_pos#=
+
+      // 行の格納情報を修正
+      ara#, -&gt;TextArea.edit_line# rr0#=
+      ara#, -&gt;TextArea.lines# 1, - pp0#=
+      ara#, -&gt;TextArea.line#   uu0#=
+      textarea_input_other_key2:
+        if pp0#&lt;=rr0# goto  textarea_input_break
+        (uu0)#(pp0#), 1, + (uu0)#(pp0#)=
+        pp0#, 1, - pp0#=
+      goto textarea_input_other_key2
+
+    // 表示範囲の補正
+   textarea_input_break:
+   ara#, -&gt;TextArea.edit_line# max_line#, - tt#=
+   if tt#&lt;0 then 0, tt#=
+   tt#, ara#, -&gt;TextArea.display_line#=
+
+  // 表示開始位置を編集位置より表示幅分左側によせる、ただし表示開始位置がマイナスになったときは行の始めに設定する
+   textarea_input_break1:
+   ara#, -&gt;TextArea.edit_pos# max_col#, -  tt#=
+   if tt#&lt;0 then 0, tt#=
+   tt#, ara#, -&gt;TextArea.display_pos#=
+  
+   // 描画する
+   textarea_input_break2:
+   com#, repaint
+   end
+ 
+ 
+// テキストボックスをクリックしたときの処理( 直接呼び出し不可 )
+// (フォーカスとキャレットを移動させる)
+textarea_clicked:
+  com#= -&gt;Component.subclass# ara#=
+  com#, focused_component#=
+
+  // マウスカーソルがある行を求める
+  mouse_y#, tp#, - FONT_HEIGHT, / 
+  ara#, -&gt;TextArea.display_line#  +  pp0#=
+  ara#, -&gt;TextArea.lines# 1, -  qq0#=
+  if qq0#&lt;pp0# then qq0#, pp0#=
+  pp0#, ara#, -&gt;TextArea.edit_line#=
+
+  // マウスカーソルがある桁を求める
+  mouse_x#, left#, - FONT_WIDTH, / 
+  ara#, -&gt;TextArea.display_pos# +  adjust_edit_pos
+
+  desktop, -&gt;Desktop.component repaint  // どこにフォーカスが移ってもいいようにデスクトップ全体を再描画
+  end
+
+
+// テキストエリアを削除する( 直接呼び出し不可 )
+textarea_removed:
+  com#= -&gt;Component.subclass# ara#=
+  ara#, -&gt;TextArea.text# pp0#=
+  ara#, -&gt;TextArea.line#  qq0#=
+  pp0#, xfree
+  qq0#, xfree
+  ara#, ara#, -&gt;@TextArea.removed
+  end
+
+
+// 水平スクロールバーが動かされたときの処理( 直接呼び出し不可 )
+hscroll_changed_textarea:
+  long hscrl#
+  hscrl#= -&gt;HScrollBar.subclass# ara#=
+  hscrl#, -&gt;HScrollBar.value#  tt0#= ara#, -&gt;TextArea.display_pos#= 
+  ara#, -&gt;TextArea.component repaint
+  end
+
+
+// 垂直スクロールバーが動かされたときの処理( 直接呼び出し不可 )
+vscroll_changed_textarea:
+  long vscrl#
+  vscrl#= -&gt;VScrollBar.subclass# ara#=
+  vscrl#, -&gt;VScrollBar.value# tt0#= ara#, -&gt;TextArea.display_line#= 
+  0, ara#, -&gt;TextArea.hscrollbar -&gt;HScrollBar.value#=
+  ara#, -&gt;TextArea.component repaint
+  end
+
+
+// 表示テキストを設定する
+set_textarea_text:
+  ara#= pop tt0#=
+  ara#, -&gt;TextArea.text# pp0#=
+  tt0#, pp0#, TEXTAREA_MAX_CHARS, strncpy
+  ara#, -&gt;TextArea.line# qq0#=
+  0, ara#, -&gt;TextArea.display_pos#=
+  0, ara#, -&gt;TextArea.edit_pos#=
+  0, ara#, -&gt;TextArea.display_line#=
+  0, ara#, -&gt;TextArea.edit_line#=
+  0, rr0#=
+  0, ss0#=
+  pp0#, (qq0)#(rr0#)=  rr0#++
+set_textarea_text1:
+  (pp0)$, tt0#=
+  pp0#++
+  ss0#++
+  if tt0#=NEW_LINE then  pp0#, (qq0)#(rr0#)=  rr0#++
+  if tt0#&lt;&gt;NULL goto set_textarea_text1
+  NULL, (qq0)#(rr0#)=
+  rr0#, ara#, -&gt;TextArea.lines#=
+  ss0#, ara#, -&gt;TextArea.size#=
+  end
+</codetext>
+</codeclip>
+<xobject>
+<ID>_X9</ID>
+<x0>235</x0>
+<y0>102</y0>
+<width>202</width>
+<height>64</height>
+<ID_maker>13</ID_maker>
+<objectname>ファイルコンポーネント</objectname>
+<description></description>
+<codeclip>
+<ID>_C0</ID>
+<x0>9</x0>
+<y0>23</y0>
+<width>420</width>
+<height>48</height>
+<codetext>// ファイルコンポーネントはファイル管理を目的として実装された
+// GUIコンポーネントです</codetext>
+</codeclip>
+<codeclip>
+<ID>_C1</ID>
+<x0>12</x0>
+<y0>81</y0>
+<width>175</width>
+<height>23</height>
+<codetext>// ファイラークラス
+
+ // 最大表示数
+ const MAX_FILES    10000
+ const MAX_FITEMS 256
+
+// ディレクトリ情報
+ const FILE_NAME  0x50   // ファイル名
+
+ // ファイル項目の大きさ
+ const FITEM_WIDTH  150
+ const FITEM_HEIGHT 16
+
+// ファイル項目の表示範囲
+ const FILER_LEFT           2       // 左側のマージン
+ const FILER_RIGHT         2       // 右側のマージン
+ const FILER_TOP            2       // 上側のマージン
+ const FILER_BOTTOM     10     // 下側のマージン(スクロールバーの表示位置,高さ)
+
+ class Filer
+  long subclass#      // サブクラスへのポインタ
+  long file#              // ファイル名を格納するバッファ
+  long files#            // ファイル数
+  long fitem#          // ファイル項目の配列
+
+  // 開く処理
+  long open_action#  // ファイル項目を左クリックしたとき呼ばれる関数を格納する
+
+  // 土台
+  Label     base
+
+  // スクロールバー
+  HScrollBar scrollbar
+
+ end
+
+
+
+// ファイラーを生成する
+// filer, filersub, filertitle, create_filer
+create_filer:
+ long filer#,filersub#,filerpar#,filerbase#,filercom#,filerscrl#,fitem#
+ long ppx#,qqx#,ttx#,uux#,nnx#
+ count iix#
+ filerpar#= pop filersub#= pop  filer#=
+ filersub#, filer#, -&gt;Filer.subclass#=
+ no_operation, filer#, -&gt;Filer.open_action#=
+ filer#, -&gt;Filer.base filerbase#=
+ filerbase#, filer#, filerpar#, &quot;&quot;, create_label
+ paint_filer,  filerbase#, -&gt;Label.paint#=
+ filer_removed,  filerbase#, -&gt;Label.removed#=
+ filerbase#, -&gt;Label.component filercom#=
+ 256, filercom#, -&gt;Component.width#=
+ 160, filercom#, -&gt;Component.height#=
+ COLOR_WHITE, filercom#, -&gt;Component.background#=
+ filer#, -&gt;Filer.scrollbar filerscrl#=
+ filerscrl#,  filer#, filercom#,  create_hscrollbar
+ filer_scroll_action, filerscrl#, -&gt;HScrollBar.changed#=
+ MAX_FILES*8, xmalloc filer#, -&gt;Filer.file#=
+ 0, filer#, -&gt;Filer.files#=
+ MAX_FITEMS*FItem.SIZE, xmalloc filer#, -&gt;Filer.fitem#=
+ for iix#=0 to MAX_FITEMS-1
+   iix#, FItem.SIZE, * filer#, -&gt;Filer.fitem# + ppx#=
+   ppx#, filer#, filercom#, create_fitem    
+   filer_lclick_action, ppx#, -&gt;FItem.lclicked#=
+   filer_rclick_action, ppx#, -&gt;FItem.rclicked#=
+ next iix#
+ end
+
+
+// 表示処理
+paint_filer:
+  long fwid#,fhei#,fcols#,frows#,filetop#
+  filerbase#= -&gt;Label.component filercom#=
+  filerbase#, -&gt;Label.subclass# filer#=
+  filer#, -&gt;Filer.scrollbar filerscrl#= -&gt;HScrollBar.component com1#=
+  FALSE,  com1#, -&gt;Component.is_visible#=
+  0, com1#, -&gt;Component.x#=
+  filercom#, -&gt;Component.height# FILER_BOTTOM, - com1#, -&gt;Component.y#=
+  filercom#, -&gt;Component.width# FILER_RIGHT, - com1#, -&gt;Component.width#=
+  FILER_BOTTOM, com1#, -&gt;Component.height#=
+
+  filercom#, -&gt;Component.width#  FILER_LEFT+FILER_RIGHT,    - fwid#=
+  filercom#, -&gt;Component.height# FILER_TOP+FILER_BOTTOM, - fhei#=
+  fwid#, FITEM_WIDTH,  / fcols#=
+  fhei#, FITEM_HEIGHT, / frows#=
+  
+  0, iix#=
+  filer#, -&gt;Filer.fitem# qqx#=
+  fcols#, frows#, * nnx#=
+  if nnx#=0 goto paint_filer1
+  filer#, -&gt;Filer.files# frows#, / ttx#=
+  filer#, -&gt;Filer.files# frows#, mod uux#=
+  if uux#&lt;&gt;0 then ttx#++
+  ttx#, filerscrl#, -&gt;HScrollBar.value# *  100, / frows#, *
+  filetop#= 8, * filer#, -&gt;Filer.file# + ppx#=
+  TRUE,  com1#, -&gt;Component.is_visible#=
+  nnx#, filer#, -&gt;Filer.files# - ttx#=
+  if ttx#&gt;=0 then FALSE, com1#, -&gt;Component.is_visible#= 0, filetop#= 
+
+  // ファイルの表示が途中で終わる場合は、表示するアイテムの数を減らす
+  filer#, -&gt;Filer.files# filetop#, - ttx#=
+  if ttx#&lt;nnx# then ttx#, nnx#=
+  nnx#--
+  if nnx#&lt;0 goto paint_filer1
+
+  // 表示するファイル項目のテキストと位置を設定する
+  for iix#=0 to nnx#
+    (ppx)#, qqx#, -&gt;FItem.text#=
+    (ppx)#, get_file_icon qqx#, -&gt;FItem.icon#=
+    qqx#, -&gt;FItem.component com0#=
+    iix#, frows#, / FITEM_WIDTH, * FILER_LEFT, +
+    com0#, -&gt;Component.x#=
+    iix#, frows#, mod FITEM_HEIGHT, * FILER_TOP, +
+    com0#, -&gt;Component.y#=
+    FITEM_WIDTH,  com0#, -&gt;Component.width#=
+    FITEM_HEIGHT, com0#, -&gt;Component.height#=
+    TRUE, com0#, -&gt;Component.is_visible#=
+    ppx#, 8, + ppx#=
+    qqx#, FItem.SIZE, + qqx#=
+  next iix#
+  
+  // 他のファイル項目を表示しないようにする
+  paint_filer1:
+  for iix#=iix# to MAX_FITEMS-1
+    qqx#, -&gt;FItem.component com0#=
+    FALSE, com0#, -&gt;Component.is_visible#=
+    qqx#, FItem.SIZE, + qqx#=
+  next iix#
+  end
+
+
+// ファイラーを削除したときの処理
+filer_removed:
+  filerbase#= -&gt;Label.subclass# filer#=
+  filer#= -&gt;Filer.file# ppx#=
+  filer#, -&gt;Filer.files# 1, - qqx#=
+  if qqx#&lt;0 goto filer_removed1
+  for iix#=0 to qqx#
+    (ppx)#(iix#), xfree
+  next iix#
+  filer_removed1:
+  filer#, -&gt;Filer.file# xfree
+  filer#, -&gt;Filer.fitem# xfree
+  end
+    
+
+// スクロールバーを変えた時は再描画する
+filer_scroll_action:
+  -&gt;HScrollBar.subclass# -&gt;Filer.base -&gt;Label.component repaint 
+  end
+
+
+// ファイル項目の左クリックで登録されている関数を実行する
+filer_lclick_action:
+  fitem#=
+  fitem#, -&gt;FItem.subclass# filer#=
+  fitem#, -&gt;FItem.text# filer#, -&gt;@Filer.open_action
+  end
+
+
+// ファイル項目の右クリックでファイルメニューを表示する
+filer_rclick_action:
+  fitem#=
+  fitem#, show_file_menu
+  end
+
+
+// ディレクトリを調べてファイル表示を更新する
+update_filer:
+  filer#= -&gt;Filer.file# ppx#=
+  filer#, -&gt;Filer.files# 1, - qqx#=
+  if qqx#&lt;0 goto update_filer1
+    for iix#=0 to qqx#
+      (ppx)#(iix#), xfree
+    next iix#
+  update_filer1:
+  0, iix#=
+  update_filer2:
+     fbuf, vol_read  ttx#=   // ディレクトリのファイル名を一つ読み込む
+     if ttx#=0 goto update_filer3
+     0, fbuf+FILE_NAME+64%=
+     fbuf+FILE_NAME, _nallow qqx#=
+     qqx#, xstrlen 1, + xmalloc (ppx)#(iix#)=
+     qqx#, (ppx)#(iix#), strcpy
+     iix#++
+     goto update_filer2
+  update_filer3:
+  vol_close  // ディレクトリを閉じる
+  vol_open  // ディレクトリを開く
+  iix#, filer#, -&gt;Filer.files#=
+  0, filer#, -&gt;Filer.scrollbar -&gt;HScrollBar.value#=
+  filer#, -&gt;Filer.base -&gt;Label.component repaint
+  end
+
+
+// ファイル項目を左クリックしたとき呼ばれる関数を設定する
+set_filer_open_action:
+  ppx#= pop filer#=
+  ppx#,  filer#, -&gt;Filer.open_action#=
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C2</ID>
+<x0>12</x0>
+<y0>110</y0>
+<width>172</width>
+<height>23</height>
+<codetext>// ファイル項目クラス
+
+
+ class FItem
+  long   subclass#         // サブクラスへのポインタ 
+  long   text#                // テキスト 
+  long   icon#                // アイコン 
+
+  // イベント拡張 
+  long lclicked#           // 左ボタンクリック
+  long rclicked#           // 右ボタンクリック
+  long paint#              // 描画処理
+
+  // コンポーネントの本体 
+  Component component 
+ end
+
+// look&amp;feel
+ .data
+lf_fitem:
+  data paint_fitem               // paint_component
+  data no_operation             // key_pressed
+  data fitem_lclicked            // mouse_lclicked
+  data fitem_rclicked            // mouse_rclicked
+  data no_operation             // mouse_lclicked2
+  data no_operation             // mouse_rclicked2
+  data no_operation             // remove_component
+
+
+// ボタンを生成する
+// fitm, subclass, parent, create_fitem 
+create_fitem:
+ long fitmprnt#,fitmsub#,fitm#
+
+ fitmprnt#= pop fitmsub#= pop fitm#=
+ fitmsub#, fitm#, -&gt;FItem.subclass#=
+ no_operation, fitm#, -&gt;FItem.paint#=
+ no_operation, fitm#, -&gt;FItem.lclicked#=
+ no_operation, fitm#, -&gt;FItem.rclicked#=
+ NULL,   fitm#, -&gt;FItem.text#=
+ NULL,   fitm#, -&gt;FItem.icon#=
+ fitm#, -&gt;FItem.component com#=
+ com#, fitm#, fitmprnt#, lf_fitem, create_component
+ TYPE_FITEM, com#, -&gt;Component.type#=
+ FALSE, com#, -&gt;Component.is_focusable#=
+ COLOR_BLACK, com#, -&gt;Component.foreground#=
+ COLOR_WHITE, com#, -&gt;Component.background#=
+ NULL, com#, -&gt;Component.border#=
+ end
+ 
+
+// ファイル項目を表示する( 直接呼び出し不可 )
+paint_fitem:
+  com#= is_visible tt#=
+  if tt#=FALSE then end
+  com#, -&gt;Component.subclass# fitm#=
+
+  // 基盤を描く
+  com#, paint_base
+
+  // アイコンを描く
+  com#, -&gt;Component.left#    pp0#=
+  com#, -&gt;Component.top#    qq0#=
+  com#, -&gt;Component.width# rr0#= 
+  fitm#,  -&gt;FItem.icon#  ss0#=
+  if ss0#=NULL goto paint_fitem1
+  pp0#, qq0#, ss0#,  draw_image pop pp0#= pp0#++
+  com#, -&gt;Component.right# pp0#, - rr0#=
+
+// テキストを描く
+paint_fitem1:
+  fitm#,  -&gt;FItem.text# ss0#=
+  if ss0#=NULL goto paint_fitem2
+  com#, -&gt;Component.foreground# set_color
+  pp0#, qq0#, rr0#, ss0#, draw_string
+
+paint_fitem2:
+  fitm#, fitm#, -&gt;@FItem.paint
+  end
+
+
+// 左クリックで呼ばれる
+fitem_lclicked:
+  com#=
+  com#, -&gt;Component.subclass# fitm#=
+  fitm#, fitm#, -&gt;@FItem.lclicked
+  end
+
+
+// 右クリックで呼ばれる
+fitem_rclicked:
+  com#=
+  com#, -&gt;Component.subclass# fitm#=
+  fitm#, fitm#, -&gt;@FItem.rclicked
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C3</ID>
+<x0>11</x0>
+<y0>137</y0>
+<width>185</width>
+<height>25</height>
+<codetext>// ファイルプロパティシート
+
+ 
+  char file_property_sheet$(Label.SIZE)
+  char file_property_file$(TextField.SIZE)
+  char file_property_can_read$(CheckBox.SIZE)
+  char file_property_can_write$(CheckBox.SIZE)
+  char file_property_can_exec$(CheckBox.SIZE)
+  char file_property_ok$(Button.SIZE)
+  char file_property_cancel$(Button.SIZE)
+
+
+// プロパティシートを作成する
+create_file_property_sheet:
+  desktop, -&gt;Desktop.component com#=
+ 
+  // シートを生成
+  file_property_sheet, desktop, com#, &quot;&quot;, create_label 
+  file_property_sheet, -&gt;Label.component com0#=
+  paint_file_property_sheet, file_property_sheet, -&gt;Label.paint#=
+  260, com0#, -&gt;Component.width#=
+  170, com0#, -&gt;Component.height#=
+  RAISED_BORDER, com0#, -&gt;Component.border#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+
+  // ファイル名プロパティ用テキストボックスを生成
+  file_property_file, desktop, com0#, &quot;&quot;, create_textfield 
+  file_property_file, -&gt;TextField.component com1#=
+  10,   com1#, -&gt;Component.x#=
+  30,   com1#, -&gt;Component.y#=
+  240, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+
+  // 読み込み可能チェックボックスを生成
+  file_property_can_read, desktop, com0#, create_checkbox 
+  file_property_can_read, -&gt;CheckBox.component com1#=
+  30, com1#, -&gt;Component.x#=
+  110, com1#, -&gt;Component.y#=
+  12,   com1#, -&gt;Component.width#=
+  12,   com1#, -&gt;Component.height#=
+
+  // 書き込み可能チェックボックスを生成
+  file_property_can_write, desktop, com0#, create_checkbox 
+  file_property_can_write, -&gt;CheckBox.component com1#=
+  120, com1#, -&gt;Component.x#=
+  110, com1#, -&gt;Component.y#=
+  12,   com1#, -&gt;Component.width#=
+  12,   com1#, -&gt;Component.height#=
+
+  // 実行込み可能チェックボックスを生成
+  file_property_can_exec, desktop, com0#, create_checkbox 
+  file_property_can_exec, -&gt;CheckBox.component com1#=
+  200, com1#, -&gt;Component.x#=
+  110, com1#, -&gt;Component.y#=
+  12,   com1#, -&gt;Component.width#=
+  12,   com1#, -&gt;Component.height#=
+
+  // OKボタンを生成
+  file_property_ok, desktop, com0#, &quot;   OK&quot;, create_button 
+  file_property_ok, -&gt;Button.component com1#=
+  10,   com1#, -&gt;Component.x#=
+  140, com1#, -&gt;Component.y#=
+  100, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  file_property_ok, file_property_sheet_ok_clicked, set_button_lclicked
+
+  // キャンセルボタンを生成
+  file_property_cancel, desktop, com0#, &quot; CANCEL&quot;, create_button 
+  file_property_cancel, -&gt;Button.component com1#=
+  135, com1#, -&gt;Component.x#=
+  140, com1#, -&gt;Component.y#=
+  110, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  file_property_cancel, file_property_sheet_cancel_clicked, set_button_lclicked
+  end
+
+
+// プロパティシートを表示するとき呼ばれる関数
+paint_file_property_sheet:
+  file_property_sheet, -&gt;Label.component com#=
+  com#, -&gt;Component.left# 10, + mx#=
+  com#, -&gt;Component.top# 10, + my#=
+  
+  mx#, my#, 200, &quot;file name&quot;, draw_string
+  &quot;size &quot;, dbuf, strcpy  0, dec dbuf, strcat
+  my#, 40, + my#=
+  mx#, my#, 200, dbuf, draw_string
+  &quot;date  80/01/01 12:00:00&quot;, dbuf, strcpy  
+  my#, 20, + my#=
+  mx#, my#, 200, dbuf, draw_string
+  my#, 20, + my#=
+  mx#, my#, 240, &quot;read  write exec&quot;, draw_string
+  end
+
+
+// プロパティシートを表示する
+show_file_property_sheet:
+
+  fitem#=
+  file_property_sheet, -&gt;Label.component com#=
+
+  mouse_x#, com#, -&gt;Component.x#=
+  mouse_x#, com#, -&gt;Component.width# + screen_width#, - tt#=
+  if tt#&gt;0 then mouse_x#, tt#, - com#, -&gt;Component.x#=
+  
+  mouse_y#, com#, -&gt;Component.y#=
+  mouse_y#, com#, -&gt;Component.height# + screen_height#, - tt#=
+  if tt#&gt;0 then mouse_y#, tt#, - com#, -&gt;Component.y#=
+
+  fitem#, -&gt;FItem.text# file_property_file, set_textfield_text
+  TRUE, com#, -&gt;Component.is_visible#=
+  com#, pop_up_component
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// OKボタンをクリックしたとき
+file_property_sheet_ok_clicked:
+  char fcmdbuf$(256)           // mv, chmodコマンドを実行
+  file_property_sheet, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  &quot;mv &quot;, fcmdbuf, strcpy
+  file_name#, fcmdbuf, strcat
+  &quot; &quot;, fcmdbuf, strcat
+  file_property_file, -&gt;TextField.text# fcmdbuf, strcat
+  fcmdbuf, exec_command
+  fitem#, -&gt;FItem.subclass# update_filer
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// キャンセルボタンをクリックしたとき
+file_property_sheet_cancel_clicked:
+  file_property_sheet, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C4</ID>
+<x0>10</x0>
+<y0>167</y0>
+<width>154</width>
+<height>26</height>
+<codetext>// ファイルメニュー
+ 
+  char file_menu$(Label.SIZE)
+  char file_menu_update$(Button.SIZE)
+  char file_menu_copy$(Button.SIZE)
+  char file_menu_delete$(Button.SIZE)
+  char file_menu_property$(Button.SIZE)
+  char file_menu_cancel$(Button.SIZE)
+ 
+
+// ファイルメニューを作成する
+create_file_menu:
+  desktop, -&gt;Desktop.component com#=
+ 
+  // シートを生成
+  file_menu, desktop, com#, &quot;&quot;, create_label 
+  file_menu, -&gt;Label.component com0#=
+  160, com0#, -&gt;Component.width#=
+  100, com0#, -&gt;Component.height#=
+  RAISED_BORDER, com#, -&gt;Component.border#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+
+  // ファイル更新ボタンを生成
+  file_menu_update, desktop, com0#, &quot;   update&quot;, create_button 
+  file_menu_update, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  0,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  file_menu_update, file_menu_update_clicked, set_button_lclicked
+
+  // ファイルコピーボタンを生成
+  file_menu_copy, desktop, com0#, &quot;    copy&quot;, create_button 
+  file_menu_copy, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  20,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  file_menu_copy, file_menu_copy_clicked, set_button_lclicked
+
+  // ファイル削除ボタンを生成
+  file_menu_delete, desktop, com0#, &quot;   delete&quot;, create_button 
+  file_menu_delete, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  40,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  file_menu_delete, file_menu_delete_clicked, set_button_lclicked
+
+  // ファイルプロパティボタンを生成
+  file_menu_property, desktop, com0#, &quot;  property&quot;, create_button 
+  file_menu_property, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  60,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  file_menu_property, file_menu_property_clicked, set_button_lclicked
+
+  // キャンセルボタンを生成
+  file_menu_cancel, desktop, com0#, &quot;   cancel&quot;, create_button 
+  file_menu_cancel, -&gt;Button.component com1#=
+  0,   com1#, -&gt;Component.x#=
+  80,   com1#, -&gt;Component.y#=
+  160, com1#, -&gt;Component.width#=
+  20,   com1#, -&gt;Component.height#=
+  file_menu_cancel, file_menu_cancel_clicked, set_button_lclicked
+  end
+
+
+// ファイルメニューを表示する
+show_file_menu:
+  long file_name#
+  fitem#=
+  TRUE, key_mask#=
+  fitem#, -&gt;FItem.subclass filer#=
+  fitem#, -&gt;FItem.text# file_name#=
+  file_menu, -&gt;Label.component com#=
+
+  mouse_x#, com#, -&gt;Component.x#=
+  mouse_x#, com#, -&gt;Component.width# + screen_width#, - tt#=
+  if tt#&gt;0 then mouse_x#, tt#, - com#, -&gt;Component.x#=
+  
+  mouse_y#, com#, -&gt;Component.y#=
+  mouse_y#, com#, -&gt;Component.height# + screen_height#, - tt#=
+  if tt#&gt;0 then mouse_y#, tt#, - com#, -&gt;Component.y#=
+
+  TRUE, com#, -&gt;Component.is_visible#=
+  com#, pop_up_component
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// ファイル更新をクリックしたとき
+file_menu_update_clicked:
+  FALSE, key_mask#=
+  file_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  filer#, update_filer
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// ファイルコピーをクリックしたとき
+file_menu_copy_clicked:
+  char  infile$(FILE_SIZE),outfile$(FILE_SIZE)
+  FALSE, key_mask#=
+  file_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  &quot;-&quot;, dbuf, strcpy
+  file_name#, dbuf, strcat
+  file_name#, infile, ropen tt0#=
+  if tt0#&lt;&gt;0 goto file_menu_copy_clicked3
+  dbuf, outfile, wopen
+  file_menu_copy_clicked1:
+    infile, getc tt0#=
+    if tt0#=EOF goto file_menu_copy_clicked2
+    tt0#, outfile, putc
+    goto file_menu_copy_clicked1
+  file_menu_copy_clicked2:
+  infile,   rclose
+  outfile, wclose
+
+file_menu_copy_clicked3:
+  filer#, update_filer
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// ファイル削除をクリックしたとき
+file_menu_delete_clicked:
+  FALSE, key_mask#=
+  file_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  file_name#, delete
+  filer#, update_filer
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// ファイルのプロパティをクリックしたとき
+file_menu_property_clicked:
+  FALSE, key_mask#=
+  file_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  fitem#,  show_file_property_sheet
+  end
+
+
+// キャンセルをクリックしたとき
+file_menu_cancel_clicked:
+  FALSE, key_mask#=
+  file_menu, -&gt;Label.component com#=
+  FALSE, com#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C10</ID>
+<x0>212</x0>
+<y0>80</y0>
+<width>238</width>
+<height>40</height>
+<codetext>// ファイルの関連付け関連の関数
+// データは&quot;system.ini&quot;から読み込む
+
+
+ const MAX_FILE_ASSOCIATION 256
+ const MAX_FILE_ICON 256
+ long file_associations#
+ long file_icons#
+ char file_association$(MAX_FILE_ASSOCIATION*3)
+ long file_icon#(MAX_FILE_ICON)
+ char fbuf$(512),xfp$(FILE_SIZE)
+
+// ファイル情報を読み込む
+load_file_data:
+  0, file_icons#= file_associations#=
+
+  &quot;system.ini&quot;,  xfp, ropen  tt0#=
+  if tt0#=ERROR then end
+
+  // アイコンを読み込む
+  load_file_data1:
+    fbuf, xfp, finputs tt0#=
+    if tt0#=EOF goto load_file_data3 
+    fbuf, &quot;end&quot;, strcmp tt0#=
+    if tt0#=0 goto load_file_data2
+    fbuf, load_image pp0#=
+    pp0#, file_icon#(file_icons#)= file_icons#++
+    goto load_file_data1
+    
+  // ファイルの関連付けを読み込む
+  load_file_data2:
+
+    // 拡張子
+    fbuf,  xfp, finputs  tt0#=
+    if tt0#=EOF goto load_file_data3
+    fbuf, &quot;end&quot;, strcmp tt0#= 
+    if tt0#=0 goto load_file_data3
+    fbuf, strlen 1, + xmalloc pp0#=
+    fbuf, pp0#, strcpy 
+     file_associations#, 3, * ii0#=
+    pp0#, file_association#(ii0#)=
+
+    // アイコン番号
+    fbuf,  xfp, finputs  tt0#=
+    if tt0#=EOF goto load_file_data3
+    fbuf, 10, atoi  pp0#=
+    pp0#, file_association+8#(ii0#)=
+
+    // コマンド
+    fbuf,  xfp, finputs  tt0#=
+    if tt0#=EOF goto load_file_data3
+    fbuf, strlen 1, + xmalloc pp0#= 
+    fbuf, pp0#, strcpy 
+    pp0#, file_association+16#(ii0#)=
+     file_associations#++
+    goto load_file_data2
+
+  load_file_data3:
+  xfp, rclose
+  end
+
+
+// ファイル情報を破棄する
+remove_file_data:
+
+  // アイコン
+  for ii0#=1 to file_icons#
+    file_icon-8#(ii0#), pp0#=
+    if pp0#&lt;&gt;NULL then pp0#, xfree
+  next ii0#
+
+  for ii0#=1 to file_associations#
+    ii0#, 3, * tt0#=
+
+    // 拡張子
+    file_association-24#(tt0#), pp0#=
+    if pp0#&lt;&gt;NULL then pp0#, xfree
+
+    // コマンド
+    file_association-8#(tt0#), pp0#=
+    if pp0#&lt;&gt;NULL then pp0#, xfree
+
+  next ii0#
+  end
+
+
+
+// ファイル名に対応するコマンドを返す
+get_file_command:
+  long tfname#
+  tfname#= get_file_type 3, * 2, + pp0#=
+  file_association#(pp0#), fbuf, strcpy
+  &quot; &quot;, fbuf, strcat
+  tfname#, fbuf, strcat
+  fbuf, end
+
+
+// ファイル名に対応するアイコンを返す
+get_file_icon:
+  get_file_type 3, * 1, + pp0#=
+  file_association#(pp0#), pp0#=
+  file_icon#(pp0#), end
+
+
+//  ファイルのタイプ番号を求める
+get_file_type:
+  get_file_extention pp0#=
+  if pp0#=NULL then 0, end  // タイプ0はデフォルトのファイル番号
+  file_associations#, 1, - qq0#=
+  for ii0#=0 to qq0#
+    ii0#, 3, * rr0#=
+    file_association#(rr0#), pp0#, strcmp ss0#=
+    if ss0#=0 then ii0#, end 
+  next ii0#
+  0, end
+
+
+//  ファイル名から拡張子を求める
+get_file_extention:
+  pp0#= xstrlen pp0#, + qq0#=
+  get_file_extention1:
+    if qq0#&lt;pp0# then NULL, end
+    if (qq0)$=&apos;.&apos; then qq0#, end
+    qq0#--
+  goto get_file_extention1
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C11</ID>
+<x0>8</x0>
+<y0>199</y0>
+<width>167</width>
+<height>21</height>
+<codetext>// 開く・保存ダイアログ
+
+  char xdialog$(Filer.SIZE),xdialog_win$(Window.SIZE)
+  char xdialog_txt$(TextField.SIZE),xdialog_btn$(Button.SIZE)
+  long xdialog_ok_action#
+  
+// 作成する
+create_xdialog:
+  long comwin#
+  xdialog_win, xdialog, &quot;&quot;, create_window
+  paint_xdialog, xdialog_win, -&gt;Window.paint#=
+  close_xdialog, xdialog_win, -&gt;Window.minimized#=
+  FALSE, xdialog_win, -&gt;Window.resizable#=
+  xdialog_win, -&gt;Window.component comwin#=
+  100, comwin#, -&gt;Component.x#=
+  100, comwin#, -&gt;Component.y#=
+  480, comwin#, -&gt;Component.width#=
+  360, comwin#, -&gt;Component.height#=
+  FALSE, comwin#, -&gt;Component.is_visible#= 
+  xdialog, xdialog_win, comwin#, create_filer
+  xdialog_txt,  xdialog, comwin#, &quot;&quot;,     create_textfield
+  xdialog_btn, xdialog, comwin#, &quot; OK &quot;, create_button
+  xdialog_btn, xdialog_ok, set_button_lclicked
+  xdialog, xdialog_txt_set_fname, set_filer_open_action
+  no_operation, xdialog_ok_action#=
+  end
+
+
+// 表示用コールバック
+paint_xdialog:
+  long combase#,comtxt#,combtn#
+  xdialog_win, -&gt;Window.component comwin#=
+  xdialog, -&gt;Filer.base -&gt;Label.component combase#=
+  xdialog_txt, -&gt;TextField.component comtxt#=
+  xdialog_btn, -&gt;Button.component combtn#=
+  2, combase#, -&gt;Component.x#=
+  TITLEBAR_HEIGHT+3, combase#, -&gt;Component.y#=
+  comwin#, -&gt;Component.width#  pp0#= 10, - combase#, -&gt;Component.width#=
+  comwin#, -&gt;Component.height# qq0#= TITLEBAR_HEIGHT+FONT_HEIGHT+16, - combase#, -&gt;Component.height#=
+  pp0#, 85, - pp0#=
+  qq0#, FONT_HEIGHT+9, - qq0#=
+  10,     comtxt#, -&gt;Component.x#=
+  qq0#, comtxt#, -&gt;Component.y#=
+  pp0#, comtxt#, -&gt;Component.width#=
+  FONT_HEIGHT+2, comtxt#, -&gt;Component.height#=
+  pp0#, 15, + combtn#, -&gt;Component.x#=    
+  qq0#, combtn#, -&gt;Component.y#=
+  60,     combtn#, -&gt;Component.width#=
+  FONT_HEIGHT+2, combtn#, -&gt;Component.height#=
+  end
+
+
+// 閉じるボタンをクリックしたときの処理
+close_xdialog:
+  desktop, -&gt;Desktop.component input_client#=
+  xdialog_win, -&gt;Window.component comwin#=
+  WINDOW_NORMAL, xdialog_win, -&gt;Window.state#=
+  xdialog_win, -&gt;Window.height# comwin#, -&gt;Component.height#=
+  FALSE, comwin#, -&gt;Component.is_visible#=
+  file_menu, -&gt;Label.component com1#=
+  FALSE, com1#, -&gt;Component.is_visible#=
+  file_property_sheet, -&gt;Label.component com1#=
+  FALSE, com1#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  no_operation, xdialog_ok_action#=
+  end
+
+
+// テキストボックスにクリックしたファイルの名前をセットする
+xdialog_txt_set_fname:
+  xdialog_txt, set_textfield_text
+  xdialog_win, -&gt;Window.component repaint
+  end
+
+
+// OKボタンをクリックしたときの処理
+xdialog_ok:
+  desktop, -&gt;Desktop.component input_client#=
+  xdialog_win, -&gt;Window.component comwin#=
+  FALSE, comwin#, -&gt;Component.is_visible#=
+  file_menu, -&gt;Label.component com1#=
+  FALSE, com1#, -&gt;Component.is_visible#=
+  file_property_sheet, -&gt;Label.component com1#=
+  FALSE, com1#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  xdialog_txt, -&gt;TextField.text# @xdialog_ok_action
+  no_operation, xdialog_ok_action#=
+  end
+
+
+// 開くダイアログを表示する
+show_open_dialog:
+  &quot;Open&quot;,
+   goto show_xdialog
+
+
+// 保存ダイアログを表示する
+show_save_dialog:
+  &quot;Save&quot;,
+  goto show_xdialog
+
+
+// ダイアログを表示する
+show_xdialog:
+  pp0#= pop xdialog_ok_action#=
+  pp0#, xdialog_win, -&gt;Window.title#=
+  xdialog_win, -&gt;Window.component comwin#=
+  TRUE, comwin#, -&gt;Component.is_visible#= 
+  comwin#, pop_up_component
+  xdialog, update_filer
+  xdialog_txt, -&gt;TextField.component request_focus
+  &quot;&quot;, xdialog_txt, set_textfield_text
+  desktop, -&gt;Desktop.component repaint
+  xdialog_win, -&gt;Window.component input_client#=
+  end
+
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C12</ID>
+<x0>9</x0>
+<y0>223</y0>
+<width>135</width>
+<height>21</height>
+<codetext>// 内部ファイラー
+
+  char xfiler$(Filer.SIZE),xfiler_win$(Window.SIZE)
+  
+// 作成する
+create_xfiler:
+  xfiler_win, xfiler, &quot;Explore&quot;, create_window
+  paint_xfiler, xfiler_win, -&gt;Window.paint#=
+  close_xfiler, xfiler_win, -&gt;Window.minimized#=
+  xfiler_win, -&gt;Window.component com0#=
+  100, com0#, -&gt;Component.x#=
+  100, com0#, -&gt;Component.y#=
+  480, com0#, -&gt;Component.width#=
+  360, com0#, -&gt;Component.height#=
+  FALSE, com0#, -&gt;Component.is_visible#= 
+  xfiler, xfiler_win, com0#, create_filer
+  xfiler_win,  xfiler_icon, set_window_icon
+  xfiler, xfiler_exec_command, set_filer_open_action
+  end
+
+
+// 表示用コールバック
+paint_xfiler:
+  xfiler_win, -&gt;Window.component com0#=
+  xfiler, -&gt;Filer.base -&gt;Label.component com1#=
+  2, com1#, -&gt;Component.x#=
+  TITLEBAR_HEIGHT+3, com1#, -&gt;Component.y#=
+  com0#, -&gt;Component.width# 10, - com1#, -&gt;Component.width#=
+  com0#, -&gt;Component.height# TITLEBAR_HEIGHT+5, - com1#, -&gt;Component.height#=
+  end
+
+
+// 閉じるボタンをクリックしたときの処理
+close_xfiler:
+  xfiler_win, -&gt;Window.component com0#=
+  WINDOW_NORMAL, xfiler_win, -&gt;Window.state#=
+  xfiler_win, -&gt;Window.height# com0#, -&gt;Component.height#=
+  FALSE, com0#, -&gt;Component.is_visible#=
+  file_menu, -&gt;Label.component com1#=
+  FALSE, com1#, -&gt;Component.is_visible#=
+  file_property_sheet, -&gt;Label.component com1#=
+  FALSE, com1#, -&gt;Component.is_visible#=
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// 表示する
+show_xfiler:
+  xfiler_win, -&gt;Window.component com0#=
+  TRUE, com0#, -&gt;Component.is_visible#= 
+  xfiler, update_filer
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// ファイルを開く(実行する)
+xfiler_exec_command:
+  long dxx#
+  get_file_command dxx#= exec_command
+  desktop, -&gt;Desktop.component repaint
+  end
+
+
+// アイコンデータ
+xfiler_icon:
+ data 68719476752
+ data -16777216,-16777216,-16777216,-16777216
+ data -72057594028124779,-16777216,-16777216,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+ data 5934154462710474,-16777216,-16777216,-16777216
+ data -16777216,-16777216,36451593608859019,70927274619672471
+ data 55385441543910387,-72057594037927936,-16777216,-16777216
+ data -16777216,63047384019468662,41534773306443683,72057589759277304
+ data 72057589759474683,4521260545392318,-16777216,-16777216
+ data -16777216,53976967141490856,69237290886594969,68961356424149223
+ data 66701795591389439,51715250256084735,36170092854712360,-16777216
+ data -16777216,42382561191822216,68955725723137781,5911958074556413
+ data 7606155168379391,68101521152933882,3956111568780995,-72057594036875248
+ data 40127269570119062,42665054076440695,41532578574207334,40417609359725478
+ data 44926899817907347,39277372852048765,51423905444790248,-72057594037927936
+ data 72053191705001623,71492268984368127,72047694155087103,68670943622332390
+ data 66405962553553919,72057581169800703,72053191705002618,9325099860537006
+ data 72055326306447506,59895655420002108,60172736645234448,60182606480342812
+ data 63285643040057600,54239892162477849,53122547822264174,-72057594037730557
+ data -16777216,68960299864029951,64447951385642936,66145571567876258
+ data 68678927964097486,63893720214516195,2817004638619610,-72057594037927936
+ data -16777216,55079764427274484,61013824387022643,51689849819168529
+ data 51133411036757780,53396343405674298,5076496739925785,-72057594035954146
+ data -16777216,62188390568620523,69804888001075602,70649145426952393
+ data 67834425723565495,64738166620078761,42661635286153661,-72057594037927936
+ data -16777216,61606474033306289,55101784724078408,54812531560414997
+ data 54534260630552335,59330553688751905,45490644345746944,-72057594037270006
+ data -16777216,42949823293262758,43227007596267822,43220324627479895
+ data 40399922684791946,38982720917248688,40390237533539715,-72057594036480490
+ data -16777216,-16777216,146030006296,1692148395409408
+ data 1407374884735262,1126999418732549,1125921382006801,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+</codetext>
+</codeclip>
+</xobject>
 </xobject>
 <codeclip>
 <ID>_C28</ID>
 <x0>649</x0>
-<y0>405</y0>
+<y0>421</y0>
 <width>245</width>
 <height>196</height>
 <codetext>// 定数定義
@@ -3379,12 +4840,14 @@ property_sheet_cancel_clicked:
  const BS_KEY 524288
  const SPACE_KEY 2097152
  const ENTER_KEY 851968
+ const END_KEY 6
+ const PGDN_KEY 10
 </codetext>
 </codeclip>
 <codeclip>
 <ID>_C29</ID>
 <x0>89</x0>
-<y0>275</y0>
+<y0>291</y0>
 <width>113</width>
 <height>19</height>
 <codetext>// デスクトップ
@@ -3417,9 +4880,6 @@ lf_desktop:
 
 // デスクトップを生成する
 create_desktop:
-
-// &quot;create desktop:&quot;, log, fprints log, fnl
-
   NULL, desktop, -&gt;Desktop.image#=
   no_operation, desktop, -&gt;Desktop.lclicked#=
   no_operation, desktop, -&gt;Desktop.rclicked#=
@@ -3448,39 +4908,12 @@ create_desktop:
   screen_height#, com#, -&gt;Component.bottom#=
   NULL, com#, -&gt;Component.prev#=
   NULL, com#, -&gt;Component.next#=
-
-
-
-//  &quot;com=&quot;, log, fprints com#, hex log, fprints
-//   log, fnl
-//  com#, -&gt;Component.is_visible# tt#=
-//  &quot;is_visible=&quot;, log, fprints tt#, log, fprintd log, fnl
-//  com#, -&gt;Component.background# tt#=
-//  &quot;background=&quot;, log, fprints tt#, hex log, fprints 
-//  log, fnl
-//  com#, -&gt;Component.look_and_feel# tt#=
-//  &quot;look and feel=&quot;, log, fprints tt#, hex log, fprints
-//   log, fnl
-//  tt#, -&gt;LookAndFeel.paint_component# tt#=
-//  &quot;paint component=&quot;, log, fprints tt#, hex log, fprints
-//   log, fnl
-//  &quot;paint desktop=&quot;, log, fprints paint_desktop, hex log, fprints
-//   log, fnl
-
-
-// &quot;create desktop end&quot;, log, fprints log, fnl
-
  end
 
  
-// ウィンドウを表示する( 直接呼び出し不可 )
+// デスクトップを表示する( 直接呼び出し不可 )
 paint_desktop:
   com#=
-
-// &quot;paint desktop:&quot;, log, fprints log, fnl
-//  &quot;com=&quot;, log, fprints com#, hex log, fprints
-//  log, fnl
-
   com#, -&gt;Component.top# pp#=
   desktop, -&gt;Desktop.image# tt#=
   if tt#=NULL then com#, paint_base gotopaint_desktop1
@@ -3509,13 +4942,8 @@ desktop_rclicked:
 
 // デスクトップの設定を読み込む
 load_desktop:
-  char dbuf$(64),wallpaper$(64)
+  char wallpaper$(64)
   long dfile#,dimg#,dtxt#,dcmd#,dbtn#
-
-
-//  &quot;load desktop:&quot;, log, fprints log, fnl
-
-
   &quot;desktop.ini&quot;,  fp, ropen  tt#=
   if tt#=ERROR then end
 
@@ -3530,6 +4958,10 @@ load_desktop:
   dbuf,  fp, finputs  dbuf, 10, atoi  down_key#=
   dbuf,  fp, finputs  dbuf, 10, atoi  lclick_key#=
   dbuf,  fp, finputs  dbuf, 10, atoi  rclick_key#=
+  dbuf,  fp, finputs  dbuf, 10, atoi  mouse_mode#=   // マウスの設定
+  dbuf,  fp, finputs  dbuf, 10, atoi  mouse_speed#=
+  dbuf,  fp, finputs  dbuf, 16, atoi  color_title#=       // ウィンドウのタイトルの色
+  dbuf,  fp, finputs  dbuf, 16, atoi  color_titlebar#=  // ウィンドウのタイトルバーの色
 
   // 文字色
   dbuf,  fp, finputs
@@ -3547,19 +4979,15 @@ load_desktop:
   load_desktop1:
     dbuf,  fp, finputs  tt#=
     if tt#=EOF goto load_desktop2
-
-//  &quot;icon=&quot;, log, fprints
-//   dbuf, log, fprints log, fnl
-
     dbuf, &quot;end&quot;, strcmp tt#= 
     if tt#=0 goto load_desktop2
-    dbuf, strlen 1, + malloc dfile#=            // 画像ファイル名
+    dbuf, strlen 1, + xmalloc dfile#=            // 画像ファイル名
     dbuf, dfile#, strcpy 
     dbuf,  fp, finputs
-    dbuf, strlen 1, + malloc dtxt#=            // テキスト
+    dbuf, strlen 1, + xmalloc dtxt#=            // テキスト
     dbuf, dtxt#, strcpy 
     dbuf,  fp, finputs
-    dbuf, strlen 1, + malloc dcmd#=          // コマンド
+    dbuf, strlen 1, + xmalloc dcmd#=          // コマンド
     dbuf, dcmd#, strcpy 
     dbuf,  fp, finputs dbuf, 10, atoi sx#=   // X座標
     dbuf,  fp, finputs dbuf, 10, atoi sy#=   // Y座標
@@ -3567,29 +4995,34 @@ load_desktop:
     goto load_desktop1
   load_desktop2:
   fp, rclose
+  
+   //ファイル情報を読み込む
+  load_file_data
   end
 
 
 // デスクトップの設定を保存する
 save_desktop:
-
-
-//  &quot;save desktop:&quot;, log, fprints log, fnl
-
   &quot;desktop.ini&quot;,  fp, wopen  tt#=
   if tt#=ERROR then end  
 
   // 各種キー割り当て
-  max_speed#,  fp,  fprintd fp, fnl
-  quit_key#,      fp,  fprintd fp, fnl
-  mode_key#,    fp,  fprintd fp, fnl
-  speed_key#,   fp,  fprintd fp, fnl
-  left_key#,       fp,  fprintd fp, fnl
-  right_key#,     fp,  fprintd fp, fnl
-  up_key#,         fp,  fprintd fp, fnl
-  down_key#,     fp,  fprintd fp, fnl
-  lclick_key#,     fp,  fprintd fp, fnl
-  rclick_key#,     fp,  fprintd fp, fnl
+  max_speed#,   fp,  fprintd fp, fnl
+  quit_key#,       fp,  fprintd fp, fnl
+  mode_key#,     fp,  fprintd fp, fnl
+  speed_key#,    fp,  fprintd fp, fnl
+  left_key#,        fp,  fprintd fp, fnl
+  right_key#,      fp,  fprintd fp, fnl
+  up_key#,          fp,  fprintd fp, fnl
+  down_key#,      fp,  fprintd fp, fnl
+  lclick_key#,      fp,  fprintd fp, fnl
+  rclick_key#,      fp,  fprintd fp, fnl
+  
+  mouse_mode#,  fp,  fprintd fp, fnl  // マウスの設定
+  mouse_speed#, fp,  fprintd fp, fnl
+
+  color_title#,      hex fp,  fprints fp, fnl  // ウィンドウのタイトルの色
+  color_titlebar#, hex fp,  fprints fp, fnl  // ウィンドウのタイトルバーの色
 
   // 文字色
   desktop, -&gt;Desktop.component -&gt;Component.foreground#  hex fp, fprints fp, fnl
@@ -3605,14 +5038,8 @@ save_desktop:
   save_desktop1:
     if com#=NULL goto save_desktop3
     com#, -&gt;Component.type# tt#=
-    
-//    &quot;type=&quot;, log, fprints tt#, log, fprintd log, fnl
-    
     if tt#&lt;&gt;TYPE_BUTTON goto save_desktop2
     com#, -&gt;Component.subclass# dbtn#=
-    
-    
-    
     dbtn#, -&gt;Button.imagefile#    fp, fprints  fp, fnl    // 画像ファイル名
     dbtn#, -&gt;Button.text#            fp, fprints  fp, fnl    // テキスト
     dbtn#, -&gt;Button.command#    fp, fprints  fp, fnl    // コマンド
@@ -3624,32 +5051,26 @@ save_desktop:
   save_desktop3:
   &quot;end&quot;, fp, fprints fp, fnl
   fp, wclose
-
-//  &quot;save desktop end&quot;, log, prints log, fnl
-
   end
 
 
 // デスクトップを削除する
 remove_desktop:
   long dsk#
-
-//  &quot;remove desktop:&quot;, log, prints log, fnl
-
   desktop, -&gt;Desktop.image# tt#=
-  if tt#&lt;&gt;NULL then tt#, free
+  if tt#&lt;&gt;NULL then tt#, xfree
   desktop, -&gt;Desktop.component dsk#=
   remove_desktop1:
     dsk#, -&gt;Component.top_child# com#=
     if com#=NULL goto remove_desktop2
     com#, -&gt;Component.type# tt#=
-    if tt#=TYPE_BUTTON   then  com#, remove_component //-&gt;Component.subclass# remove_desktop_icon
+    if tt#=TYPE_BUTTON   then  com#, -&gt;Component.subclass# remove_desktop_icon
     if tt#&lt;&gt;TYPE_BUTTON then  com#, remove_component
     goto remove_desktop1
   remove_desktop2:
-
-//  &quot;remove desktop end&quot;, log, prints log, fnl
-
+  
+  //ファイル情報を破棄する
+  remove_file_data
   end
 
 
@@ -3664,39 +5085,16 @@ desktop_icon_lclicked:
 create_desktop_icon:
   sy2#= pop sx2#= pop
   dcmd#= pop dfile#= pop dtxt#=
-  
-//  &quot;create desktop icon:&quot;, log, fprints log, fnl
-//  &quot;txt=&quot;, log, fprints  dtxt#, log, fprints   log, fnl
-//  &quot;file=&quot;, log, fprints  dfile#, log, fprints   log, fnl
-//  &quot;cmd=&quot;, log, fprints  dcmd#, log, fprints   log, fnl
-
-  
   dfile#, load_image dimg#=
-  
-//  &quot;image address=&quot;, log, fprints  dimg#, hex log, fprints
-//   log, fnl
-  
-  
-  Button.SIZE, malloc dbtn#=
-
-//  &quot;alloc icon=&quot;, log, fprints  dbtn#, hex log, fprints
-//   log, fnl
-
+  Button.SIZE, xmalloc dbtn#=
   dtxt#, strlen 1, + FONT_WIDTH, * sx1#=
   FONT_HEIGHT+2, sy1#=
-
   if dimg#=NULL goto create_desktop_icon1
     if (dimg)!&gt;sx1# then (dimg)!, sx1#=  // アイコン画像の幅がテキスト幅より大きいときはそっちに合わせる
     (dimg)!(1), sy1#, + sy1#=                  // アイコン画像の高さとテキストの高さを加えてアイコンの高さとする
   create_desktop_icon1:
   desktop, -&gt;Desktop.component com#=
-
-//  &quot;create button&quot;, log, fprints log, fnl
-
   dbtn#, desktop, com#, dtxt#, create_button 
-
-//  &quot;create icon end&quot;, log, fprints log, fnl
-
   dfile#,  dbtn#, -&gt;Button.imagefile#=
   dimg#, dbtn#, -&gt;Button.image#=
   dcmd#, dbtn#, -&gt;Button.command#=
@@ -3710,9 +5108,6 @@ create_desktop_icon:
   NULL_BORDER, com#, -&gt;Component.border#=
   desktop_icon_lclicked, dbtn#, -&gt;Button.lclicked#=  // 左クリックすると呼ばれる関数を設定
   show_icon_menu,         dbtn#, -&gt;Button.rclicked#= // 右クリックすると呼ばれる関数を設定
-
-//  &quot;create desktop icon end&quot;, log, fprints log, fnl
-
   end
 
 
@@ -3721,17 +5116,56 @@ remove_desktop_icon:
   dbtn#=
   if dbtn#=NULL then end
   dbtn#, -&gt;Button.text#  tt#=          // テキスト
-  if tt#&lt;&gt;NULL then tt#, free
+  if tt#&lt;&gt;NULL then tt#, xfree
   dbtn#, -&gt;Button.imagefile# tt#=   // 画像ファイル名
-  if tt#&lt;&gt;NULL then tt#, free
+  if tt#&lt;&gt;NULL then tt#, xfree
   dbtn#, -&gt;Button.image#  tt#=      // 画像
-  if tt#&gt;0 then tt#, free
+  if tt#&gt;0 then tt#, xfree
   dbtn#, -&gt;Button.command# tt#= // コマンド
-  if tt#&lt;&gt;NULL then tt#, free
+  if tt#&lt;&gt;NULL then tt#, xfree
   dbtn#, -&gt;Button.component com#=
   com#, remove_component
-  dbtn#, free
+//  dbtn#, xfree
   end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C31</ID>
+<x0>87</x0>
+<y0>437</y0>
+<width>136</width>
+<height>21</height>
+<codetext>// デバッグ用関数
+
+xmalloc:
+ long xxal#
+ xxal#=
+ xxal#, malloc
+ xxal#=
+//  &quot;malloc icon:&quot;, log, fprints
+//  xxal#, hex log, fprints log, fnl
+ xxal#, end
+ 
+ 
+xfree:
+  xxal#=
+//  &quot;free icon:&quot;, log, fprints
+//  xxal#, hex log, fprints log, fnl
+  xxal#, free
+  end
+
+
+xstrlen:
+  long xxx#,yyy#
+  xxx#=
+  0, yyy#=
+xstrlen1:
+  if (xxx)$=NULL then yyy#, end
+  if yyy#&gt;255 then 255, end
+  xxx#++
+  yyy#++
+  goto xstrlen1
+     
 </codetext>
 </codeclip>
 </xobject>

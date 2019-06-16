@@ -2,31 +2,8 @@
   
 本プログラム群はUEFIで起動しX86-64アーキテクチャ上で動作するOSを形成します 
 
-起動画面
-
-
-![起動画面enter image description here](https://imgur.com/fU6iAVD.jpg)
-
-  
-    
-   
-
-
- コマンド入力表示画面
-![screen shot](https://imgur.com/h6ZTOEM.jpg)
-
-## 1. 変更点
-ウィンドウマネージャを導入して従来のコマンド入力からマウスによるオペレーションに変更となりました。
-
-またウィンドウマネージャを終了することで従来からのコマンド入力による操作も可能です。
-
-
-
-### ・ウィンドウマネージャ
-アイコンを左クリックするとアプリケーションが起動します
-  
-![enter image description here](https://imgur.com/cyO3RNl.jpg)
-
+### 起動画面
+![enter image description here](https://imgur.com/KO8ecGr.jpg)
 
 ・操作法
 デスクトップ画面やアイコンを右クリックすると
@@ -55,11 +32,55 @@ Enterキー・・・左クリック
   
 SPACEキー・・・右クリック
   
-Ctrl+D・・・ウィンドウマネージャを終了する
+Ctrl+D・・・コマンドモードにする
 
 
-ウィンドウマネージャを終了すると以前のコンソール画面が表示されてコマンドを入力できるようになります。
+コマンドモードになると以前のコンソール画面が表示されてコマンドを入力できるようになります。
+
   
+
+## 1. 変更点
+ GUIアプリケーションを追加しました
+ ・エクスプローラ
+ ・メモ帳
+ ・電卓
+ ・ペイント
+ 
+
+
+  
+  
+### ・エクスプローラ
+
+![](https://imgur.com/pWnql0b.jpg)
+    
+  ファイルを左クリックするとファイルを開くことができます。
+ 右クリックするとメニューが表示されて、ファイルのコピー、削除、プロパティ変更などができます。
+   
+ 
+   
+    
+### ・メモ帳
+![enter image description here](https://imgur.com/SHD4cdG.jpg)
+
+ ### ・電卓    
+  ![enter image description here](https://imgur.com/Djepx4s.jpg)
+
+
+ ###  ・ペイント    
+![enter image description here](https://imgur.com/WRgHAjA.jpg)
+
+
+コマンドモードに切り替えるにはCTRL+Dを入力します。
+
+### コマンドモード表示画面
+![screen shot](https://imgur.com/h6ZTOEM.jpg)
+
+
+
+
+
+
 
 ![enter image description here](https://imgur.com/8y0rDwU.jpg)
     

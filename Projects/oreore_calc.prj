@@ -1,0 +1,1964 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+<!-- なんちゃってXML version 0.1( ObjectEditor専用 ) -->
+<xobject>
+<ID>project</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>200</width>
+<height>100</height>
+<ID_maker>33</ID_maker>
+<objectname>oreore_calc</objectname>
+<description>新規のアプリケーション</description>
+<pin>
+<ID>_PSTART</ID>
+<x0>10</x0>
+<y0>40</y0>
+<width>55</width>
+<height>24</height>
+<text>Start()</text>
+<px>50</px>
+<py>50</py>
+</pin>
+<relation>
+<ID>_R1</ID>
+<pin1name>_PSTART</pin1name>
+<pin2name>_A0(_Pstart)</pin2name>
+</relation>
+<プロパティ>
+<ID>properties</ID>
+<LookandFeel>javax.swing.plaf.metal.MetalLookAndFeel</LookandFeel>
+<MainWinx0>0</MainWinx0>
+<MainWiny0>0</MainWiny0>
+<MainWinWidth>1024</MainWinWidth>
+<MainWinHeight>745</MainWinHeight>
+<MesgWinx0>0</MesgWinx0>
+<MesgWiny0>559</MesgWiny0>
+<MesgWinWidth>1024</MesgWinWidth>
+<MesgWinHeight>186</MesgWinHeight>
+<FileWinx0>426</FileWinx0>
+<FileWiny0>478</FileWiny0>
+<FileWinWidth>578</FileWinWidth>
+<FileWinHeight>262</FileWinHeight>
+<EditWinx0>347</EditWinx0>
+<EditWiny0>0</EditWiny0>
+<EditWinWidth>676</EditWinWidth>
+<EditWinHeight>541</EditWinHeight>
+<PropWinx0>1</PropWinx0>
+<PropWiny0>1</PropWiny0>
+<PropWinWidth>615</PropWinWidth>
+<PropWinHeight>448</PropWinHeight>
+<DividerLocation1>2</DividerLocation1>
+<DividerLocation2>2</DividerLocation2>
+<ToolBarVisible>1</ToolBarVisible>
+<ViewSourceAtCompile>0</ViewSourceAtCompile>
+<NoSourceCreate>0</NoSourceCreate>
+<JavaEditCommand>geany</JavaEditCommand>
+<JavaViewCommand></JavaViewCommand>
+<HelpCommand></HelpCommand>
+<ApplicationType>7</ApplicationType>
+<CompileCommand0>./compile_java</CompileCommand0>
+<RunCommand0>./run_java</RunCommand0>
+<GUIDesignerCommand0>java -jar guidsin.jar -java</GUIDesignerCommand0>
+<ImportFiles0> import java.awt.*;
+ import java.awt.event.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import javax.swing.border.*;
+import javax.swing.filechooser.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.image.BufferedImage;
+import javax.sound.sampled.*;
+
+class Starter{
+  public static void main( String args[] ){
+    %AppName% ap = new %AppName%();
+    ap.ARGS = args;
+    ap.Start();
+  }
+}
+</ImportFiles0>
+<ProgramStartupCode0> String[] ARGS;
+</ProgramStartupCode0>
+<NativeHelpCommand0></NativeHelpCommand0>
+<CompileCommand1></CompileCommand1>
+<RunCommand1></RunCommand1>
+<GUIDesignerCommand1>java -jar guidsin.jar -applet</GUIDesignerCommand1>
+<ImportFiles1> import java.awt.*;
+ import java.awt.event.*;
+ import java.applet.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+ public class javatext extends Applet {
+   %AppName% ap;
+   public void init() {
+     ap = new %AppName%();
+     ap.APPLET = this;
+     ap.Start();
+   }
+ }
+</ImportFiles1>
+<ProgramStartupCode1> Applet APPLET;
+</ProgramStartupCode1>
+<NativeHelpCommand1></NativeHelpCommand1>
+<CompileCommand2></CompileCommand2>
+<RunCommand2></RunCommand2>
+<GUIDesignerCommand2></GUIDesignerCommand2>
+<ImportFiles2>#include &lt;stdio.h&gt;
+
+void Startup();
+</ImportFiles2>
+<ProgramStartupCode2>int main(){
+ Startup();
+ %AppName%::Start();
+ }
+</ProgramStartupCode2>
+<NativeHelpCommand2></NativeHelpCommand2>
+<CompileCommand3></CompileCommand3>
+<RunCommand3></RunCommand3>
+<GUIDesignerCommand3>java -jar guidsin.jar -cpp</GUIDesignerCommand3>
+<ImportFiles3>#include &lt;stdio.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;math.h&gt;
+#include &quot;Ekagen.h&quot;
+void Startup();
+</ImportFiles3>
+<ProgramStartupCode3>void Emain(){
+Startup();
+%AppName%::Start();
+}
+</ProgramStartupCode3>
+<NativeHelpCommand3></NativeHelpCommand3>
+<MoveStep>8</MoveStep>
+<ImageEditCommand></ImageEditCommand>
+<CompilerFileName>javac.exe</CompilerFileName>
+<CompileCommand4>./compile_android Test com example test</CompileCommand4>
+<RunCommand4>echo no action</RunCommand4>
+<GUIDesignerCommand4>java -jar guidsin.jar -android</GUIDesignerCommand4>
+<ImportFiles4>package com.example.test;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.widget.Button;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.widget.EditText;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.graphics.Matrix;
+import android.graphics.Typeface;
+import android.graphics.RectF;
+import android.graphics.BitmapFactory;
+import java.io.*;
+ import java.net.*;
+import java.util.*;
+import java.text.SimpleDateFormat;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.content.res.Configuration;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.app.Activity;
+import android.graphics.Color;
+
+import android.widget.AbsoluteLayout;
+import android.widget.*;
+import android.view.Gravity;
+import android.view.View.OnClickListener;
+
+import android.hardware.Camera;
+
+public class HelloWorld extends Activity {
+  public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    %AppName% ap = new %AppName%();
+    ap.ACTIVITY = this;
+    ap.Start();
+  }
+}
+</ImportFiles4>
+<ProgramStartupCode4>Activity ACTIVITY;
+</ProgramStartupCode4>
+<NativeHelpCommand4>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.test&quot;
+    android:versionCode=&quot;1&quot;
+    android:versionName=&quot;1.0&quot; &gt;
+
+    
+    
+  &lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.usb.host&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.RECORD_AUDIO&quot;/&gt;
+  &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+
+  &lt;uses-sdk android:minSdkVersion=&quot;3&quot; android:targetSdkVersion=&quot;21&quot;/&gt;
+  
+ 
+    &lt;application android:label=&quot;@string/app_name&quot; &gt;
+        &lt;activity
+            android:name=&quot;HelloWorld&quot;
+            android:label=&quot;@string/app_name&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</NativeHelpCommand4>
+<HtmlEditCommand></HtmlEditCommand>
+<CompileCommand5></CompileCommand5>
+<RunCommand5></RunCommand5>
+<GUIDesignerCommand5></GUIDesignerCommand5>
+<ImportFiles5></ImportFiles5>
+<ProgramStartupCode5>gosub @_PSTART
+end
+</ProgramStartupCode5>
+<NativeHelpCommand5></NativeHelpCommand5>
+<NoOptimizePin>0</NoOptimizePin>
+<CompileCommand6>./compile_c</CompileCommand6>
+<RunCommand6>./run_c</RunCommand6>
+<GUIDesignerCommand6></GUIDesignerCommand6>
+<ImportFiles6>#include &lt;setjmp.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;math.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netdb.h&gt;
+
+#include &lt;X11/Xlib.h&gt;
+#include &lt;X11/Xutil.h&gt;
+#include &lt;X11/Xlocale.h&gt; /* ロケール用ヘッダーファイル */
+#include &lt;X11/xpm.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;errno.h&gt;
+</ImportFiles6>
+<ProgramStartupCode6>int ARGC; char** ARGV;
+int main( int argc, char** argv ){
+  ARGC=argc;
+  ARGV=argv;
+  _PSTART();
+}
+</ProgramStartupCode6>
+<NativeHelpCommand6></NativeHelpCommand6>
+<CompileCommand7>./compile_calc</CompileCommand7>
+<RunCommand7>./run_startx</RunCommand7>
+<GUIDesignerCommand7>java -jar guidsin.jar -ore</GUIDesignerCommand7>
+<ImportFiles7></ImportFiles7>
+<ProgramStartupCode7>main:
+  _INIT_STATES
+  goto _PSTART
+</ProgramStartupCode7>
+<NativeHelpCommand7></NativeHelpCommand7>
+</プロパティ>
+<operation>
+<ID>_O2</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>256</x0>
+<y0>12</y0>
+<width>312</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext> GUI, -&gt;Window.component remove_component
+ 
+</codetext>
+</operation>
+<relation>
+<ID>_R3</ID>
+<pin1name>_A0(_PGUIclosed)</pin1name>
+<pin2name>_O2</pin2name>
+</relation>
+<xobject>
+<ID>_X4</ID>
+<x0>407</x0>
+<y0>349</y0>
+<width>185</width>
+<height>229</height>
+<ID_maker>41</ID_maker>
+<objectname>数字を出力</objectname>
+<description></description>
+<pin>
+<ID>_P0</ID>
+<x0>587</x0>
+<y0>267</y0>
+<width>113</width>
+<height>29</height>
+<text>num_out(num#)</text>
+<px>63</px>
+<py>92</py>
+</pin>
+<pin>
+<ID>_P1</ID>
+<x0>98</x0>
+<y0>108</y0>
+<width>60</width>
+<height>30</height>
+<text>key0()</text>
+<px>0</px>
+<py>207</py>
+</pin>
+<pin>
+<ID>_P2</ID>
+<x0>103</x0>
+<y0>145</y0>
+<width>60</width>
+<height>30</height>
+<text>key1()</text>
+<px>0</px>
+<py>182</py>
+</pin>
+<pin>
+<ID>_P3</ID>
+<x0>104</x0>
+<y0>189</y0>
+<width>60</width>
+<height>30</height>
+<text>key2()</text>
+<px>0</px>
+<py>161</py>
+</pin>
+<pin>
+<ID>_P4</ID>
+<x0>108</x0>
+<y0>234</y0>
+<width>60</width>
+<height>30</height>
+<text>key3()</text>
+<px>0</px>
+<py>28</py>
+</pin>
+<pin>
+<ID>_P5</ID>
+<x0>108</x0>
+<y0>276</y0>
+<width>60</width>
+<height>30</height>
+<text>key4()</text>
+<px>0</px>
+<py>145</py>
+</pin>
+<pin>
+<ID>_P6</ID>
+<x0>103</x0>
+<y0>318</y0>
+<width>60</width>
+<height>30</height>
+<text>key5()</text>
+<px>0</px>
+<py>124</py>
+</pin>
+<pin>
+<ID>_P7</ID>
+<x0>102</x0>
+<y0>359</y0>
+<width>60</width>
+<height>30</height>
+<text>key6()</text>
+<px>0</px>
+<py>107</py>
+</pin>
+<pin>
+<ID>_P8</ID>
+<x0>102</x0>
+<y0>402</y0>
+<width>60</width>
+<height>30</height>
+<text>key7()</text>
+<px>0</px>
+<py>86</py>
+</pin>
+<pin>
+<ID>_P9</ID>
+<x0>98</x0>
+<y0>440</y0>
+<width>60</width>
+<height>30</height>
+<text>key8()</text>
+<px>0</px>
+<py>65</py>
+</pin>
+<pin>
+<ID>_P10</ID>
+<x0>96</x0>
+<y0>483</y0>
+<width>60</width>
+<height>30</height>
+<text>key9()</text>
+<px>1</px>
+<py>46</py>
+</pin>
+<pin>
+<ID>_P11</ID>
+<x0>256</x0>
+<y0>102</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin11(0)</text>
+<px>52</px>
+<py>248</py>
+</pin>
+<pin>
+<ID>_P12</ID>
+<x0>259</x0>
+<y0>141</y0>
+<width>69</width>
+<height>27</height>
+<text>Pin12(1)</text>
+<px>53</px>
+<py>249</py>
+</pin>
+<pin>
+<ID>_P13</ID>
+<x0>256</x0>
+<y0>181</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin13(2)</text>
+<px>51</px>
+<py>257</py>
+</pin>
+<pin>
+<ID>_P14</ID>
+<x0>259</x0>
+<y0>221</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin14(3)</text>
+<px>60</px>
+<py>255</py>
+</pin>
+<pin>
+<ID>_P15</ID>
+<x0>255</x0>
+<y0>268</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin15(4)</text>
+<px>72</px>
+<py>255</py>
+</pin>
+<pin>
+<ID>_P16</ID>
+<x0>258</x0>
+<y0>308</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin16(5)</text>
+<px>70</px>
+<py>251</py>
+</pin>
+<pin>
+<ID>_P17</ID>
+<x0>256</x0>
+<y0>354</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin17(6)</text>
+<px>56</px>
+<py>255</py>
+</pin>
+<pin>
+<ID>_P18</ID>
+<x0>257</x0>
+<y0>401</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin18(7)</text>
+<px>57</px>
+<py>252</py>
+</pin>
+<pin>
+<ID>_P19</ID>
+<x0>255</x0>
+<y0>441</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin19(8)</text>
+<px>64</px>
+<py>255</py>
+</pin>
+<pin>
+<ID>_P20</ID>
+<x0>256</x0>
+<y0>490</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin20(9)</text>
+<px>53</px>
+<py>249</py>
+</pin>
+<relation>
+<ID>_R21</ID>
+<pin1name>_P1</pin1name>
+<pin2name>_P11</pin2name>
+</relation>
+<relation>
+<ID>_R22</ID>
+<pin1name>_P2</pin1name>
+<pin2name>_P12</pin2name>
+</relation>
+<relation>
+<ID>_R23</ID>
+<pin1name>_P3</pin1name>
+<pin2name>_P13</pin2name>
+</relation>
+<relation>
+<ID>_R24</ID>
+<pin1name>_P4</pin1name>
+<pin2name>_P14</pin2name>
+</relation>
+<relation>
+<ID>_R25</ID>
+<pin1name>_P5</pin1name>
+<pin2name>_P15</pin2name>
+</relation>
+<relation>
+<ID>_R26</ID>
+<pin1name>_P6</pin1name>
+<pin2name>_P16</pin2name>
+</relation>
+<relation>
+<ID>_R27</ID>
+<pin1name>_P7</pin1name>
+<pin2name>_P17</pin2name>
+</relation>
+<relation>
+<ID>_R28</ID>
+<pin1name>_P8</pin1name>
+<pin2name>_P18</pin2name>
+</relation>
+<relation>
+<ID>_R29</ID>
+<pin1name>_P9</pin1name>
+<pin2name>_P19</pin2name>
+</relation>
+<relation>
+<ID>_R30</ID>
+<pin1name>_P10</pin1name>
+<pin2name>_P20</pin2name>
+</relation>
+<relation>
+<ID>_R31</ID>
+<pin1name>_P11</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R32</ID>
+<pin1name>_P12</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R33</ID>
+<pin1name>_P13</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R34</ID>
+<pin1name>_P14</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R35</ID>
+<pin1name>_P15</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R36</ID>
+<pin1name>_P16</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R37</ID>
+<pin1name>_P17</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R38</ID>
+<pin1name>_P18</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R39</ID>
+<pin1name>_P19</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R40</ID>
+<pin1name>_P20</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+</xobject>
+<xobject>
+<ID>_X5</ID>
+<x0>407</x0>
+<y0>142</y0>
+<width>184</width>
+<height>199</height>
+<ID_maker>37</ID_maker>
+<objectname>演算子を出力</objectname>
+<description></description>
+<pin>
+<ID>_P0</ID>
+<x0>596</x0>
+<y0>200</y0>
+<width>98</width>
+<height>27</height>
+<text>op_out(op#)</text>
+<px>79</px>
+<py>96</py>
+</pin>
+<pin>
+<ID>_P1</ID>
+<x0>94</x0>
+<y0>260</y0>
+<width>60</width>
+<height>30</height>
+<text>plus()</text>
+<px>3</px>
+<py>88</py>
+</pin>
+<pin>
+<ID>_P2</ID>
+<x0>96</x0>
+<y0>211</y0>
+<width>60</width>
+<height>30</height>
+<text>minus()</text>
+<px>0</px>
+<py>69</py>
+</pin>
+<pin>
+<ID>_P3</ID>
+<x0>96</x0>
+<y0>324</y0>
+<width>60</width>
+<height>30</height>
+<text>mul()</text>
+<px>0</px>
+<py>52</py>
+</pin>
+<pin>
+<ID>_P4</ID>
+<x0>101</x0>
+<y0>404</y0>
+<width>60</width>
+<height>30</height>
+<text>div()</text>
+<px>0</px>
+<py>35</py>
+</pin>
+<pin>
+<ID>_P5</ID>
+<x0>103</x0>
+<y0>477</y0>
+<width>60</width>
+<height>30</height>
+<text>equal()</text>
+<px>0</px>
+<py>107</py>
+</pin>
+<pin>
+<ID>_P6</ID>
+<x0>98</x0>
+<y0>51</y0>
+<width>60</width>
+<height>30</height>
+<text>inv()</text>
+<px>0</px>
+<py>181</py>
+</pin>
+<pin>
+<ID>_P7</ID>
+<x0>79</x0>
+<y0>142</y0>
+<width>84</width>
+<height>29</height>
+<text>mem_plus()</text>
+<px>0</px>
+<py>164</py>
+</pin>
+<pin>
+<ID>_P8</ID>
+<x0>105</x0>
+<y0>551</y0>
+<width>60</width>
+<height>30</height>
+<text>mem()</text>
+<px>0</px>
+<py>144</py>
+</pin>
+<pin>
+<ID>_P9</ID>
+<x0>94</x0>
+<y0>94</y0>
+<width>60</width>
+<height>30</height>
+<text>clr()</text>
+<px>0</px>
+<py>129</py>
+</pin>
+<pin>
+<ID>_P10</ID>
+<x0>254</x0>
+<y0>47</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin10(&apos;I&apos;)</text>
+<px>173</px>
+<py>211</py>
+</pin>
+<pin>
+<ID>_P11</ID>
+<x0>262</x0>
+<y0>98</y0>
+<width>72</width>
+<height>27</height>
+<text>Pin11(&apos;C&apos;)</text>
+<px>172</px>
+<py>202</py>
+</pin>
+<pin>
+<ID>_P12</ID>
+<x0>278</x0>
+<y0>149</y0>
+<width>69</width>
+<height>28</height>
+<text>Pin12(&apos;P&apos;)</text>
+<px>169</px>
+<py>211</py>
+</pin>
+<pin>
+<ID>_P13</ID>
+<x0>271</x0>
+<y0>199</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin13(&apos;-&apos;)</text>
+<px>180</px>
+<py>210</py>
+</pin>
+<pin>
+<ID>_P14</ID>
+<x0>268</x0>
+<y0>260</y0>
+<width>68</width>
+<height>28</height>
+<text>Pin14(&apos;+&apos;)</text>
+<px>173</px>
+<py>209</py>
+</pin>
+<pin>
+<ID>_P15</ID>
+<x0>270</x0>
+<y0>314</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin15(&apos;*&apos;)</text>
+<px>170</px>
+<py>198</py>
+</pin>
+<pin>
+<ID>_P16</ID>
+<x0>271</x0>
+<y0>399</y0>
+<width>60</width>
+<height>30</height>
+<text>Pin16(&apos;/&apos;)</text>
+<px>165</px>
+<py>208</py>
+</pin>
+<pin>
+<ID>_P17</ID>
+<x0>261</x0>
+<y0>468</y0>
+<width>70</width>
+<height>32</height>
+<text>Pin17(&apos;=&apos;)</text>
+<px>155</px>
+<py>210</py>
+</pin>
+<pin>
+<ID>_P18</ID>
+<x0>261</x0>
+<y0>543</y0>
+<width>79</width>
+<height>29</height>
+<text>Pin18(&apos;M&apos;)</text>
+<px>171</px>
+<py>210</py>
+</pin>
+<relation>
+<ID>_R19</ID>
+<pin1name>_P6</pin1name>
+<pin2name>_P10</pin2name>
+</relation>
+<relation>
+<ID>_R20</ID>
+<pin1name>_P9</pin1name>
+<pin2name>_P11</pin2name>
+</relation>
+<relation>
+<ID>_R21</ID>
+<pin1name>_P7</pin1name>
+<pin2name>_P12</pin2name>
+</relation>
+<relation>
+<ID>_R22</ID>
+<pin1name>_P2</pin1name>
+<pin2name>_P13</pin2name>
+</relation>
+<relation>
+<ID>_R23</ID>
+<pin1name>_P1</pin1name>
+<pin2name>_P14</pin2name>
+</relation>
+<relation>
+<ID>_R24</ID>
+<pin1name>_P3</pin1name>
+<pin2name>_P15</pin2name>
+</relation>
+<relation>
+<ID>_R25</ID>
+<pin1name>_P4</pin1name>
+<pin2name>_P16</pin2name>
+</relation>
+<relation>
+<ID>_R26</ID>
+<pin1name>_P5</pin1name>
+<pin2name>_P17</pin2name>
+</relation>
+<relation>
+<ID>_R27</ID>
+<pin1name>_P8</pin1name>
+<pin2name>_P18</pin2name>
+</relation>
+<relation>
+<ID>_R28</ID>
+<pin1name>_P10</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R29</ID>
+<pin1name>_P11</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R30</ID>
+<pin1name>_P12</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R31</ID>
+<pin1name>_P13</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R32</ID>
+<pin1name>_P14</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R33</ID>
+<pin1name>_P15</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R34</ID>
+<pin1name>_P16</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R35</ID>
+<pin1name>_P17</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+<relation>
+<ID>_R36</ID>
+<pin1name>_P18</pin1name>
+<pin2name>_P0</pin2name>
+</relation>
+</xobject>
+<aobject>
+<ID>_A7</ID>
+<x0>617</x0>
+<y0>56</y0>
+<width>188</width>
+<height>386</height>
+<ID_maker>20</ID_maker>
+<objectname>メインコントロール</objectname>
+<description></description>
+<state>
+<ID>_SINIT</ID>
+<x0>21</x0>
+<y0>47</y0>
+<width>70</width>
+<height>40</height>
+<text>  初期状態</text>
+<isinitstate>1</isinitstate>
+</state>
+<pin>
+<ID>_P0</ID>
+<x0>383</x0>
+<y0>393</y0>
+<width>74</width>
+<height>27</height>
+<text>op_in(op#)</text>
+<px>7</px>
+<py>184</py>
+</pin>
+<pin>
+<ID>_P1</ID>
+<x0>407</x0>
+<y0>35</y0>
+<width>101</width>
+<height>28</height>
+<text>num_in(num#)</text>
+<px>16</px>
+<py>320</py>
+</pin>
+<pin>
+<ID>_P2</ID>
+<x0>47</x0>
+<y0>145</y0>
+<width>60</width>
+<height>30</height>
+<text>start()</text>
+<px>10</px>
+<py>31</py>
+</pin>
+<codeclip>
+<ID>_C3</ID>
+<x0>660</x0>
+<y0>50</y0>
+<width>267</width>
+<height>218</height>
+<codetext>// 主要変数 
+ long disp#,reg#
+ long memory#
+ long op#,op0#
+ long num#
+ char buf$(64)
+
+// 数値を表示
+paint_disp:
+ disp#, dec buf, strcpy
+ buf, display, -&gt;Label.text#=
+ display, -&gt;Label.component repaint
+ end
+</codetext>
+</codeclip>
+<operation>
+<ID>_O4</ID>
+<state1>_SINIT</state1>
+<state2>_S8</state2>
+<x0>133</x0>
+<y0>82</y0>
+<width>111</width>
+<height>49</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>12</inconnecty0>
+<outconnectx0>53</outconnectx0>
+<outconnecty0>33</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>30</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// 初期設定
+
+
+ GUI, xcalc, set_window_icon
+ 0, disp#=
+ 0, memory#=
+ &apos;=&apos;, op#=
+ paint_disp
+</codetext>
+</operation>
+<action>
+<ID>_A7</ID>
+<comp1name>_P2</comp1name>
+<comp2name>_O4</comp2name>
+</action>
+<state>
+<ID>_S8</ID>
+<x0>182</x0>
+<y0>176</y0>
+<width>98</width>
+<height>37</height>
+<text>  初期入力状態</text>
+<isinitstate>0</isinitstate>
+</state>
+<state>
+<ID>_S9</ID>
+<x0>419</x0>
+<y0>172</y0>
+<width>88</width>
+<height>37</height>
+<text> 数字入力状態</text>
+<isinitstate>0</isinitstate>
+</state>
+<operation>
+<ID>_O10</ID>
+<state1>_S8</state1>
+<state2>_S9</state2>
+<x0>261</x0>
+<y0>81</y0>
+<width>142</width>
+<height>52</height>
+<inconnectx0>3</inconnectx0>
+<inconnecty0>37</inconnecty0>
+<outconnectx0>51</outconnectx0>
+<outconnecty0>37</outconnecty0>
+<inpintext>in(num#)</inpintext>
+<inpinx0>68</inpinx0>
+<inpiny0>31</inpiny0>
+<inpinwidth>62</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// 数字の1桁目を入力
+
+
+ num#, disp#=
+ paint_disp
+ 
+</codetext>
+</operation>
+<operation>
+<ID>_O11</ID>
+<state1>_S9</state1>
+<state2>_S9</state2>
+<x0>502</x0>
+<y0>77</y0>
+<width>135</width>
+<height>55</height>
+<inconnectx0>10</inconnectx0>
+<inconnecty0>36</inconnecty0>
+<outconnectx0>7</outconnectx0>
+<outconnecty0>38</outconnecty0>
+<inpintext>in(num#)</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>36</inpiny0>
+<inpinwidth>61</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// 数字を入力する
+
+
+ disp#, 10, * num#, + disp#=
+ paint_disp
+</codetext>
+</operation>
+<action>
+<ID>_A12</ID>
+<comp1name>_P1</comp1name>
+<comp2name>_O10</comp2name>
+</action>
+<action>
+<ID>_A13</ID>
+<comp1name>_P1</comp1name>
+<comp2name>_O11</comp2name>
+</action>
+<operation>
+<ID>_O14</ID>
+<state1>_S8</state1>
+<state2>_S16</state2>
+<x0>254</x0>
+<y0>258</y0>
+<width>140</width>
+<height>58</height>
+<inconnectx0>38</inconnectx0>
+<inconnecty0>0</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>39</outconnecty0>
+<inpintext>in(op#)</inpintext>
+<inpinx0>83</inpinx0>
+<inpiny0>37</inpiny0>
+<inpinwidth>46</inpinwidth>
+<inpinheight>19</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// 計算状態に遷移
+
+</codetext>
+</operation>
+<operation>
+<ID>_O15</ID>
+<state1>_S9</state1>
+<state2>_S16</state2>
+<x0>441</x0>
+<y0>255</y0>
+<width>127</width>
+<height>55</height>
+<inconnectx0>26</inconnectx0>
+<inconnecty0>3</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>36</outconnecty0>
+<inpintext>in(op#)</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>35</inpiny0>
+<inpinwidth>47</inpinwidth>
+<inpinheight>19</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// 計算状態に遷移
+
+
+
+</codetext>
+</operation>
+<state>
+<ID>_S16</ID>
+<x0>251</x0>
+<y0>384</y0>
+<width>70</width>
+<height>40</height>
+<text>  計算状態</text>
+<isinitstate>0</isinitstate>
+</state>
+<operation>
+<ID>_O17</ID>
+<state1>_S16</state1>
+<state2>_S8</state2>
+<x0>112</x0>
+<y0>265</y0>
+<width>102</width>
+<height>55</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>37</inconnecty0>
+<outconnectx0>7</outconnectx0>
+<outconnecty0>3</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>90</inpinx0>
+<inpiny0>20</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>0</inpinlinkcount>
+<description></description>
+<codetext>// 計算する
+
+
+
+  if op#=&apos;I&apos;     then 0, disp#, - disp#= gotoskip1
+  if op#=&apos;C&apos;    then 0, disp#= gotoskip1
+  if op#=&apos;P&apos;    then memory#, disp#, + memory#= gotoskip1  
+  if op#=&apos;M&apos;   then memory#, disp#= 0, memory#= gotoskip1
+  if op0#=&apos;+&apos; then disp#, reg#, + disp#= gotoskip0
+  if op0#=&apos;-&apos;   then disp#, reg#,  -  disp#= gotoskip0
+  if op0#=&apos;*&apos;  then disp#, reg#, *  disp#= gotoskip0
+  if op0#=&apos;/&apos;   then disp#, reg#, /  disp#=
+skip0:
+  op#, op0#=
+  disp#, reg#=
+skip1:
+ paint_disp
+</codetext>
+</operation>
+<action>
+<ID>_A18</ID>
+<comp1name>_P0</comp1name>
+<comp2name>_O15</comp2name>
+</action>
+<action>
+<ID>_A19</ID>
+<comp1name>_P0</comp1name>
+<comp2name>_O14</comp2name>
+</action>
+</aobject>
+<relation>
+<ID>_R9</ID>
+<pin1name>_A0(_PAdiv_Button)</pin1name>
+<pin2name>_X5(_P4)</pin2name>
+</relation>
+<relation>
+<ID>_R10</ID>
+<pin1name>_A0(_PAmult_Button)</pin1name>
+<pin2name>_X5(_P3)</pin2name>
+</relation>
+<relation>
+<ID>_R11</ID>
+<pin1name>_A0(_PAminus_Button)</pin1name>
+<pin2name>_X5(_P2)</pin2name>
+</relation>
+<relation>
+<ID>_R12</ID>
+<pin1name>_A0(_PAequal_Button)</pin1name>
+<pin2name>_X5(_P5)</pin2name>
+</relation>
+<relation>
+<ID>_R13</ID>
+<pin1name>_A0(_PAMR_Button)</pin1name>
+<pin2name>_X5(_P8)</pin2name>
+</relation>
+<relation>
+<ID>_R14</ID>
+<pin1name>_A0(_PAmem_pButton)</pin1name>
+<pin2name>_X5(_P7)</pin2name>
+</relation>
+<relation>
+<ID>_R15</ID>
+<pin1name>_A0(_PAinv_Bottun)</pin1name>
+<pin2name>_X5(_P6)</pin2name>
+</relation>
+<relation>
+<ID>_R16</ID>
+<pin1name>_A0(_PAplus_Button)</pin1name>
+<pin2name>_X5(_P1)</pin2name>
+</relation>
+<relation>
+<ID>_R17</ID>
+<pin1name>_A0(_PACLR_Button)</pin1name>
+<pin2name>_X5(_P9)</pin2name>
+</relation>
+<relation>
+<ID>_R18</ID>
+<pin1name>_X5(_P0)</pin1name>
+<pin2name>_A7(_P0)</pin2name>
+</relation>
+<relation>
+<ID>_R19</ID>
+<pin1name>_X4(_P0)</pin1name>
+<pin2name>_A7(_P1)</pin2name>
+</relation>
+<relation>
+<ID>_R20</ID>
+<pin1name>_A0(_PAButton3)</pin1name>
+<pin2name>_X4(_P4)</pin2name>
+</relation>
+<relation>
+<ID>_R21</ID>
+<pin1name>_A0(_PAButton9)</pin1name>
+<pin2name>_X4(_P10)</pin2name>
+</relation>
+<relation>
+<ID>_R22</ID>
+<pin1name>_A0(_PAButton8)</pin1name>
+<pin2name>_X4(_P9)</pin2name>
+</relation>
+<relation>
+<ID>_R23</ID>
+<pin1name>_A0(_PAButton7)</pin1name>
+<pin2name>_X4(_P8)</pin2name>
+</relation>
+<relation>
+<ID>_R24</ID>
+<pin1name>_A0(_PAButton6)</pin1name>
+<pin2name>_X4(_P7)</pin2name>
+</relation>
+<relation>
+<ID>_R25</ID>
+<pin1name>_A0(_PAButton5)</pin1name>
+<pin2name>_X4(_P6)</pin2name>
+</relation>
+<relation>
+<ID>_R26</ID>
+<pin1name>_A0(_PAButton4)</pin1name>
+<pin2name>_X4(_P5)</pin2name>
+</relation>
+<relation>
+<ID>_R27</ID>
+<pin1name>_A0(_PAButton2)</pin1name>
+<pin2name>_X4(_P3)</pin2name>
+</relation>
+<relation>
+<ID>_R28</ID>
+<pin1name>_A0(_PAButton1)</pin1name>
+<pin2name>_X4(_P2)</pin2name>
+</relation>
+<relation>
+<ID>_R29</ID>
+<pin1name>_A0(_PAButton0)</pin1name>
+<pin2name>_X4(_P1)</pin2name>
+</relation>
+<relation>
+<ID>_R30</ID>
+<pin1name>_A0(_PGUIout)</pin1name>
+<pin2name>_A7(_P2)</pin2name>
+</relation>
+<aobject>
+<ID>_A0</ID>
+<x0>100</x0>
+<y0>100</y0>
+<width>280</width>
+<objectname>GUI</objectname>
+<description>GUIオブジェクト
+</description>
+<state>
+<ID>_SINIT</ID>
+<x0>0</x0>
+<y0>40</y0>
+<width>70</width>
+<height>40</height>
+<text>  InitState</text>
+<isinitstate>1</isinitstate>
+</state>
+<pin>
+<ID>_Pstart</ID>
+<x0>400</x0>
+<y0>100</y0>
+<width>80</width>
+<height>26</height>
+<text>Start()</text>
+<px>0</px>
+<py>36</py>
+</pin>
+<pin>
+<ID>_PGUIout</ID>
+<x0>0</x0>
+<y0>84</y0>
+<width>180</width>
+<height>26</height>
+<text>GUI_created(GUI)</text>
+<px>0</px>
+<py>54</py>
+</pin>
+<pin>
+<ID>_PGUIclosed</ID>
+<x0>310</x0>
+<y0>0</y0>
+<width>180</width>
+<height>26</height>
+<text>GUI_closed()</text>
+<px>100</px>
+<py>6</py>
+</pin>
+<action>
+<ID>_Astart</ID>
+<comp1name>_Pstart</comp1name>
+<comp2name>_Ocreate</comp2name>
+</action>
+<operation>
+<ID>_Ocreate</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>220</x0>
+<y0>40</y0>
+<width>130</width>
+<height>64</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>30</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>30</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>90</inpinx0>
+<inpiny0>43</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// GUIを作成する
+ create_gui
+
+</codetext>
+</operation>
+<pin>
+<ID>_PAdiv_Button</ID>
+<x0>0</x0>
+<y0>110</y0>
+<width>200</width>
+<height>26</height>
+<text>div_Button_clicked()</text>
+<px>0</px>
+<py>72</py>
+</pin>
+<pin>
+<ID>_PAmult_Button</ID>
+<x0>0</x0>
+<y0>138</y0>
+<width>200</width>
+<height>26</height>
+<text>mult_Button_clicked()</text>
+<px>0</px>
+<py>90</py>
+</pin>
+<pin>
+<ID>_PAminus_Button</ID>
+<x0>0</x0>
+<y0>166</y0>
+<width>200</width>
+<height>26</height>
+<text>minus_Button_clicked()</text>
+<px>0</px>
+<py>108</py>
+</pin>
+<pin>
+<ID>_PAplus_Button</ID>
+<x0>0</x0>
+<y0>194</y0>
+<width>200</width>
+<height>26</height>
+<text>plus_Button_clicked()</text>
+<px>0</px>
+<py>126</py>
+</pin>
+<pin>
+<ID>_PAequal_Button</ID>
+<x0>0</x0>
+<y0>222</y0>
+<width>200</width>
+<height>26</height>
+<text>equal_Button_clicked()</text>
+<px>0</px>
+<py>144</py>
+</pin>
+<pin>
+<ID>_PACLR_Button</ID>
+<x0>0</x0>
+<y0>250</y0>
+<width>200</width>
+<height>26</height>
+<text>CLR_Button_clicked()</text>
+<px>0</px>
+<py>162</py>
+</pin>
+<pin>
+<ID>_PAMR_Button</ID>
+<x0>0</x0>
+<y0>278</y0>
+<width>200</width>
+<height>26</height>
+<text>MR_Button_clicked()</text>
+<px>0</px>
+<py>180</py>
+</pin>
+<pin>
+<ID>_PAmem_pButton</ID>
+<x0>0</x0>
+<y0>306</y0>
+<width>200</width>
+<height>26</height>
+<text>mem_pButton_clicked()</text>
+<px>0</px>
+<py>198</py>
+</pin>
+<pin>
+<ID>_PAinv_Bottun</ID>
+<x0>0</x0>
+<y0>334</y0>
+<width>200</width>
+<height>26</height>
+<text>inv_Bottun_clicked()</text>
+<px>0</px>
+<py>216</py>
+</pin>
+<pin>
+<ID>_PAdot_Button</ID>
+<x0>0</x0>
+<y0>362</y0>
+<width>200</width>
+<height>26</height>
+<text>dot_Button_clicked()</text>
+<px>0</px>
+<py>234</py>
+</pin>
+<pin>
+<ID>_PAButton3</ID>
+<x0>0</x0>
+<y0>390</y0>
+<width>200</width>
+<height>26</height>
+<text>Button3_clicked()</text>
+<px>0</px>
+<py>252</py>
+</pin>
+<pin>
+<ID>_PAButton9</ID>
+<x0>0</x0>
+<y0>418</y0>
+<width>200</width>
+<height>26</height>
+<text>Button9_clicked()</text>
+<px>0</px>
+<py>270</py>
+</pin>
+<pin>
+<ID>_PAButton8</ID>
+<x0>0</x0>
+<y0>446</y0>
+<width>200</width>
+<height>26</height>
+<text>Button8_clicked()</text>
+<px>0</px>
+<py>288</py>
+</pin>
+<pin>
+<ID>_PAButton7</ID>
+<x0>0</x0>
+<y0>474</y0>
+<width>200</width>
+<height>26</height>
+<text>Button7_clicked()</text>
+<px>0</px>
+<py>306</py>
+</pin>
+<pin>
+<ID>_PAButton6</ID>
+<x0>0</x0>
+<y0>502</y0>
+<width>200</width>
+<height>26</height>
+<text>Button6_clicked()</text>
+<px>0</px>
+<py>324</py>
+</pin>
+<pin>
+<ID>_PAButton5</ID>
+<x0>0</x0>
+<y0>530</y0>
+<width>200</width>
+<height>26</height>
+<text>Button5_clicked()</text>
+<px>0</px>
+<py>342</py>
+</pin>
+<pin>
+<ID>_PAButton4</ID>
+<x0>0</x0>
+<y0>558</y0>
+<width>200</width>
+<height>26</height>
+<text>Button4_clicked()</text>
+<px>0</px>
+<py>360</py>
+</pin>
+<pin>
+<ID>_PAButton2</ID>
+<x0>0</x0>
+<y0>586</y0>
+<width>200</width>
+<height>26</height>
+<text>Button2_clicked()</text>
+<px>0</px>
+<py>378</py>
+</pin>
+<pin>
+<ID>_PAButton1</ID>
+<x0>0</x0>
+<y0>614</y0>
+<width>200</width>
+<height>26</height>
+<text>Button1_clicked()</text>
+<px>0</px>
+<py>396</py>
+</pin>
+<pin>
+<ID>_PAButton0</ID>
+<x0>0</x0>
+<y0>642</y0>
+<width>200</width>
+<height>26</height>
+<text>Button0_clicked()</text>
+<px>0</px>
+<py>414</py>
+</pin>
+<pin>
+<ID>_Pdisplay</ID>
+<x0>0</x0>
+<y0>670</y0>
+<width>200</width>
+<height>26</height>
+<text>display_created(display)</text>
+<px>0</px>
+<py>432</py>
+</pin>
+<codeclip>
+<ID>_CXSTART</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>300</width>
+<height>26</height>
+<codetext>create_gui:
+ char GUI$(Window.SIZE)
+ long guicom#,com#
+ GUI, desktop, &quot;Calculator&quot;, create_window
+ GUI, -&gt;Window.component guicom#=
+  0, guicom#, -&gt;Component.x#=
+ 0, guicom#, -&gt;Component.y#=
+ 241, guicom#, -&gt;Component.width#=
+ 180, guicom#, -&gt;Component.height#=
+  FALSE, GUI, -&gt;Window.resizable#=
+ GUI_closed, GUI, -&gt;Window.minimized#=
+ 16764108, guicom#, -&gt;Component.background#=
+  char div_Button$(Button.SIZE)
+  div_Button, GUI, guicom#, &quot;/&quot;, create_button
+ div_Button, -&gt;Button.component com#=
+ 136, com#, -&gt;Component.x#=
+ 145, com#, -&gt;Component.y#=
+ 43, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ div_Button_clicked, div_Button, -&gt;Button.lclicked#=
+ char mult_Button$(Button.SIZE)
+  mult_Button, GUI, guicom#, &quot;x&quot;, create_button
+ mult_Button, -&gt;Button.component com#=
+ 135, com#, -&gt;Component.x#=
+ 115, com#, -&gt;Component.y#=
+ 44, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ mult_Button_clicked, mult_Button, -&gt;Button.lclicked#=
+ char minus_Button$(Button.SIZE)
+  minus_Button, GUI, guicom#, &quot;-&quot;, create_button
+ minus_Button, -&gt;Button.component com#=
+ 135, com#, -&gt;Component.x#=
+ 84, com#, -&gt;Component.y#=
+ 44, com#, -&gt;Component.width#=
+ 29, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ minus_Button_clicked, minus_Button, -&gt;Button.lclicked#=
+ char plus_Button$(Button.SIZE)
+  plus_Button, GUI, guicom#, &quot;+&quot;, create_button
+ plus_Button, -&gt;Button.component com#=
+ 134, com#, -&gt;Component.x#=
+ 54, com#, -&gt;Component.y#=
+ 45, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ plus_Button_clicked, plus_Button, -&gt;Button.lclicked#=
+ char equal_Button$(Button.SIZE)
+  equal_Button, GUI, guicom#, &quot;=&quot;, create_button
+ equal_Button, -&gt;Button.component com#=
+ 180, com#, -&gt;Component.x#=
+ 145, com#, -&gt;Component.y#=
+ 51, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ equal_Button_clicked, equal_Button, -&gt;Button.lclicked#=
+ char CLR_Button$(Button.SIZE)
+  CLR_Button, GUI, guicom#, &quot;C&quot;, create_button
+ CLR_Button, -&gt;Button.component com#=
+ 180, com#, -&gt;Component.x#=
+ 115, com#, -&gt;Component.y#=
+ 51, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ CLR_Button_clicked, CLR_Button, -&gt;Button.lclicked#=
+ char MR_Button$(Button.SIZE)
+  MR_Button, GUI, guicom#, &quot;Mr&quot;, create_button
+ MR_Button, -&gt;Button.component com#=
+ 180, com#, -&gt;Component.x#=
+ 84, com#, -&gt;Component.y#=
+ 51, com#, -&gt;Component.width#=
+ 29, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ MR_Button_clicked, MR_Button, -&gt;Button.lclicked#=
+ char mem_pButton$(Button.SIZE)
+  mem_pButton, GUI, guicom#, &quot;M+&quot;, create_button
+ mem_pButton, -&gt;Button.component com#=
+ 180, com#, -&gt;Component.x#=
+ 54, com#, -&gt;Component.y#=
+ 51, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ mem_pButton_clicked, mem_pButton, -&gt;Button.lclicked#=
+ char inv_Bottun$(Button.SIZE)
+  inv_Bottun, GUI, guicom#, &quot;+/-&quot;, create_button
+ inv_Bottun, -&gt;Button.component com#=
+ 89, com#, -&gt;Component.x#=
+ 145, com#, -&gt;Component.y#=
+ 46, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ inv_Bottun_clicked, inv_Bottun, -&gt;Button.lclicked#=
+ char dot_Button$(Button.SIZE)
+  dot_Button, GUI, guicom#, &quot;.&quot;, create_button
+ dot_Button, -&gt;Button.component com#=
+ 46, com#, -&gt;Component.x#=
+ 145, com#, -&gt;Component.y#=
+ 42, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ dot_Button_clicked, dot_Button, -&gt;Button.lclicked#=
+ char Button3$(Button.SIZE)
+  Button3, GUI, guicom#, &quot;3&quot;, create_button
+ Button3, -&gt;Button.component com#=
+ 88, com#, -&gt;Component.x#=
+ 115, com#, -&gt;Component.y#=
+ 46, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button3_clicked, Button3, -&gt;Button.lclicked#=
+ char Button9$(Button.SIZE)
+  Button9, GUI, guicom#, &quot;9&quot;, create_button
+ Button9, -&gt;Button.component com#=
+ 88, com#, -&gt;Component.x#=
+ 54, com#, -&gt;Component.y#=
+ 45, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button9_clicked, Button9, -&gt;Button.lclicked#=
+ char Button8$(Button.SIZE)
+  Button8, GUI, guicom#, &quot;8&quot;, create_button
+ Button8, -&gt;Button.component com#=
+ 46, com#, -&gt;Component.x#=
+ 54, com#, -&gt;Component.y#=
+ 41, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button8_clicked, Button8, -&gt;Button.lclicked#=
+ char Button7$(Button.SIZE)
+  Button7, GUI, guicom#, &quot;7&quot;, create_button
+ Button7, -&gt;Button.component com#=
+ 3, com#, -&gt;Component.x#=
+ 54, com#, -&gt;Component.y#=
+ 42, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button7_clicked, Button7, -&gt;Button.lclicked#=
+ char Button6$(Button.SIZE)
+  Button6, GUI, guicom#, &quot;6&quot;, create_button
+ Button6, -&gt;Button.component com#=
+ 88, com#, -&gt;Component.x#=
+ 84, com#, -&gt;Component.y#=
+ 46, com#, -&gt;Component.width#=
+ 29, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button6_clicked, Button6, -&gt;Button.lclicked#=
+ char Button5$(Button.SIZE)
+  Button5, GUI, guicom#, &quot;5&quot;, create_button
+ Button5, -&gt;Button.component com#=
+ 46, com#, -&gt;Component.x#=
+ 84, com#, -&gt;Component.y#=
+ 41, com#, -&gt;Component.width#=
+ 29, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button5_clicked, Button5, -&gt;Button.lclicked#=
+ char Button4$(Button.SIZE)
+  Button4, GUI, guicom#, &quot;4&quot;, create_button
+ Button4, -&gt;Button.component com#=
+ 3, com#, -&gt;Component.x#=
+ 84, com#, -&gt;Component.y#=
+ 42, com#, -&gt;Component.width#=
+ 29, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button4_clicked, Button4, -&gt;Button.lclicked#=
+ char Button2$(Button.SIZE)
+  Button2, GUI, guicom#, &quot;2&quot;, create_button
+ Button2, -&gt;Button.component com#=
+ 46, com#, -&gt;Component.x#=
+ 115, com#, -&gt;Component.y#=
+ 41, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button2_clicked, Button2, -&gt;Button.lclicked#=
+ char Button1$(Button.SIZE)
+  Button1, GUI, guicom#, &quot;1&quot;, create_button
+ Button1, -&gt;Button.component com#=
+ 3, com#, -&gt;Component.x#=
+ 115, com#, -&gt;Component.y#=
+ 42, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button1_clicked, Button1, -&gt;Button.lclicked#=
+ char Button0$(Button.SIZE)
+  Button0, GUI, guicom#, &quot;0&quot;, create_button
+ Button0, -&gt;Button.component com#=
+ 3, com#, -&gt;Component.x#=
+ 145, com#, -&gt;Component.y#=
+ 42, com#, -&gt;Component.width#=
+ 28, com#, -&gt;Component.height#=
+ 0, com#, -&gt;Component.foreground#=
+ 12632256, com#, -&gt;Component.background#=
+ Button0_clicked, Button0, -&gt;Button.lclicked#=
+ char display$(Label.SIZE)
+  display, GUI, guicom#, &quot;&quot;, create_label
+ display, -&gt;Label.component com#=
+ 5, com#, -&gt;Component.x#=
+ 26, com#, -&gt;Component.y#=
+ 225, com#, -&gt;Component.width#=
+ 24, com#, -&gt;Component.height#=
+ 3355443, com#, -&gt;Component.foreground#=
+ 16777215, com#, -&gt;Component.background#=
+ display_created
+ GUI_created
+ end
+</codetext>
+</codeclip>
+<ID_maker>41</ID_maker>
+<height>454</height>
+<レイアウト>Calculator
+233
+152
+255
+204
+204
+xxscale=1
+BUTTON;div_Button;/;133;120;43;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;mult_Button;x;132;90;44;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;minus_Button;-;132;59;44;29;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;plus_Button;+;131;29;45;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;equal_Button;=;177;120;51;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;CLR_Button;C;177;90;51;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;MR_Button;Mr;177;59;51;29;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;mem_pButton;M+;177;29;51;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;inv_Bottun;+/-;86;120;46;28;0;0;0;192;192;192;Dialog;10;null;0;0;1;0;1;Button;
+BUTTON;dot_Button;.;43;120;42;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button3;3;85;90;46;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button9;9;85;29;45;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button8;8;43;29;41;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button7;7;0;29;42;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button6;6;85;59;46;29;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button5;5;43;59;41;29;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button4;4;0;59;42;29;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button2;2;43;90;41;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button1;1;0;90;42;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+BUTTON;Button0;0;0;120;42;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
+LABEL;display;null;2;1;225;24;51;51;51;255;255;255;Dialog;12;null;4;0;1;1;1;Label;
+</レイアウト>
+</aobject>
+<codeclip>
+<ID>_C32</ID>
+<x0>607</x0>
+<y0>28</y0>
+<width>103</width>
+<height>22</height>
+<codetext>// アイコン
+
+xcalc:
+ data 68719476752
+ data -16777216,-16777216,-16777216,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+ data -16777216,25231094624526478,25800774791573912,25800774791178667
+ data 25800774791178667,25800774791178667,35375261916309931,-72057594030876792
+ data 70083966374287762,64157598697977277,68671093932097504,72053153043644394
+ data 70368709818505444,70367640371723261,61080022702489577,15393170425578
+ data 4491320323717837,9582359800189205,4796078310818318,3389794348434190
+ data 24189255812899,24938577287097793,28316354314740380,7696581394811
+ data 72049893166587287,65020715326111753,66146580886977023,72057551105028863
+ data 45526026287710207,23010175625175459,33960327890836380,4398046511243
+ data 259274296504002,56503640558406173,50047368422408898,54226543398862020
+ data 49183139396113620,25788650098835637,32826748582469284,2220498882989
+ data 70367640378186908,24695804260100770,27215872026251179,29190650744711849
+ data 15080467700485005,25541388831140005,31691996746393768,1702095539404949
+ data 264776150263226,8864818571181,2555316579334399,13215631146232
+ data 5644970023190264,19842765679595,10015879131113,2199024374434
+ data 65860742213643683,28602274585230515,26084465970162090,24371345250691762
+ data 29983226829262539,23259769060111287,35928423638936749,5372278237823113
+ data 279056916126379,1411811591300513,6494892510735609,7052301955688945
+ data 4510196712861176,68957997761167359,8924954678221,1099512022166
+ data 61643015612504985,23823797049925274,26078934052678052,26078934053201575
+ data 26078934053201575,26078934053201575,35078522625894055,6597069770603
+ data 29690967193265871,14916422937751,7310034342050,7310034339494
+ data 7310034339494,7310034339494,3405788806645414,7073398819651717
+ data -16777216,2547628571099394,1411781520065798,1411781520327682
+ data 1411781520327682,1411781520327682,14293651489794,-72057594036610498
+ data -16777216,-16777216,-16777216,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+ data -16777216,-16777216,-16777216,-16777216
+</codetext>
+</codeclip>
+</xobject>

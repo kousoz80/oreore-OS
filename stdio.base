@@ -219,6 +219,15 @@ read:
  read_p#, 8, + read_p#=
  (read_p)#(-1), end
 
+wait:
+  long _time_limit#
+  time#, + _time_limit#=
+__wait1:
+  sync
+  if time#<=_time_limit# goto __wait1
+  end
+
+
 __xxmain2:
 
   long   _indev#,_outdev#,stdin#,stdout#,_f#

@@ -1,7 +1,7 @@
 //  "oreore-os.r" oreore-OS ver 0.0.6  for oregengo-R (x64) UEFIアプリケーション  
 // (マルチタスク対応版)
 
- const TIMER_INTERVAL 1000000 // 割り込み周期(0.1us単位)
+ const TIMER_INTERVAL 10000 // 割り込み周期(0.1us単位)
  const EOF         -1         // ファイルの終わりをあらわす文字コード 
  const ERROR    -1          // エラーが発生したことをあらわす 
  const NULL       0           // ヌルポインタ 
@@ -19,9 +19,9 @@
 
 // OSのメモリ領域を決める定数(この辺はトライ＆エラーで決める必要あり)
  const MAX_PROG_PAGES             1024    // 4MBプログラムエリア
- const MAIN_STACK_SIZE             1000000
+ const MAIN_STACK_SIZE             8000000
  const DRIVER_STACK_SIZE          16384
- const APPLICATION_STACK_SIZE 1000000
+ const APPLICATION_STACK_SIZE 8000000
 
  // ファイル関連構造体定数
   const FILE_SIZE         0x10

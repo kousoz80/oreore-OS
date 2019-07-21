@@ -939,7 +939,7 @@ xundo:
   desktop, ->Desktop.component repaint
   end
 
- long STATE_379049935#,STATE2_379049935#
+ long STATE_1772848648#,STATE2_1772848648#
 create_gui:
  char GUI$(Window.SIZE)
  long guicom#,com#
@@ -996,7 +996,7 @@ create_gui:
  61, com#, ->Component.y#=
  122, com#, ->Component.width#=
  19, com#, ->Component.height#=
- 10729676, com#, ->Component.foreground#=
+ 0, com#, ->Component.foreground#=
  15658734, com#, ->Component.background#=
  0, r_bar, ->HScrollBar.min#=
  255, r_bar, ->HScrollBar.max#=
@@ -1009,7 +1009,7 @@ create_gui:
  84, com#, ->Component.y#=
  121, com#, ->Component.width#=
  15, com#, ->Component.height#=
- 10729676, com#, ->Component.foreground#=
+ 0, com#, ->Component.foreground#=
  15658734, com#, ->Component.background#=
  0, g_bar, ->HScrollBar.min#=
  255, g_bar, ->HScrollBar.max#=
@@ -1022,7 +1022,7 @@ create_gui:
  104, com#, ->Component.y#=
  119, com#, ->Component.width#=
  14, com#, ->Component.height#=
- 10729676, com#, ->Component.foreground#=
+ 0, com#, ->Component.foreground#=
  15658734, com#, ->Component.background#=
  0, b_bar, ->HScrollBar.min#=
  255, b_bar, ->HScrollBar.max#=
@@ -1639,7 +1639,7 @@ case_2params:
 
 
 _INIT_STATES:
- _SINIT_379049935
+ _SINIT_1772848648
 
  end
 main:
@@ -1649,7 +1649,7 @@ _PSTART:
  Start
 
  end
-_408507221_in:
+_1211519233_in:
  GUI, ->Window.component remove_component
 
 
@@ -1657,7 +1657,7 @@ _408507221_in:
   if bitmap0#<>NULL then bitmap0#, free
 
  end
-_829853967_in:
+_803515085_in:
 // 初期設定
 
 
@@ -1686,7 +1686,7 @@ _829853967_in:
 
 
  end
-_2072168580_in:
+_278278985_in:
 // 色を設定
 
 
@@ -1700,28 +1700,28 @@ _2072168580_in:
 
 
  end
-_970258759_in:
+_1333533780_in:
 // 元に戻す
 
 
  xundo
 
  end
-_1799739091_in:
+_901313251_in:
 // 開く
 
 
   file_open, show_open_dialog
 
  end
-_1858002013_in:
+_1065387099_in:
 // 保存する
 
 
   file_save, show_save_dialog
 
  end
-_51769318_in:
+_514712729_in:
 // 新しい画像を作成
 
 
@@ -1739,185 +1739,185 @@ _51769318_in:
 
  end
 Start:
- STATE_379049935#, STATE2_379049935#=
+ STATE_1772848648#, STATE2_1772848648#=
  in
 
  end
 GUI_created:
- STATE_379049935#, STATE2_379049935#=
- _829853967_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _803515085_in
 
  end
 GUI_closed:
- STATE_379049935#, STATE2_379049935#=
- _408507221_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _1211519233_in
 
  end
 display_clicked:
- STATE_379049935#, STATE2_379049935#=
- _10846954_display_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _888511329_display_clicked
 
  end
 r_bar_changed:
- STATE_379049935#, STATE2_379049935#=
- _2072168580_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _278278985_in
 
  end
 g_bar_changed:
- STATE_379049935#, STATE2_379049935#=
- _2072168580_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _278278985_in
 
  end
 b_bar_changed:
- STATE_379049935#, STATE2_379049935#=
- _2072168580_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _278278985_in
 
  end
 open_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1799739091_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _901313251_in
 
  end
 save_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1858002013_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _1065387099_in
 
  end
 new_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _51769318_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _514712729_in
 
  end
 copy_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _487923714_copy_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _832361892_copy_button_clicked
 
  end
 paste_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1478725181_paste_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _1128339102_paste_button_clicked
 
  end
 pencil_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1080552784_pencil_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _2019094769_pencil_button_clicked
 
  end
 eraser_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1814122597_eraser_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _153115215_eraser_button_clicked
 
  end
 font_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1476425939_font_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _1590071098_font_button_clicked
 
  end
 line_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _471222152_line_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _368613274_line_button_clicked
 
  end
 rect_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1667507255_rect_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _714613420_rect_button_clicked
 
  end
 circle_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _94433862_circle_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _568457106_circle_button_clicked
 
  end
 ink_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1581110465_ink_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _1261700043_ink_button_clicked
 
  end
 spoit_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _1891234441_spoit_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _438376816_spoit_button_clicked
 
  end
 undo_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _970258759_in
+ STATE_1772848648#, STATE2_1772848648#=
+ _1333533780_in
 
  end
 rectf_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _851326261_rectf_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _1900529114_rectf_button_clicked
 
  end
 circlef_button_clicked:
- STATE_379049935#, STATE2_379049935#=
- _814666726_circlef_button_clicked
+ STATE_1772848648#, STATE2_1772848648#=
+ _1605693703_circlef_button_clicked
 
  end
 in:
- if  STATE2_379049935#<>185706505 then  end
+ if  STATE2_1772848648#<>300908275 then  end
 // GUIを作成する
  create_gui
 
- _SINIT_379049935
+ _SINIT_1772848648
 
  end
-_SINIT_379049935:
- 185706505, STATE_379049935#=
+_SINIT_1772848648:
+ 300908275, STATE_1772848648#=
 
  end
-_487923714_copy_button_clicked:
- _740459165_in
+_832361892_copy_button_clicked:
+ _175382844_in
 
  end
-_1478725181_paste_button_clicked:
- _2008682769_in
+_1128339102_paste_button_clicked:
+ _526478399_in
 
  end
-_1080552784_pencil_button_clicked:
- _288646161_in
+_2019094769_pencil_button_clicked:
+ _1089336159_in
 
  end
-_1814122597_eraser_button_clicked:
- _1903378852_in
+_153115215_eraser_button_clicked:
+ _1967367820_in
 
  end
-_1476425939_font_button_clicked:
- _780787837_in
+_1590071098_font_button_clicked:
+ _1478927562_in
 
  end
-_471222152_line_button_clicked:
- _1296631148_in
+_368613274_line_button_clicked:
+ _1738134604_in
 
  end
-_1667507255_rect_button_clicked:
- _694737937_in
+_714613420_rect_button_clicked:
+ _1727707446_in
 
  end
-_94433862_circle_button_clicked:
- _913518476_in
+_568457106_circle_button_clicked:
+ _1505264626_in
 
  end
-_1581110465_ink_button_clicked:
- _1752590005_in
+_1261700043_ink_button_clicked:
+ _523327025_in
 
  end
-_1891234441_spoit_button_clicked:
- _472845649_in
+_438376816_spoit_button_clicked:
+ _2004796314_in
 
  end
-_851326261_rectf_button_clicked:
- _243098292_in
+_1900529114_rectf_button_clicked:
+ _1919824194_in
 
  end
-_814666726_circlef_button_clicked:
- _865353291_in
+_1605693703_circlef_button_clicked:
+ _1890195261_in
 
  end
-_10846954_display_clicked:
- _1559487612_in
+_888511329_display_clicked:
+ _1135227671_in
 
  end
-_288646161_in:
+_1089336159_in:
       // 点を打つ
 
     xsave
@@ -1925,7 +1925,7 @@ _288646161_in:
     desktop, ->Desktop.component repaint
 
  end
-_1903378852_in:
+_1967367820_in:
       // 1マス分塗りつぶす
 
     xsave
@@ -1935,7 +1935,7 @@ _1903378852_in:
     desktop, ->Desktop.component repaint
 
  end
-_1752590005_in:
+_523327025_in:
       // 塗りつぶす
 
     xsave
@@ -1943,7 +1943,7 @@ _1752590005_in:
     desktop, ->Desktop.component repaint
 
  end
-_780787837_in:
+_1478927562_in:
       // 文字列を描く
 
     xsave
@@ -1953,7 +1953,7 @@ _780787837_in:
     desktop, ->Desktop.component repaint
 
  end
-_472845649_in:
+_2004796314_in:
       //色を抜き取る
 
     click_x#, click_y#, xget_point xcolor#=
@@ -1964,7 +1964,7 @@ _472845649_in:
     desktop, ->Desktop.component repaint
 
  end
-_2008682769_in:
+_526478399_in:
       // コピー画像を貼り付ける
 
     xsave
@@ -1972,13 +1972,13 @@ _2008682769_in:
     desktop, ->Desktop.component repaint
 
  end
-_740459165_in:
+_175382844_in:
       // 画像をコピーする
 
     click_x0#, click_y0#, click_x#, click_y#, xcopy_image
 
  end
-_1296631148_in:
+_1738134604_in:
      // 線を描く
 
     xsave
@@ -1986,7 +1986,7 @@ _1296631148_in:
     desktop, ->Desktop.component repaint
 
  end
-_694737937_in:
+_1727707446_in:
      // 四角を描く
 
     xsave
@@ -1994,7 +1994,7 @@ _694737937_in:
     desktop, ->Desktop.component repaint
 
  end
-_243098292_in:
+_1919824194_in:
      // 四角を塗りつぶす
 
     xsave
@@ -2002,7 +2002,7 @@ _243098292_in:
     desktop, ->Desktop.component repaint
 
  end
-_913518476_in:
+_1505264626_in:
      // 楕円を描く
 
     xsave
@@ -2010,7 +2010,7 @@ _913518476_in:
     desktop, ->Desktop.component repaint
 
  end
-_865353291_in:
+_1890195261_in:
      //楕円を塗りつぶす
 
     xsave
@@ -2018,7 +2018,7 @@ _865353291_in:
     desktop, ->Desktop.component repaint
 
  end
-_1559487612_in:
+_1135227671_in:
 // パラメータ座標を設定する
 
     long xtop#,xleft#,xright#

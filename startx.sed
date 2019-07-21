@@ -242,4 +242,5 @@
  /const copy_area  / p
  /const FONT_WIDTH  / p
  /const FONT_HEIGHT  / p
+ /const graphic_base  / p
 d

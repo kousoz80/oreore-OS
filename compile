@@ -14,6 +14,19 @@ then
 fi
 echo "option=" $option 
 
+# basicオプション
+if test $option = "-basic"
+then
+echo compile basic.r
+./orc stdio.rh startx.rh src/basic.r
+java -jar asm_x64.jar -p0x100000 -efi asm.s bin/basic.EFI
+rm __str
+rm __var
+rm __tmp1
+rm __tmp2
+exit 0
+fi
+
 echo compile oreore-os.r
 ./orc src/oreore-os.r
 echo "// header file for oreore-OS application" > stdio.rh
@@ -33,6 +46,7 @@ rm __tmp1
 rm __tmp2
 exit 0
 fi
+
 
 cp stdio.rh bin
 
@@ -117,6 +131,11 @@ java -jar asm_x64.jar -p0xb0000 -efi asm.s bin/paint.EFI
 echo compile explore.r
 ./orc stdio.rh startx.rh src/explore.r
 java -jar asm_x64.jar -p0xc0000 -efi asm.s bin/explore.EFI
+
+# basic
+echo compile basic.r
+./orc stdio.rh startx.rh src/basic.r
+java -jar asm_x64.jar -p0x100000 -efi asm.s bin/basic.EFI
 
 # 作業ファイルを消去
 rm __str

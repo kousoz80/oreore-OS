@@ -2191,7 +2191,7 @@ func_inkeys:
 // "func inkey:", prints nl
 
   char inkey_str$(8)
-  getToken();
+  getToken
   inkey inkey_str$=
   NULL, inkey_str+1$=
   inkey_str, put_string

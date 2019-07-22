@@ -1,10 +1,11 @@
+
 # oreore-OS
   
 本プログラム群はUEFIで起動しX86-64アーキテクチャ上で動作するOSを形成します 
 
 ### 起動画面
-![enter image description here](https://imgur.com/KO8ecGr.jpg)
 
+![enter image description here](https://imgur.com/w0Ue9IM.jpg)
 ・操作法
 デスクトップ画面やアイコンを右クリックすると
 メニューが表示されてアイコンの作成や移動、削除、変更することができます。
@@ -39,12 +40,12 @@ Ctrl+D・・・コマンドモードにする
 
   
 
-## 1. 変更点
- GUIアプリケーションを追加しました
+## 1. アプリケーション
  ・エクスプローラ
  ・メモ帳
  ・電卓
  ・ペイント
+ ・BASIC
  
 
 
@@ -70,10 +71,24 @@ Ctrl+D・・・コマンドモードにする
  ###  ・ペイント    
 ![enter image description here](https://imgur.com/WRgHAjA.jpg)
 
+ ###  ・BASIC
+ ![enter image description here](https://imgur.com/wqStfS8.jpg)
 
-コマンドモードに切り替えるにはCTRL+Dを入力します。
+
+![enter image description here](https://imgur.com/3IJi7Rt.jpg)
+
+
+詳細は以下のリンクを参照してください    
+
+https://github.com/kousoz80/Oreore-Basic
+  
+  
+
 
 ### コマンドモード表示画面
+コマンドモードに切り替えるにはCTRL+Dを入力します。
+
+
 ![screen shot](https://imgur.com/h6ZTOEM.jpg)
 
 

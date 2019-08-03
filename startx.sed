@@ -237,6 +237,7 @@
  /const screen_height  / p
  /const Filer.window  / p
  /const request_focus  / p
+ /const key_code  / p
  /const key_mask  / p
  /const font_area  / p
  /const copy_area  / p

@@ -9,6 +9,30 @@ codegen:
  data "\:"
  data "\1:
 "
+ data " .jge \"
+ data " xmm0=rdi
+ xmm1=rsi
+ xmm1.-xmm0
+ jae \1
+"
+ data " .jlt \"
+ data " xmm0=rdi
+ xmm1=rsi
+ xmm1.-xmm0
+ jb \1
+"
+ data " .jz \"
+ data " xmm0=rdi
+ xmm1=rsi
+ xmm1.-xmm0
+ jz \1
+"
+ data " .jnz \"
+ data " xmm0=rdi
+ xmm1=rsi
+ xmm1.-xmm0
+ jnz \1
+"
  data " jge \"
  data " rsi-rdi
  jge \1
@@ -30,6 +54,43 @@ codegen:
 "
  data " goto\"
  data " jmp \1
+"
+ data " .+"
+ data " xmm0=rdi
+ xmm1=rsi
+ xmm0.+=xmm1
+ rdi=xmm0
+"
+ data " .-"
+ data " xmm0=rdi
+ xmm1=rsi
+ xmm1.-=xmm0
+ rdi=xmm1
+"
+ data " .*"
+ data " xmm0=rdi
+ xmm1=rsi
+ xmm0.*=xmm1
+ rdi=xmm0
+"
+ data " ./"
+ data " xmm0=rdi
+ xmm1=rsi
+ xmm1./=xmm0
+ rdi=xmm1
+"
+ data " sqrt"
+ data " xmm0=rdi
+ xmm1=sqrt(xmm0)
+ rdi=xmm1
+"
+ data " (double)"
+ data " xmm0=(double)rdi
+ rdi=xmm0
+"
+ data " (long)"
+ data " xmm0=rdi
+ rdi=(long)xmm0
 "
  data " +"
  data " rdi+=rsi

@@ -237,5 +237,6 @@
  const copy_area  0x00000000004552f0
  const font_area  0x00000000004552f8
  const gui_is_running  0x0000000000455308
+ const key_code  0x0000000000455318
  const key_mask  0x0000000000455320
  const desktop  0x000000000045e070

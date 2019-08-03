@@ -20,6 +20,7 @@ then
 echo compile basic.r
 ./orc stdio.rh startx.rh src/basic.r
 java -jar asm_x64.jar -p0x100000 -efi asm.s bin/basic.EFI
+#objdump -fsxdt bin/basic.EFI>basic.dump
 rm __str
 rm __var
 rm __tmp1
@@ -125,12 +126,12 @@ java -jar asm_x64.jar -p0xf0000 -efi asm.s bin/calc.EFI
 echo compile paint.r
 ./orc stdio.rh startx.rh src/paint.r
 #cp asm.s paint.s
-java -jar asm_x64.jar -p0xb0000 -efi asm.s bin/paint.EFI
+java -jar asm_x64.jar -p0xc0000 -efi asm.s bin/paint.EFI
 
 # explore
 echo compile explore.r
 ./orc stdio.rh startx.rh src/explore.r
-java -jar asm_x64.jar -p0xc0000 -efi asm.s bin/explore.EFI
+java -jar asm_x64.jar -p0xd0000 -efi asm.s bin/explore.EFI
 
 # basic
 echo compile basic.r

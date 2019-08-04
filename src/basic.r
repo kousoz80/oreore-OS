@@ -1579,7 +1579,7 @@ cmd_input:
   // ファイルから入力
   if TokenText$<>'#' goto cmd_input3
     getToken
-    TokenValue#, nn#=
+    TokenValue#, (long) nn#=
     if nn#<0 then   "Out of Range", assertError
     if nn#>=MAX_FILES then  "Out of Range", assertError
     nn#, FILE_SIZE, * Xfp, + fp_adr#=
@@ -3075,7 +3075,7 @@ eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 then  0, end
 
-  // 論理項は論理因子AND論理因子AND_1614682108.
+  // 論理項は論理因子AND論理因子AND_969144896.
   getToken
   eval_relation
   eval_and
@@ -3096,7 +3096,7 @@ eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 then  0, end 
 
-  // 論理式は論理項OR論理項OR_1614682108.
+  // 論理式は論理項OR論理項OR_969144896.
   getToken
   eval_lterm
   eval_or
@@ -3950,10 +3950,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _1230328931_in
+ _644062633_in
 
  end
-_1230328931_in:
+_644062633_in:
 // BASICを起動する
 start_basic:
 

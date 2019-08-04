@@ -6,8 +6,8 @@
 <y0>0</y0>
 <width>200</width>
 <height>100</height>
-<ID_maker>117</ID_maker>
-<objectname>oreore_basic001</objectname>
+<ID_maker>122</ID_maker>
+<objectname>oreore_basic</objectname>
 <description>新規のアプリケーション</description>
 <pin>
 <ID>_PSTART</ID>
@@ -23,16 +23,17 @@
 <ID>_C0</ID>
 <x0>313</x0>
 <y0>21</y0>
-<width>294</width>
-<height>37</height>
-<codetext>//  oreore Basic ver 0.01
+<width>286</width>
+<height>50</height>
+<codetext>//  oreore Basic ver 0.02
 // oreore-OS上で動作するBASICインタプリタ
+// (実数対応バージョン)
 </codetext>
 </codeclip>
 <codeclip>
 <ID>_C3</ID>
-<x0>314</x0>
-<y0>70</y0>
+<x0>313</x0>
+<y0>84</y0>
 <width>187</width>
 <height>19</height>
 <codetext>// プログラム構造体
@@ -146,15 +147,15 @@ Command:
 
 Function:
  data &quot;abs&quot;,func_abs
-//  data &quot;int&quot;,func_int
-  data &quot;abs&quot;,func_abs
-//  data &quot;sqr&quot;,func_sqr
-//  data &quot;exp&quot;,func_exp
-//  data &quot;log&quot;,func_log
-//  data &quot;sin&quot;,func_sin
-//  data &quot;cos&quot;,func_cos
-//  data &quot;tan&quot;,func_tan
-//  data &quot;atn&quot;,func_atn
+  data &quot;int&quot;,func_int
+  data &quot;sgn&quot;,func_sgn
+  data &quot;sqr&quot;,func_sqr
+  data &quot;exp&quot;,func_exp
+  data &quot;log&quot;,func_log
+  data &quot;sin&quot;,func_sin
+  data &quot;cos&quot;,func_cos
+  data &quot;tan&quot;,func_tan
+  data &quot;atn&quot;,func_atn
   data &quot;chr$&quot;,func_chrs
   data &quot;asc&quot;,func_asc
   data &quot;mid$&quot;,func_mids
@@ -166,10 +167,10 @@ Function:
   data &quot;str$&quot;,func_strs
   data &quot;val&quot;,func_val
   data &quot;len&quot;,func_len
-//  data &quot;time$&quot;,func_times
-//  data &quot;date$&quot;,func_dates
-//  data &quot;instr&quot;,func_instr
-//  data &quot;rnd&quot;,func_rnd
+  data &quot;time$&quot;,func_times
+  data &quot;date$&quot;,func_dates
+    data &quot;instr&quot;,func_instr
+  data &quot;rnd&quot;,func_rnd
 //  data &quot;netstat&quot;,func_netstat
   data NULL,NULL
 </codetext>
@@ -245,9 +246,9 @@ serch_label_position4:
 <ID>_C6</ID>
 <x0>69</x0>
 <y0>330</y0>
-<width>145</width>
-<height>33</height>
-<codetext>// 文字列を追加する
+<width>236</width>
+<height>35</height>
+<codetext>// プログラムに1行文字列を追加する
 append_line:
   str#= ss#=
 
@@ -443,32 +444,6 @@ load_basic:
   end
 </codetext>
 </codeclip>
-<codeclip>
-<ID>_C82</ID>
-<x0>71</x0>
-<y0>410</y0>
-<width>177</width>
-<height>35</height>
-<codetext>// 文字列を数値に変換する
-xval:
-  long rss#
-  rss#=
-
-  if (rss)$=&apos;+&apos; then rss#, 10, atoi end  
-  if (rss)$=&apos;-&apos; then rss#, 10, atoi end
-  if (rss)$&lt;&apos;0&apos; goto xval1  
-  if (rss)$&gt;&apos;9&apos; goto xval1
-  rss#, 10, atoi end
-
-  xval1:
-  if (rss)$&lt;&gt;&apos;&amp;&apos; then 0, end
-  if (rss)$(1)=&apos;H&apos; then rss#, 2, + 16, atoi end
-  if (rss)$(1)=&apos;h&apos; then rss#, 2, + 16, atoi end
-  if (rss)$(1)=&apos;B&apos; then rss#, 2, + 2, atoi end
-  if (rss)$(1)=&apos;b&apos; then rss#, 2, + 2, atoi end
-  rss#, 1, + 8, atoi end
-</codetext>
-</codeclip>
 <xobject>
 <ID>_X_G84</ID>
 <x0>455</x0>
@@ -490,7 +465,7 @@ cmd_wait:
 
   clear_value
   eval_expression
-  get_number  wait
+  get_number  (long) wait
   DONE, end
 </codetext>
 </codeclip>
@@ -524,7 +499,7 @@ cmd_close:
 
   if TokenText$&lt;&gt;&apos;#&apos; goto cmd_close1
     getToken
-    TokenValue#, nn#=
+    TokenValue#, (long) nn#=
     if nn#&lt;0 then &quot;Out of Range&quot;, assertError
     if nn#&gt;MAX_FILES then &quot;Out of Range&quot;, assertError
     nn#, FILE_SIZE, * Xfp, + fp_adr#=
@@ -565,7 +540,7 @@ cmd_open:
   &quot;as&quot;, checkToken
   &quot;#&quot;,  checkToken
   if TokenType#&lt;&gt;NUMBER then &quot;Syntax Error&quot;, assertError
-  TokenValue#, nn#=
+  TokenValue#, (long) nn#=
   
 //  &quot;file no=&quot;, prints nn#, printd nl
   
@@ -615,7 +590,7 @@ cmd_dim:
       clear_value
       eval_expression
       if dx#&gt;=MAX_DIMENSION then  &quot;dimension size over&quot;, assertError
-      get_number tt#=
+      get_number (long) tt#=
       if tt#&lt;=0 then &quot;Out of Range&quot;, assertError
       tt#, dim#(dx#)= dx#++
       if TokenText$=&apos;)&apos; goto cmd_dim2
@@ -676,7 +651,7 @@ cmd_if:
 
   // 論理式が真ならば&quot;thenをチェックしてその次から始める&quot;
   eval_expression
-  get_number tt#=
+  get_number (long) tt#=
   if tt#=0 goto cmd_if1
     &quot;then&quot;, checkToken
     if TokenType#&lt;&gt;LABEL then DONE, end
@@ -782,11 +757,11 @@ cmd_next:
   // STEP値をループ変数へ加える
 cmd_next1:
   ForStackP#, -&gt;_ForStack.var# for_var#=
-  ForStackP#, -&gt;_ForStack.step# (for_var)#, + (for_var)#=
+  ForStackP#, -&gt;_ForStack.step# (for_var)#, .+ (for_var)#=
 
   // 終了条件を満たさなければループエントリーに戻る
-  (for_var)#, ForStackP#, -&gt;_ForStack.limit# - ForStackP#, -&gt;_ForStack.step# *  tt#=
-  if tt#&gt;0 goto cmd_next2
+  (for_var)#, ForStackP#, -&gt;_ForStack.limit# .- ForStackP#, -&gt;_ForStack.step# .*  tt#=
+  if tt#.&gt;^0.0 goto cmd_next2
     ForStackP#, -&gt;_ForStack.token_p# TokenP#=
     ForStackP#, -&gt;_ForStack.program# CurrentProg#= 
     ForStackP#, _ForStack.SIZE, + ForStackP#=
@@ -835,10 +810,7 @@ cmd_for:
 
   // STEP値が省略された場合
 cmd_for1:
-  ForStackP#, -&gt;_ForStack.limit# (for_var)#, - tt#=
-  if tt#&gt;0  then  1,  ForStackP#, -&gt;_ForStack.step#=
-  if tt#=0  then  0,  ForStackP#, -&gt;_ForStack.step#=
-  if tt#&lt;0  then  -1, ForStackP#, -&gt;_ForStack.step#=
+  ^1.0,  ForStackP#, -&gt;_ForStack.step#=
 
   // 現在の実行位置をスタックへ保存
 cmd_for2:
@@ -982,7 +954,7 @@ cmd_print1:
       if typ#=STRING then get_string ss#= fp_adr#, fprints ss#, free
 
       // 数値型データの表示
-      if typ#=NUMBER then get_number fp_adr#, fprintd
+      if typ#=NUMBER then get_number fp_adr#, fprintr
 
       check_value
       if TokenType#=EOL then NULL, last_char#= gotocmd_print3
@@ -1025,7 +997,7 @@ cmd_print4:
       if typ#=STRING then get_string ss#= prints ss#, free
 
       // 数値型データの表示
-      if typ#=NUMBER then get_number printd
+      if typ#=NUMBER then get_number printr
 
       check_value
       if TokenType#=EOL then NULL, last_char#= gotocmd_print6
@@ -1242,7 +1214,7 @@ cmd_end:
 <y0>13</y0>
 <width>119</width>
 <height>35</height>
-<codetext>// NEWコマンド
+<codetext>// newコマンド
 cmd_new:
 
 // &quot;cmd new:&quot;, prints nl
@@ -1294,11 +1266,11 @@ cmd_pset:
   &quot;(&quot;, checkToken
   clear_value
   eval_expression
-  get_number xx#=
+  get_number (long) xx#=
   &quot;,&quot;, checkToken
   clear_value
   eval_expression
-  get_number yy#=
+  get_number (long) yy#=
   &quot;)&quot;, checkToken
   if TokenText$&lt;&gt;&apos;,&apos; goto cmd_pset1
   getToken
@@ -1325,11 +1297,11 @@ cmd_line:
     getToken
     clear_value
     eval_expression
-    get_number draw_x1#=
+    get_number (long) draw_x1#=
     &quot;,&quot;, checkToken
     clear_value
     eval_expression
-    get_number draw_y1#=
+    get_number (long) draw_y1#=
     &quot;)&quot;, checkToken
 
   // 開始座標を指定しないときはここから始める
@@ -1338,11 +1310,11 @@ cmd_line1:
   &quot;(&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_x2#=
+  get_number (long) draw_x2#=
   &quot;,&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_y2#=
+  get_number (long) draw_y2#=
   &quot;)&quot;, checkToken
   if TokenText$&lt;&gt;&apos;,&apos; goto cmd_line2
     getToken
@@ -1369,11 +1341,11 @@ cmd_box:
     getToken
     clear_value
     eval_expression
-    get_number draw_x1#=
+    get_number (long) draw_x1#=
     &quot;,&quot;, checkToken
     clear_value
     eval_expression
-    get_number draw_y1#=
+    get_number (long) draw_y1#=
     &quot;)&quot;, checkToken
 
   // 開始座標を指定しないときはここから始める
@@ -1382,11 +1354,11 @@ cmd_box1:
   &quot;(&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_x2#=
+  get_number (long) draw_x2#=
   &quot;,&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_y2#=
+  get_number (long) draw_y2#=
   &quot;)&quot;, checkToken
   if TokenText$&lt;&gt;&apos;,&apos; goto cmd_box2
     getToken
@@ -1413,11 +1385,11 @@ cmd_boxf:
     getToken
     clear_value
     eval_expression
-    get_number draw_x1#=
+    get_number (long) draw_x1#=
     &quot;,&quot;, checkToken
     clear_value
     eval_expression
-    get_number draw_y1#=
+    get_number (long) draw_y1#=
     &quot;)&quot;, checkToken
 
   // 開始座標を指定しないときはここから始める
@@ -1426,11 +1398,11 @@ cmd_boxf1:
   &quot;(&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_x2#=
+  get_number (long) draw_x2#=
   &quot;,&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_y2#=
+  get_number (long) draw_y2#=
   &quot;)&quot;, checkToken
   if TokenText$&lt;&gt;&apos;,&apos; goto cmd_boxf2
     getToken
@@ -1458,11 +1430,11 @@ cmd_circle:
     getToken
     clear_value
     eval_expression
-    get_number draw_x1#=
+    get_number (long) draw_x1#=
     &quot;,&quot;, checkToken
     clear_value
     eval_expression
-    get_number draw_y1#=
+    get_number (long) draw_y1#=
     &quot;)&quot;, checkToken
 
   // 開始座標を指定しないときはここから始める
@@ -1471,11 +1443,11 @@ cmd_circle1:
   &quot;(&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_x2#=
+  get_number (long) draw_x2#=
   &quot;,&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_y2#=
+  get_number (long) draw_y2#=
   &quot;)&quot;, checkToken
   if TokenText$&lt;&gt;&apos;,&apos; goto cmd_circle2
     getToken
@@ -1504,11 +1476,11 @@ cmd_circlef:
     getToken
     clear_value
     eval_expression
-    get_number draw_x1#=
+    get_number (long) draw_x1#=
     &quot;,&quot;, checkToken
     clear_value
     eval_expression
-    get_number draw_y1#=
+    get_number (long) draw_y1#=
     &quot;)&quot;, checkToken
 
   // 開始座標を指定しないときはここから始める
@@ -1517,11 +1489,11 @@ cmd_circlef1:
   &quot;(&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_x2#=
+  get_number (long) draw_x2#=
   &quot;,&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_y2#=
+  get_number (long) draw_y2#=
   &quot;)&quot;, checkToken
   if TokenText$&lt;&gt;&apos;,&apos; goto cmd_circlef2
     getToken
@@ -1547,11 +1519,11 @@ cmd_image:
   &quot;(&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_x1#=
+  get_number (long) draw_x1#=
   &quot;,&quot;, checkToken
   clear_value
   eval_expression
-  get_number draw_y1#=
+  get_number (long) draw_y1#=
   &quot;)&quot;, checkToken
   &quot;,&quot;, checkToken
   clear_value
@@ -1593,11 +1565,11 @@ cmd_exec:
 cmd_locate:
   clear_value
   eval_expression
-  get_number xx#=
+  get_number (long) xx#=
   &quot;,&quot;, checkToken
   clear_value
   eval_expression
-  get_number yy#=
+  get_number (long) yy#=
   xx#, yy#, locate
   DONE, end
 </codetext>
@@ -1612,7 +1584,7 @@ cmd_locate:
 cmd_color:
   clear_value
   eval_expression
-  get_number tt#=
+  get_number (long) tt#=
   tt#, xcolor#=
   DONE, end
 </codetext>
@@ -1641,7 +1613,7 @@ func_len:
   &quot;(&quot;, checkToken
   eval_expression
   &quot;)&quot;, checkToken
-  get_string ss#= strlen put_number
+  get_string ss#= strlen (double) put_number
   ss#, free
   0, end
 </codetext>
@@ -1681,10 +1653,8 @@ func_strs:
   &quot;(&quot;, checkToken
   eval_expression
   &quot;)&quot;, checkToken
-  get_number 10, itoa put_string
+  get_number xstr put_string
   0, end
-
-
 </codetext>
 </codeclip>
 <codeclip>
@@ -1704,7 +1674,7 @@ func_lefts:
   &quot;,&quot;, checkToken
   eval_expression
   &quot;)&quot;, checkToken
-  get_number kk#=
+  get_number (long) kk#=
   get_string ss0#= strlen ll#=
   0, ii#=
 func_lefts1:
@@ -1739,11 +1709,11 @@ func_mids:
   &quot;,&quot;, checkToken
   eval_expression
   if TokenText$=&apos;,&apos;   then  getToken eval_expression gotofunc_midsx
-  MAX_STR_LENGTH, put_number
+  MAX_STR_LENGTH, (double) put_number
 func_midsx:
   &quot;)&quot;, checkToken
-  get_number jj#=
-  get_number 1, - ii#=
+  get_number (long) jj#=
+  get_number (long) 1, - ii#=
   get_string ss0#= strlen ll#=
   jj#, ii#, + jj#=
   0, kk#=
@@ -1780,12 +1750,12 @@ func_asc:
   eval_expression
   &quot;)&quot;, checkToken
   get_string ss#=
-  (ss)$, put_number
+  (ss)$, (double) put_number
   ss#, free
   0, end
 </codetext>
 </codeclip>
-<ID_maker>102</ID_maker>
+<ID_maker>116</ID_maker>
 <codeclip>
 <ID>_C95</ID>
 <x0>10</x0>
@@ -1803,7 +1773,7 @@ func_rights:
   &quot;,&quot;, checkToken
   eval_expression
   &quot;)&quot;, checkToken
-  get_number ii#=
+  get_number (long) ii#=
  get_string ss0#= strlen ll#=
   ll#, ii#, - ii#=
   if ii#&lt;0 then 0, ii#=
@@ -1837,7 +1807,7 @@ func_chrs:
   &quot;(&quot;, checkToken
   eval_expression
   &quot;)&quot;, checkToken
-  get_number ccc$(0)=
+  get_number (long) ccc$(0)=
   NULL, ccc$(1)=
   ccc, put_string
   0, end
@@ -1851,16 +1821,26 @@ func_chrs:
 <height>35</height>
 <codetext>// abs関数
 func_abs:
-
+ long vabs#
+ 
 // &quot;func abs:&quot;, prints nl
 
   getToken
   &quot;(&quot;, checkToken
   eval_expression
   &quot;)&quot;, checkToken
-  get_number tt#=
-  if tt#&lt;0 then  0, tt#, - tt#=
-  tt#, put_number
+  get_number vabs#=
+  
+//  &quot;in=&quot;, prints vabs#, printr nl
+  
+  if vabs#.&lt;^0.0 then  ^0.0, vabs#, .- vabs#=
+  
+//  &quot;out=&quot;, prints vabs#, printr nl
+  
+  vabs#, put_number
+
+// &quot;func abs end:&quot;, prints nl
+
   0, end
 </codetext>
 </codeclip>
@@ -1881,17 +1861,17 @@ func_inputs:
 
 
   // ファイルから指定文字数入力
-  if TokenText$&lt;&gt;&apos;,&apos; goto func_inputs
+  if TokenText$&lt;&gt;&apos;,&apos; goto func_inputs1
     getToken
     if TokenText$=&apos;#&apos; then getToken
     eval_expression
     &quot;)&quot;, checkToken
-    get_number kk#=
+    get_number (long) kk#=
     if kk#&lt;0 then &quot;Out of range&quot;, assertError
     if kk#&gt;=MAX_FILES then &quot;Out of range&quot;, assertError
     kk#, FILE_SIZE, * Xfp, + fp_adr#=
     if (fp_adr)#(FILE_FP/8)=NULL then &quot;File is not open&quot;, assertError
-    get_number nn#=
+    get_number (long) nn#=
     nn#, sss, fp_adr#, _read tt#=
     if tt#=0 then EOF_STRING, put_string 0, end
     NULL, sss$(tt#)=
@@ -1901,7 +1881,7 @@ func_inputs:
   // コンソールから指定文字数入力
   func_inputs1:
     &quot;)&quot;, checkToken
-    get_number nn#=
+    get_number (long) nn#=
     0, ii#=
     func_inputs2:
       if ii#&gt;=nn# goto func_inputs3
@@ -1930,10 +1910,10 @@ func_point:
   &quot;,&quot;, checkToken
   eval_expression
   &quot;)&quot;, checkToken
-  get_number yy#=
-  get_number xx#=
+  get_number (long) yy#=
+  get_number (long) xx#=
   xx#, yy#, xget_point  tt#=
-  tt#, put_number
+  tt#, (double) put_number
   DONE, end
 </codetext>
 </codeclip>
@@ -1950,11 +1930,308 @@ func_inkeys:
 
   char inkey_str$(8)
   getToken
-  inkey inkey_str$=
+  key_code#, inkey_str$=
   NULL, inkey_str+1$=
   inkey_str, put_string
   0, end
 
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C102</ID>
+<x0>134</x0>
+<y0>83</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// int関数
+func_int:
+
+// &quot;func int:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number (long) (double)  put_number
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C103</ID>
+<x0>135</x0>
+<y0>122</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// sqr関数
+func_sqr:
+
+// &quot;func sqr:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number sqrt  put_number
+
+// &quot;func sqr end:&quot;, prints nl
+
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C104</ID>
+<x0>137</x0>
+<y0>161</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// sin関数
+func_sin:
+
+// &quot;func sin:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number math_sin  put_number
+
+// &quot;func sin end:&quot;, prints nl
+
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C105</ID>
+<x0>137</x0>
+<y0>202</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// cos関数
+func_cos:
+
+// &quot;func cos:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number math_cos  put_number
+
+// &quot;func cos end:&quot;, prints nl
+
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C106</ID>
+<x0>140</x0>
+<y0>240</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// tan関数
+func_tan:
+
+// &quot;func tan:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number math_tan  put_number
+
+// &quot;func tan end:&quot;, prints nl
+
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C107</ID>
+<x0>139</x0>
+<y0>277</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// atn関数
+func_atn:
+
+// &quot;func atn:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number math_arctan  put_number
+
+// &quot;func atn end:&quot;, prints nl
+
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C108</ID>
+<x0>139</x0>
+<y0>316</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// exp関数
+func_exp:
+
+// &quot;func exp:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number math_exp  put_number
+
+// &quot;func exp end:&quot;, prints nl
+
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C109</ID>
+<x0>140</x0>
+<y0>352</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// log関数
+func_log:
+
+// &quot;func log:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number math_log  put_number
+
+// &quot;func log end:&quot;, prints nl
+
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C110</ID>
+<x0>13</x0>
+<y0>378</y0>
+<width>107</width>
+<height>34</height>
+<codetext>// instr関数
+func_instr:
+  long ss1#
+
+// &quot;func instr:&quot;, prints nl 
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;,&quot;, checkToken
+  eval_expression
+  if TokenText$=&apos;,&apos;   then  getToken eval_expression gotofunc_instr1
+  ^1.0, put_number
+func_instr1:
+  &quot;)&quot;, checkToken
+  get_number (long) xx#= xx#--
+  get_string ss1#=
+  get_string ss0#= strlen ll#=
+  if xx#&lt;0      then ^0.0, put_number gotofunc_instr2
+  if xx#&gt;=ll# then ^0.0, put_number gotofunc_instr2
+  ss0#, xx#, + ss1#, strstr xx#=
+  if xx#=NULL then ^0.0, put_number gotofunc_instr2
+  xx#, ss0#, - 1, + (double) put_number
+func_instr2:
+  ss0#, free
+  ss1#, free
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C111</ID>
+<x0>141</x0>
+<y0>391</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// rnd関数
+func_rnd:
+
+// &quot;func rnd:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number math_random  put_number
+
+// &quot;func rnd end:&quot;, prints nl
+
+  0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C112</ID>
+<x0>278</x0>
+<y0>51</y0>
+<width>106</width>
+<height>34</height>
+<codetext>// time$関数
+func_times:
+
+// &quot;func times:&quot;, prints nl
+
+  getToken
+  &quot;00:00:00&quot;, put_string
+  0, end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C113</ID>
+<x0>283</x0>
+<y0>95</y0>
+<width>106</width>
+<height>34</height>
+<codetext>// date$関数
+func_dates:
+
+// &quot;func dates:&quot;, prints nl
+
+  getToken
+  &quot;00/00/00&quot;, put_string
+  0, end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C115</ID>
+<x0>283</x0>
+<y0>133</y0>
+<width>101</width>
+<height>35</height>
+<codetext>// sgn関数
+func_sgn:
+ long vsgn#
+ 
+// &quot;func sgn:&quot;, prints nl
+
+  getToken
+  &quot;(&quot;, checkToken
+  eval_expression
+  &quot;)&quot;, checkToken
+  get_number vsgn#=
+  
+//  &quot;in=&quot;, prints vsgn#, printr nl
+
+  ~0.0, vsgn#=
+  if vsgn#.&lt;^0.0 then  ~1.0, vsgn#=
+  if vsgn#.&gt;^0.0 then  ^1.0, vsgn#=
+  
+//  &quot;out=&quot;, prints vsgn#, printr nl
+  
+  vsgn#, put_number
+
+// &quot;func sgn end:&quot;, prints nl
+
+  0, end
 </codetext>
 </codeclip>
 </xobject>
@@ -1978,8 +2255,8 @@ eval_eq:
 //  &quot;eval eq:&quot;, prints nl
 
   get_number tt#=
-  if tt#=0 then 1, put_number 0, end
-  0, put_number 0, end
+  if tt#.=^0.0 then ^1.0, put_number 0, end
+  ^0.0, put_number 0, end
 </codetext>
 </codeclip>
 <codeclip>
@@ -1994,8 +2271,8 @@ eval_neq:
 //  &quot;eval neq:&quot;, prints nl
 
   get_number tt#=
-  if tt#&lt;&gt;0 then 1, put_number 0, end
-  0, put_number 0, end
+  if tt#.&lt;&gt;^0.0 then ^1.0, put_number 0, end
+  ^0.0, put_number 0, end
 </codetext>
 </codeclip>
 <codeclip>
@@ -2010,8 +2287,8 @@ eval_lt:
 // &quot;eval lt:&quot;, prints nl
 
   get_number tt#=
-  if tt#&lt;0 then 1, put_number 0, end
-  0, put_number 0, end
+  if tt#.&lt;^0.0 then ^1.0, put_number 0, end
+  ^0.0, put_number 0, end
 </codetext>
 </codeclip>
 <codeclip>
@@ -2026,8 +2303,8 @@ eval_le:
 //  &quot;eval le:&quot;, prints nl
 
   get_number tt#=
-  if tt#&lt;=0 then 1, put_number 0, end
-  0, put_number 0, end
+  if tt#.&lt;=^0.0 then ^1.0, put_number 0, end
+  ^0.0, put_number 0, end
 </codetext>
 </codeclip>
 <codeclip>
@@ -2042,8 +2319,8 @@ eval_gt:
 //  &quot;eval gt:&quot;, prints nl
 
   get_number tt#=
-  if tt#&gt;0 then 1, put_number 0, end
-  0, put_number 0, end
+  if tt#.&gt;^0.0 then ^1.0, put_number 0, end
+  ^0.0, put_number 0, end
 </codetext>
 </codeclip>
 <codeclip>
@@ -2058,8 +2335,8 @@ eval_ge:
 //  &quot;eval ge:&quot;, prints nl
 
   get_number tt#=
-  if tt#&gt;=0 then 1, put_number 0, end
-  0, put_number 0, end
+  if tt#.&gt;=0 then ^1.0, put_number 0, end
+  ^0.0, put_number 0, end
 </codetext>
 </codeclip>
 <codeclip>
@@ -2088,7 +2365,7 @@ eval_cmp:
   eval_cmp1:
     get_number d1#=
     get_number d2#=
-    d2#, d1#, - put_number
+    d2#, d1#, .- put_number
     0, end
 </codetext>
 </codeclip>
@@ -2103,9 +2380,9 @@ eval_and:
 
 //  &quot;eval and:&quot;, prints nl
 
-  get_number ss#=
-  get_number tt#=
-  tt#, ss#, and
+  get_number (long) ss#=
+  get_number (long) tt#=
+  tt#, ss#, and (double)
   put_number
   0, end
 </codetext>
@@ -2121,9 +2398,9 @@ eval_or:
 
 //  &quot;eval or:&quot;, prints nl
 
-  get_number ss#=
-  get_number tt#=
-  tt#, ss#, or
+  get_number (long) ss#=
+  get_number (long) tt#=
+  tt#, ss#, or (double)
   put_number
   0, end
 </codetext>
@@ -2141,19 +2418,9 @@ eval_power:
 
   get_number ss#=
   get_number tt#=
-  tt#, ss#, power
+  tt#, ss#, math_power
   put_number
   0, end
-
-
-power:
-  ss#= pop tt#=
-  if ss#&lt;=0 then 1, end
-  1, xx#=
-  for mm#=1 to ss#
-    xx#, tt#, * xx#=
-  next mm#
-  xx#, end
 </codetext>
 </codeclip>
 <codeclip>
@@ -2167,10 +2434,10 @@ eval_mod:
 
 //  &quot;eval mod:&quot;, prints nl
 
-  get_number ss#=
-  get_number tt#=
+  get_number (long) ss#=
+  get_number (long) tt#=
   if ss#=0 then &quot;division by zero&quot;, assertError
-  tt#, ss#, mod
+  tt#, ss#, mod (double)
   put_number
   0, end
 </codetext>
@@ -2189,7 +2456,7 @@ eval_div:
   get_number ss#=
   get_number tt#=
   if ss#=0 then &quot;division by zero&quot;, assertError
-  tt#, ss#, /
+  tt#, ss#, ./
   put_number
   0, end
 </codetext>
@@ -2207,7 +2474,7 @@ eval_mul:
 
   get_number ss#=
   get_number tt#=
-  tt#, ss#, *
+  tt#, ss#, .*
   put_number
   0, end
 
@@ -2226,7 +2493,7 @@ eval_sub:
 
   get_number ss#=
   get_number tt#=
-  tt#, ss#, -
+  tt#, ss#, .-
   put_number
   0, end
 
@@ -2246,7 +2513,7 @@ eval_add:
 
   get_number ss#=
   get_number tt#=
-  tt#, ss#, +
+  tt#, ss#, .+
   put_number
   0, end
 
@@ -2311,7 +2578,7 @@ eval_atom:
     
     0, end
     eval_atom1:
-    if sign#=-1 then  get_number tt#= 0, tt#, - put_number
+    if sign#=-1 then  get_number tt#= ^0.0, tt#, .- put_number
     
 //    &quot;eval atom(numeric permanent) end:&quot;, prints nl
     
@@ -2322,7 +2589,7 @@ eval_atom:
   if TokenType#&lt;&gt;NUMBER goto eval_atom3
     TokenValue#, put_number
     getToken
-    if sign#=-1 then  get_number tt#= 0, tt#, - put_number
+    if sign#=-1 then  get_number tt#= ^0.0, tt#, .- put_number
     
 //    &quot;eval atom(number) end:&quot;, prints nl
     
@@ -2342,7 +2609,9 @@ eval_atom:
   // 関数は原子である
   eval_atom4:
   if TokenType#&lt;&gt;FUNCTION goto eval_atom5
+    sign#, PUSH
     TokenCode#, _Function.SIZE, * Function, + -&gt;@_Function.func
+    POP sign#=
     value_type tt#=
     if tt#&lt;&gt;STRING goto eval_atom4_1
     if sign#&lt;&gt;0 then &quot;Type Mismatch&quot;, assertError
@@ -2351,7 +2620,7 @@ eval_atom:
     
     0, end
     eval_atom4_1:
-    if sign#=-1 then  get_number tt#= 0, tt#, - put_number
+    if sign#=-1 then  get_number tt#= ^0.0, tt#, .- put_number
     
 //    &quot;eval atom(numeric function) end:&quot;, prints nl
     
@@ -2373,7 +2642,7 @@ eval_atom:
     0, end
     eval_atom5_1:
     (val)#, put_number
-    if sign#=-1 then  get_number tt#= 0, tt#, - put_number
+    if sign#=-1 then  get_number tt#= ^0.0, tt#, .- put_number
     
 //    &quot;eval atom(numeric variable) end:&quot;, prints nl
     
@@ -2670,17 +2939,18 @@ get_string:
 <height>34</height>
 <codetext>// 数値をスタックから取りこむ
 get_number:
-  value_type tt#=
+  long vgetn#
+  value_type vgetn#=
   
 //  &quot;get number:&quot;, prints nl
   
-  if tt#&lt;&gt;NUMBER then &quot;Type Mismatch&quot;, assertError
+  if vgetn#&lt;&gt;NUMBER then &quot;Type Mismatch&quot;, assertError
   CalcStackP#, Value.SIZE, - CalcStackP#=
-  CalcStackP#, -&gt;Value.data# tt#=
+  CalcStackP#, -&gt;Value.data# vgetn#=
   
-//  &quot;value=&quot;, prints tt#, printd nl
+//  &quot;value=&quot;, prints vgetn#, printr nl
   
-  tt#, end
+  vgetn#, end
 </codetext>
 </codeclip>
 <codeclip>
@@ -2714,7 +2984,7 @@ put_number:
   long num#
   num#=
   
-//  &quot;put number:&quot;, prints num#, printd nl 
+//  &quot;put number:&quot;, prints num#, printr nl 
   
   NUMBER, CalcStackP#, -&gt;Value.type#=
   num#, CalcStackP#, -&gt;Value.data#=
@@ -2825,7 +3095,7 @@ start_basic:
   argv#(1), fname#=
   if (fname)$&lt;&gt;NULL goto start_basic4
     cls
-    &quot;Oreore Basic ver 0.0.1&quot;, prints nl
+    &quot;Oreore Basic ver 0.0.2&quot;, prints nl
     cmd_new
 basic_entry:
 
@@ -3200,7 +3470,7 @@ getToken9:
 
   // 先頭がラベルの先頭文字であれば英数字と&apos;_&apos;が続いているところはラベル
 getToken10:
-  if (TokenP)$&lt;&gt;LABEL_HEADER goto getToken12
+  if (TokenP)$&lt;&gt;LABEL_HEADER goto getToken20
     LABEL, TokenType#=
     TokenP#++
     0, TokenCode#=
@@ -3215,119 +3485,49 @@ getToken11:
   
     end
 
-  // 先頭が&apos;&amp;&apos;で始まっている場合が数値
-getToken12:
-  (TokenP)$, cc#=
-  if cc#&lt;&gt;&apos;&amp;&apos; goto getToken20
-  NUMBER, TokenType#=
-  TokenP#++
-  (TokenP)$, cc#=
-
-    // 16進数
-  if cc#&lt;&gt;&apos;h&apos; goto getToken15
-      TokenP#++
-getToken13:
-      (TokenP)$, cc#=
-      if cc#&gt;=&apos;0&apos; then if cc#&lt;=&apos;9&apos; goto getToken14
-      if cc#&gt;=&apos;a&apos; then if cc#&lt;=&apos;f&apos;  goto getToken14
-      NULL, TokenText$(ii#)=
-      TokenText, 16, atoi TokenValue#=
-  
-//  &quot;hex decimal:&quot;, prints nl
-//  &quot;TokenText=&quot;, prints TokenText, prints nl
-
-  
-      end
-getToken14:
-     cc#, TokenText$(ii#)=
-     ii#++
-     TokenP#++
-     goto getToken13
-
-    // 2進数
-getToken15:
-  if cc#&lt;&gt;&apos;b&apos; goto getToken18
-      TokenP#++
-getToken16:
-      (TokenP)$, cc#=
-      if cc#&gt;=&apos;0&apos; then if cc#&lt;=&apos;1&apos; goto getToken17
-      NULL, TokenText$(ii#)=
-      TokenText, 2, atoi TokenValue#=
-  
-//  &quot;binary:&quot;, prints nl
-//  &quot;TokenText=&quot;, prints TokenText, prints nl
-
-  
-      end
-getToken17:
-     cc#, TokenText$(ii#)=
-     ii#++
-     TokenP#++
-     goto getToken16
-
-    // 8進数
-getToken18:
-      (TokenP)$, cc#=
-      if cc#&gt;=&apos;0&apos; then if cc#&lt;=&apos;7&apos; goto getToken19
-      NULL, TokenText$(ii#)=
-      TokenText, 8, atoi TokenValue#=
-  
-//  &quot;octal:&quot;, prints nl
-//  &quot;TokenText=&quot;, prints TokenText, prints nl
-
-  
-      end
-getToken19:
-     cc#, TokenText$(ii#)=
-     ii#++
-     TokenP#++
-     goto getToken18
-
-    // 10進数
+// 先頭が&apos;&amp;&apos; , &apos;.&apos; あるいは&apos;0&apos;~&apos;9&apos;で始まっている場合が数値
 getToken20:
-      if cc#&lt;&apos;0&apos; goto getToken23
-      if cc#&gt;&apos;9&apos; goto getToken23
-      NUMBER, TokenType#=
+  (TokenP)$, cc#=
+  if cc#=&apos;&amp;&apos; goto getToken21
+  if cc#=&apos;.&apos;   goto getToken21
+  if cc#&lt;&apos;0&apos;  goto getToken30
+  if cc#&gt;&apos;9&apos;  goto getToken30
+
 getToken21:
-      (TokenP)$, cc#=
-      if cc#&gt;=&apos;0&apos; then if cc#&lt;=&apos;9&apos; goto getToken22
-      NULL, TokenText$(ii#)=
-      TokenText, 10, atoi TokenValue#=
-  
-//  &quot;decimal:&quot;, prints nl
-//  &quot;TokenText=&quot;, prints TokenText, prints nl
-
-  
-      end
+      NUMBER, TokenType#=
+      TokenP#, xval TokenValue#= pop tt#=
+      if TokenValue#=NaN then &quot;Bad Number Format&quot;, assertError
+      0, ii#=
 getToken22:
-     cc#, TokenText$(ii#)=
-     ii#++
-     TokenP#++
-     goto getToken21
+      (TokenP)$, TokenText$(ii#)=
+      TokenP#++
+      ii#++
+      if TokenP#&lt;tt# goto getToken22
+      NULL, TokenText$(ii#)=
+      end
 
-
-  /* 上記以外は区切り文字 */
-getToken23:
+// 上記以外は区切り文字
+getToken30:
     DELIMIT, TokenType#=
     cc#, TokenText$(ii#)=
     ii#++
     TokenP#++
     (TokenP)$, bb#=
     
-    if cc#&lt;&gt;&apos;=&apos; goto getToken24
-    if bb#=&apos;&lt;&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotogetToken26 
-    if bb#=&apos;&gt;&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotogetToken26 
+    if cc#&lt;&gt;&apos;=&apos; goto getToken31
+    if bb#=&apos;&lt;&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotogetToken33 
+    if bb#=&apos;&gt;&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotogetToken33 
 
-getToken24:
-    if cc#&lt;&gt;&apos;&lt;&apos; goto getToken25
-    if bb#=&apos;=&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotogetToken26 
-    if bb#=&apos;&gt;&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotogetToken26 
+getToken31:
+    if cc#&lt;&gt;&apos;&lt;&apos; goto getToken32
+    if bb#=&apos;=&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotogetToken33 
+    if bb#=&apos;&gt;&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotogetToken33 
 
-getToken25:
-    if cc#&lt;&gt;&apos;&gt;&apos; goto getToken26
+getToken32:
+    if cc#&lt;&gt;&apos;&gt;&apos; goto getToken33
     if bb#=&apos;=&apos; then bb#, TokenText$(ii#)= ii#++ TokenP#++
 
-getToken26:
+getToken33:
     NULL, TokenText$(ii#)=
   
 //  &quot;delimitter:&quot;, prints nl
@@ -3625,9 +3825,11 @@ int main( int argc, char** argv ){
 <ID>_C106</ID>
 <x0>631</x0>
 <y0>117</y0>
-<width>100</width>
-<height>20</height>
-<codetext>// 雑関数
+<width>125</width>
+<height>21</height>
+<codetext>// 文字判別関数
+
+// 空白文字
 is_space:
   long cc1#
   cc1#=
@@ -3635,6 +3837,7 @@ is_space:
   if cc1#=9  then 1, end
   0, end
 
+// シンボル文字(最初の1文字)
 is_symbol_char0:
   cc1#=
   if cc1#&gt;=&apos;a&apos; then if cc1#&lt;=&apos;z&apos; goto is_symbol_char0_1
@@ -3644,6 +3847,7 @@ is_symbol_char0:
 is_symbol_char0_1:
   1, end
 
+// シンボル文字
 is_symbol_char:
   cc1#=
   if cc1#&gt;=&apos;0&apos; then if cc1#&lt;=&apos;9&apos; goto is_symbol_char1
@@ -3659,8 +3863,8 @@ is_symbol_char1:
 </codeclip>
 <codeclip>
 <ID>_C107</ID>
-<x0>313</x0>
-<y0>99</y0>
+<x0>314</x0>
+<y0>111</y0>
 <width>100</width>
 <height>20</height>
 <codetext>  // 変数宣言
@@ -4221,9 +4425,9 @@ send_prog2:
 <ID>_C116</ID>
 <x0>628</x0>
 <y0>166</y0>
-<width>159</width>
-<height>24</height>
-<codetext>// 画像操作関数一覧
+<width>114</width>
+<height>21</height>
+<codetext>// 画像操作関数
 
 
 // 作業変数
@@ -4576,4 +4780,518 @@ cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
   data 32137,31970,31785,31580
 </codetext>
 </codeclip>
+<codeclip>
+<ID>_C117</ID>
+<x0>68</x0>
+<y0>442</y0>
+<width>181</width>
+<height>36</height>
+<codetext>// 数値を文字列に変換する
+xstr:
+  long real_a#,real_d#,real_p#
+  long exp_val#,exp_max#,exp_min#,exp_pres#,exp_count#
+  char real_buf$(32),chr_buf$(8)
+
+  real_a#=
+  
+//  &quot;xstr:&quot;, prints nl
+  
+
+  ^1e5, exp_max#=
+  ^0.0001, exp_min#=
+  ^0.0000000001, exp_pres#=
+ 0, exp_count#=
+  NULL, real_buf$=
+  real_buf, real_p#=
+  ^1.0, exp_val#=
+  
+//  &quot;xstr0:&quot;, prints nl
+  
+  if real_a#.=^0.0 then &quot;0&quot;, end
+  if real_a#.&lt;^0.0 then ^0.0, real_a#, .- real_a#= &quot;-&quot;, put_real_buf
+
+//  &quot;xstr1:&quot;, prints nl
+
+  if real_a#.&gt;exp_max# goto real1_0
+  if real_a#.&lt;exp_min#  goto real2_0
+
+
+//  指数表示でない場合
+
+// &quot;no exp:&quot;, prints nl
+
+real0:
+  exp_val#, ^10.0, .* exp_val#=
+  if exp_val#.&lt;=real_a# goto real0
+  exp_val#, ^10.0, ./ exp_val#=
+
+real1:
+  if exp_val#.&gt;^0.2   goto real2
+  if exp_val#.&lt;^0.02 goto real2
+  &quot;.&quot;, put_real_buf
+real2:
+  real_a#, exp_val#, ./  (long) real_d#=
+  &apos;0&apos;, real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
+  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
+  exp_val#, ^10.0, ./ exp_val#=
+  if exp_val#.&gt;=^1.0 goto real1
+  if real_a#.&gt;exp_pres# goto real1
+
+// &quot;xstr end&quot;, prints nl
+
+  real_buf, end
+
+//   指数表示(+)
+real1_0:
+
+// &quot;exp+:&quot;, prints nl
+
+real1_01:
+
+  exp_val#, ^10.0, .* exp_val#=
+  exp_count#++
+  if exp_val#.&lt;=real_a# goto real1_01
+  exp_val#, ^10.0, ./ exp_val#=
+  exp_count#--
+  real_a#, exp_val#, ./ real_a#=
+  ^1.0, exp_val#=
+real1_1:
+  if exp_val#.&gt;^0.2   goto real1_2
+  if exp_val#.&lt;^0.02 goto real1_2
+  &quot;.&quot;, put_real_buf
+real1_2:
+  real_a#, exp_val#, ./  (long) real_d#=
+  &apos;0&apos;, real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
+  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
+  exp_val#, ^10.0, ./ exp_val#=
+  if real_a#.&gt;exp_pres# goto real1_1
+  &quot;e+&quot;, put_real_buf
+  exp_count#, dec put_real_buf
+
+// &quot;xstr end&quot;, prints nl
+
+  real_buf, end
+
+//   指数表示(-)
+real2_0:
+
+// &quot;exp-:&quot;, prints nl
+
+real2_01:
+  exp_val#, ^10.0, ./ exp_val#=
+  exp_count#--
+  if exp_val#.&gt;real_a# goto real2_01
+  real_a#, exp_val#, ./ real_a#=
+  ^1.0, exp_val#=
+real2_1:
+  if exp_val#.&gt;^0.2   goto real2_2
+  if exp_val#.&lt;^0.02 goto real2_2
+  &quot;.&quot;, put_real_buf
+real2_2:
+  real_a#, exp_val#, ./  (long) real_d#=
+  &apos;0&apos;, real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
+  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
+  exp_val#, ^10.0, ./ exp_val#=
+  if real_a#.&gt;exp_pres# goto real2_1
+  &quot;e&quot;, put_real_buf
+  exp_count#, dec put_real_buf
+
+// &quot;xstr end&quot;, prints nl
+
+  real_buf, end
+
+// バッファに文字列を追加する
+put_real_buf:
+  tt#= real_buf, strcat
+  
+//  &quot;put_real_buf:&quot;, prints nl 
+  
+  tt#, strlen real_p#, + real_p#=
+  
+//  &quot;put_real_buf end:&quot;, prints nl 
+  
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C118</ID>
+<x0>68</x0>
+<y0>405</y0>
+<width>181</width>
+<height>36</height>
+<codetext>// 文字列を数値に変換する
+xval:
+  long xval_p#,xval_sign#,xval_x#,xval_exp#,xval_exp_sign#,xval_d#,xval_order#
+  long xval_state#
+  enum
+    XVAL_SIGN
+    XVAL_INTEGER
+    XVAL_FRAC
+    XVAL_EXP_SIGN
+    XVAL_EXP
+    XVAL_OCT
+    XVAL_HEX
+    XVAL_BIN
+    XVAL_OTHER
+  end
+  
+  xval_p#=
+  ^1.0, xval_sign#= 
+  ^0.0, xval_x#=
+  ^0.1, xval_order#=
+  1, xval_exp_sign#=
+  0, xval_exp#=
+  XVAL_SIGN, xval_state#=
+xval0:
+  (xval_p)$, xval_d#=
+
+// 符号入力状態
+xval1:
+  if xval_state#&lt;&gt;XVAL_SIGN goto xval2
+  if xval_d#=&apos;+&apos; goto xval_next
+  if xval_d#=&apos;-&apos; then xval_sign#, ^-1.0, .* xval_sign#= gotoxval_next
+  if xval_d#=&apos;&amp;&apos; then XVAL_OCT,   xval_state#= gotoxval_next
+  if xval_d#=&apos;.&apos;   then XVAL_FRAC, xval_state#= gotoxval_next
+  XVAL_INTEGER, xval_state#=
+  if xval_d#&gt;=&apos;0&apos; then if xval_d#&lt;=&apos;9&apos; goto xval2
+  goto xval_error
+
+// 整数入力状態
+xval2:
+  if xval_state#&lt;&gt;XVAL_INTEGER goto xval3
+  if xval_d#=&apos;.&apos; then XVAL_FRAC, xval_state#= gotoxval_next
+  if xval_d#=&apos;e&apos; then XVAL_EXP_SIGN, xval_state#= gotoxval_next
+  if xval_d#&lt;&apos;0&apos; goto xval_end
+  if xval_d#&gt;&apos;9&apos; goto xval_end
+  xval_d#, &apos;0&apos;, - (double) tt#=
+  xval_x#, ^10.0, .* tt#, .+ xval_x#=
+  goto xval_next
+
+// 小数入力状態
+xval3:
+  if xval_state#&lt;&gt;XVAL_FRAC goto xval4
+  if xval_d#=&apos;e&apos; then XVAL_EXP_SIGN, xval_state#= gotoxval_next
+  if xval_d#=&apos;E&apos; then XVAL_EXP_SIGN, xval_state#= gotoxval_next
+  if xval_d#&lt;&apos;0&apos; goto xval_end
+  if xval_d#&gt;&apos;9&apos; goto xval_end
+  xval_d#,  &apos;0&apos;, - (double)  xval_order#, .*
+  xval_x#, .+ xval_x#=
+  xval_order#, ^10.0, ./ xval_order#=
+  goto xval_next
+
+// 指数符号入力状態
+xval4:
+  if xval_state#&lt;&gt;XVAL_EXP_SIGN goto xval5
+  if xval_d#=&apos;+&apos; goto xval_next
+  if xval_d#=&apos;-&apos; then xval_exp_sign#, -1, * xval_exp_sign#= gotoxval_next
+  XVAL_EXP, xval_state#=
+  if xval_d#&gt;=&apos;0&apos; then if xval_d#&lt;=&apos;9&apos; goto xval5
+  goto xval_error
+
+// 指数入力状態
+xval5:
+  if xval_state#&lt;&gt;XVAL_EXP goto xval6
+  if xval_d#&lt;&apos;0&apos; goto xval5_0
+  if xval_d#&gt;&apos;9&apos; goto xval5_0
+  xval_d#, &apos;0&apos;, - tt#=
+  xval_exp#, 10, * tt#, + xval_exp#=
+  goto xval_next
+
+// 指数がプラスで終了
+xval5_0:
+  if xval_x#.=^0.0 goto xval_end
+  if xval_exp#=0 goto xval_end
+  if xval_exp_sign#&lt;0 goto xval5_1
+  if xval_exp#&gt;=40 goto xval_error
+  for ii#=1 to xval_exp#
+     xval_x#, ^10.0, .* xval_x#=
+  next ii#
+  goto xval_end
+
+// 指数がマイナスで終了
+xval5_1:
+  if xval_exp#&gt;=40 then ^0.0, xval_x#= gotoxval_end
+  for ii#=1 to xval_exp#
+     xval_x#, ^10.0, ./ xval_x#=
+  next ii#
+  goto xval_end
+
+// 8進数入力
+xval6:
+  if xval_state#&lt;&gt;XVAL_OCT goto xval7
+  if xval_d#=&apos;h&apos; then XVAL_HEX, xval_state#= gotoxval_next
+  if xval_d#=&apos;b&apos; then XVAL_BIN, xval_state#= gotoxval_next
+  if xval_d#=&apos;o&apos; goto xval_next
+  if xval_d#&lt;&apos;0&apos; goto xval_end
+  if xval_d#&gt;&apos;7&apos; goto xval_end
+  xval_d#, &apos;0&apos;, - (double) tt#=
+  xval_x#, ^8.0, .* tt#, .+ xval_x#=
+  goto xval_next
+  
+// 16進数入力
+xval7:
+  if xval_state#&lt;&gt;XVAL_HEX goto xval8
+  if xval_d#&lt;&apos;0&apos; goto xval7_1
+  if xval_d#&gt;&apos;9&apos; goto xval7_1
+  xval_d#, &apos;0&apos;, - (double) tt#=
+  xval_x#, ^16.0, .* tt#, .+ xval_x#=
+  goto xval_next
+xval7_1:
+  if xval_d#&lt;&apos;a&apos; goto xval_end
+  if xval_d#&gt;&apos;f&apos; goto xval_end
+  xval_d#, &apos;a&apos;-10, - (double) tt#=
+  xval_x#, ^16.0, .* tt#, .+ xval_x#=
+  goto xval_next
+
+// 2進数入力
+xval8:
+  if xval_state#&lt;&gt;XVAL_BIN goto xval_error
+  if xval_d#&lt;&apos;0&apos; goto xval_end
+  if xval_d#&gt;&apos;1&apos; goto xval_end
+  xval_d#, &apos;0&apos;, - (double) tt#=
+  xval_x#, ^2.0, .* tt#, .+ xval_x#=
+  goto xval_next
+
+// エラー終了
+xval_error:
+  xval_p#, NaN, end
+
+// 正常終了
+xval_end:
+  xval_sign#, xval_x#, .* xval_x#=
+  xval_p#, xval_x#, end
+
+// 次の文字を取り込む
+xval_next:
+  xval_p#++
+  goto xval0
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C119</ID>
+<x0>71</x0>
+<y0>483</y0>
+<width>138</width>
+<height>34</height>
+<codetext>// 数値を表示する 
+printr:
+  stdout#, fprintr
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C120</ID>
+<x0>70</x0>
+<y0>523</y0>
+<width>184</width>
+<height>35</height>
+<codetext>// 数値をファイルに出力する 
+fprintr:
+  long pp7#
+ pp7#= swap xstr pp7#, fprints
+ end
+</codetext>
+</codeclip>
+<xobject>
+<ID>_X121</ID>
+<x0>635</x0>
+<y0>205</y0>
+<width>107</width>
+<height>50</height>
+<ID_maker>9</ID_maker>
+<objectname>数学関数</objectname>
+<description></description>
+<codeclip>
+<ID>_C0</ID>
+<x0>6</x0>
+<y0>34</y0>
+<width>100</width>
+<height>34</height>
+<codetext>// sin関数
+math_sin:
+  long sin_x#,sin_x2#
+  sin_x#=  ^6.28318530717959, ./ (long) tt#=
+  if  tt#&lt;0 then tt#--
+  tt#, (double) ^6.28318530717959, .* sin_x#, swap .- sin_x#=
+  sin_x#, .* sin_x2#=
+                    ^0.0000000000000028,
+  sin_x2#, .* ~0.0000000000007647, .+ 
+  sin_x2#, .* ^0.0000000001605904, .+
+  sin_x2#, .* ~0.0000000250521083, .+
+  sin_x2#, .* ^0.0000027557319223, .+
+  sin_x2#, .* ~0.0001984126984126, .+
+  sin_x2#, .* ^0.0083333333333333, .+
+  sin_x2#, .* ~0.1666666666666666, .+
+  sin_x2#, .* ^1.0,  .+
+  sin_x#, .*
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C1</ID>
+<x0>7</x0>
+<y0>10</y0>
+<width>165</width>
+<height>20</height>
+<codetext>// 数学関数ライブラリ
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C2</ID>
+<x0>7</x0>
+<y0>74</y0>
+<width>100</width>
+<height>34</height>
+<codetext>// cos関数
+math_cos:
+  ^1.570796326767849, .+ math_sin end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C3</ID>
+<x0>11</x0>
+<y0>114</y0>
+<width>100</width>
+<height>34</height>
+<codetext>// tan関数
+math_tan:
+  long tan_a#,tan_x#,tan_y#
+  tan_a#=
+  tan_a#, math_cos tan_x#=
+  if tan_x#.=^0.0 then NaN, end 
+  tan_a#, math_sin tan_y#= 
+  tan_y#, tan_x#, ./  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C4</ID>
+<x0>13</x0>
+<y0>156</y0>
+<width>117</width>
+<height>33</height>
+<codetext>// arctan関数
+math_arctan:
+  long arctan_a#,arctan_s#
+  arctan_a#=
+  ^1.0, arctan_s#= 
+  if arctan_a#.&lt;^0.0 then ^0.0, arctan_a#, .- arctan_a#= ~1.0, arctan_s#=
+
+math_arctan0:
+  if arctan_a#.&lt;=^2.41421356237 goto math_arctan1
+  ^1.0, arctan_a#, ./ xarctan ^1.5707963268, swap .-
+  arctan_s#, .*
+  end
+  
+math_arctan1:
+  if arctan_a#.&lt;=^0.41421356237 goto math_arctan2
+  arctan_a#,  ^1.0, .+ tt#=
+  ^2.0, .- tt#, ./ xarctan  ^0.78539816339, .+
+  arctan_s#, .*
+  end
+
+math_arctan2:
+  arctan_a#, xarctan 
+  arctan_s#, .*
+  end
+
+// 部分的に求める
+xarctan:
+  long txx#,txx2#,tkk#,tsign#,tret#
+  txx#= txx#, .* txx2#=
+  ^1.0, tkk#=
+  ^1.0, tsign#=
+  ^0.0, tret#=
+  for ii#=1 to 38
+    txx#, tkk#, ./ tsign#, .* tret#, .+ tret#=
+    txx#, txx2#, .* txx#=
+    tkk#, ^2.0, .+ tkk#=
+    tsign#, ~1.0, .* tsign#=
+  next ii#
+  tret#, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C5</ID>
+<x0>13</x0>
+<y0>195</y0>
+<width>100</width>
+<height>34</height>
+<codetext>// exp関数
+math_exp:
+  long exp_a#,exp_s#,exp_n#,exp_r#
+  exp_a#=
+  if exp_a#.=^0.0 then ^1.0, end
+  if exp_a#.=^1.0 then ^2.718281828459, end
+  if exp_a#.=~1.0 then ^0.367879441171, end
+  0, exp_s#=
+  if exp_a#.&lt;^0.0 then ^0.0, exp_a#, .- exp_a#= 1, exp_s#=
+  exp_a#, (long) exp_n#= (double) exp_a#, swap .- exp_a#=
+  ^1.0, exp_r#=
+  for ii#=17 to 1 step -1
+    ii#, (double) tt#=
+    exp_r#, exp_a#, .* tt#, ./ ^1.0, .+ exp_r#=
+  next ii#
+math_exp0:
+  if exp_n#&lt;=0 goto math_exp1
+  exp_r#, ^2.718281828459, .* exp_r#=
+  exp_n#--
+  goto math_exp0
+math_exp1:
+  if exp_s#=1 then ^1.0, exp_r#, ./ exp_r#= 
+  exp_r#, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C6</ID>
+<x0>14</x0>
+<y0>234</y0>
+<width>100</width>
+<height>34</height>
+<codetext>// log関数
+math_log:
+  long log_a#,log_d#,log_r#,log_s#
+  log_a#=
+  0, log_s#=
+  if log_a#.&lt;=^0.0 then NaN, end
+  if log_a#.=^1.0 then ^0.0, end
+  if log_a#.&lt;^1.0 then ^1.0, log_a#, ./ log_a#= 1, log_s#=
+  log_a#, 0x10000000000000, / 0xfff, and 1023, - // 指数部を抜き出してeのべき数に正規化した値を初期値とする
+   (double)  ^0.69315, .* log_r#=                           // ニュートン法で解を求める
+math_log1:
+  log_r#, math_exp log_a#, swap ./ ^1.0, .- log_d#=
+  log_r#, log_d#, .+ log_r#=
+  if log_d#.&lt;^0.0 then ^0.0, log_d#, .- log_d#=
+  if log_d#.&gt;^0.0000000001 goto math_log1
+  if log_s#=1 then ^0.0, log_r#, .- log_r#=
+  log_r#, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C7</ID>
+<x0>14</x0>
+<y0>274</y0>
+<width>115</width>
+<height>34</height>
+<codetext>// random関数
+math_random:
+  long random_a#,random_v#
+  random_a#=
+  random_v#, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C8</ID>
+<x0>15</x0>
+<y0>320</y0>
+<width>115</width>
+<height>34</height>
+<codetext>// べき乗関数
+math_power:
+  long power_a1#,power_a2#
+  power_a2#= pop power_a1#=
+  power_a1#, math_log power_a2#, .* math_exp
+  end
+</codetext>
+</codeclip>
+</xobject>
 </xobject>

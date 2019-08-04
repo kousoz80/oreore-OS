@@ -2226,7 +2226,7 @@ func_mids:
   ",", checkToken
   eval_expression
   if TokenText$=','   then  getToken eval_expression gotofunc_midsx
-  MAX_STR_LENGTH, put_number
+  MAX_STR_LENGTH, (double) put_number
 func_midsx:
   ")", checkToken
   get_number (long) jj#=
@@ -2342,7 +2342,7 @@ func_inputs:
 
 
   // ファイルから指定文字数入力
-  if TokenText$<>',' goto func_inputs
+  if TokenText$<>',' goto func_inputs1
     getToken
     if TokenText$='#' then getToken
     eval_expression
@@ -3075,7 +3075,7 @@ eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 then  0, end
 
-  // 論理項は論理因子AND論理因子AND_1198219434.
+  // 論理項は論理因子AND論理因子AND_1614682108.
   getToken
   eval_relation
   eval_and
@@ -3096,7 +3096,7 @@ eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 then  0, end 
 
-  // 論理式は論理項OR論理項OR_1198219434.
+  // 論理式は論理項OR論理項OR_1614682108.
   getToken
   eval_lterm
   eval_or
@@ -3950,10 +3950,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _618961505_in
+ _1230328931_in
 
  end
-_618961505_in:
+_1230328931_in:
 // BASICを起動する
 start_basic:
 

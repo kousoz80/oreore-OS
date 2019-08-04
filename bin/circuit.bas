@@ -1,5 +1,6 @@
  ' Circuit Simulator
- xmax = 440: ymax = 200
+ xmax = 400: ymax = 200
+ color &hff00
  xlog = 1: xlin = 0: ylog = 1: ylin = 0: xstart = 1: stp = 1e+08
  dim dev$(100), amp(xmax), arg(xmax)
  open "circuit.txt" for input as #1
@@ -63,15 +64,20 @@
  next
  amax = amp(amaxp): amin = amp(aminp)
  cls
+ color &hffffff
  line(10,200)-(450,200):line(10,200)-(10,0)
- locate 0, 0
+ locate 0, 9
+ print "Circuit Simulation"
  print "ZERO = "; xstart;"  SPAN = "; stp; "  MAX = "; amax;"  MIN = "; amin
  line (10, 200 - 140 * (amp(0) - amin) / (amax - amin))-(10, 200 - 140 * (amp(0) - amin) / (amax - amin))
+ color &hff0000
  for x = 0 to xmax - 1 step 10
  line -(x + 10, 200 - 140 * (amp(x) - amin) / (amax - amin))
  next
+ color &hffffff
  line(10,130)-(450,130)
  line (10, 130 - 45 * arg(0) )-(10, 130 - 45 * arg(0) )
+ color &h00ff00
  for x = 0 to xmax - 1 step 10
  line -(x + 10, 130 - 45 * arg(x))
  next

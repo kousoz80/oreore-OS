@@ -1283,7 +1283,7 @@ cmd_close:
 
 // "cmd close:", prints nl
 
-  if TokenText$<>'#' goto cmd_close1
+  if TokenText$<>'#' goto file_close_all
     getToken
     TokenValue#, (long) nn#=
     if nn#<0 then "Out of Range", assertError
@@ -1293,7 +1293,7 @@ cmd_close:
     getToken
     DONE, end
 
-cmd_close1:
+file_close_all:
     for ii#=0 to MAX_FILES-1
       ii#, FILE_SIZE, * Xfp, + fp_adr#=
       if (fp_adr)#(FILE_FP/8)<>NULL then  fp_adr#, wclose NULL, (fp_adr)#(FILE_FP/8)=
@@ -1590,8 +1590,12 @@ cmd_input:
 cmd_input1:
       if TokenType#<>VARIABLE goto cmd_input2
       TokenText, 0, get_variable_value input_var#= pop vtype#=
-       sss, fp_adr#, finputs
+       sss, fp_adr#, finputs tt#=
+       if tt#=EOF then EOF, sss+0$= NULL, sss+1$=
        sss, strlen 1, + tt#=
+       
+//  "input#: char=", prints sss$, printd nl
+       
        if vtype#=STRING   then tt#, malloc (input_var)#= sss, swap strcpy
        if vtype#=NUMBER then sss, xval (input_var)#=
        goto cmd_input1
@@ -1739,7 +1743,7 @@ cmd_print6:
     if last_char#<>';' then  nl
     DONE, end
 
-// STOPコマンド
+// stopコマンド
 cmd_stop:
   1, BreakFlg#=
   DONE, end
@@ -1758,6 +1762,7 @@ cmd_run:
 // "cmd run:", prints nl
 
   cmd_clear               // 変数をクリア
+  file_close_all           // ファイルを全て閉じる
   ForStack#,      ForStackP#=      // FOR-NEXT用スタックをクリア
   GosubStack#, GosubStackP#=  // GOSUB-RETURN用スタックをクリア
   TopProg#, CurrentProg#=
@@ -1846,14 +1851,14 @@ cmd_load:
   TokenText, 1, load_basic
   TERMINATE, end
 
-// QUITコマンド
+// byeコマンド
 cmd_quit:
 
 // "cmd quit:", prints nl
 
   QUIT, end
 
-// ENDコマンド
+// endコマンド
 cmd_end:
 
 // "cmd end:", prints nl
@@ -1903,6 +1908,8 @@ cmd_pset:
   tt#, set_color
 cmd_pset1:
    xx#, yy#, xdraw_point
+   xx#, draw_x1#=
+   yy#, draw_y1#=
    DONE, end
 
 // lineコマンド
@@ -1941,6 +1948,8 @@ cmd_line1:
 
 cmd_line2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_line
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
   DONE, end
 
 // boxコマンド
@@ -1978,6 +1987,8 @@ cmd_box1:
 
 cmd_box2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_rect
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
   DONE, end
 
 // boxfコマンド
@@ -2015,8 +2026,9 @@ cmd_boxf1:
 
 cmd_boxf2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, xfill_rect
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
   DONE, end
-  end
 
 // circleコマンド
 cmd_circle:
@@ -2053,8 +2065,10 @@ cmd_circle1:
 
 cmd_circle2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_circle
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
   DONE, end
-  end
+
 
 
 // circlefコマンド
@@ -2092,8 +2106,9 @@ cmd_circlef1:
 
 cmd_circlef2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, fill_circle
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
   DONE, end
-  end
 
 // imageコマンド
 cmd_image:
@@ -2880,7 +2895,10 @@ eval_atom:
 
 //    "variable:", prints nl
   
+    sign#, PUSH
     TokenText, 1, get_variable_value val#= pop typ#=
+    POP sign#=
+
     if typ#<>STRING goto eval_atom5_1
     (val)#, put_string
     if sign#<>0 then "Type Mismatch",  assertError
@@ -3207,8 +3225,16 @@ get_variable_value:
   // 配列変数の場合
   getToken
   "(", checkToken
+
+  xvar#,   PUSH
+  xtype#, PUSH
+  dims#,   PUSH
   eval_expression
-  get_number index#=
+  POP dims#=
+  POP xtype#=
+  POP xvar#=
+
+  get_number (long) index#=
   xvar#, ->Variable.dim xdim#=
   if index#<0 then "array range is over", assertError
   if index#>(xdim)#(0) then  "array range is over", assertError
@@ -3216,7 +3242,22 @@ get_variable_value:
 get_variable_value1:
   if vii#>=dims# goto get_variable_value2
   ",",  checkToken
-  eval_expression get_number xx#=
+
+  index#, PUSH
+  xdim#,  PUSH
+  vii#,      PUSH
+  xvar#,   PUSH
+  xtype#, PUSH
+  dims#,   PUSH
+  eval_expression
+  POP dims#=
+  POP xtype#=
+  POP xvar#=
+  POP vii#=
+  POP xdim#=
+  POP index#=
+
+  get_number (long) xx#=
   if xx#<0 then "array range is over", assertError
   if xx#>(xdim)#(vii#) then "array range is over", assertError
   index#, (xdim)#(vii#), * xx#, + index#=

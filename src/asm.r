@@ -11,7 +11,7 @@ main:
 
  // ファイル名・オプション設定
  NULL,  in_fname#= out_fname#=
- 0x410000, start_adrs#=
+ 0x4a3000, start_adrs#=
  0, blist#=
  if argc#<2 then " command input error", prints nl end
  for i#=2 to argc#
@@ -310,6 +310,9 @@ ext_statement:
        // 先頭が "\'" 
        if (num)$=A_QUOT then (num)$(1), v#= gotoserch_next
 
+       // 先頭が "^" 
+       if (num)$='^' then num#, 1, + xval v#= gotoserch_next
+
        // 先頭が"0"
        if (num)$<>'0' goto decimal
        if (num)$(1)='b' then num#, 2, + 2,   atoi v#= gotoserch_next // 2進数
@@ -551,6 +554,14 @@ symbols:
  data "cl",1,25
  data "dl",2,25
  data "bl",3,25
+ data "xmm0",0,27
+ data "xmm1",1,27
+ data "xmm2",2,27
+ data "xmm3",3,27
+ data "xmm4",4,27
+ data "xmm5",5,27
+ data "xmm6",6,27
+ data "xmm7",7,27
  data NULL
 
 // 命令定義データ
@@ -611,6 +622,18 @@ def_ins:
  data END
  data "jge \0464",NORMAL,6
  data 15,141,0,0,0,0,32,16
+ data END
+ data "ja \0464",NORMAL,6
+ data 15,135,0,0,0,0,32,16
+ data END
+ data "jae \0464",NORMAL,6
+ data 15,131,0,0,0,0,32,16
+ data END
+ data "jb \0464",NORMAL,6
+ data 15,130,0,0,0,0,32,16
+ data END
+ data "jbe \0464",NORMAL,6
+ data 15,134,0,0,0,0,32,16
  data END
  data "shl \1703",NORMAL,3
  data 72,209,224,3,16,END
@@ -676,6 +699,33 @@ def_ins:
  data 102,255,200,3,16,END
  data "\2503--",NORMAL,2
  data 254,200,3,8,END
+ data "\2703.+=\2703",NORMAL,4
+ data 242,15,88,192,3,27,3,24
+ data END
+ data "\2703.-=\2703",NORMAL,4
+ data 242,15,92,192,3,27,3,24
+ data END
+ data "\2703.*=\2703",NORMAL,4
+ data 242,15,89,192,3,27,3,24
+ data END
+ data "\2703./=\2703",NORMAL,4
+ data 242,15,94,192,3,27,3,24
+ data END
+ data "\2703=sqrt(\2703)",NORMAL,4
+ data 242,15,81,192,3,27,3,24
+ data END
+ data "\2703.-\2703",NORMAL,4
+ data 102,15,47,192,3,27,3,24
+ data END
+ data "\2703=(double)\1703",NORMAL,5
+ data 242,72,15,42,192,3,35,3
+ data 32,END
+ data "\1703=(_long)\2703",NORMAL,5
+ data 242,72,15,44,192,3,35,3
+ data 32,END
+ data "\1703=(long)\2703",NORMAL,5
+ data 242,72,15,45,192,3,35,3
+ data 32,END
  data "exg rax,\1703",NORMAL,2
  data 72,144,3,8,END
  data "exg \1703,rax",NORMAL,2
@@ -808,6 +858,12 @@ def_ins:
  data 138,0,3,11,3,8,END
  data "(\1703)=\2503",NORMAL,2
  data 136,0,3,8,3,11,END
+ data "\2703=\1703",NORMAL,5
+ data 102,72,15,110,192,3,35,3
+ data 32,END
+ data "\1703=\2703",NORMAL,5
+ data 102,72,15,126,192,3,32,3
+ data 35,END
  data "\1703=\1703",NORMAL,3
  data 72,137,192,3,16,3,19,END
  data "\1903=\1903",NORMAL,3

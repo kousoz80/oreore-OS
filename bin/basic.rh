@@ -1,0 +1,238 @@
+// Oregengo-Rコンパイラ oreore-Basic用ライブラリ 
+
+// 作業変数
+ long  __stack_save# // スタックポインタ退避用
+
+// BASIC用作業変数
+ char  __sbuf$(1024),__sbuf2$(1024)
+ long __index#
+ count __tmp0#,__tmp1#,__tmp2#,__tmp3#
+ count __tmp4#,__tmp5#,__tmp6#,__tmp7#
+ long __arg0#,__arg1#,__arg2#,__arg3#
+ long __arg4#,__arg5#,__arg6#,__arg7#
+ long __xx#,__yy#,__draw_x1#,__draw_y1#,__draw_x2#,__draw_y2#
+ long __p0#,__p1#,__p2#,__p3#,__p4#,__p5#,__p6#,__p7#
+
+// ファイルハンドル配列
+ long Xfd#(16)
+ 
+// 計算データ構造体
+ struct CalData
+   long type#
+   long data#
+ end
+ const NUMBER     1
+ const STRING     2
+ long   CalcStack#(1024)
+ long   CalcStackP#
+
+// 計算スタックを初期化する
+clear_value:
+
+// 計算スタックに入っている値を全て取り出す
+clear_value1:
+  if CalcStackP#<=CalcStack goto clear_value2
+  CalcStackP#, CalData.SIZE, - CalcStackP#=
+  CalcStackP#, ->CalData.type# __p1#=
+  if __p1#=STRING then CalcStackP#, ->CalData.data# free
+  goto clear_value1
+clear_value2:
+  CalcStack, CalcStackP#=
+  end
+
+
+// 現在の計算スタックをチェックして整合がとれていなかったらエラーを発生させる
+check_value:
+  if CalcStackP#<>CalcStack then "Illegal expression", prints nl break
+  end
+
+
+// 現在の計算スタックの値の型を返す、スタックに値が入っていない場合は0を返す
+value_type:
+  if CalcStackP#=CalcStack then 0, end
+  CalcStackP#, CalData.SIZE, - __p1#=
+  __p1#, ->CalData.type# end
+
+
+// 数値をスタックに置く
+put_number:
+  __p3#=
+  NUMBER, CalcStackP#, ->CalData.type#=
+  __p3#,     CalcStackP#, ->CalData.data#=
+  CalcStackP#, CalData.SIZE, + CalcStackP#=
+  end
+
+
+// 文字列をスタックに置く
+put_string:
+  __p3#= strlen 2, + malloc __p4#=
+  __p3#, __p4#, strcpy
+  STRING,   CalcStackP#, ->CalData.type#=
+  __p4#,     CalcStackP#, ->CalData.data#=
+  CalcStackP#, CalData.SIZE, + CalcStackP#=
+  end
+
+
+// 数値、文字列をスタックから取りこむ
+get_number:
+get_string:
+  __p1#=  pop __p2#=  pop __p3#=
+  CalcStackP#, CalData.SIZE, - CalcStackP#=
+  __p3#, __p2#, __p1#, CalcStackP#, ->CalData.data# end
+
+
+// Basic メインプログラムのスタートアップ処理
+main:
+  __stack_p#, __stack_save#=
+  for __tmp1#=0 to 15
+  ERROR, Xfd#(__tmp1#)=
+  next __tmp1#
+  CalcStack, CalcStackP#=
+  0xffffff, xcolor#=
+  BasicMain
+  end
+
+
+// プログラムを強制終了する 
+break:
+  __stack_save#, __stack_p#=
+  end
+
+
+// Basic専用関数 
+
+
+// abs関数 
+bas_abs:
+  if __arg0#.<^0.0 then ^0.0, __arg0#, .- __arg0#=
+  __arg0#, end
+
+
+// sgn関数 
+bas_sgn:
+  if __arg0#.<^0.0 then ^-1.0, end
+  if __arg0#.>^0.0 then ^1.0,  end
+  ^0.0, end
+
+
+// mid$関数 
+bas_mids:
+  __arg1#, (long) __arg1#=
+  __arg2#, (long) __arg2#=
+  __arg1#, 1, - __tmp1#=
+  __sbuf, __tmp2#=
+  __arg0#, __tmp1#, + __tmp1#= 
+  __arg2#, __tmp1#, + __tmp3#=
+bas_mids1:
+  if __tmp1#>=__tmp3# goto bas_mids2
+  if (__tmp1)$=0 goto bas_mids2
+  (__tmp1)$, (__tmp2)$=
+  __tmp1#++
+  __tmp2#++
+  goto bas_mids1
+bas_mids2:
+  0, (__tmp2)$=
+  __arg0#, free
+  __sbuf, end
+
+
+// left$関数 
+bas_lefts:
+  __arg1#, (long) __arg1#=
+  __arg0#, __tmp1#=
+  __sbuf, __tmp2#=
+  __arg1#, __tmp1#, + __tmp3#=
+bas_lefts1:
+  if __tmp1#>=__tmp3# goto bas_lefts2
+  if (__tmp1)$=0 goto bas_lefts2
+  (__tmp1)$, (__tmp2)$=
+  __tmp1#++
+  __tmp2#++
+  goto bas_lefts1
+bas_lefts2:
+  0, (__tmp2)$=
+  __arg0#, free
+  __sbuf, end
+
+
+// right$関数 
+bas_rights:
+  __arg1#, (long) __arg1#=
+  __arg0#, strlen __arg1#, - __tmp1#=
+   if __tmp1#<0 then 0, __tmp1#=
+  __arg0#, __tmp1#, + __tmp1#=
+  __sbuf, __tmp2#=
+bas_rights1:
+  if (__tmp1)$=0 goto bas_rights2
+  (__tmp1)$, (__tmp2)$=
+  __tmp1#++
+  __tmp2#++
+  goto bas_rights1
+bas_rights2:
+  0, (__tmp2)$=
+  __arg0#, free
+  __sbuf, end
+
+
+// val関数 
+bas_val:
+  __arg0#, xval
+  end
+
+
+// input$関数(Console) 
+bas_inputs:
+  __arg0#, (long) __arg0#=
+  0, __tmp1#=
+bas_inputs1:
+  if __tmp1#>=__arg0# goto bas_inputs2
+  getchar __sbuf$(__tmp1#)=
+  __tmp1#++
+  goto bas_inputs1
+bas_inputs2:
+  0, __sbuf$(__tmp1#)=
+  __sbuf, end
+
+
+// input$関数(File) 
+bas_finputs:
+  __arg0#, (long) __arg0#=
+  __arg1#, (long) __arg1#=
+  __arg1#, __tmp1#=
+  0, __tmp2#=
+bas_finputs1:
+  if __tmp2#>=__arg0# goto bas_finputs2
+  Xfd#(__tmp1#), getc __tmp3#=
+  if __tmp3#<0 goto bas_finputs2
+  __tmp3#, __sbuf$(__tmp2#)=
+  __tmp2#++
+  goto bas_finputs1
+bas_finputs2:
+  0, __sbuf$(__tmp2#)=
+  __sbuf, end
+
+
+// inkey$関数 
+bas_inkeys:
+  getch __sbuf$(0)=
+  0, __sbuf$(1)=
+  __sbuf, end
+
+
+// instr関数 
+bas_instr:
+  __arg2#, (long) __arg2#=
+  __arg0#, __arg2#, + 1, - __arg1#, strstr __tmp1#=
+  if __tmp1#<>NULL then __tmp1#, __arg0#, - 1, + __tmp1#=
+  __arg0#, free
+  __arg1#, free
+  __tmp1#, (double) end
+
+
+// point関数
+bas_point:
+  __arg0#, (long) __arg0#=
+  __arg1#, (long) __arg1#=
+  __arg0#, __arg1#, xget_point
+  (double) end
+

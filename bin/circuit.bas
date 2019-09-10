@@ -19,7 +19,7 @@
 @L180:
  'loop0:
  input #1,aa$
- if asc(aa$)=255 then @L240
+ if aa$="end" then @L240
  dev$(n)=aa$
  dev$(n) = dev$(n) + "  "
  n = n + 1
@@ -29,7 +29,7 @@
  close
  if n = 0 then @L780'errend
  print "DEVICES = ";n
- amax = 0: amaxp = 0: amin = 1e+30: aminp = 0
+ amax = 0: amaxp = 0: amin = 1e30: aminp = 0
  for x = 0 to xmax - 1 step 10
  flin = xstart + (stp - xstart) * x / xmax
  flog = xstart * exp(log(stp / xstart) * x / xmax)
@@ -54,14 +54,14 @@
  s0 = c0 * x0 - c1 * x1 + d0 * y0 - d1 * y1
  s1 = c0 * x1 + c1 * x0 + d0 * y1 + d1 * y0
  a0 = p0: a1 = p1: b0 = q0: b1 = q1: c0 = r0: c1 = r1: d0 = s0: d1 = s1
- next
+ next i
  ap = 1 / sqr(a0 * a0 + a1 * a1)
  ag = -atn(a1 / a0)
  amp(x) = ylin * ap + ylog * 20 * log(ap) / log(10)
  arg(x) = ag
  if ap > amax then amax = ap: amaxp = x
  if ap < amin then amin = ap: aminp = x
- next
+ next x
  amax = amp(amaxp): amin = amp(aminp)
  cls
  color &hffffff
@@ -73,14 +73,14 @@
  color &hff0000
  for x = 0 to xmax - 1 step 10
  line -(x + 10, 200 - 140 * (amp(x) - amin) / (amax - amin))
- next
+ next x
  color &hffffff
  line(10,130)-(450,130)
  line (10, 130 - 45 * arg(0) )-(10, 130 - 45 * arg(0) )
  color &h00ff00
  for x = 0 to xmax - 1 step 10
  line -(x + 10, 130 - 45 * arg(x))
- next
+ next x
  print "HIT ANY KEY TO EXIT";:xx$ = input$(1)
  cls:end
  '

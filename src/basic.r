@@ -1,6 +1,6 @@
-//  oreore Basic ver 0.02
+//  oreore Basic ver 0.03
 // oreore-OS上で動作するBASICインタプリタ
-// (実数対応バージョン)
+// (コンパイラ対応バージョン)
 
 // プログラム構造体
  struct Program
@@ -108,7 +108,9 @@ Command:
   data "stop",cmd_stop
   data "cont",cmd_cont
   data "color",cmd_color
-//  data "make",cmd_make
+  data "make",cmd_make
+  data "then",cmd_then
+  data "else",cmd_else
   data NULL,NULL
 
 Function:
@@ -131,12 +133,16 @@ Function:
   data "inkey$",func_inkeys
 //  data "eof",func_eof
   data "str$",func_strs
+  data "hex$",func_hexs
+  data "bin$",func_bins
+  data "oct$",func_octs
   data "val",func_val
   data "len",func_len
   data "time$",func_times
   data "date$",func_dates
     data "instr",func_instr
   data "rnd",func_rnd
+  data "point",func_point
 //  data "netstat",func_netstat
   data NULL,NULL
 
@@ -326,7 +332,12 @@ assertError:
  mesg#=
  
 // "assert error:", prints nl
+// "current prog=", prints CurrentProg#, hex prints nl
  
+  // コンパイル出力ファイルが開いていたら閉じておく
+  // xxxclose
+  0, IsPass1#=
+  
   StackSave#, __stack_p#=
   CurrentProg#, ->Program.lineno# tt#=
   if tt#<=0 then  mesg#, prints nl gotobasic_entry
@@ -621,642 +632,6 @@ is_symbol_char1:
   .data
 EOF_STRING:
   data 255
-
-// 画像操作関数
-
-
-// 作業変数
- long xcolor#,xwidth#,xheight#,bitmap#
- count ix#,iy#
- long px#,py#,gx#,gy#,gx1#,gy1#
- long tx#,ty#,rx#,ry#,ox#,oy#,vx#,vy#
- long vx1#,vy1#,qx#,qy#,co#
-
-// 点を打つ
-xdraw_point:
-  py#= pop px#=
-  if xcolor#=COLOR_CLEAR then end
-  py#, xwidth#, * px#, +
-  4, * bitmap#, + pp#=
-  xcolor#, (pp)!=
-  end
-
-
-// 与えられた座標の色を返す
-xget_point:
-  py#= pop px#=
-  py#, xwidth#, * px#, +
-  4, * bitmap#, + pp#=
-  (pp)!,  end
-
-  
-// 線を引く
-// 使用法: gx, gy, gx1, gy1, xdraw_line
-xdraw_line:
-  gy1#= pop gx1#= pop gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
-
-xline:
-  gx#, gx1#, - tx#= abs rx#=
-  gy#, gy1#, - ty#= abs ry#=
-  if ry#>rx# goto xline_y
-  if gx#=gx1# then gx#, gy#, xdraw_point end
-  
-  // モードX
-  xline_x:
-    1, rx#=
-    if tx#<0  then -1, rx#=
-    for ix#=0 to tx# step rx#
-      ix#, ty#,  * tx#, / gy1#, + ry#=
-      ix#, gx1#, + ry#, xdraw_point
-    next ix#
-    end
-    
-  xline_y: /* モード　ｙ */
-    1, ry#=
-    if ty#<0  then -1, ry#=
-    for iy#=0 to ty# step ry#
-      iy#, tx#,  * ty#, / gx1#, + rx#=
-      iy#, gy1#, + rx#, swap xdraw_point
-    next iy#
-    end
-    
-// 画像を消去
-xgcls:
-  xwidth#,  xheight#, * 1, + tt#=
-  for ii#=2 to tt#
-    xcolor#, (bitmap)!(ii#)=
-  next ii#
-  end
-
-// 長方形を描いてうめる
-// 使用法: gx, gy, gx1, gy1, xfill_rect
-xfill_rect: 
-  gy1#= pop gx1#= pop gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
-
-  1, rx#= ry#=
-  if gy#<gy1# then -1, ry#=
-  if gx#<gx1# then -1, rx#=
-  for iy#=gy1# to gy# step ry#
-    for ix#=gx1# to gx# step rx#
-      ix#,  iy#, xdraw_point
-    next ix#
-  next iy#
-  end
-
-// 長方形を描く
-// 使用法: gx, gy, gx1, gy1, xdraw_rect
-xdraw_rect: 
-  gy1#= pop gx1#= pop gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
-  1, rx#= ry#=
-  if gy#<gy1# then -1, ry#=
-  if gx#<gx1# then -1, rx#=
-  for ix#=gx1# to gx# step rx#
-    ix#, gy#,  xdraw_point
-    ix#, gy1#, xdraw_point
-  next ix#
-  for iy#=gy1# to gy# step ry#
-    gx#,  iy#, xdraw_point
-    gx1#, iy#, xdraw_point
-  next iy#
-  end
-  
-// 楕円を描いてうめる
-// 使用法: gx, gy, gx1, gy1, xfill_circle
-xfill_circle:
-  xdraw_circle
-  ox1#, oy1#, xpaint
-  end
-
-// 楕円を描く
-// 使用法: gx, gy, gx1, gy1, xdraw_circle
-xdraw_circle:
-  long ox1#,oy1#
-  gy1#= pop gx1#= pop gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
-  gx#,  vx#=  gy#,  vy#=
-  gx1#, vx1#= gy1#, vy1#=
-  if gx1#>gx# then gx1#, gx#, swap gx#= swap gx1#=
-  if gy1#>gy# then gy1#, gy#, swap gy#= swap gy1#=
-  gx#, gx1#, + 2, / ox1#=
-  gy#, gy1#, + 2, / oy1#=
-  gx#, gx1#, - 2, / qx#=
-  if qx#=0 then xline end
-  gy#, gy1#, - 2, / qy#=
-  if qy#=0 then xline end
-  gx#, gx1#=  oy1#, gy1#=
-  for ii#=0 to TABLE_N
-    qx#, cos2table#(ii#), * 32767, / ox1#, + gx#=
-    qy#, sin2table#(ii#), * 32767, / oy1#, + gy#=
-    xline
-    gx#, gx1#= gy#, gy1#=
-  next ii#
-  end
-
-
-// 塗る
-xpaint:
-  const Q_SIZE   4096
-  long   q_buf#(Q_SIZE)
-  long   put_p#,get_p#
-  
-  gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
-  0, put_p#= get_p#=
-  gx#, gy#, xget_point co#=
-  if co#=xcolor# then end
-  gx#, gy#, xput_pset
-
-  xpaint1:  // うった点の座標を求める
-    if get_p#=put_p# then end
-    q_buf#(get_p#), vx#=   get_p#++
-    q_buf#(get_p#), vy#=   get_p#++
-    if get_p#>=Q_SIZE then 0, get_p#=
-
-    // うった点の四方にまた点をうつ
-    vx#, 1, + vy#, xput_pset
-    vx#, 1,  - vy#, xput_pset
-    vy#, 1, + vx#, swap xput_pset
-    vy#, 1,  -  vx#, swap xput_pset
-  goto xpaint1
-  
-  //  点をうってその座標を記録する
-  xput_pset:
-    qy#= pop qx#=
-    if qx#<0     then end  // 範囲外ならしない
-    if qx#>=xwidth#  then end
-    if qy#<0     then end
-    if qy#>=xheight# then end
-    qx#, qy#, xget_point co#=
-    if co#=xcolor# then end // すでに点がうってあるときもしない
-    qx#, qy#, xdraw_point
-    qx#, q_buf#(put_p#)=  put_p#++
-    qy#, q_buf#(put_p#)=  put_p#++
-    if put_p#>=Q_SIZE then 0, put_p#=
-    end
-
-
-// 画像を描画
-// 使用法: gx, gy, address, xdraw_image
-xdraw_image:
-  qq#= pop gy#= pop gx#=
-  if qq#=NULL then end
-  (qq)!, rx#=
-  if rx#<0 then end
-  if rx#>=xwidth# then end
-  qq#, 4, + qq#=
-  (qq)!, ry#=
-  if ry#<0 then end
-  if ry#>=xheight# then end
-  qq#, 4, + qq#=
-  gx#, rx#, + 1, - gx1#=
-  gy#, ry#, + 1, - gy1#=
-  for ii#=gy# to gy1#
-    for jj#=gx# to gx1#
-      ii#, xwidth#, * jj#, +
-      4, * bitmap#, + pp#=
-      if (qq)$(3)=0 then (qq)!, (pp)!=
-      qq#, 4, + qq#=
-    next jj#
-  next ii#
-  jj#, ii#, end
-    
-
-// コピーエリアに画像をコピー
-// 使用法: gx, gy, gx1, gy1, xcopy_image
-xcopy_image:
-  gy1#= pop gx1#= pop gy#= pop gx#=
-  if gx1#>=xwidth#  then xwidth#,  1, - gx1#= 
-  if gy1#>=xheight# then xheight#, 1, - gy1#= 
-  copy_area#, qq#=
-  gx1#, gx#, - 1, + (qq)!=
-  qq#, 4, + qq#=
-  gy1#, gy#, - 1, + (qq)!=
-  qq#, 4, + qq#=
-  for ii#=gy# to gy1#
-    for jj#=gx# to gx1#
-      ii#, xwidth#, * jj#, +
-      4, * bitmap#, + pp#=
-      (pp)!, (qq)!=
-      qq#, 4, + qq#=
-    next jj#
-  next ii#
-  end
-
-
-// コピーエリアから貼り付ける
-// 使用法: gx, gy, xpaste_image
-xpaste_image:
-  copy_area#, xdraw_image
-  end
-    
-
-  
-// 文字列描画
-xdraw_string:
-  long dsx#,dsy#,dsw#,dss#,dsr#
-  dss#= pop dsw#= pop dsy#= pop dsx#=
-  if xcolor#=COLOR_CLEAR then end
-  dsx#, dsw#, + FONT_WIDTH, - dsw#=
-  xdraw_string1:
-    if (dss)$=NULL then end
-    dsx#, dsy#, (dss)$, xdraw_font dsr#=
-    dsx#, FONT_WIDTH, + dsx#=
-    dss#++
-  if dsx#<dsw# goto xdraw_string1
-  dsr#, end
-
-
-// 1文字描画
-xdraw_font:
-  pp#= pop ty#= pop tx#=
-  pp#, FONT_WIDTH, * FONT_HEIGHT, * font_area#, + qq#=
-  tx#, FONT_WIDTH-1,  + rx#=
-  ty#, FONT_HEIGHT-1, + ry#=
-  for ii#=ty# to ry#
-     for jj#=tx# to rx#
-        if (qq)$<>0 then jj#, ii#, xdraw_point
-        qq#++
-     next jj#
-  next ii#
-  ii#, end
-
-
- .data
-
-// 三角関数テーブル
-  const TABLE_N 256 // 区分点 （全データ数＝３２１）
-sin2table: // ｆ（ｘ）＝３２７６７＊ｓｉｎ（ｘ）
-  data 0,804,1607,2410
-  data 3211,4011,4807,5601
-  data 6392,7179,7961,8739
-  data 9511,10278,11038,11792
-  data 12539,13278,14009,14732
-  data 15446,16150,16845,17530
-  data 18204,18867,19519,20159
-  data 20787,21402,22004,22594
-  data 23169,23731,24278,24811
-  data 25329,25831,26318,26789
-  data 27244,27683,28105,28510
-  data 28897,29268,29621,29955
-  data 30272,30571,30851,31113
-  data 31356,31580,31785,31970
-  data 32137,32284,32412,32520
-  data 32609,32678,32727,32757
-cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
-  data 32767,32757,32727,32678
-  data 32609,32520,32412,32284
-  data 32137,31970,31785,31580
-  data 31356,31113,30851,30571
-  data 30272,29955,29621,29268
-  data 28897,28510,28105,27683
-  data 27244,26789,26318,25831
-  data 25329,24811,24278,23731
-  data 23169,22594,22004,21402
-  data 20787,20159,19519,18867
-  data 18204,17530,16845,16150
-  data 15446,14732,14009,13278
-  data 12539,11792,11038,10278
-  data 9511,8739,7961,7179
-  data 6392,5601,4807,4011
-  data 3211,2410,1607,804
-  data 0,-805,-1608,-2411
-  data -3212,-4012,-4808,-5602
-  data -6393,-7180,-7962,-8740
-  data -9512,-10279,-11039,-11793
-  data -12540,-13279,-14010,-14733
-  data -15447,-16151,-16846,-17531
-  data -18205,-18868,-19520,-20160
-  data -20788,-21403,-22005,-22595
-  data -23170,-23732,-24279,-24812
-  data -25330,-25832,-26319,-26790
-  data -27245,-27684,-28106,-28511
-  data -28898,-29269,-29622,-29956
-  data -30273,-30572,-30852,-31114
-  data -31357,-31581,-31786,-31971
-  data -32138,-32285,-32413,-32521
-  data -32610,-32679,-32728,-32758
-  data -32767,-32758,-32728,-32679
-  data -32610,-32521,-32413,-32285
-  data -32138,-31971,-31786,-31581
-  data -31357,-31114,-30852,-30572
-  data -30273,-29956,-29622,-29269
-  data -28898,-28511,-28106,-27684
-  data -27245,-26790,-26319,-25832
-  data -25330,-24812,-24279,-23732
-  data -23170,-22595,-22005,-21403
-  data -20788,-20160,-19520,-18868
-  data -18205,-17531,-16846,-16151
-  data -15447,-14733,-14010,-13279
-  data -12540,-11793,-11039,-10279
-  data -9512,-8740,-7962,-7180
-  data -6393,-5602,-4808,-4012
-  data -3212,-2411,-1608,-805
-  data -1,804,1607,2410
-  data 3211,4011,4807,5601
-  data 6392,7179,7961,8739
-  data 9511,10278,11038,11792
-  data 12539,13278,14009,14732
-  data 15446,16150,16845,17530
-  data 18204,18867,19519,20159
-  data 20787,21402,22004,22594
-  data 23169,23731,24278,24811
-  data 25329,25831,26318,26789
-  data 27244,27683,28105,28510
-  data 28897,29268,29621,29955
-  data 30272,30571,30851,31113
-  data 31356,31580,31785,31970
-  data 32137,32284,32412,32520
-  data 32609,32678,32727,32757
-  data 32767,32757,32727,32678
-  data 32609,32520,32412,32284
-  data 32137,31970,31785,31580
-
-// 数値を文字列に変換する
-xstr:
-  long real_a#,real_d#,real_p#
-  long exp_val#,exp_max#,exp_min#,exp_pres#,exp_count#
-  char real_buf$(32),chr_buf$(8)
-
-  real_a#=
-  
-//  "xstr:", prints nl
-  
-
-  ^1e5, exp_max#=
-  ^0.0001, exp_min#=
-  ^0.0000000001, exp_pres#=
- 0, exp_count#=
-  NULL, real_buf$=
-  real_buf, real_p#=
-  ^1.0, exp_val#=
-  
-//  "xstr0:", prints nl
-  
-  if real_a#.=^0.0 then "0", end
-  if real_a#.<^0.0 then ^0.0, real_a#, .- real_a#= "-", put_real_buf
-
-//  "xstr1:", prints nl
-
-  if real_a#.>exp_max# goto real1_0
-  if real_a#.<exp_min#  goto real2_0
-
-
-//  指数表示でない場合
-
-// "no exp:", prints nl
-
-real0:
-  exp_val#, ^10.0, .* exp_val#=
-  if exp_val#.<=real_a# goto real0
-  exp_val#, ^10.0, ./ exp_val#=
-
-real1:
-  if exp_val#.>^0.2   goto real2
-  if exp_val#.<^0.02 goto real2
-  ".", put_real_buf
-real2:
-  real_a#, exp_val#, ./  (long) real_d#=
-  '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
-  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
-  exp_val#, ^10.0, ./ exp_val#=
-  if exp_val#.>=^1.0 goto real1
-  if real_a#.>exp_pres# goto real1
-
-// "xstr end", prints nl
-
-  real_buf, end
-
-//   指数表示(+)
-real1_0:
-
-// "exp+:", prints nl
-
-real1_01:
-
-  exp_val#, ^10.0, .* exp_val#=
-  exp_count#++
-  if exp_val#.<=real_a# goto real1_01
-  exp_val#, ^10.0, ./ exp_val#=
-  exp_count#--
-  real_a#, exp_val#, ./ real_a#=
-  ^1.0, exp_val#=
-real1_1:
-  if exp_val#.>^0.2   goto real1_2
-  if exp_val#.<^0.02 goto real1_2
-  ".", put_real_buf
-real1_2:
-  real_a#, exp_val#, ./  (long) real_d#=
-  '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
-  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
-  exp_val#, ^10.0, ./ exp_val#=
-  if real_a#.>exp_pres# goto real1_1
-  "e+", put_real_buf
-  exp_count#, dec put_real_buf
-
-// "xstr end", prints nl
-
-  real_buf, end
-
-//   指数表示(-)
-real2_0:
-
-// "exp-:", prints nl
-
-real2_01:
-  exp_val#, ^10.0, ./ exp_val#=
-  exp_count#--
-  if exp_val#.>real_a# goto real2_01
-  real_a#, exp_val#, ./ real_a#=
-  ^1.0, exp_val#=
-real2_1:
-  if exp_val#.>^0.2   goto real2_2
-  if exp_val#.<^0.02 goto real2_2
-  ".", put_real_buf
-real2_2:
-  real_a#, exp_val#, ./  (long) real_d#=
-  '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
-  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
-  exp_val#, ^10.0, ./ exp_val#=
-  if real_a#.>exp_pres# goto real2_1
-  "e", put_real_buf
-  exp_count#, dec put_real_buf
-
-// "xstr end", prints nl
-
-  real_buf, end
-
-// バッファに文字列を追加する
-put_real_buf:
-  tt#= real_buf, strcat
-  
-//  "put_real_buf:", prints nl 
-  
-  tt#, strlen real_p#, + real_p#=
-  
-//  "put_real_buf end:", prints nl 
-  
-  end
-
-// 文字列を数値に変換する
-xval:
-  long xval_p#,xval_sign#,xval_x#,xval_exp#,xval_exp_sign#,xval_d#,xval_order#
-  long xval_state#
-  enum
-    XVAL_SIGN
-    XVAL_INTEGER
-    XVAL_FRAC
-    XVAL_EXP_SIGN
-    XVAL_EXP
-    XVAL_OCT
-    XVAL_HEX
-    XVAL_BIN
-    XVAL_OTHER
-  end
-  
-  xval_p#=
-  ^1.0, xval_sign#= 
-  ^0.0, xval_x#=
-  ^0.1, xval_order#=
-  1, xval_exp_sign#=
-  0, xval_exp#=
-  XVAL_SIGN, xval_state#=
-xval0:
-  (xval_p)$, xval_d#=
-
-// 符号入力状態
-xval1:
-  if xval_state#<>XVAL_SIGN goto xval2
-  if xval_d#='+' goto xval_next
-  if xval_d#='-' then xval_sign#, ^-1.0, .* xval_sign#= gotoxval_next
-  if xval_d#='&' then XVAL_OCT,   xval_state#= gotoxval_next
-  if xval_d#='.'   then XVAL_FRAC, xval_state#= gotoxval_next
-  XVAL_INTEGER, xval_state#=
-  if xval_d#>='0' then if xval_d#<='9' goto xval2
-  goto xval_error
-
-// 整数入力状態
-xval2:
-  if xval_state#<>XVAL_INTEGER goto xval3
-  if xval_d#='.' then XVAL_FRAC, xval_state#= gotoxval_next
-  if xval_d#='e' then XVAL_EXP_SIGN, xval_state#= gotoxval_next
-  if xval_d#<'0' goto xval_end
-  if xval_d#>'9' goto xval_end
-  xval_d#, '0', - (double) tt#=
-  xval_x#, ^10.0, .* tt#, .+ xval_x#=
-  goto xval_next
-
-// 小数入力状態
-xval3:
-  if xval_state#<>XVAL_FRAC goto xval4
-  if xval_d#='e' then XVAL_EXP_SIGN, xval_state#= gotoxval_next
-  if xval_d#='E' then XVAL_EXP_SIGN, xval_state#= gotoxval_next
-  if xval_d#<'0' goto xval_end
-  if xval_d#>'9' goto xval_end
-  xval_d#,  '0', - (double)  xval_order#, .*
-  xval_x#, .+ xval_x#=
-  xval_order#, ^10.0, ./ xval_order#=
-  goto xval_next
-
-// 指数符号入力状態
-xval4:
-  if xval_state#<>XVAL_EXP_SIGN goto xval5
-  if xval_d#='+' goto xval_next
-  if xval_d#='-' then xval_exp_sign#, -1, * xval_exp_sign#= gotoxval_next
-  XVAL_EXP, xval_state#=
-  if xval_d#>='0' then if xval_d#<='9' goto xval5
-  goto xval_error
-
-// 指数入力状態
-xval5:
-  if xval_state#<>XVAL_EXP goto xval6
-  if xval_d#<'0' goto xval5_0
-  if xval_d#>'9' goto xval5_0
-  xval_d#, '0', - tt#=
-  xval_exp#, 10, * tt#, + xval_exp#=
-  goto xval_next
-
-// 指数がプラスで終了
-xval5_0:
-  if xval_x#.=^0.0 goto xval_end
-  if xval_exp#=0 goto xval_end
-  if xval_exp_sign#<0 goto xval5_1
-  if xval_exp#>=40 goto xval_error
-  for ii#=1 to xval_exp#
-     xval_x#, ^10.0, .* xval_x#=
-  next ii#
-  goto xval_end
-
-// 指数がマイナスで終了
-xval5_1:
-  if xval_exp#>=40 then ^0.0, xval_x#= gotoxval_end
-  for ii#=1 to xval_exp#
-     xval_x#, ^10.0, ./ xval_x#=
-  next ii#
-  goto xval_end
-
-// 8進数入力
-xval6:
-  if xval_state#<>XVAL_OCT goto xval7
-  if xval_d#='h' then XVAL_HEX, xval_state#= gotoxval_next
-  if xval_d#='b' then XVAL_BIN, xval_state#= gotoxval_next
-  if xval_d#='o' goto xval_next
-  if xval_d#<'0' goto xval_end
-  if xval_d#>'7' goto xval_end
-  xval_d#, '0', - (double) tt#=
-  xval_x#, ^8.0, .* tt#, .+ xval_x#=
-  goto xval_next
-  
-// 16進数入力
-xval7:
-  if xval_state#<>XVAL_HEX goto xval8
-  if xval_d#<'0' goto xval7_1
-  if xval_d#>'9' goto xval7_1
-  xval_d#, '0', - (double) tt#=
-  xval_x#, ^16.0, .* tt#, .+ xval_x#=
-  goto xval_next
-xval7_1:
-  if xval_d#<'a' goto xval_end
-  if xval_d#>'f' goto xval_end
-  xval_d#, 'a'-10, - (double) tt#=
-  xval_x#, ^16.0, .* tt#, .+ xval_x#=
-  goto xval_next
-
-// 2進数入力
-xval8:
-  if xval_state#<>XVAL_BIN goto xval_error
-  if xval_d#<'0' goto xval_end
-  if xval_d#>'1' goto xval_end
-  xval_d#, '0', - (double) tt#=
-  xval_x#, ^2.0, .* tt#, .+ xval_x#=
-  goto xval_next
-
-// エラー終了
-xval_error:
-  xval_p#, NaN, end
-
-// 正常終了
-xval_end:
-  xval_sign#, xval_x#, .* xval_x#=
-  xval_p#, xval_x#, end
-
-// 次の文字を取り込む
-xval_next:
-  xval_p#++
-  goto xval0
-
-// 数値を表示する 
-printr:
-  stdout#, fprintr
-  end
-
-// 数値をファイルに出力する 
-fprintr:
-  long pp7#
- pp7#= swap xstr pp7#, fprints
- end
 
 // waitコマンド
 cmd_wait:
@@ -1580,8 +955,8 @@ cmd_input:
   if TokenText$<>'#' goto cmd_input3
     getToken
     TokenValue#, (long) nn#=
-    if nn#<0 then   "Out of Range", assertError
-    if nn#>=MAX_FILES then  "Out of Range", assertError
+    if nn#<0 then   "Out of Range(input)", assertError
+    if nn#>=MAX_FILES then  "Out of Range(input)", assertError
     nn#, FILE_SIZE, * Xfp, + fp_adr#=
     if (fp_adr)#(FILE_FP/8)=NULL  then "File is not oen", assertError
     getToken
@@ -1651,9 +1026,9 @@ cmd_print:
 
     getToken
     if TokenType#<>NUMBER then "Syntax Error",  assertError
-    TokenValue#, nn#=
-    if nn#<0 then "Out of Range", assertError
-    if  nn#>=MAX_FILES then "Out of range", assertError
+    TokenValue#, (long) nn#=
+    if nn#<0 then "Out of range(print)", assertError
+    if  nn#>=MAX_FILES then "Out of range(print)", assertError
     nn#, FILE_SIZE, * Xfp, + fp_adr#=
     if (fp_adr)#(FILE_FP/8)=NULL then  "File is not open", assertError
     
@@ -1904,8 +1279,8 @@ cmd_pset:
   if TokenText$<>',' goto cmd_pset1
   getToken
   clear_value
-  eval_expression tt#=
-  tt#, set_color
+  eval_expression
+  get_number (long) xcolor#=
 cmd_pset1:
    xx#, yy#, xdraw_point
    xx#, draw_x1#=
@@ -1943,8 +1318,8 @@ cmd_line1:
   if TokenText$<>',' goto cmd_line2
     getToken
     clear_value
-    eval_expression tt#=
-    tt#, set_color
+    eval_expression
+    get_number (long) xcolor#=
 
 cmd_line2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_line
@@ -1982,8 +1357,8 @@ cmd_box1:
   if TokenText$<>',' goto cmd_box2
     getToken
     clear_value
-    eval_expression tt#=
-    tt#, set_color
+    eval_expression
+    get_number (long) xcolor#=
 
 cmd_box2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_rect
@@ -2021,8 +1396,8 @@ cmd_boxf1:
   if TokenText$<>',' goto cmd_boxf2
     getToken
     clear_value
-    eval_expression tt#=
-    tt#, set_color
+    eval_expression
+    get_number (long) xcolor#=
 
 cmd_boxf2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, xfill_rect
@@ -2060,8 +1435,8 @@ cmd_circle1:
   if TokenText$<>',' goto cmd_circle2
     getToken
     clear_value
-    eval_expression tt#=
-    tt#, set_color
+    eval_expression
+    get_number (long) xcolor#=
 
 cmd_circle2:
   draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_circle
@@ -2101,11 +1476,11 @@ cmd_circlef1:
   if TokenText$<>',' goto cmd_circlef2
     getToken
     clear_value
-    eval_expression tt#=
-    tt#, set_color
+    eval_expression
+    get_number (long) xcolor#=
 
 cmd_circlef2:
-  draw_x1#, draw_y1#, draw_x2#, draw_y2#, fill_circle
+  draw_x1#, draw_y1#, draw_x2#, draw_y2#, xfill_circle
   draw_x2#, draw_x1#=
   draw_y2#, draw_y1#=
   DONE, end
@@ -2129,8 +1504,7 @@ cmd_image:
   ss#, sss, strcpy
   ss#, free
   sss, load_image tt#=
-  if tt#=NULL then DONE, end
-  draw_x1#, draw_y1#, tt#, xdraw_image
+  if tt#<>NULL then draw_x1#, draw_y1#, tt#, xdraw_image
   DONE, end
 
 // execコマンド
@@ -2160,8 +1534,39 @@ cmd_locate:
 cmd_color:
   clear_value
   eval_expression
-  get_number (long) tt#=
-  tt#, xcolor#=
+  get_number (long) xcolor#=
+  DONE, end
+
+// make コマンド
+cmd_make:
+
+  0, LabelCount#=
+ "bas_out.r", CompileFile, strcpy
+  if TokenType#=STRING then TokenText, CompileFile, strcpy getToken
+  1, IsPass1#=
+  xxxopen
+  
+  "pass1:", prints nl
+  
+  pass1
+  0, IsPass1#=
+  
+  "pass2:", prints nl
+  
+  pass2
+  " end", xxxprints xxxnl
+  clear_variable
+  xxxclose
+  TERMINATE, end
+
+// elseコマンド
+cmd_else:
+  "else without if", assertError
+  DONE, end
+
+// thenコマンド
+cmd_then:
+  "then without if", assertError
   DONE, end
 
 // len関数
@@ -2351,10 +1756,12 @@ func_inputs:
 
 // "func inputs:", prints nl 
 
+  // コンパイル中ならば終了する
+  if IsPass1#=1 goto func_inputs4
+
   getToken
   "(", checkToken
   eval_expression
-
 
   // ファイルから指定文字数入力
   if TokenText$<>',' goto func_inputs1
@@ -2389,6 +1796,21 @@ func_inputs:
     sss, put_string
     0, end
 
+  // コンパイル中による終了処理
+  func_inputs4:
+    getToken
+    "(", checkToken
+    eval_expression
+    get_number
+    if TokenText$<>',' goto func_inputs5
+    getToken
+    if TokenText$='#' then getToken
+    eval_expression
+    get_number
+  func_inputs5:
+    ")", checkToken
+    EOF_STRING, put_string
+    0, end
 
 // point関数
 func_point:
@@ -2412,7 +1834,7 @@ func_inkeys:
 
   char inkey_str$(8)
   getToken
-  key_code#, inkey_str$=
+  getch inkey_str$=
   NULL, inkey_str+1$=
   inkey_str, put_string
   0, end
@@ -2600,7 +2022,7 @@ func_dates:
 
 // sgn関数
 func_sgn:
- long vsgn#
+ long vsgn0#,vsgn#
  
 // "func sgn:", prints nl
 
@@ -2608,13 +2030,13 @@ func_sgn:
   "(", checkToken
   eval_expression
   ")", checkToken
-  get_number vsgn#=
+  get_number vsgn0#=
   
-//  "in=", prints vsgn#, printr nl
+//  "in=", prints vsgn0#, printr nl
 
-  ~0.0, vsgn#=
-  if vsgn#.<^0.0 then  ~1.0, vsgn#=
-  if vsgn#.>^0.0 then  ^1.0, vsgn#=
+  ^0.0, vsgn#=
+  if vsgn0#.<^0.0 then  ~1.0, vsgn#=
+  if vsgn0#.>^0.0 then  ^1.0, vsgn#=
   
 //  "out=", prints vsgn#, printr nl
   
@@ -2622,6 +2044,42 @@ func_sgn:
 
 // "func sgn end:", prints nl
 
+  0, end
+
+// hex$関数
+func_hexs:
+
+// "func hexs:", prints nl
+
+  getToken
+  "(", checkToken
+  eval_expression
+  ")", checkToken
+  get_number (long) hex put_string
+  0, end
+
+// bin$関数
+func_bins:
+
+// "func bins:", prints nl
+
+  getToken
+  "(", checkToken
+  eval_expression
+  ")", checkToken
+  get_number (long) bin put_string
+  0, end
+
+// oct$関数
+func_octs:
+
+// "func octs:", prints nl
+
+  getToken
+  "(", checkToken
+  eval_expression
+  ")", checkToken
+  get_number (long) oct put_string
   0, end
 
 // =  の確認
@@ -2819,6 +2277,7 @@ eval_atom:
   0, sign#=
 
 // "eval atom:", prints nl
+// "text=", prints TokenText, prints nl
 
   // 原子の前に＋がついている場合
   if TokenText$='+' then getToken  1, sign#=
@@ -2899,6 +2358,7 @@ eval_atom:
     TokenText, 1, get_variable_value val#= pop typ#=
     POP sign#=
 
+    // 文字列型変数
     if typ#<>STRING goto eval_atom5_1
     (val)#, put_string
     if sign#<>0 then "Type Mismatch",  assertError
@@ -2906,6 +2366,8 @@ eval_atom:
 //    "eval atom(string variable) end:", prints nl
     
     0, end
+    
+    // 数値型変数
     eval_atom5_1:
     (val)#, put_number
     if sign#=-1 then  get_number tt#= ^0.0, tt#, .- put_number
@@ -2914,13 +2376,14 @@ eval_atom:
     
     0, end
 
+  // その他の場合(エラー)
   eval_atom6:
+
+      "Illegal Expression", assertError
     
 //    "eval atom(other) end:", prints nl
     
     0, end
-
-
 
 // 因子の処理
 eval_factor:
@@ -3093,7 +2556,7 @@ eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 then  0, end
 
-  // 論理項は論理因子AND論理因子AND_969144896.
+  // 論理項は論理因子AND論理因子AND_849619487.
   getToken
   eval_relation
   eval_and
@@ -3114,7 +2577,7 @@ eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 then  0, end 
 
-  // 論理式は論理項OR論理項OR_969144896.
+  // 論理式は論理項OR論理項OR_849619487.
   getToken
   eval_lterm
   eval_or
@@ -3180,14 +2643,15 @@ put_number:
 
 // 現在の計算スタックの値の型を返す、スタックに値が入っていない場合は0を返す
 value_type:
+  long valx#
  
   if CalcStackP#=CalcStack# then 0, end
-  CalcStackP#, Value.SIZE, - tt#=
-  tt#, ->Value.type# end
+  CalcStackP#, Value.SIZE, - valx#=
+  valx#, ->Value.type# end
 
 // 現在の計算スタックをチェックして整合がとれていなかったらエラーを発生させる
 check_value:
-  if CalcStackP#<>CalcStack# then "ileagal expression", assertError
+  if CalcStackP#<>CalcStack# then "Illegal expression", assertError
   end
 
 // 計算用スタックを初期化する
@@ -3854,134 +3318,3832 @@ send_prog2:
   temp2#, li#=
   end
 
-// sin関数
-math_sin:
-  long sin_x#,sin_x2#
-  sin_x#=  ^6.28318530717959, ./ (long) tt#=
-  if  tt#<0 then tt#--
-  tt#, (double) ^6.28318530717959, .* sin_x#, swap .- sin_x#=
-  sin_x#, .* sin_x2#=
-                    ^0.0000000000000028,
-  sin_x2#, .* ~0.0000000000007647, .+ 
-  sin_x2#, .* ^0.0000000001605904, .+
-  sin_x2#, .* ~0.0000000250521083, .+
-  sin_x2#, .* ^0.0000027557319223, .+
-  sin_x2#, .* ~0.0001984126984126, .+
-  sin_x2#, .* ^0.0083333333333333, .+
-  sin_x2#, .* ~0.1666666666666666, .+
-  sin_x2#, .* ^1.0,  .+
-  sin_x#, .*
+// コンパイル用変数
+  long IsPass1#
+  long LabelCount#
+  char CompileFile$(512)
+  char xxxfp$(FILE_SIZE)
+  long xxxstatus#
+// コンパイル用入出力関数
+
+// ファイルを開く
+xxxopen:
+  0, xxxstatus#=
+  CompileFile, xxxfp, wopen tt#=
+  if tt#=ERROR then ERROR, xxxstatus#= "can not compile",  assertError
   end
 
-// 数学関数ライブラリ
+// ファイルを閉じる
+xxxclose:
+  if xxxstatus#=ERROR then end
+  xxxfp, wclose
+  ERROR, xxxstatus#=
+  end
+
+// 1文字出力
+xxxputchar:
+  long xxxtt#
+  xxxtt#=
+  if xxxstatus#=ERROR then "can not compile", assertError
+  xxxtt#, xxxfp, putc
+//  xxxtt#, putchar
+  end
+
+// 文字列を出力
+xxxprints:
+  long xxxuu#
+  xxxuu#=
+  if xxxstatus#=ERROR then "can not compile", assertError
+  xxxuu#, xxxfp, fprints
+//  xxxuu#, prints
+  end
+
+// 改行コードを出力
+xxxnl:
+
+//  13, xxxputchar
+  10, xxxputchar
+  end
+
+// 整数を出力
+xxxprintd:
+  dec xxxprints
+  end
+
+// 実数を出力
+xxxprintr:
+  xstr xxxprints
+  end
+
+// トークンを切り出してバッファに格納する
+pass1_getToken:
+
+// "pass1_getToken:", prints TokenP#, prints nl
+
+  NULL, TokenText$=
+  0, ii#=
+
+  // 空白や制御文字をスキップする
+pass1_getToken1:
+   if (TokenP)$>' ' goto pass1_getToken2
+     if (TokenP)$=NULL then EOL, TokenType#= end
+     TokenP#++
+     goto pass1_getToken1
+
+  // "'"が現れたときは行の終わり
+pass1_getToken2:
+  if (TokenP)$=A_QUOT then EOL, TokenType#= end
+
+  // 先頭が"であれば次の"までは文字列
+  if (TokenP)$<>DBL_QUOT goto pass1_getToken4
+    STRING, TokenType#=
+    TokenP#++
+pass1_getToken3:
+   if (TokenP)$=NULL then "SyntaxError", assertError
+   if (TokenP)$<>DBL_QUOT then (TokenP)$, TokenText$(ii#)= TokenP#++ ii#++ gotopass1_getToken3
+   TokenP#++
+    NULL, TokenText$(ii#)=
+//    "string:", prints nl 
+    end
+
+  // 先頭がアルファベット
+pass1_getToken4:
+  (TokenP)$, is_symbol_char0 tt#=
+  if tt#=0 goto pass1_getToken10
+  
+//  "symbol char:", prints nl
+  
+pass1_getToken5:
+  (TokenP)$, is_symbol_char tt#=
+  if tt#=1 then  (TokenP)$, TokenText$(ii#)= TokenP#++ ii#++ gotopass1_getToken5
+  NULL, TokenText$(ii#)=
+
+//  "TokenText=", prints TokenText, prints nl
+
+    // "else"キーワードが出てきたら行の終わりと判断する
+pass1_getToken6:
+    TokenText, "else", strcmp tt#=
+    if tt#=0 then EOL, TokenType#= end
+
+    // Basicのコマンドの場合
+    pass1_Command, pp#= 0, ii#=
+pass1_getToken7:
+    pp#, ->_Command.keyword# qq#=
+    if qq#=NULL goto  pass1_getToken8
+    TokenText, qq#, strcmp tt#=
+    if tt#=0 then  COMMAND, TokenType#= ii#, TokenCode#= end
+    pp#, _Command.SIZE, + pp#=
+    ii#++
+    goto pass1_getToken7
+
+    // 関数の場合
+pass1_getToken8:
+    Function, pp#= 0, ii#=
+pass1_getToken8x:
+    pp#, ->_Function.keyword# qq#=
+    if qq#=NULL goto  pass1_getToken9
+    TokenText, qq#, strcmp tt#=
+    if tt#=0 then  FUNCTION, TokenType#= ii#, TokenCode#= end
+    pp#, _Function.SIZE, + pp#=
+    ii#++
+    goto pass1_getToken8x
+
+    // コマンドでも関数でもないときは変数とみなす
+pass1_getToken9:
+  
+//  "variable:", prints nl
+  
+    VARIABLE, TokenType#= end
+
+  // 先頭がラベルの先頭文字であれば英数字と'_'が続いているところはラベル
+pass1_getToken10:
+  if (TokenP)$<>LABEL_HEADER goto pass1_getToken20
+    LABEL, TokenType#=
+    TokenP#++
+    0, TokenCode#=
+pass1_getToken11:
+    (TokenP)$, is_symbol_char tt#=
+    if tt#=1 then (TokenP)$, TokenText$(ii#)= TokenCode#, + TokenCode#= TokenP#++ ii#++ gotopass1_getToken11
+    NULL, TokenText$(ii#)=
+  
+//  "label:", prints nl
+//  "TokenText=", prints TokenText, prints nl
+
+  
+    end
+
+// 先頭が'&' , '.' あるいは'0'~'9'で始まっている場合が数値
+pass1_getToken20:
+  (TokenP)$, cc#=
+  if cc#='&' goto pass1_getToken21
+  if cc#='.'   goto pass1_getToken21
+  if cc#<'0'  goto pass1_getToken30
+  if cc#>'9'  goto pass1_getToken30
+
+pass1_getToken21:
+      NUMBER, TokenType#=
+      TokenP#, xval TokenValue#= pop tt#=
+      if TokenValue#=NaN then "Bad Number Format", assertError
+      0, ii#=
+pass1_getToken22:
+      (TokenP)$, TokenText$(ii#)=
+      TokenP#++
+      ii#++
+      if TokenP#<tt# goto pass1_getToken22
+      NULL, TokenText$(ii#)=
+      end
+
+// 上記以外は区切り文字
+pass1_getToken30:
+    DELIMIT, TokenType#=
+    cc#, TokenText$(ii#)=
+    ii#++
+    TokenP#++
+    (TokenP)$, bb#=
+    
+    if cc#<>'=' goto pass1_getToken31
+    if bb#='<' then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotopass1_getToken33 
+    if bb#='>' then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotopass1_getToken33 
+
+pass1_getToken31:
+    if cc#<>'<' goto pass1_getToken32
+    if bb#='=' then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotopass1_getToken33 
+    if bb#='>' then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotopass1_getToken33 
+
+pass1_getToken32:
+    if cc#<>'>' goto pass1_getToken33
+    if bb#='=' then bb#, TokenText$(ii#)= ii#++ TokenP#++
+
+pass1_getToken33:
+    NULL, TokenText$(ii#)=
+  
+//  "delimitter:", prints nl
+//  "TokenText=", prints TokenText, prints nl
+
+ end
+
+// トークンが正しければ次のトークンを読み込み
+// トークンが間違っていたらエラーを発生させる
+pass1_checkToken:
+  token#=
+  
+//  "pass1 check token:", prints nl
+  
+  TokenText, token#, strcmp tt#=
+  if tt#<>0 then "Syntax Error", assertError
+  pass1_getToken
+  end
+
+// BASICのプログラムをコンパイルする(pass1)
+pass1:
+ long pass1_code#
+
+//  "pass1:", prints nl
+
+  0, status#=
+  TopProg#, CurrentProg#=
+  if CurrentProg#=NULL then end
+  clear_value
+  CurrentProg#, ->Program.text# TokenP#= 
+  pass1_getToken // 最初のトークン切り出し
+
+  // ループ
+  pass1_1:
+
+  char xxxdmy$(512)
+
+//  TokenText, prints " > ", prints xxxdmy, inputs
+
+
+    // トークンがCOMMANDなら次のトークンをとりだしてDISPATCH
+    if TokenType#<>COMMAND goto pass1_3
+
+//  "pass1 command:", prints nl
+
+pass1_2:
+     TokenCode#, _Command.SIZE, * pass1_code#=
+      pass1_getToken
+      pass1_Command, pass1_code#, + ->@_Command.func status#=
+      if status#<>DONE then "irreagal command", assertError  
+      goto pass1_1
+
+// トークンが変数なら代入
+pass1_3:
+    if TokenType#=VARIABLE then pass1_cmd_let gotopass1_1
+
+
+// トークンがEOLなら次の行へ
+    if TokenType#<>EOL goto pass1_4
+
+//  "pass1 eol:", prints nl
+
+      // 次の行に移る
+      CurrentProg#, ->Program.next# CurrentProg#=
+
+      // 最終行(中身無し)に到達するとコードを出力
+      if CurrentProg#=NULL goto pass1_6
+
+      // テキストポインタを設定
+      CurrentProg#, ->Program.text# TokenP#=
+      pass1_getToken
+      goto pass1_1
+
+// マルチステートメントの処理
+pass1_4:
+    if TokenType#<>DELIMIT goto pass1_5
+
+//  "pass1 delimit:", prints nl
+
+      if TokenText$=':' then getToken gotopass1_1
+      "Syntax Error", assertError
+
+// ラベルの場合は無視(1つの行に2個以上ラベルがある場合は、最初のラベル以外は無視されるので注意)
+pass1_5:
+    if TokenType#=LABEL then getToken gotopass1_1
+
+    // 上記以外の場合は文法エラー  
+
+  "pass1 other:", prints nl
+
+    "Syntax Error", assertError
+    end
+
+// コードを出力する
+pass1_6:
+
+//  "pass1 put code  > ", prints xxxdmy, inputs
+
+// 変数
+pass1_8:
+        xxxnl "// Variables", xxxprints xxxnl
+        
+        
+//  "pass1 put code next > ", prints xxxdmy, inputs
+        
+        
+        TopVar#, var#=
+pass1_9:
+        if var#=NULL goto pass1_17
+          var#, ->Variable.name# vname, strcpy
+          var#, ->Variable.value# ->Value.type# vtype#=
+
+          // 文字列型
+          if vtype#<>STRING goto pass1_12
+
+// "dimension=", prints var#, ->Variable.dimension# printd nl
+
+            vname, strlen tt#= tt#-- '_', vname$(tt#)=
+            var#, ->Variable.dimension# nn#=
+            if nn#<=0 goto pass1_11
+
+// 文字列配列
+pass1_10:
+            nn#--
+            var#, ->Variable.dim dx#= 
+            512, kk#=
+            for ii#=0 to nn#
+              (dx)#(ii#), 1, + kk#, * kk#=
+            next ii#
+            " char ", xxxprints
+            vname, xxxprints
+            "$(", xxxprints
+            kk#, xxxprintd
+            ")", xxxprints
+            xxxnl
+            goto pass1_16
+
+// 文字列変数
+pass1_11:
+            " char ", xxxprints
+            vname, xxxprints
+            "$(512)", xxxprints
+            xxxnl
+            goto pass1_16
+
+
+// 数値型
+pass1_12:
+          if vtype#<>NUMBER goto pass1_15
+            var#, ->Variable.dimension# nn#=
+            if nn#<=0 goto pass1_14
+
+// 数値配列
+pass1_13:
+            nn#--
+            var#, ->Variable.dim dx#= 
+            1, kk#=
+            for ii#=0 to nn#
+              (dx)#(ii#), 1, + kk#, * kk#=
+            next ii#
+            " long ", xxxprints
+            vname, xxxprints
+            "#(", xxxprints
+            kk#, xxxprintd
+            ")", xxxprints
+            xxxnl
+            goto pass1_16
+
+// 数値変数
+pass1_14:
+            " long ", xxxprints
+            vname, xxxprints
+            "#", xxxprints
+            xxxnl
+            goto pass1_16
+
+// カウンタ変数
+pass1_15:
+          if vtype#<>COUNT goto pass1_16
+            " count ", xxxprints
+            vname, xxxprints
+            "#", xxxprints
+            xxxnl
+            goto pass1_16
+
+// 次の変数に移る
+pass1_16:
+            var#, ->Variable.next# var#=
+            goto pass1_9
+
+// 終了処理
+pass1_17:
+        clear_value
+        NULL, BreakProg#= CurrentProg#=
+        TERMINATE, end
+
+// waitコマンド
+pass1_cmd_wait:
+
+// "pass1 cmd wait:", prints nl
+
+  clear_value
+  eval_expression
+  get_number
+  DONE, end
+
+// clearコマンド
+pass1_cmd_clear:
+
+// "pass1 cmd clear:", prints nl
+
+  DONE, end
+
+// closeコマンド
+pass1_cmd_close:
+
+// "pass1_cmd close:", prints nl
+
+  if TokenText$<>'#' goto pass1_cmd_close1
+    pass1_getToken
+    pass1_getToken
+
+pass1_cmd_close1:
+    DONE, end
+
+// openコマンド
+pass1_cmd_open:
+
+// "pass1 cmd open:", prints nl
+
+  clear_value
+  eval_expression
+  "for", checkToken
+  0, io_flg#=
+  TokenText, "input",   strcmp ss#=
+  TokenText, "output", strcmp tt#=
+  ss#, tt#, * ss#=
+  if ss#<>0 then "Syntax Error", assertError
+  if tt#=0 then 1, io_flg#= 
+  pass1_getToken
+  "as", pass1_checkToken
+  "#",  pass1_checkToken
+  if TokenType#<>NUMBER then "Syntax Error", assertError
+  TokenValue#, (long) nn#=
+  
+//  "file no=", prints nn#, printd nl
+  
+  if nn#<0 then "Out of Range", assertError
+  if nn#>=MAX_FILES then "Out of Range", assertError
+  pass1_getToken
+  DONE, end
+
+// dimコマンド
+pass1_cmd_dim:
+
+// "pass1 cmd dim:", prints nl
+
+    if TokenType#<>VARIABLE then "Syntax Error", assertError
+    TokenText, vname, strcpy
+
+//   "dim var=", prints vname, prints nl
+
+    vname, var_type vtype#= 
+    getToken
+    "(", checkToken
+    0, dx#=
+    pass1_cmd_dim1:
+      clear_value
+      eval_expression
+      if dx#>=MAX_DIMENSION then  "dimension size over", assertError
+      get_number (long) tt#=
+      if tt#<=0 then "Out of Range", assertError
+      tt#, dim#(dx#)= dx#++
+      if TokenText$=')' goto pass1_cmd_dim2
+      ",", checkToken
+      goto pass1_cmd_dim1
+
+pass1_cmd_dim2:
+    vname, 0, _variable var#=
+    dx#, var#, ->Variable.dimension#=
+    dx#--
+    1, nn#=
+    var#, ->Variable.dim pp#=
+    for ii#=0 to dx#
+    dim#(ii#), (pp)#(ii#)= 1, + nn#, * nn#=
+    next ii#
+
+    // 文字列型配列を初期化
+    if vtype#<>STRING goto pass1_cmd_dim3
+      nn#, 8, * malloc pp#=
+      var#, ->Variable.value# ->Value.data#=
+      nn#--
+      for ii#=0 to nn#
+        ALIGNMENT, malloc (pp)#(ii#)=
+        "", (pp)#(ii#), strcpy
+      next ii#
+      goto pass1_cmd_dim4
+
+    // 数値型配列を初期化
+pass1_cmd_dim3:
+      nn#, 8, * malloc pp#=
+      var#, ->Variable.value# ->Value.data#=
+      nn#--
+      for ii#=0 to nn#
+         0, (pp)#(ii#)=
+      next ii#
+     
+pass1_cmd_dim4:
+    getToken
+    if TokenText$<>','  goto pass1_cmd_dim5
+    getToken
+    goto pass1_cmd_dim
+
+pass1_cmd_dim5:
+  getToken
+  DONE, end
+
+// ifコマンド
+pass1_cmd_if:
+
+// "pass1 cmd if:", prints nl
+
+  // 論理式が真ならば"thenをチェックしてその次から始める"
+  eval_expression
+    "then", pass1_checkToken
+    if TokenType#=LABEL then pass1_getToken
+    DONE, end
+
+
+// returnコマンド
+pass1_cmd_return:
+
+// "pass1 cmd return:", prints nl
+
+//  if GosubStackP#<GosubStack# then "return without gosub", assertError
+//  GosubStackP#, _GosubStack.SIZE, - GosubStackP#=
+//  GosubStackP#, ->_GosubStack.token_p# TokenP#=
+//  GosubStackP#, ->_GosubStack.program# CurrentProg#=
+//  getToken
+  DONE, end
+
+// gosubコマンド
+pass1_cmd_gosub:
+  
+//  "pass1 cmd gosub:", prints nl
+
+  if TokenType#<>LABEL then "Syntax Error", assertError
+  pass1_getToken
+
+  DONE, end
+
+// nextコマンド
+pass1_cmd_next:
+
+// "cmd next:", prints nl
+
+//  long for_var#
+//  if ForStackP#<=ForStack# then  "next without for", assertError
+//  ForStackP#, _ForStack.SIZE, - ForStackP#=
+
+  // nextの後に変数名がある場合
+  if TokenType#<>VARIABLE goto pass1_cmd_next1
+//    TokenText, get_variable ->Variable.value# ->Value.data ForStackP#, ->_ForStack.var#  - tt#=
+//    if tt#<>0 then "next without for", assertError
+    pass1_getToken
+
+  // STEP値をループ変数へ加える
+pass1_cmd_next1:
+//  ForStackP#, ->_ForStack.var# for_var#=
+//  ForStackP#, ->_ForStack.step# (for_var)#, .+ (for_var)#=
+
+  // 終了条件を満たさなければループエントリーに戻る
+//  (for_var)#, ForStackP#, ->_ForStack.limit# .- ForStackP#, ->_ForStack.step# .*  tt#=
+//  if tt#.>^0.0 goto pass1_cmd_next2
+//    ForStackP#, ->_ForStack.token_p# TokenP#=
+//    ForStackP#, ->_ForStack.program# CurrentProg#= 
+//    ForStackP#, _ForStack.SIZE, + ForStackP#=
+//    getToken
+//pass1_cmd_next2:
+    DONE, end    
+
+// forコマンド
+pass1_cmd_for:
+
+// "cmd for:", prints nl
+
+//  ForStack#, STACK_SIZE, + tt#=
+//  if ForStackP#>=tt# then "stack over flow (for-next)", assertError
+  if TokenType#<>VARIABLE  then "Syntax Error", assertError
+
+  // ループ変数を確保
+  TokenText, 0, _variable for_var#= 
+
+  COUNT, for_var#, ->Variable.value# ->Value.type#=
+
+  // ループ変数に初期値代入
+  pass1_cmd_let
+
+  "to", checkToken
+
+  // ループ変数上限を得る
+  clear_value
+  eval_expression
+  get_number
+
+  // STEP値がある場合
+  TokenText, "step", strcmp tt#=
+  if tt#<>0 goto pass1_cmd_for1
+    getToken
+    clear_value
+    eval_expression
+    get_number
+    goto pass1_cmd_for2 
+
+  // STEP値が省略された場合
+pass1_cmd_for1:
+//  ^1.0,  ForStackP#, ->_ForStack.step#=
+
+  // 現在の実行位置をスタックへ保存
+pass1_cmd_for2:
+//  CurrentProg#, ForStackP#, ->_ForStack.program#=
+//  TokenP#, ForStackP#, ->_ForStack.token_p#=
+//  ForStackP#,  _ForStack.SIZE, + ForStackP#=
+  DONE, end
+
+// gotoコマンド
+pass1_cmd_goto:
+
+// "pass1 cmd goto:", prints nl
+
+  if TokenType#<>LABEL then "Syntax Error", assertError
+  pass1_getToken
+
+  DONE, end
+
+// inputコマンド
+pass1_cmd_input:
+
+  // ファイルから入力
+  if TokenText$<>'#' goto pass1_cmd_input3
+    getToken
+    TokenValue#, (long) nn#=
+    if nn#<0 then   "Out of range(input)", assertError
+    if nn#>=MAX_FILES then  "Out of range(input)", assertError
+//    nn#, FILE_SIZE, * Xfp, + fp_adr#=
+//    if (fp_adr)#(FILE_FP/8)=NULL  then "File is not oen", assertError
+    getToken
+
+      // 変数の場合は入力する
+pass1_cmd_input1:
+      if TokenType#<>VARIABLE goto pass1_cmd_input2
+      TokenText, 0, get_variable_value input_var#= pop vtype#=
+
+         "0", sss, strcpy
+
+//       sss, fp_adr#, finputs tt#=
+//       if tt#=EOF then EOF, sss+0$= NULL, sss+1$=
+       sss, strlen 1, + tt#=
+       
+//  "input#: char=", prints sss$, printd nl
+       
+       if vtype#=STRING   then tt#, malloc (input_var)#= sss, swap strcpy
+       if vtype#=NUMBER then sss, xval (input_var)#=
+       goto pass1_cmd_input1
+
+      // セパレータ ',' or ';'
+pass1_cmd_input2:
+      if TokenType#<>DELIMIT then DONE, end
+      if TokenText$=',' then getToken gotopass1_cmd_input1
+      if TokenText$=';' then getToken gotopass1_cmd_input1
+      DONE, end
+
+  // コンソールから入力
+pass1_cmd_input3:
+    1, is_question#=
+
+pass1_cmd_input4:
+
+      // 文字列のときはプロンプト文字列を表示する
+      if TokenType#=STRING then TokenText, prints getToken gotopass1_cmd_input4
+
+      // 変数の場合は入力する
+      if TokenType#<>VARIABLE goto pass1_cmd_input5
+      TokenText, 0, get_variable_value input_var#= pop vtype#=
+
+         "0", sss, strcpy 13, tt#=
+
+//      if is_question#=1 then "? ", prints
+//      sss, inputs tt#=
+
+      if tt#=3 then 1, BreakFlg#= // CTRL+Cで中断
+      sss, strlen 1, + tt#=
+      if vtype#=STRING   then tt#, malloc (input_var)#= sss, swap strcpy
+      if vtype#=NUMBER then sss, xval (input_var)#=
+      1, is_question#=
+      goto pass1_cmd_input4
+
+      // セパレータ ',' or ';'
+pass1_cmd_input5:
+      if TokenType#<>DELIMIT then DONE, end
+      if TokenText$=',' then 1, is_question#= getToken gotopass1_cmd_input4
+      if TokenText$=';' then 0, is_question#= getToken gotopass1_cmd_input4
+      DONE, end
+
+// stopコマンド
+pass1_cmd_stop:
+  1, BreakFlg#=
+  DONE, end
+
+// contコマンド
+pass1_cmd_cont:
+
+// "pass1 cmd cont:", prints nl
+
+  "illegal command", assertError
+
+  TERMINATE, end
+
+// runコマンド
+pass1_cmd_run:
+
+// "pass1 cmd run:", prints nl
+
+  "illegal command", assertError
+
+  TERMINATE, end
+
+// 代入文
+pass1_cmd_let:
+
+// "pass1 cmd let:", prints nl
+
+  if TokenType#<>VARIABLE then DONE, end
+  
+//   "var name=", prints TokenText, prints nl
+  
+    TokenText, 0, get_variable_value lvar#= pop vtyp#=
+    "=", checkToken
+    eval_expression
+    value_type tt#=
+
+//   "variable type=", prints vtyp#, printd nl
+//   "value type=", prints tt#, printd nl
+
+    if tt#<>vtyp# then "Type Mismatch", assertError
+    if vtyp#=NUMBER then get_number (lvar)#=
+    if vtyp#=STRING   then (lvar)#, free get_string (lvar)#=
+
+// "cmd let end:", prints nl
+
+    DONE, end
+
+// saveコマンド
+pass1_cmd_save:
+
+// "pass1 cmd save:", prints  TokenText, prints nl
+
+  "illegal command", assertError
+
+  TERMINATE, end
+
+// listコマンド
+pass1_cmd_list:
+
+// "pass1 cmd list:", prints nl
+
+  "illegal command", assertError
+
+    TERMINATE, end
+
+// loadコマンド
+pass1_cmd_load:
+
+// "pass1 cmd load:", prints nl
+
+ "illegal command", assertError
+
+  TERMINATE, end
+
+// byeコマンド
+pass1_cmd_quit:
+
+// "pass1 cmd quit:", prints nl
+
+  "illegal command", assertError
+
+  QUIT, end
+
+// endコマンド
+pass1_cmd_end:
+
+// "pass1 cmd end:", prints nl
+
+  DONE, end
+
+// newコマンド
+pass1_cmd_new:
+
+// "pass1_cmd new:", prints nl
+
+ "illegal commmand", assertError
+
+//  clear_program 
+//  cmd_clear
+  TERMINATE, end
+
+// clsコマンド
+pass1_cmd_cls:
+
+// "pass1 cmd cls:", prints nl
+
+//  cls
+  getToken
+  DONE, end
+
+// editコマンド
+pass1_cmd_edit:
+
+// "pass1 cmd edit:", prints nl
+// start_editor
+  "illegal command", assertError
+ TERMINATE, end
+
+// psetコマンド
+pass1_cmd_pset:
+
+// "pass1 cmd pset", prints nl
+
+  "(", checkToken
+  clear_value
+  eval_expression
+  get_number (long) xx#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) yy#=
+  ")", checkToken
+  if TokenText$<>',' goto pass1_cmd_pset1
+  getToken
+  clear_value
+  eval_expression 
+pass1_cmd_pset1:
+//   xx#, yy#, xdraw_point
+   xx#, draw_x1#=
+   yy#, draw_y1#=
+   DONE, end
+
+// lineコマンド
+pass1_cmd_line:
+
+// "pass1 cmd line:", prints nl
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass1_cmd_line1
+    getToken
+    clear_value
+    eval_expression
+    get_number (long) draw_x1#=
+    ",", checkToken
+    clear_value
+    eval_expression
+    get_number (long) draw_y1#=
+    ")", checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass1_cmd_line1:
+  "-", checkToken
+  "(", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_x2#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_y2#=
+  ")", checkToken
+  if TokenText$<>',' goto pass1_cmd_line2
+    getToken
+    clear_value
+    eval_expression
+pass1_cmd_line2:
+//  draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_line
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
+  DONE, end
+
+// boxコマンド
+pass1_cmd_box:
+
+// "pass1 cmd box", prints nl
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass1_cmd_box1
+    getToken
+    clear_value
+    eval_expression
+    get_number (long) draw_x1#=
+    ",", checkToken
+    clear_value
+    eval_expression
+    get_number (long) draw_y1#=
+    ")", checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass1_cmd_box1:
+  "-", checkToken
+  "(", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_x2#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_y2#=
+  ")", checkToken
+  if TokenText$<>',' goto pass1_cmd_box2
+    getToken
+    clear_value
+    eval_expression
+pass1_cmd_box2:
+//  draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_rect
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
+  DONE, end
+
+// boxfコマンド
+pass1_cmd_boxf:
+
+// "pass1 cmd boxf:", prints nl
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass1_cmd_boxf1
+    getToken
+    clear_value
+    eval_expression
+    get_number (long) draw_x1#=
+    ",", checkToken
+    clear_value
+    eval_expression
+    get_number (long) draw_y1#=
+    ")", checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass1_cmd_boxf1:
+  "-", checkToken
+  "(", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_x2#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_y2#=
+  ")", checkToken
+  if TokenText$<>',' goto pass1_cmd_boxf2
+    getToken
+    clear_value
+    eval_expression
+pass1_cmd_boxf2:
+//  draw_x1#, draw_y1#, draw_x2#, draw_y2#, xfill_rect
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
+  DONE, end
+
+// circleコマンド
+pass1_cmd_circle:
+
+// "pass1 cmd circle:", prints nl
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass1_cmd_circle1
+    getToken
+    clear_value
+    eval_expression
+    get_number (long) draw_x1#=
+    ",", checkToken
+    clear_value
+    eval_expression
+    get_number (long) draw_y1#=
+    ")", checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass1_cmd_circle1:
+  "-", checkToken
+  "(", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_x2#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_y2#=
+  ")", checkToken
+  if TokenText$<>',' goto pass1_cmd_circle2
+    getToken
+    clear_value
+    eval_expression
+pass1_cmd_circle2:
+//  draw_x1#, draw_y1#, draw_x2#, draw_y2#, xdraw_circle
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
+  DONE, end
+
+// circlefコマンド
+pass1_cmd_circlef:
+
+// "pass1 cmd circlef", prints nl
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass1_cmd_circlef1
+    getToken
+    clear_value
+    eval_expression
+    get_number (long) draw_x1#=
+    ",", checkToken
+    clear_value
+    eval_expression
+    get_number (long) draw_y1#=
+    ")", checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass1_cmd_circlef1:
+  "-", checkToken
+  "(", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_x2#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_y2#=
+  ")", checkToken
+  if TokenText$<>',' goto pass1_cmd_circlef2
+    getToken
+    clear_value
+    eval_expression
+pass1_cmd_circlef2:
+//  draw_x1#, draw_y1#, draw_x2#, draw_y2#, fill_circle
+  draw_x2#, draw_x1#=
+  draw_y2#, draw_y1#=
+  DONE, end
+
+// imageコマンド
+pass1_cmd_image:
+
+// "pass1 cmd image", prints nl
+
+  "(", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_x1#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) draw_y1#=
+  ")", checkToken
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_string ss#=
+  ss#, sss, strcpy
+  ss#, free
+//  sss, load_image tt#=
+//  if tt#<>NULL then draw_x1#, draw_y1#, tt#, xdraw_image
+  DONE, end
+
+// execコマンド
+pass1_cmd_exec:
+
+// "pass1 cmd exec:", prints nl
+
+  clear_value
+  eval_expression
+  get_string ss#=
+//  ss#, sss, strcpy
+  ss#, free
+//  sss, exec_command
+  DONE, end
+
+// locateコマンド
+pass1_cmd_locate:
+
+// "pass1 cmd locate:", prints nl
+
+  clear_value
+  eval_expression
+  get_number (long) xx#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) yy#=
+//  xx#, yy#, locate
+  DONE, end
+
+// colorコマンド
+pass1_cmd_color:
+
+// "pass1 cmd color", prints nl
+
+  clear_value
+  eval_expression
+  get_number (long) tt#=
+//  tt#, xcolor#=
+  DONE, end
+
+// pass1コマンド
+pass1_Command:
+  data "run",pass1_cmd_run
+  data "if",pass1_cmd_if
+  data "for",pass1_cmd_for
+  data "next",pass1_cmd_next
+  data "goto",pass1_cmd_goto
+  data "gosub",pass1_cmd_gosub
+  data "return",pass1_cmd_return
+  data "print",pass1_cmd_print
+  data "input",pass1_cmd_input
+  data "clear",pass1_cmd_clear
+  data "pset",pass1_cmd_pset
+  data "cls",pass1_cmd_cls
+  data "line",pass1_cmd_line
+  data "locate",pass1_cmd_locate
+  data "dim",pass1_cmd_dim
+  data "open",pass1_cmd_open
+  data "close",pass1_cmd_close
+  data "box",pass1_cmd_box
+  data "boxf",pass1_cmd_boxf
+  data "circle",pass1_cmd_circle
+  data "circlef",pass1_cmd_circlef
+//  data "start",pass1_cmd_start
+  data "exec",pass1_cmd_exec
+  data "wait",pass1_cmd_wait
+  data "image",pass1_cmd_image
+  data "save",pass1_cmd_save
+  data "edit",pass1_cmd_edit
+  data "load",pass1_cmd_load
+  data "new",pass1_cmd_new
+//  data "let",pass1_cmd_let
+  data "end",pass1_cmd_end
+  data "list",pass1_cmd_list
+  data "run",pass1_cmd_run
+  data "bye",pass1_cmd_quit
+  data "stop",pass1_cmd_stop
+  data "cont",pass1_cmd_cont
+  data "color",pass1_cmd_color
+//  data "make",pass1_cmd_make
+  data "else",pass1_cmd_else
+  data NULL,NULL
+
+// printコマンド
+pass1_cmd_print:
+  NULL, last_char#=
+
+// "pass1 cmd print:", prints nl
+
+  // print#文
+  if TokenText$<>'#' goto pass1_cmd_print4
+
+// "pass1 print#:", prints nl
+
+    getToken
+    if TokenType#<>NUMBER then "Syntax Error",  assertError
+    TokenValue#, (long) nn#=
+    if nn#<0 then "Out of range(print)", assertError
+    if  nn#>=MAX_FILES then "Out of range(print)", assertError
+//    nn#, FILE_SIZE, * Xfp, + fp_adr#=
+//    if (fp_adr)#(FILE_FP/8)=NULL then  "File is not open", assertError
+    
+    getToken
+    if TokenType#=DELIMIT then if TokenText$=':' goto pass1_cmd_print4
+    if TokenType#=EOL goto pass1_cmd_print4
+    ",", checkToken
+pass1_cmd_print1:
+    if TokenType#=EOL then NULL, last_char#= gotopass1_cmd_print3
+    if TokenType#=DELIMIT then if TokenText$=':' goto pass1_cmd_print3
+
+      // データの表示
+      clear_value
+      eval_expression
+
+      // 文字列型データの表示
+      value_type typ#=
+      if typ#=STRING then get_string free
+
+      // 数値型データの表示
+      if typ#=NUMBER then get_number
+
+      check_value
+      if TokenType#=EOL then NULL, last_char#= gotopass1_cmd_print3
+      if TokenType#<>DELIMIT then "Syntax Error", assertError
+      TokenText$, last_char#=
+
+      // セパレータが':'の場合
+      if last_char#=':' goto pass1_cmd_print3
+
+      // セパレータが','の場合
+      if last_char#<>',' goto pass1_cmd_print2
+//        ',', fp_adr#, putc  // カンマを出力
+        getToken
+        goto pass1_cmd_print1
+
+      // セパレータが';'の場合
+pass1_cmd_print2:
+      if last_char#<>';' then "Syntax Error", assertError
+        getToken
+        goto pass1_cmd_print1
+
+pass1_cmd_print3:
+//    if last_char#<>';' then  fp_adr#, fnl
+    DONE, end
+
+  // print文
+pass1_cmd_print4:
+
+// "pass1 print:", prints nl
+
+    if TokenType#=EOL then NULL, last_char#= gotopass1_cmd_print6
+    if TokenType#=DELIMIT then if TokenText$=':' goto pass1_cmd_print6
+
+//  "TokenText=", prints TokenText, prints nl
+
+      // データの表示
+      clear_value
+      eval_expression
+
+      // 文字列型データの表示
+      value_type typ#=
+      if typ#=STRING then get_string free
+
+      // 数値型データの表示
+      if typ#=NUMBER then get_number
+
+      check_value
+//   "check value passed > ", prints xxxdmy, inputs
+ 
+      if TokenType#=EOL then NULL, last_char#= gotopass1_cmd_print6
+      if TokenType#<>DELIMIT then "Syntax Error", assertError
+      TokenText$, last_char#=
+
+      // セパレータが':'の場合
+      if last_char#=':' goto pass1_cmd_print6
+
+      // セパレータが','の場合
+      if last_char#<>',' goto pass1_cmd_print5
+//        ',', putchar  // カンマを出力
+        getToken
+        goto pass1_cmd_print4
+
+      // セパレータが';'の場合
+pass1_cmd_print5:
+      if last_char#<>';' then "Syntax Error", assertError
+        getToken
+        goto pass1_cmd_print4
+
+pass1_cmd_print6:
+//    if last_char#<>';' then  nl
+
+//   "pass1_print end > ", prints xxxdmy, inputs
+
+    DONE, end
+
+// elseコマンド
+pass1_cmd_else:
+//  "else widthout if", assertError
+  DONE, end
+
+// thenコマンド
+pass1_cmd_then:
+//  "then without if", assertError
+  DONE, end
+
+// BASICのプログラムをコンパイルする(pass2)
+pass2:
+ long pass2_code#
+
+//  "pass2:", prints nl
+
+  xxxnl
+  "//  Basic main program", xxxprints xxxnl
+  "BasicMain:", xxxprints xxxnl
+  " clear_value", xxxprints xxxnl
+
+  0, LabelCount#=
+  0, status#=
+  TopProg#, CurrentProg#=
+  if CurrentProg#=NULL then end
+  clear_value
+  CurrentProg#, ->Program.text# TokenP#= 
+  pass2_getToken // 最初のトークン切り出し
+
+
+  // ループ
+  pass2_1:
+
+//  "pass2:  ", prints TokenText, prints 
+//  " > ", prints xxxdmy, inputs
+
+    // トークンがCOMMANDなら次のトークンをとりだしてDISPATCH
+    if TokenType#<>COMMAND goto pass2_3
+
+//  "pass2 command:", prints nl
+
+pass2_2:
+
+//  "pass2_2:  ", prints nl
+   
+     TokenCode#, _Command.SIZE, * pass2_code#=
+      pass2_getToken
+      pass2_Command, pass2_code#, + ->@_Command.func status#=
+
+//      "status=", prints status#, printd nl
+
+      // 最終行(中身無し)に到達すると終了
+      if CurrentProg#=NULL goto pass2_7
+
+      if status#<>DONE then "Illegal command", assertError  
+      goto pass2_1
+
+// トークンが変数なら代入
+pass2_3:
+
+//  "pass2_3:  ", prints nl
+   
+    if TokenType#=VARIABLE then pass2_cmd_let gotopass2_1
+
+
+// トークンがEOLなら次の行へ
+    if TokenType#<>EOL goto pass2_4
+
+//  "pass2 eol:", prints nl
+
+      // 次の行に移る
+      CurrentProg#, ->Program.next# CurrentProg#=
+
+      // 最終行(中身無し)に到達すると終了
+      if CurrentProg#=NULL goto pass2_7
+
+      // テキストポインタを設定
+      CurrentProg#, ->Program.text# TokenP#=
+      pass2_getToken
+      goto pass2_1
+
+// マルチステートメントの処理
+pass2_4:
+
+//  "pass2_4:  ", prints nl
+   
+    if TokenType#<>DELIMIT goto pass2_5
+
+//  "pass2 delimit:", prints nl
+
+      if TokenText$=':' then pass2_getToken gotopass2_1
+      "Syntax Error", assertError
+
+// ラベルの場合は無視(1つの行に2個以上ラベルがある場合は、最初のラベル以外は無視されるので注意)
+pass2_5:
+
+//  "pass2_5:  ", prints nl
+   
+    if TokenType#<>LABEL goto pass2_6
+    " ", xxxprints TokenText, xxxprints ":", xxxprints xxxnl
+    pass2_getToken
+    goto pass2_1
+
+// 上記以外の場合は文法エラー  
+pass2_6:
+
+//  "pass2_6:  ", prints nl
+   
+
+//  "pass2 other:", prints nl
+
+    "Syntax Error", assertError
+    end
+
+// 終了処理
+pass2_7:
+
+//  "pass2_7:  ", prints nl
+   
+        clear_value
+        NULL, BreakProg#= CurrentProg#=
+        TERMINATE, end
+
+// トークンが正しければ次のトークンを読み込み
+// トークンが間違っていたらエラーを発生させる
+pass2_checkToken:
+  token#=
+  
+//  "pass2_check token:", prints nl
+  
+  TokenText, token#, strcmp tt#=
+  if tt#<>0 then "Syntax Error", assertError
+  pass2_getToken
+  end
+
+// トークンを切り出してバッファに格納する
+pass2_getToken:
+
+// "pass2_getToken:", prints TokenP#, prints nl
+
+  NULL, TokenText$=
+  0, ii#=
+
+  // 空白や制御文字をスキップする
+pass2_getToken1:
+   if (TokenP)$>' ' goto pass2_getToken2
+     if (TokenP)$=NULL then EOL, TokenType#= end
+     TokenP#++
+     goto pass2_getToken1
+
+  // "'"が現れたときは行の終わり
+pass2_getToken2:
+  if (TokenP)$=A_QUOT then EOL, TokenType#= end
+
+  // 先頭が"であれば次の"までは文字列
+  if (TokenP)$<>DBL_QUOT goto pass2_getToken4
+    STRING, TokenType#=
+    TokenP#++
+pass2_getToken3:
+   if (TokenP)$=NULL then "SyntaxError", assertError
+   if (TokenP)$<>DBL_QUOT then (TokenP)$, TokenText$(ii#)= TokenP#++ ii#++ gotopass2_getToken3
+   TokenP#++
+    NULL, TokenText$(ii#)=
+//    "string:", prints nl 
+    end
+
+  // 先頭がアルファベット
+pass2_getToken4:
+  (TokenP)$, is_symbol_char0 tt#=
+  if tt#=0 goto pass2_getToken10
+  
+//  "symbol char:", prints nl
+  
+pass2_getToken5:
+  (TokenP)$, is_symbol_char tt#=
+  if tt#=1 then  (TokenP)$, TokenText$(ii#)= TokenP#++ ii#++ gotopass2_getToken5
+  NULL, TokenText$(ii#)=
+
+//  "TokenText=", prints TokenText, prints nl
+
+    // "else"キーワードが出てきたら行の終わりと判断する
+pass2_getToken6:
+    TokenText, "else", strcmp tt#=
+    if tt#=0 then EOL, TokenType#= end
+
+    // Basicのコマンドの場合
+    pass2_Command, pp#= 0, ii#=
+pass2_getToken7:
+    pp#, ->_Command.keyword# qq#=
+    if qq#=NULL goto  pass2_getToken8
+    TokenText, qq#, strcmp tt#=
+    if tt#=0 then  COMMAND, TokenType#= ii#, TokenCode#= end
+    pp#, _Command.SIZE, + pp#=
+    ii#++
+    goto pass2_getToken7
+
+    // 関数の場合
+pass2_getToken8:
+    pass2_Function, pp#= 0, ii#=
+pass2_getToken8x:
+    pp#, ->_Function.keyword# qq#=
+    if qq#=NULL goto  pass2_getToken9
+    TokenText, qq#, strcmp tt#=
+    if tt#=0 then  FUNCTION, TokenType#= ii#, TokenCode#= end
+    pp#, _Function.SIZE, + pp#=
+    ii#++
+    goto pass2_getToken8x
+
+    // コマンドでも関数でもないときは変数とみなす
+pass2_getToken9:
+  
+//  "variable:", prints nl
+  
+    VARIABLE, TokenType#= end
+
+  // 先頭がラベルの先頭文字であれば英数字と'_'が続いているところはラベル
+pass2_getToken10:
+  if (TokenP)$<>LABEL_HEADER goto pass2_getToken20
+    LABEL, TokenType#=
+    TokenP#++
+    0, TokenCode#=
+pass2_getToken11:
+    (TokenP)$, is_symbol_char tt#=
+    if tt#=1 then (TokenP)$, TokenText$(ii#)= TokenCode#, + TokenCode#= TokenP#++ ii#++ gotopass2_getToken11
+    NULL, TokenText$(ii#)=
+  
+//  "label:", prints nl
+//  "TokenText=", prints TokenText, prints nl
+
+  
+    end
+
+// 先頭が'&' , '.' あるいは'0'~'9'で始まっている場合が数値
+pass2_getToken20:
+  (TokenP)$, cc#=
+  if cc#='&' goto pass2_getToken21
+  if cc#='.'   goto pass2_getToken21
+  if cc#<'0'  goto pass2_getToken30
+  if cc#>'9'  goto pass2_getToken30
+
+pass2_getToken21:
+      NUMBER, TokenType#=
+      TokenP#, xval TokenValue#= pop tt#=
+      if TokenValue#=NaN then "Bad Number Format", assertError
+      0, ii#=
+pass2_getToken22:
+      (TokenP)$, TokenText$(ii#)=
+      TokenP#++
+      ii#++
+      if TokenP#<tt# goto pass2_getToken22
+      NULL, TokenText$(ii#)=
+      end
+
+// 上記以外は区切り文字
+pass2_getToken30:
+    DELIMIT, TokenType#=
+    cc#, TokenText$(ii#)=
+    ii#++
+    TokenP#++
+    (TokenP)$, bb#=
+    
+    if cc#<>'=' goto pass2_getToken31
+    if bb#='<' then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotopass2_getToken33 
+    if bb#='>' then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotopass2_getToken33 
+
+pass2_getToken31:
+    if cc#<>'<' goto pass2_getToken32
+    if bb#='=' then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotopass2_getToken33 
+    if bb#='>' then bb#, TokenText$(ii#)= ii#++ TokenP#++ gotopass2_getToken33 
+
+pass2_getToken32:
+    if cc#<>'>' goto pass2_getToken33
+    if bb#='=' then bb#, TokenText$(ii#)= ii#++ TokenP#++
+
+pass2_getToken33:
+    NULL, TokenText$(ii#)=
+  
+//  "delimitter:", prints nl
+//  "TokenText=", prints TokenText, prints nl
+
+ end
+
+// 変数の値をスタックに置く
+pass2_put_variable_value:
+  long xvar_name#
+   xvname#=  strlen 1, + malloc xvar_name#=
+   xvname#, xvar_name#, strcpy
+
+  xvar_name#,  1, _variable xvar#=
+  xvar_name#,  var_type xtype#=
+
+// 単純変数の場合
+  xvar#, ->Variable.dimension# dims#=
+  if dims#<>0 goto pass2_put_variable_value2
+  pass2_getToken
+
+// 文字列変数の場合
+    if xtype#<>STRING goto pass2_put_variable_value1
+    xvar_name#, strlen 1, - tt#=  '_', (xvar_name)$(tt#)=
+    " ", xxxprints xvar_name#, xxxprints ", put_string", xxxprints xxxnl
+    xvar_name#, free
+    end
+
+// 数値型変数の場合
+pass2_put_variable_value1:
+    " ", xxxprints xvar_name#, xxxprints "#, put_number", xxxprints xxxnl
+    xvar_name#, free
+    end
+
+// 配列変数の場合
+pass2_put_variable_value2:
+  pass2_getToken
+  "(", pass2_checkToken
+
+  xvar_name#, PUSH
+  xvar#,   PUSH
+  xtype#, PUSH
+  dims#,   PUSH
+  pass2_eval_expression
+  POP dims#=
+  POP xtype#=
+  POP xvar#=
+  POP xvar_name#=
+
+   " get_number (long) __index#=", xxxprints xxxnl
+
+  xvar#, ->Variable.dim xdim#=
+  1, vii#=
+pass2_put_variable_value3:
+  if vii#>=dims# goto pass2_put_variable_value4
+  ",",  pass2_checkToken
+
+  xvar_name#, PUSH
+  xdim#,  PUSH
+  vii#,      PUSH
+  xvar#,   PUSH
+  xtype#, PUSH
+  dims#,   PUSH
+  pass2_eval_expression
+  POP dims#=
+  POP xtype#=
+  POP xvar#=
+  POP vii#=
+  POP xdim#=
+  POP xvar_name#=
+
+    " __index#, ", xxxprints (xdim)#(vii#), xxxprintd ", * __index#=", xxxprints xxxnl
+    " get_number (long) __index#, + __index#=", xxxprints xxxnl
+
+  vii#++
+  goto pass2_put_variable_value3
+  
+pass2_put_variable_value4:
+  ")",  pass2_checkToken
+
+// 文字列変数の場合
+    if xtype#<>STRING goto pass2_put_variable_value5
+    xvar_name#, strlen 1, - tt#=  '_', (xvar_name)$(tt#)=
+
+    " __index#, 512, * ", xxxprints xvar_name#, xxxprints ", + put_string", xxxprints xxxnl
+
+    xvar_name#, free
+    end
+
+// 数値型変数の場合
+pass2_put_variable_value5:
+
+    " ", xxxprints xvar_name#, xxxprints "#(__index#), put_number", xxxprints xxxnl
+
+    xvar_name#, free
+    end
+
+// 変数の値を格納してあるアドレスをスタックに置く
+pass2_put_variable_address:
+   xvname#=  strlen 1, + malloc xvar_name#=
+   xvname#, xvar_name#, strcpy
+
+  xvar_name#,  1, _variable xvar#=
+  xvar_name#,  var_type xtype#=
+
+// 単純変数の場合
+  xvar#, ->Variable.dimension# dims#=
+  if dims#<>0 goto pass2_put_variable_address2
+  pass2_getToken
+
+// 文字列変数の場合
+    if xtype#<>STRING goto pass2_put_variable_address1
+    xvar_name#, strlen 1, - tt#=  '_', (xvar_name)$(tt#)=
+    " ", xxxprints xvar_name#, xxxprints ", put_number", xxxprints xxxnl
+    xvar_name#, free
+    end
+
+// 数値型変数の場合
+pass2_put_variable_address1:
+    " ", xxxprints xvar_name#, xxxprints ", put_number", xxxprints xxxnl
+    xvar_name#, free
+    end
+
+// 配列変数の場合
+pass2_put_variable_address2:
+  pass2_getToken
+  "(", pass2_checkToken
+
+  xvar_name#, PUSH
+  xvar#,   PUSH
+  xtype#, PUSH
+  dims#,   PUSH
+  pass2_eval_expression
+  POP dims#=
+  POP xtype#=
+  POP xvar#=
+  POP xvar_name#=
+
+   " get_number (long) __index#=", xxxprints xxxnl
+
+  xvar#, ->Variable.dim xdim#=
+  1, vii#=
+pass2_put_variable_address3:
+  if vii#>=dims# goto pass2_put_variable_address4
+  ",",  pass2_checkToken
+
+  xvar_name#, PUSH
+  xdim#,  PUSH
+  vii#,      PUSH
+  xvar#,   PUSH
+  xtype#, PUSH
+  dims#,   PUSH
+  pass2_eval_expression
+  POP dims#=
+  POP xtype#=
+  POP xvar#=
+  POP vii#=
+  POP xdim#=
+  POP xvar_name#=
+
+    " __index#, ", xxxprints (xdim)#(vii#), xxxprintd ", * __index#=", xxxprints xxxnl
+    " get_number (long) __index#, + __index#=", xxxprints xxxnl
+
+  vii#++
+  goto pass2_put_variable_address3
+  
+pass2_put_variable_address4:
+  ")",  pass2_checkToken
+
+// 文字列変数の場合
+    if xtype#<>STRING goto pass2_put_variable_address5
+    xvar_name#, strlen 1, - tt#=  '_', (xvar_name)$(tt#)=
+
+    " __index#, 512, * ", xxxprints xvar_name#, xxxprints ", + put_number", xxxprints xxxnl
+
+    xvar_name#, free
+    end
+
+// 数値型変数の場合
+pass2_put_variable_address5:
+
+    " __index#, 8, * ",     xxxprints xvar_name#, xxxprints ", + put_number", xxxprints xxxnl
+
+    xvar_name#, free
+    end
+
+// waitコマンド
+pass2_cmd_wait:
+
+// "pass2 cmd wait:", prints nl
+
+  " clear_value", xxxprints xxxnl
+
+  pass2_eval_expression
+
+  " get_number (long) wait", xxxprints xxxnl
+
+  DONE, end
+
+// clearコマンド
+pass2_cmd_clear:
+
+// "cmd clear:", prints nl
+
+  "Illegal command", assertError
+
+  DONE, end
+
+// closeコマンド
+pass2_cmd_close:
+
+// "pass2 cmd close:", prints nl
+
+  if TokenText$<>'#' goto pass2_file_close_all
+    pass2_getToken
+    TokenValue#, (long) nnx#=
+    if nnx#<0 then "Out of Range", assertError
+    if nnx#>MAX_FILES then "Out of Range", assertError
+
+  " if Xfd#(", xxxprints nnx#, xxxprintd ")<>ERROR then Xfd#(", xxxprints
+  nnx#, xxxprintd "), wclose", xxxprints xxxnl
+  " ERROR, Xfd#(", xxxprints nnx#, xxxprintd ")=", xxxprints xxxnl
+
+    pass2_getToken
+    DONE, end
+
+pass2_file_close_all:
+
+  " for __tmp1#=0 to 15", xxxprints xxxnl
+  " if Xfd#(__tmp1#)<>ERROR then Xfd#(__tmp1#), wclose", xxxprints xxxnl
+  " ERROR, Xfd#(__tmp1#)=", xxxprints xxxnl
+  " next __tmp1#", xxxprints xxxnl
+
+    DONE, end
+
+// openコマンド
+pass2_cmd_open:
+
+// "pass2 cmd open:", prints nl
+
+  " clear_value", xxxprints xxxnl
+
+  pass2_eval_expression
+
+  " get_string __tmp1#=", xxxprints xxxnl
+  " __tmp1#, __sbuf, strcpy", xxxprints xxxnl
+  " __tmp1#, free", xxxprints xxxnl
+
+  "for", checkToken
+  0, io_flg#=
+  TokenText, "input",   strcmp ss#=
+  TokenText, "output", strcmp tt#=
+  ss#, tt#, * ss#=
+  if ss#<>0 then "Syntax Error", assertError
+  if tt#=0 then 1, io_flg#= 
+  pass2_getToken
+  "as", pass2_checkToken
+  "#",  pass2_checkToken
+  if TokenType#<>NUMBER then "Syntax Error", assertError
+  TokenValue#, (long) nnx#=
+  if nnx#<0 then "Out of Range", assertError
+  if nnx#>=MAX_FILES then "Out of Range", assertError
+  pass2_getToken
+
+  " if Xfd#(", xxxprints nnx#, xxxprintd ")<>ERROR then ", xxxprints
+  DBL_QUOT, xxxputchar "File is already open", xxxprints DBL_QUOT, xxxputchar
+  ", prints nl break", xxxprints xxxnl
+  " NULL, Xfd#(", xxxprints nnx#, xxxprintd ")=", xxxprints xxxnl
+
+// 書きこみモード
+  if io_flg#=0 goto pass2_cmd_open1
+
+  " __sbuf, Xfd#(", xxxprints nnx#, xxxprintd "), wopen __tmp1#=", xxxprints xxxnl
+  " if __tmp1#=ERROR then ", xxxprints
+  DBL_QUOT, xxxputchar "File can not open(write)", xxxprints DBL_QUOT, xxxputchar
+  ", prints nl ERROR, Xfd#(", xxxprints nnx#, xxxprintd ")= break", xxxprints xxxnl
+
+  DONE, end
+
+// 読み込みモード
+pass2_cmd_open1:
+
+  " __sbuf, Xfd#(", xxxprints nnx#, xxxprintd "), ropen __tmp1#=", xxxprints xxxnl
+  " if __tmp1#=ERROR then ", xxxprints
+  DBL_QUOT, xxxputchar "File can not open(read)", xxxprints DBL_QUOT, xxxputchar
+  ", prints nl ERROR, Xfd#(", xxxprints nnx#, xxxprintd ")= break", xxxprints xxxnl
+
+  DONE, end
+
+// dimコマンド
+pass2_cmd_dim:
+
+// "pass2 cmd dim:", prints nl
+  
+pass2_cmd_dim1:
+    if TokenType#=EOL goto pass2_cmd_dim2
+    if TokenType#=DELIMIT then if TokenText$=':' goto pass2_cmd_dim2
+    pass2_getToken
+    goto pass2_cmd_dim1
+pass2_cmd_dim2:
+  DONE, end
+
+// ifコマンド
+pass2_cmd_if:
+  long lbl_count#
+  long state0#
+
+// "pass2 cmd if:", prints nl
+
+  LabelCount#, lbl_count#= LabelCount#++
+  DONE, state0#=
+
+  // 論理式が真ならば"then"をチェックしてその次から始める
+  clear_value
+  pass2_eval_expression
+
+// "pass2 eval expression end:", prints nl
+
+  " get_number __tmp1#=", xxxprints xxxnl
+
+  "then", pass2_checkToken
+
+  // if ~ then ラベル    
+  if TokenType#<>LABEL  goto pass2_cmd_if1
+
+
+// "pass2 cmd if goto :", prints nl
+
+  " if __tmp1#.<>^0.0 goto ", xxxprints TokenText, xxxprints xxxnl
+
+  pass2_getToken
+  TokenText, "else", strcmp tt#=
+  if tt#=0  goto if_else
+  goto  if_end
+
+// if ~ then 実行文
+pass2_cmd_if1:
+
+  " if __tmp1#.=^0.0 goto __else", xxxprints lbl_count#, xxxprintd xxxnl
+
+
+ // トークンがCOMMANDなら次のトークンをとりだしてDISPATCH
+pass2_cmd_if2:
+
+// "pass2 cmd if2: tokentext=", prints TokenText, prints 
+// " tokentype=", prints TokenType#, printd nl
+
+  if TokenType#<>COMMAND goto pass2_cmd_if3
+
+  TokenCode#, _Command.SIZE, * pass2_code#=
+  pass2_getToken
+  lbl_count#, PUSH
+  pass2_Command, pass2_code#, + ->@_Command.func state0#=
+  POP lbl_count#=
+  if state0#<>DONE  goto if_end
+  goto pass2_cmd_if2 
+
+// トークンが変数なら代入
+pass2_cmd_if3:
+
+// "pass2 cmd if3:", prints nl
+
+  if TokenType#=VARIABLE then  pass2_cmd_let gotopass2_cmd_if2
+
+
+// トークンがEOL
+  if TokenType#<>EOL goto pass2_cmd_if4
+
+
+// "pass2 cmd if then eol:", prints nl
+
+  " goto __endif", xxxprints lbl_count#, xxxprintd xxxnl
+  "__else", xxxprints lbl_count#, xxxprintd ":", xxxprints xxxnl
+
+  TokenText, "else", strcmp tt#=
+  if tt#=0 goto if_else
+
+   // 次の行に移る
+
+// "pass2 cmd if next line:", prints nl
+
+   CurrentProg#, ->Program.next# CurrentProg#=
+
+   // 最終行(中身無し)に到達すると終了
+   if CurrentProg#=NULL then TERMINATE, state0#= gotoif_end
+
+   // テキストポインタを設定
+   CurrentProg#, ->Program.text# TokenP#=
+   pass2_getToken
+   goto if_end
+
+// マルチステートメントの処理 
+pass2_cmd_if4:
+
+// "pass2 cmd if4:", prints nl
+
+  if TokenType#<>DELIMIT goto pass2_cmd_if5
+
+// "pass2 cmd if then delimit:", prints nl
+
+  if TokenText$=':'  then pass2_getToken gotopass2_cmd_if2
+  "Syntax Error", assertError
+
+// ラベルの場合は無視(1つの行に2個以上ラベルがある場合は、最初のラベル以外は無視されるので注意)
+pass2_cmd_if5:
+
+// "pass2 cmd if5:", prints nl
+
+  if TokenType#<>LABEL goto pass2_cmd_if6
+
+// "pass2 cmd if then label:", prints nl
+
+  pass2_getToken
+  goto pass2_cmd_if2
+
+// 上に当てはまらないならエラー  
+pass2_cmd_if6:
+  "Syntax Error", assertError
+  goto pass2_cmd_if2
+
+
+// else 以降の処理
+if_else:
+
+
+// "pass2 cmd if else :", prints nl
+
+  pass2_getToken
+  if TokenType#<>LABEL  goto pass2_cmd_if7
+
+// "pass2 cmd if else label:", prints nl
+
+  " goto ", xxxprints TokenText, xxxprints xxxnl
+
+   // 次の行に移る
+   CurrentProg#, ->Program.next# CurrentProg#=
+
+   // 最終行(中身無し)に到達すると終了
+   if CurrentProg#=NULL then TERMINATE, state0#= gotoif_end
+
+   // テキストポインタを設定
+   CurrentProg#, ->Program.text# TokenP#=
+   pass2_getToken
+   goto if_end
+
+//xxprintf("enter loop\n");
+
+ // トークンがCOMMANDなら次のトークンをとりだしてDISPATCH
+pass2_cmd_if7:
+
+// "pass2 cmd if7:", prints nl
+
+  if TokenType#<>COMMAND goto pass2_cmd_if8
+
+// "pass2 cmd if else command:", prints nl
+
+  TokenCode#, _Command.SIZE, * pass2_code#=
+  pass2_getToken
+  lbl_count#, PUSH
+
+//  "cmd in", prints nl
+  
+  pass2_Command, pass2_code#, + ->@_Command.func state0#=
+
+//  "cmd out", prints nl
+
+  POP lbl_count#=
+  if state0#<>DONE  goto if_end
+  goto pass2_cmd_if7 
+
+// トークンが変数なら代入
+pass2_cmd_if8:
+
+// "pass2 cmd if8:", prints nl
+
+  if TokenType#=VARIABLE then  pass2_cmd_let gotopass2_cmd_if7
+
+
+// トークンがEOL
+  if TokenType#<>EOL goto pass2_cmd_if9
+
+
+// "pass2 cmd if else eol:", prints nl
+
+   // 次の行に移る
+
+// "pass2 cmd if else next line:", prints nl
+
+   CurrentProg#, ->Program.next# CurrentProg#=
+
+   // 最終行(中身無し)に到達すると終了
+   if CurrentProg#=NULL then TERMINATE, state0#= gotoif_end
+
+   // テキストポインタを設定
+   CurrentProg#, ->Program.text# TokenP#=
+   pass2_getToken
+   goto if_end
+
+// マルチステートメントの処理 
+pass2_cmd_if9:
+
+// "pass2 cmd if9:", prints nl
+
+  if TokenType#<>DELIMIT goto pass2_cmd_if10
+
+ "pass2 cmd if else delimit:", prints nl
+
+  if TokenText$<>':'  then "Syntax Error", assertError
+  pass2_getToken
+  goto pass2_cmd_if7
+ 
+// ラベルの場合は無視(1つの行に2個以上ラベルがある場合は、最初のラベル以外は無視されるので注意)
+pass2_cmd_if10:
+
+// "pass2 cmd if10:", prints nl
+
+  if TokenType#<>LABEL goto pass2_cmd_if11
+
+// "pass2 cmd if else label:", prints nl
+
+  pass2_getToken
+  goto pass2_cmd_if7
+
+// 上に当てはまらないならエラー  
+pass2_cmd_if11:
+  "Syntax Error", assertError
+
+// 終了処理
+if_end:
+
+
+// "pass2 cmd if end:", prints nl
+
+  "__endif", xxxprints lbl_count#, xxxprintd ":", xxxprints xxxnl
+
+  state0#, end
+
+// returnコマンド
+pass2_cmd_return:
+
+// "pass2 cmd return:", prints nl
+
+    " end", xxxprints xxxnl
+
+  DONE, end
+
+// gosubコマンド
+pass2_cmd_gosub:
+  
+//  "pass2 cmd gosub:", prints nl
+  
+  " ", xxxprints TokenText, xxxprints xxxnl
+
+  pass2_getToken
+  DONE, end
+
+// nextコマンド
+pass2_cmd_next:
+
+// "pass2 cmd next:", prints nl
+
+  if TokenType#<>VARIABLE then "next without variable", assertError
+  TokenText, vname, strcpy
+  pass2_getToken
+
+  " ", xxxprints vname, xxxprints      "#, ", xxxprints 
+  " ", xxxprints vname, xxxprints      "+16#, ", xxxprints 
+  " .+ ", xxxprints  
+  " ", xxxprints vname, xxxprints      "#= ", xxxprints xxxnl 
+  " ", xxxprints vname, xxxprints      "#, ", xxxprints 
+  " ", xxxprints vname, xxxprints  "+8#, ", xxxprints
+  " .- ", xxxprints  
+  " ", xxxprints vname, xxxprints "+16#, ", xxxprints 
+  " .* ", xxxprints  " __tmp1#=", xxxprints xxxnl
+  " if __tmp1#.<=^0.0 then ", xxxprints vname, xxxprints "+24#, jmp@", xxxprints xxxnl
+
+  DONE, end    
+
+// forコマンド
+pass2_cmd_for:
+   char vname0$(512)
+
+// "pass2 cmd for:", prints nl
+
+  TokenText, vname0, strcpy
+  pass2_cmd_let
+
+  "to", pass2_checkToken
+
+  " clear_value", xxxprints xxxnl
+
+  pass2_eval_expression
+
+  " get_number __tmp1#=", xxxprints xxxnl
+
+  // STEP値があるなら代入
+  TokenText, "step", strcmp tt#=
+  if tt#<>0 then " ^1.0, __tmp2#=", xxxprints xxxnl gotopass2_cmd_for1
+  pass2_getToken
+
+  " clear_value", xxxprints xxxnl
+
+  pass2_eval_expression
+
+  " get_number __tmp2#=", xxxprints xxxnl
+
+pass2_cmd_for1:
+
+  " __tmp1#, ", xxxprints vname0, xxxprints "+8#=",   xxxprints xxxnl
+  " __tmp2#, ", xxxprints vname0, xxxprints "+16#=", xxxprints xxxnl
+  " 11(rip), ",    xxxprints vname0, xxxprints "+24#=", xxxprints xxxnl
+
+  DONE, end
+
+// gotoコマンド
+pass2_cmd_goto:
+
+// "pass2 cmd goto:", prints nl
+
+  if TokenType#<>LABEL then "Syntax Error", assertError
+
+  " goto ", xxxprints TokenText, xxxprints xxxnl 
+
+  pass2_getToken
+  DONE, end
+
+// inputコマンド
+pass2_cmd_input:
+
+  // ファイルから入力
+  if TokenText$<>'#' goto pass2_cmd_input3
+    pass2_getToken
+    TokenValue#, (long) nnx#=
+    if nnx#<0 then   "Out of Range(input)", assertError
+    if nnx#>=MAX_FILES then  "Out of Range(input)", assertError
+
+    
+    " if Xfd#(", xxxprints nnx#, xxxprintd ")=ERROR then ", xxxprints
+    DBL_QUOT, xxxputchar "File is not open", xxxprints DBL_QUOT, xxxputchar 
+    ", prints nl", xxxprints xxxnl
+
+  
+    pass2_getToken
+
+      // 変数の場合は入力する
+pass2_cmd_input1:
+      if TokenType#<>VARIABLE goto pass2_cmd_input2
+
+        TokenText, var_type vtype#=
+        TokenText, pass2_put_variable_address
+        
+        " __sbuf, Xfd#(", xxxprints nnx#, xxxprintd "), finputs", xxxprints xxxnl
+
+        // 文字列変数の場合
+        if vtype#=STRING  then "  __sbuf, get_number strcpy", xxxprints xxxnl
+
+        // 数値変数の場合
+        if vtype#=NUMBER  then "  get_number __tmp1#= __sbuf, xval (__tmp1)#=", xxxprints xxxnl
+
+       goto pass2_cmd_input1
+
+      // セパレータ ',' or ';'
+pass2_cmd_input2:
+      if TokenType#<>DELIMIT then DONE, end
+      if TokenText$=',' then pass2_getToken gotopass2_cmd_input1
+      if TokenText$=';' then pass2_getToken gotopass2_cmd_input1
+      DONE, end
+
+  // コンソールから入力
+pass2_cmd_input3:
+    1, is_question#=
+
+pass2_cmd_input4:
+
+      // 文字列のときはプロンプト文字列を表示する
+      if TokenType#<>STRING goto pass2_cmd_input4_1
+
+        " ", xxxprints DBL_QUOT, xxxputchar TokenText, xxxprints DBL_QUOT, xxxputchar
+        ", prints", xxxprints xxxnl
+
+        pass2_getToken
+        goto pass2_cmd_input4
+  
+
+pass2_cmd_input4_1:
+
+      // 変数の場合は入力する
+      if TokenType#<>VARIABLE goto pass2_cmd_input5
+
+        TokenText, var_type vtype#=
+        TokenText, pass2_put_variable_address
+
+        if is_question#<>1 goto pass2_cmd_input4_2
+ 
+        " ", xxxprints DBL_QUOT, xxxputchar "? ", xxxprints DBL_QUOT, xxxputchar
+        ", prints", xxxprints xxxnl
+
+pass2_cmd_input4_2:
+
+       " __sbuf, inputs", xxxprints xxxnl
+
+        // 文字列変数の場合
+        if vtype#=STRING  then  " __sbuf, get_number strcpy", xxxprints xxxnl
+
+        // 数値変数の場合
+        if vtype#=NUMBER then " get_number __tmp1#= __sbuf, xval (__tmp1)#=", xxxprints xxxnl
+
+        1, is_question#=
+
+        goto pass2_cmd_input4
+
+      // セパレータ ',' or ';'
+pass2_cmd_input5:
+      if TokenType#<>DELIMIT goto pass2_cmd_input6
+      if TokenText$=',' then 1, is_question#= pass2_getToken gotopass2_cmd_input4
+      if TokenText$=';' then 0, is_question#= pass2_getToken gotopass2_cmd_input4
+
+pass2_cmd_input6:
+
+//  "pass2 cmd input end", prints nl
+
+      DONE, end
+
+// printコマンド
+pass2_cmd_print:
+ long nnx#
+  NULL, last_char#=
+
+// "pass2 cmd print:", prints nl
+
+  // print#文
+  if TokenText$<>'#' goto pass2_cmd_print4
+
+// "print#:", prints nl
+
+    pass2_getToken
+    if TokenType#<>NUMBER then "Syntax Error",  assertError
+    TokenValue#, (long) nnx#=
+    if nnx#<0 then "Out of Range(print)", assertError
+    if  nnx#>=MAX_FILES then "Out of range(print)", assertError
+
+
+    " if Xfd#(", xxxprints nnx#, xxxprintd ")=ERROR then ", xxxprints
+    DBL_QUOT, xxxputchar "file not open", xxxprints DBL_QUOT, xxxputchar
+    ", prints nl", xxxprints xxxnl
+
+    
+    pass2_getToken
+    if TokenType#=DELIMIT then if TokenText$=':' goto pass2_cmd_print4
+    if TokenType#=EOL goto pass2_cmd_print4
+    ",", pass2_checkToken
+
+pass2_cmd_print1:
+    if TokenType#=EOL then NULL, last_char#= gotopass2_cmd_print3
+    if TokenType#=DELIMIT then if TokenText$=':' goto pass2_cmd_print3
+
+      // データの表示
+
+      " clear_value", xxxprints xxxnl
+
+      pass2_eval_expression
+
+      " value_type __tmp1#=", xxxprints xxxnl
+      " if __tmp1#=STRING then get_string __tmp1#= Xfd#(", xxxprints
+      nnx#, xxxprintd "), fprints __tmp1#, free goto__lbl", xxxprints
+      LabelCount#, xxxprintd xxxnl
+      " get_number Xfd#(", xxxprints nnx#, xxxprintd "), fprintr", xxxprints xxxnl
+      "__lbl", xxxprints LabelCount#, xxxprintd ":", xxxprints xxxnl
+      LabelCount#++
+
+      if TokenType#=EOL then NULL, last_char#= gotopass2_cmd_print3
+      if TokenType#<>DELIMIT then "Syntax Error", assertError
+      TokenText$, last_char#=
+
+      // セパレータが':'の場合
+      if last_char#=':' goto pass2_cmd_print3
+
+      // セパレータが','の場合
+      if last_char#<>',' goto pass2_cmd_print2
+
+        DBL_QUOT, xxxputchar ",", xxxprints DBL_QUOT, xxxputchar
+         ", Xfd#(", xxxprints nnx#, xxxprintd "), fprints", xxxprints xxxnl
+
+        pass2_getToken
+        goto pass2_cmd_print1
+
+      // セパレータが';'の場合
+pass2_cmd_print2:
+      if last_char#<>';' then "Syntax Error", assertError
+        pass2_getToken
+        goto pass2_cmd_print1
+
+pass2_cmd_print3:
+
+    if last_char#<>';' then  " Xfd#(", xxxprints nnx#, xxxprintd "), fnl", xxxprints xxxnl
+
+    DONE, end
+
+  // print文
+pass2_cmd_print4:
+
+
+//  "pass2 cmd print4:", prints nl
+
+    if TokenType#=EOL then NULL, last_char#= gotopass2_cmd_print6
+    if TokenType#=DELIMIT then if TokenText$=':' goto pass2_cmd_print6
+
+      // データの表示
+
+      " clear_value", xxxprints xxxnl
+
+      pass2_eval_expression
+
+      // 文字列型データの表示
+
+//  "output source", prints nl
+
+      " value_type __tmp1#=", xxxprints xxxnl
+      " if __tmp1#=STRING then get_string __tmp1#= prints __tmp1#, free goto__lbl", xxxprints
+      LabelCount#, xxxprintd xxxnl
+      " get_number printr", xxxprints xxxnl
+      "__lbl", xxxprints LabelCount#, xxxprintd ":", xxxprints xxxnl
+      LabelCount#++
+
+//  "output source end", prints nl
+
+      if TokenType#=EOL then NULL, last_char#= gotopass2_cmd_print6
+      if TokenType#<>DELIMIT then "Syntax Error", assertError
+      TokenText$, last_char#=
+
+      // セパレータが':'の場合
+      if last_char#=':' goto pass2_cmd_print6
+
+      // セパレータが','の場合
+      if last_char#<>',' goto pass2_cmd_print5
+        DBL_QUOT, xxxputchar ",", xxxprints DBL_QUOT, xxxputchar ", prints" xxxprints
+        xxxnl
+        pass2_getToken
+        goto pass2_cmd_print4
+
+      // セパレータが';'の場合
+pass2_cmd_print5:
+
+//  "pass2 cmd print5:", prints nl
+
+      if last_char#<>';' then "Syntax Error", assertError
+        pass2_getToken
+        goto pass2_cmd_print4
+
+pass2_cmd_print6:
+
+//  "pass2 cmd print6:", prints nl
+
+    if last_char#<>';' then  " nl", xxxprints xxxnl
+
+//  "print end:", prints nl
+
+    DONE, end
+
+// stopコマンド
+pass2_cmd_stop:
+
+  "Illegal command", assertError
+
+  DONE, end
+
+// contコマンド
+pass2_cmd_cont:
+
+// "cmd cont:", prints nl
+
+  "Illegal command", assertError
+
+  DONE, end
+
+// runコマンド
+pass2_cmd_run:
+
+// "pass2 cmd run:", prints nl
+
+  "Illegal command", assertError
+
+  DONE, end
+
+// 代入文
+pass2_cmd_let:
+ 
+// "pass2 cmd let:", prints nl
+
+  if TokenType#<>VARIABLE then DONE, end
+  
+    TokenText, var_type vtype#=
+    TokenText, pass2_put_variable_address
+    "=", pass2_checkToken
+    pass2_eval_expression
+
+    if vtype#<>STRING goto pass2_cmd_let1
+
+    " get_string __tmp1#= get_number __tmp2#=", xxxprints xxxnl 
+    " __tmp1#, __tmp2#,  strcpy", xxxprints xxxnl 
+    " __tmp1#, free", xxxprints xxxnl 
+    " clear_value", xxxprints xxxnl 
+
+    DONE, end
+
+pass2_cmd_let1:
+    
+    " get_number __tmp1#= get_number __tmp2#=", xxxprints xxxnl 
+    " __tmp1#, (__tmp2)#=", xxxprints xxxnl 
+    " clear_value", xxxprints xxxnl 
+
+    DONE, end
+
+// saveコマンド
+pass2_cmd_save:
+
+// "cmd save:", prints  TokenText, prints nl
+
+  "Illegal command", assertError
+
+  TERMINATE, end
+
+// listコマンド
+pass2_cmd_list:
+
+// "cmd list:", prints nl
+
+  "Illegal command", assertError
+
+    TERMINATE, end
+
+// loadコマンド
+pass2_cmd_load:
+
+// "cmd load:", prints nl
+
+  "Illegal command", assertError
+
+  TERMINATE, end
+
+// byeコマンド
+pass2_cmd_quit:
+
+// "cmd quit:", prints nl
+
+  "Illegal command", assertError
+
+  QUIT, end
+
+// endコマンド
+pass2_cmd_end:
+
+// "pass2 cmd end:", prints nl
+
+    " end", xxxprints xxxnl
+
+  DONE, end
+
+// newコマンド
+pass2_cmd_new:
+  "Illegal command", assertError
+  TERMINATE, end
+
+// clsコマンド
+pass2_cmd_cls:
+
+// "pass2  cmd cls:", prints nl
+
+  " cls", xxxprints xxxnl
+
+  pass2_getToken
+  DONE, end
+
+// editコマンド
+pass2_cmd_edit:
+
+// "cmd edit:", prints nl
+
+  "Illegal command", assertError
+
+ TERMINATE, end
+
+// psetコマンド
+pass2_cmd_pset:
+  "(", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __xx#=", xxxprints xxxnl
+  ",", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __yy#=", xxxprints xxxnl
+  ")", pass2_checkToken
+  if TokenText$<>',' goto pass2_cmd_pset1
+  pass2_getToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) xcolor#=", xxxprints xxxnl
+pass2_cmd_pset1:
+   " __xx#, __yy#, xdraw_point", xxxprints xxxnl
+   " __xx#, __draw_x1#=", xxxprints xxxnl
+   " __yy#, __draw_y1#=", xxxprints xxxnl
+   DONE, end
+
+// lineコマンド
+pass2_cmd_line:
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass2_cmd_line1
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_x1#=", xxxprints xxxnl
+    ",", pass2_checkToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_y1#=", xxxprints xxxnl
+    ")", pass2_checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass2_cmd_line1:
+  "-", pass2_checkToken
+  "(", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_x2#=", xxxprints xxxnl
+  ",", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_y2#=", xxxprints xxxnl
+  ")", pass2_checkToken
+  if TokenText$<>',' goto pass2_cmd_line2
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+   pass2_eval_expression
+   " get_number (long) xcolor#=", xxxprints xxxnl
+
+pass2_cmd_line2:
+  " __draw_x1#, __draw_y1#, __draw_x2#, __draw_y2#, xdraw_line", xxxprints xxxnl
+  " __draw_x2#, __draw_x1#=", xxxprints xxxnl
+  " __draw_y2#, __draw_y1#=", xxxprints xxxnl
+  DONE, end
+
+// boxコマンド
+pass2_cmd_box:
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass2_cmd_box1
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_x1#=", xxxprints xxxnl
+    ",", pass2_checkToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_y1#=", xxxprints xxxnl
+    ")", pass2_checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass2_cmd_box1:
+  "-", pass2_checkToken
+  "(", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_x2#=", xxxprints xxxnl
+  ",", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_y2#=", xxxprints xxxnl
+  ")", pass2_checkToken
+  if TokenText$<>',' goto pass2_cmd_box2
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+   pass2_eval_expression
+   " get_number (long) xcolor#=", xxxprints xxxnl
+
+pass2_cmd_box2:
+  " __draw_x1#, __draw_y1#, __draw_x2#, __draw_y2#, xdraw_rect", xxxprints xxxnl
+  " __draw_x2#, __draw_x1#=", xxxprints xxxnl
+  " __draw_y2#, __draw_y1#=", xxxprints xxxnl
+  DONE, end
+
+// boxfコマンド
+pass2_cmd_boxf:
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass2_cmd_boxf1
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_x1#=", xxxprints xxxnl
+    ",", pass2_checkToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_y1#=", xxxprints xxxnl
+    ")", pass2_checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass2_cmd_boxf1:
+  "-", pass2_checkToken
+  "(", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_x2#=", xxxprints xxxnl
+  ",", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_y2#=", xxxprints xxxnl
+  ")", pass2_checkToken
+  if TokenText$<>',' goto pass2_cmd_boxf2
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+   pass2_eval_expression
+   " get_number (long) xcolor#=", xxxprints xxxnl
+
+pass2_cmd_boxf2:
+  " __draw_x1#, __draw_y1#, __draw_x2#, __draw_y2#, xfill_rect", xxxprints xxxnl
+  " __draw_x2#, __draw_x1#=", xxxprints xxxnl
+  " __draw_y2#, __draw_y1#=", xxxprints xxxnl
+  DONE, end
+
+// circleコマンド
+pass2_cmd_circle:
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass2_cmd_circle1
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_x1#=", xxxprints xxxnl
+    ",", pass2_checkToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_y1#=", xxxprints xxxnl
+    ")", pass2_checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass2_cmd_circle1:
+  "-", pass2_checkToken
+  "(", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_x2#=", xxxprints xxxnl
+  ",", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_y2#=", xxxprints xxxnl
+  ")", pass2_checkToken
+  if TokenText$<>',' goto pass2_cmd_circle2
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+   pass2_eval_expression
+   " get_number (long) xcolor#=", xxxprints xxxnl
+
+pass2_cmd_circle2:
+  " __draw_x1#, __draw_y1#, __draw_x2#, __draw_y2#, xdraw_circle", xxxprints xxxnl
+  " __draw_x2#, __draw_x1#=", xxxprints xxxnl
+  " __draw_y2#, __draw_y1#=", xxxprints xxxnl
+  DONE, end
+
+// circlefコマンド
+pass2_cmd_circlef:
+
+  // 開始座標を指定する場合
+  if TokenText$<>'(' goto pass2_cmd_circlef1
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_x1#=", xxxprints xxxnl
+    ",", pass2_checkToken
+    " clear_value", xxxprints xxxnl
+    pass2_eval_expression
+    " get_number (long) __draw_y1#=", xxxprints xxxnl
+    ")", pass2_checkToken
+
+  // 開始座標を指定しないときはここから始める
+pass2_cmd_circlef1:
+  "-", pass2_checkToken
+  "(", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_x2#=", xxxprints xxxnl
+  ",", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_y2#=", xxxprints xxxnl
+  ")", pass2_checkToken
+  if TokenText$<>',' goto pass2_cmd_circlef2
+    pass2_getToken
+    " clear_value", xxxprints xxxnl
+   pass2_eval_expression
+   " get_number (long) xcolor#=", xxxprints xxxnl
+
+pass2_cmd_circlef2:
+  " __draw_x1#, __draw_y1#, __draw_x2#, __draw_y2#, xfill_circle", xxxprints xxxnl
+  " __draw_x2#, __draw_x1#=", xxxprints xxxnl
+  " __draw_y2#, __draw_y1#=", xxxprints xxxnl
+  DONE, end
+
+// imageコマンド
+pass2_cmd_image:
+
+  "(", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_x1#=", xxxprints xxxnl
+  ",", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_number (long) __draw_y1#=", xxxprints xxxnl
+  ")", pass2_checkToken
+  ",", pass2_checkToken
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+  " get_string __tmp1#=", xxxprints xxxnl
+  " _tmp1#, __sbuf, strcpy", xxxprints xxxnl
+  " __tmp1#, free", xxxprints xxxnl
+  " __sbuf, load_image __tmp1#=", xxxprints xxxnl
+  " if __tmp1#<>NULL then  __draw_x1#, __draw_y1#, __tmp1#, xdraw_image", xxxprints xxxnl
+  DONE, end
+
+// execコマンド
+pass2_cmd_exec:
+
+  " clear_value", xxxprints xxxnl
+  pass2_eval_expression
+
+  " get_string __tmp1#=", xxxprints xxxnl
+  " __tmp1#, __sbuf, strcpy", xxxprints xxxnl
+  " __tmp1#, free", xxxprints xxxnl
+  " __sbuf, exec_command", xxxprints xxxnl
+
+  DONE, end
+
+// locateコマンド
+pass2_cmd_locate:
+
+  " clear_value", xxxprints xxxnl
+
+  pass2_eval_expression
+
+  " get_number (long) __tmp1#=", xxxprints xxxnl
+
+  ",", pass2_checkToken
+
+  " clear_value", xxxprints xxxnl
+
+  pass2_eval_expression
+
+  " get_number (long) __tmp2#=", xxxprints xxxnl
+  " __tmp1#, __tmp2#, locate", xxxprints xxxnl
+
+  DONE, end
+
+// colorコマンド
+pass2_cmd_color:
+  clear_value
+   pass2_eval_expression
+   " get_number (long) xcolor#=", xxxprints xxxnl
+  DONE, end
+
+// pass2コマンド
+pass2_Command:
+  data "run",pass2_cmd_run
+  data "if",pass2_cmd_if
+  data "for",pass2_cmd_for
+  data "next",pass2_cmd_next
+  data "goto",pass2_cmd_goto
+  data "gosub",pass2_cmd_gosub
+  data "return",pass2_cmd_return
+  data "print",pass2_cmd_print
+  data "input",pass2_cmd_input
+  data "clear",pass2_cmd_clear
+  data "pset",pass2_cmd_pset
+  data "cls",pass2_cmd_cls
+  data "line",pass2_cmd_line
+  data "locate",pass2_cmd_locate
+  data "dim",pass2_cmd_dim
+  data "open",pass2_cmd_open
+  data "close",pass2_cmd_close
+  data "box",pass2_cmd_box
+  data "boxf",pass2_cmd_boxf
+  data "circle",pass2_cmd_circle
+  data "circlef",pass2_cmd_circlef
+//  data "start",pass2_cmd_start
+  data "exec",pass2_cmd_exec
+  data "wait",pass2_cmd_wait
+  data "image",pass2_cmd_image
+  data "save",pass2_cmd_save
+  data "edit",pass2_cmd_edit
+  data "load",pass2_cmd_load
+  data "new",pass2_cmd_new
+//  data "let",pass2_cmd_let
+  data "end",pass2_cmd_end
+  data "list",pass2_cmd_list
+  data "run",pass2_cmd_run
+  data "bye",pass2_cmd_quit
+  data "stop",pass2_cmd_stop
+  data "cont",pass2_cmd_cont
+  data "color",pass2_cmd_color
+//  data "make",pass2_cmd_make
+  data "then",pass2_cmd_then
+  data "else",pass2_cmd_else
+  data NULL,NULL
+
+// elseコマンド
+pass2_cmd_else:
+  "else without if", assertError
+  DONE, end
+
+// thenコマンド
+pass2_cmd_then:
+  "then without if", assertError
+  DONE, end
+
+// len関数
+pass2_func_len:
+
+// "pass2 func len:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_string  strlen (double) put_number", xxxprints xxxnl
+
+  0, end
+
+// val関数
+pass2_func_val:
+
+// "pass2 func val:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_string __arg0#=", xxxprints xxxnl
+    " bas_val put_number", xxxprints xxxnl
+
+  0, end
+
+// str$関数
+pass2_func_strs:
+
+// "pass2 func strs:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number xstr put_string", xxxprints xxxnl
+
+  0, end
+
+// left$関数
+pass2_func_lefts:
+
+// "pass2 func lefts:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ",", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number __arg1#=", xxxprints xxxnl
+    " get_string __arg0#=", xxxprints xxxnl
+    " bas_lefts put_string", xxxprints xxxnl
+
+  0, end
+
+// mid$関数
+pass2_func_mids:
+  
+// "pass2 func mids:", prints nl 
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ",", pass2_checkToken
+  pass2_eval_expression
+  if TokenText$=','   then  pass2_getToken pass2_eval_expression gotopass2_func_midsx
+
+    " ^511.0, put_number", xxxprints xxxnl
+
+pass2_func_midsx:
+  ")", pass2_checkToken
+
+    " get_number __arg2#=", xxxprints xxxnl
+    " get_number __arg1#=", xxxprints xxxnl
+    " get_string __arg0#=", xxxprints xxxnl
+    " bas_mids put_string", xxxprints xxxnl
+
+  0, end
+
+// asc関数
+pass2_func_asc:
+
+// "pass2 func asc:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+ 
+    " get_string __arg0#=", xxxprints xxxnl
+    " (__arg0)$, (double) put_number", xxxprints xxxnl
+    " __arg0#, free", xxxprints xxxnl
+
+ 0, end
+
+// right$関数/
+pass2_func_rights:
+
+// "pass2_func rights:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ",", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number __arg1#=", xxxprints xxxnl
+    " get_string __arg0#=", xxxprints xxxnl
+    " bas_rights put_string", xxxprints xxxnl
+
+  0, end
+
+// chr$関数
+pass2_func_chrs:
+
+// "pass2 func chrs:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number (long) __sbuf2$(0)=", xxxprints xxxnl
+    " 0, __sbuf2$(1)=", xxxprints xxxnl
+    " __sbuf2, put_string", xxxprints xxxnl
+
+  0, end
+
+// abs関数
+pass2_func_abs:
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number __arg0#=", xxxprints xxxnl
+    " bas_abs put_number",   xxxprints xxxnl
+
+  0, end
+
+// input$関数
+pass2_func_inputs:
+
+// "pass2 func inputs:", prints nl 
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+
+
+  // ファイルから指定文字数入力
+  if TokenText$<>',' goto pass2_func_inputs1
+    pass2_getToken
+    if TokenText$='#' then pass2_getToken
+    pass2_eval_expression
+    ")", pass2_checkToken
+
+    " get_number __arg1#=", xxxprints xxxnl
+    " get_number __arg0#=", xxxprints xxxnl
+    " bas_finputs put_string", xxxprints xxxnl
+    
+    0, end
+
+  // コンソールから指定文字数入力
+  pass2_func_inputs1:
+    ")", pass2_checkToken
+
+    " get_number __arg0#=", xxxprints xxxnl
+    " bas_inputs put_string",  xxxprints xxxnl
+
+    0, end
+
+// point関数
+pass2_func_point:
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ",", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number __arg1#=", xxxprints xxxnl
+    " get_number __arg0#=", xxxprints xxxnl
+    " bas_point put_number", xxxprints xxxnl
+
+  DONE, end
+
+// inkey＄関数
+pass2_func_inkeys:
+
+// "pass2 func inkey:", prints nl
+
+  pass2_getToken
+
+  " bas_inkeys put_string", xxxprints xxxnl
+
+  0, end
+
+// int関数
+pass2_func_int:
+
+// "pass2 func int:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+  " get_number (long) (double)  put_number", xxxprints xxxnl
+
+  0, end
+
+// sqr関数
+pass2_func_sqr:
+
+// "pass2 func sqr:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+  " get_number sqrt  put_number", xxxprints xxxnl
+
+  0, end
+
+// sin関数
+pass2_func_sin:
+
+// "pass2 func sin:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+  
+  " get_number math_sin  put_number", xxxprints xxxnl
+
+  0, end
 
 // cos関数
-math_cos:
-  ^1.570796326767849, .+ math_sin end
+pass2_func_cos:
+
+// "pass2 func cos:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+  " get_number math_cos  put_number", xxxprints xxxnl
+
+  0, end
+
+
 
 // tan関数
-math_tan:
-  long tan_a#,tan_x#,tan_y#
-  tan_a#=
-  tan_a#, math_cos tan_x#=
-  if tan_x#.=^0.0 then NaN, end 
-  tan_a#, math_sin tan_y#= 
-  tan_y#, tan_x#, ./  end
+pass2_func_tan:
 
-// arctan関数
-math_arctan:
-  long arctan_a#,arctan_s#
-  arctan_a#=
-  ^1.0, arctan_s#= 
-  if arctan_a#.<^0.0 then ^0.0, arctan_a#, .- arctan_a#= ~1.0, arctan_s#=
+// "pass2 func tan:", prints nl
 
-math_arctan0:
-  if arctan_a#.<=^2.41421356237 goto math_arctan1
-  ^1.0, arctan_a#, ./ xarctan ^1.5707963268, swap .-
-  arctan_s#, .*
-  end
-  
-math_arctan1:
-  if arctan_a#.<=^0.41421356237 goto math_arctan2
-  arctan_a#,  ^1.0, .+ tt#=
-  ^2.0, .- tt#, ./ xarctan  ^0.78539816339, .+
-  arctan_s#, .*
-  end
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
 
-math_arctan2:
-  arctan_a#, xarctan 
-  arctan_s#, .*
-  end
+  " get_number math_tan  put_number", xxxprints xxxnl
 
-// 部分的に求める
-xarctan:
-  long txx#,txx2#,tkk#,tsign#,tret#
-  txx#= txx#, .* txx2#=
-  ^1.0, tkk#=
-  ^1.0, tsign#=
-  ^0.0, tret#=
-  for ii#=1 to 38
-    txx#, tkk#, ./ tsign#, .* tret#, .+ tret#=
-    txx#, txx2#, .* txx#=
-    tkk#, ^2.0, .+ tkk#=
-    tsign#, ~1.0, .* tsign#=
-  next ii#
-  tret#, end
+  0, end
+
+// atn関数
+pass2_func_atn:
+
+// "pass2 func atn:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+  " get_number math_arctan  put_number", xxxprints xxxnl
+
+  0, end
 
 // exp関数
-math_exp:
-  long exp_a#,exp_s#,exp_n#,exp_r#
-  exp_a#=
-  if exp_a#.=^0.0 then ^1.0, end
-  if exp_a#.=^1.0 then ^2.718281828459, end
-  if exp_a#.=~1.0 then ^0.367879441171, end
-  0, exp_s#=
-  if exp_a#.<^0.0 then ^0.0, exp_a#, .- exp_a#= 1, exp_s#=
-  exp_a#, (long) exp_n#= (double) exp_a#, swap .- exp_a#=
-  ^1.0, exp_r#=
-  for ii#=17 to 1 step -1
-    ii#, (double) tt#=
-    exp_r#, exp_a#, .* tt#, ./ ^1.0, .+ exp_r#=
-  next ii#
-math_exp0:
-  if exp_n#<=0 goto math_exp1
-  exp_r#, ^2.718281828459, .* exp_r#=
-  exp_n#--
-  goto math_exp0
-math_exp1:
-  if exp_s#=1 then ^1.0, exp_r#, ./ exp_r#= 
-  exp_r#, end
+pass2_func_exp:
+
+// "pass2 func exp:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+  " get_number math_exp  put_number", xxxprints xxxnl
+
+  0, end
 
 // log関数
-math_log:
-  long log_a#,log_d#,log_r#,log_s#
-  log_a#=
-  0, log_s#=
-  if log_a#.<=^0.0 then NaN, end
-  if log_a#.=^1.0 then ^0.0, end
-  if log_a#.<^1.0 then ^1.0, log_a#, ./ log_a#= 1, log_s#=
-  log_a#, 0x10000000000000, / 0xfff, and 1023, - // 指数部を抜き出してeのべき数に正規化した値を初期値とする
-   (double)  ^0.69315, .* log_r#=                           // ニュートン法で解を求める
-math_log1:
-  log_r#, math_exp log_a#, swap ./ ^1.0, .- log_d#=
-  log_r#, log_d#, .+ log_r#=
-  if log_d#.<^0.0 then ^0.0, log_d#, .- log_d#=
-  if log_d#.>^0.0000000001 goto math_log1
-  if log_s#=1 then ^0.0, log_r#, .- log_r#=
-  log_r#, end
+pass2_func_log:
 
-// random関数
-math_random:
-  long random_a#,random_v#
-  random_a#=
-  random_v#, end
+// "pass2 func log:", prints nl
 
-// べき乗関数
-math_power:
-  long power_a1#,power_a2#
-  power_a2#= pop power_a1#=
-  power_a1#, math_log power_a2#, .* math_exp
-  end
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+  " get_number math_log  put_number", xxxprints xxxnl
+
+  0, end
+
+// instr関数
+pass2_func_instr:
+
+// "pass2 func instr:", prints nl 
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ",", pass2_checkToken
+  pass2_eval_expression
+  if TokenText$=','   then  pass2_getToken pass2_eval_expression gotopass2_func_instr1
+
+    " ^1.0, put_number", xxxprints xxxnl
+
+pass2_func_instr1:
+  ")", pass2_checkToken
+
+    " get_number __arg2#=", xxxprints xxxnl
+    " get_string __arg1#=", xxxprints xxxnl
+    " get_string __arg0#=", xxxprints xxxnl
+    " bas_instr put_number", xxxprints xxxnl
+
+  0, end
+
+// rnd関数
+pass2_func_rnd:
+
+// "pass2 func rnd:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+  
+  " get_number math_random  put_number", xxxprints xxxnl
+
+  0, end
+
+
+
+// time$関数
+pass2_func_times:
+
+// "pass2 func times:", prints nl
+
+  pass2_getToken
+  
+  " bas_times put_string", xxxprints xxxnl
+
+  0, end
+
+
+// date$関数
+pass2_func_dates:
+
+// "pass2 func dates:", prints nl
+
+  pass2_getToken
+
+  " bas_dates put_string", xxxprints xxxnl
+
+  0, end
+
+
+// sgn関数
+pass2_func_sgn:
+ 
+// "pass2 func sgn:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number __arg0#=", xxxprints xxxnl
+    " bas_sgn  put_number",  xxxprints xxxnl
+
+ 0, end
+  
+
+// pass2関数
+pass2_Function:
+ data "abs",pass2_func_abs
+  data "int",pass2_func_int
+  data "sgn",pass2_func_sgn
+  data "sqr",pass2_func_sqr
+  data "exp",pass2_func_exp
+  data "log",pass2_func_log
+  data "sin",pass2_func_sin
+  data "cos",pass2_func_cos
+  data "tan",pass2_func_tan
+  data "atn",pass2_func_atn
+  data "chr$",pass2_func_chrs
+  data "asc",pass2_func_asc
+  data "mid$",pass2_func_mids
+  data "left$",pass2_func_lefts
+  data "right$",pass2_func_rights
+  data "input$",pass2_func_inputs
+  data "inkey$",pass2_func_inkeys
+//  data "eof",pass2_func_eof
+  data "str$",pass2_func_strs
+  data "hex$",pass2_func_hexs
+  data "bin$",pass2_func_bins
+  data "oct$",pass2_func_octs
+  data "val",pass2_func_val
+  data "len",pass2_func_len
+  data "time$",pass2_func_times
+  data "date$",pass2_func_dates
+    data "instr",pass2_func_instr
+  data "rnd",pass2_func_rnd
+  data "point",pass2_func_point
+//  data "netstat",pass2_func_netstat
+  data NULL,NULL
+
+// hex$関数
+pass2_func_hexs:
+
+// "pass2 func hexs:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number (long) hex put_string", xxxprints xxxnl
+
+  0, end
+
+// bin$関数
+pass2_func_bins:
+
+// "pass2 func bins:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number (long) bin put_string", xxxprints xxxnl
+
+  0, end
+
+// oct$関数
+pass2_func_octs:
+
+// "pass2 func octs:", prints nl
+
+  pass2_getToken
+  "(", pass2_checkToken
+  pass2_eval_expression
+  ")", pass2_checkToken
+
+    " get_number (long) oct put_string", xxxprints xxxnl
+
+  0, end
+
+// =  の確認
+pass2_eval_eq:
+
+//  "pass2 eval eq:", prints nl
+
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  if __tmp4#.=^0.0 then ^1.0, put_number goto__eval_eq1_", xxxprints LabelCount#, xxxprintd xxxnl
+    "  ^0.0, put_number", xxxprints xxxnl
+    "__eval_eq1_", xxxprints  LabelCount#, xxxprintd ":", xxxprints xxxnl
+
+  LabelCount#++
+  0, end
+
+// <> の確認
+pass2_eval_neq:
+
+//  "pass2 eval neq:", prints nl
+
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  if __tmp4#.<>^0.0 then ^1.0, put_number goto__eval_eq1_", xxxprints LabelCount#, xxxprintd xxxnl
+    "  ^0.0, put_number", xxxprints xxxnl
+    "__eval_eq1_", xxxprints  LabelCount#, xxxprintd ":", xxxprints xxxnl
+
+  LabelCount#++
+  0, end
+
+// <  の確認
+pass2_eval_lt:
+
+// "pass2 eval lt:", prints nl
+
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  if __tmp4#.<^0.0 then ^1.0, put_number goto__eval_eq1_", xxxprints LabelCount#, xxxprintd xxxnl
+    "  ^0.0, put_number", xxxprints xxxnl
+    "__eval_eq1_", xxxprints  LabelCount#, xxxprintd ":", xxxprints xxxnl
+
+  LabelCount#++
+  0, end
+
+// <= の確認
+pass2_eval_le:
+
+//  "pass2 eval le:", prints nl
+
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  if __tmp4#.<=^0.0 then ^1.0, put_number goto__eval_eq1_", xxxprints LabelCount#, xxxprintd xxxnl
+    "  ^0.0, put_number", xxxprints xxxnl
+    "__eval_eq1_", xxxprints  LabelCount#, xxxprintd ":", xxxprints xxxnl
+
+  LabelCount#++
+  0, end
+
+// >  の確認
+pass2_eval_gt:
+
+//  "pass2 eval gt:", prints nl
+
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  if __tmp4#.>^0.0 then ^1.0, put_number goto__eval_eq1_", xxxprints LabelCount#, xxxprintd xxxnl
+    "  ^0.0, put_number", xxxprints xxxnl
+    "__eval_eq1_", xxxprints  LabelCount#, xxxprintd ":", xxxprints xxxnl
+
+  LabelCount#++
+  0, end
+
+.// >= の確認
+pass2_eval_ge:
+
+//  "pass2 eval ge:", prints nl
+
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  if __tmp4#.>=^0.0 then ^1.0, put_number goto__eval_eq1_", xxxprints LabelCount#, xxxprintd xxxnl
+    "  ^0.0, put_number", xxxprints xxxnl
+    "__eval_eq1_", xxxprints  LabelCount#, xxxprintd ":", xxxprints xxxnl
+
+  LabelCount#++
+  0, end
+
+// 比較演算
+pass2_eval_cmp:
+
+//  "pass2 eval cmp", prints nl
+
+// 比較演算
+    "  value_type __tmp4#=", xxxprints xxxnl
+    "  if __tmp4#<>STRING goto __eval_cmp1_", xxxprints LabelCount#, xxxprintd xxxnl
+    "  get_string __tmp5#=", xxxprints xxxnl
+    "  get_string __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, strcmp put_number", xxxprints xxxnl
+    "  __tmp4#, free", xxxprints xxxnl
+    "  __tmp5#, free", xxxprints xxxnl
+    "  goto __eval_cmp2_", xxxprints LabelCount#, xxxprintd xxxnl
+    "__eval_cmp1_", xxxprints LabelCount#, xxxprintd ":", xxxprints xxxnl
+    "  get_number __tmp5#=", xxxprints xxxnl
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, .- put_number", xxxprints xxxnl
+    "__eval_cmp2_", xxxprints LabelCount#, xxxprintd ":", xxxprints xxxnl
+
+  LabelCount#++
+  0, end
+
+// 論理式 AND演算
+pass2_eval_and:
+
+// "pass2 eval and:", prints nl
+
+    "  get_number (long) __tmp5#=", xxxprints xxxnl
+    "  get_number (long) __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, and (double) put_number", xxxprints xxxnl
+
+  0, end
+
+// 論理式 OR 演算
+pass2_eval_or:
+
+// "pass2 eval or:", prints nl
+
+    "  get_number (long) __tmp5#=", xxxprints xxxnl
+    "  get_number (long) __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, or (double) put_number", xxxprints xxxnl
+
+  0, end
+
+// べき乗演算
+pass2_eval_power:
+
+// "pass2 eval power:", prints nl
+
+    "  get_number __tmp5#=", xxxprints xxxnl
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, math_power put_number", xxxprints xxxnl
+
+  0, end
+
+// 除算の余り
+pass2_eval_mod:
+
+// "pass2 eval mod:", prints nl
+
+    "  get_number (long) __tmp5#=", xxxprints xxxnl
+    "  get_number (long) __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, mod (double) put_number", xxxprints xxxnl
+
+  0, end
+
+// 除算演算
+pass2_eval_div:
+
+// "pass2 eval div:", prints nl
+
+    "  get_number __tmp5#=", xxxprints xxxnl
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, ./ put_number", xxxprints xxxnl
+
+  0, end
+
+// 乗算演算
+pass2_eval_mul:
+
+// "pass2 eval mul:", prints nl
+
+    "  get_number __tmp5#=", xxxprints xxxnl
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, .* put_number", xxxprints xxxnl
+
+  0, end
+
+// 減算演算
+pass2_eval_sub:
+
+// "pass2 eval add:", prints nl
+
+    "  get_number __tmp5#=", xxxprints xxxnl
+    "  get_number __tmp4#=", xxxprints xxxnl
+    "  __tmp4#, __tmp5#, .- put_number", xxxprints xxxnl
+
+  0, end
+
+// 加算演算
+pass2_eval_add:
+
+// "pass2 eval add:", prints nl
+
+    " value_type __tmp4#=", xxxprints xxxnl
+    " if __tmp4#<>STRING goto __eval_add1_", xxxprints LabelCount#, xxxprintd xxxnl
+    " get_string __tmp5#=", xxxprints xxxnl
+    " get_string __tmp4#=", xxxprints xxxnl
+    " __tmp4#, __sbuf2, strcpy", xxxprints xxxnl
+    " __tmp5#, __sbuf2, strcat", xxxprints xxxnl
+    " __tmp4#, free", xxxprints xxxnl
+    " __tmp5#, free", xxxprints xxxnl
+    " __sbuf2, put_string", xxxprints xxxnl
+    " goto __eval_add2_", xxxprints LabelCount#, xxxprintd xxxnl
+    "__eval_add1_", xxxprints LabelCount#, xxxprintd ":", xxxprints xxxnl
+    " get_number __tmp5#=", xxxprints xxxnl
+    " get_number __tmp4#=", xxxprints xxxnl
+    " __tmp4#, __tmp5#, .+ put_number", xxxprints xxxnl
+    "__eval_add2_", xxxprints LabelCount#, xxxprintd ":", xxxprints xxxnl
+
+  LabelCount#++
+
+  0, end
+
+// 原子の処理
+pass2_eval_atom:
+  0, sign#=
+
+// "pass2 eval atom:", prints nl
+
+  // 原子の前に＋がついている場合
+  if TokenText$='+' then pass2_getToken  1, sign#=
+
+  // 原子の前に-がついている場合
+  if TokenText$='-' then pass2_getToken  -1, sign#=
+
+  // (式)は原子である
+  if TokenText$<>'('  goto pass2_eval_atom2
+    pass2_getToken
+    sign#, PUSH
+    pass2_eval_expression
+    POP sign#=
+    ")", pass2_checkToken
+
+    // ※コンパイル時には型チェックが甘くなるので確認のため一度実行してからコンパイルすること
+    if sign#=-1 then " get_number ^0.0, swap .- put_number", xxxprints xxxnl
+    
+//    "pass2 eval atom(expression) end:", prints nl
+    
+    0, end
+
+  // 数値は原子である
+  pass2_eval_atom2:
+  
+//  "pass2 eval atom2", prints nl
+  
+  if TokenType#<>NUMBER goto pass2_eval_atom3
+    " 0x", xxxprints TokenValue#, hex xxxprints ", put_number", xxxprints xxxnl
+    if sign#=-1 then " get_number ^0.0, swap .- put_number", xxxprints xxxnl
+    pass2_getToken
+    
+//    "pass2 eval atom(number) end:", prints nl
+    
+    0, end
+
+  // 文字列は原子である
+  pass2_eval_atom3:
+  
+//  "pass2 eval atom3", prints nl
+  
+  if TokenType#<>STRING goto pass2_eval_atom4
+
+//  "now put_string", prints nl
+
+    " ", xxxprints  DBL_QUOT, xxxputchar TokenText, xxxprints DBL_QUOT, xxxputchar
+    ", put_string", xxxprints xxxnl
+    
+    pass2_getToken
+    
+    if sign#<>0 then "Type Mismatch", assertError
+    
+//    "pass2 eval atom(string) end:", prints nl
+    
+    0, end
+
+  // 関数は原子である
+  pass2_eval_atom4:
+  
+//  "pass2 eval atom4", prints nl
+  
+  if TokenType#<>FUNCTION goto pass2_eval_atom5
+    sign#, PUSH
+    TokenCode#, _Function.SIZE, * pass2_Function, + ->@_Function.func
+    POP sign#=
+
+    // ※コンパイル時には型チェックが甘くなるので確認のため一度実行してからコンパイルすること
+    if sign#=-1 then " get_number ^0.0, swap .- put_number", xxxprints xxxnl
+    
+//    "pass2 eval atom(function) end:", prints nl
+    
+    0, end
+
+  // 変数は原子である
+  pass2_eval_atom5:
+  
+//  "pass2 eval atom5", prints nl
+  
+  if TokenType#<>VARIABLE goto pass2_eval_atom6
+
+//  "atom is variable", prints nl
+
+    sign#, PUSH
+    TokenText, pass2_put_variable_value
+    POP sign#=
+
+    // ※コンパイル時には型チェックが甘くなるので確認のため一度実行してからコンパイルすること
+    if sign#=-1 then " get_number ^0.0, swap .- put_number", xxxprints xxxnl
+
+//    "pass2 eval atom(variable) end:", prints nl
+  
+    0, end
+
+  // その他の場合(エラー)
+  pass2_eval_atom6:
+    
+//  "pass2 eval atom6", prints nl
+  
+    "Illegal Expression", assertError
+
+//    "pass2 eval atom(other) end:", prints nl
+    
+    0, end
+
+// 因子の処理
+pass2_eval_factor:
+
+// "pass2_eval factor:", prints nl
+
+  // 原子を解析
+  pass2_eval_atom
+
+pass2_eval_factor1:
+
+      // 因子は原子^原子
+      if TokenText$='^' then pass2_getToken pass2_eval_atom pass2_eval_power gotopass2_eval_factor1
+
+// "pass2 eval factor end:", prints nl
+
+      0, end
+
+// 項の処理
+pass2_eval_term:
+
+// "pass2 eval term:", prints nl
+
+  // 因子を解析
+  pass2_eval_factor
+
+pass2_eval_term1:
+
+//  "pass2_eval_term: TokenText=", prints TokenText, prints nl
+
+      // 項は因子*因子
+      if TokenText$='*' then pass2_getToken pass2_eval_factor pass2_eval_mul gotopass2_eval_term1
+
+      // 項は因子/因子
+      if TokenText$='/' then pass2_getToken pass2_eval_factor pass2_eval_div gotopass2_eval_term1
+
+      // 項は因子 mod 因子
+      TokenText, "mod", strcmp tt#=
+      if tt#=0 then pass2_getToken pass2_eval_factor pass2_eval_mod gotopass2_eval_term1
+
+// "pass2 eval term end:", prints nl
+
+      0, end
+
+// 算術式の処理
+pass2_eval_aexpression:
+
+// "pass2 eval aexpression:", prints nl
+
+  // 項を解析
+  pass2_eval_term
+  
+pass2_eval_aexpression1:
+
+// "pass2 eval aexpression: TokenText=", prints TokenText, prints nl 
+  
+      // 式は項+項
+      if TokenText$='+' then pass2_getToken pass2_eval_term pass2_eval_add gotopass2_eval_aexpression1
+
+      // 式は項-項
+      if TokenText$='-' then pass2_getToken pass2_eval_term pass2_eval_sub gotopass2_eval_aexpression1
+
+// "pass2 eval aexpression end", prints nl
+
+      0, end
+
+// 関係式の処理
+pass2_eval_relation:
+
+//  "pass2 eval relation:", prints nl
+
+  // 式を解析
+  pass2_eval_aexpression
+  
+pass2_eval_relation1:
+
+    // 論理因子は 式>=式
+    TokenText, ">=", strcmp tt#=
+    if tt#<>0 goto pass2_eval_relation2
+      pass2_getToken
+      pass2_eval_aexpression
+      pass2_eval_cmp
+      pass2_eval_ge
+      goto pass2_eval_relation1
+
+    // 論理因子は 式>式
+pass2_eval_relation2:
+    TokenText, ">", strcmp tt#=
+    if tt#<>0 goto pass2_eval_relation3
+      pass2_getToken
+      pass2_eval_aexpression
+      pass2_eval_cmp
+      pass2_eval_gt
+      goto pass2_eval_relation1
+
+    // 論理因子は 式<=式
+pass2_eval_relation3:
+    TokenText, "<=", strcmp tt#=
+    if tt#<>0 goto pass2_eval_relation4
+      pass2_getToken
+      pass2_eval_aexpression
+      pass2_eval_cmp
+      pass2_eval_le
+      goto pass2_eval_relation1
+
+    // 論理因子は 式<式
+pass2_eval_relation4:
+    TokenText, "<", strcmp tt#=
+    if tt#<>0 goto pass2_eval_relation5
+      pass2_getToken
+      pass2_eval_aexpression
+      pass2_eval_cmp
+      pass2_eval_lt
+      goto pass2_eval_relation1
+
+    // 論理因子は 式<>式
+pass2_eval_relation5:
+    TokenText, "<>", strcmp tt#=
+    if tt#<>0 goto pass2_eval_relation6
+      pass2_getToken
+      pass2_eval_aexpression
+      pass2_eval_cmp
+      pass2_eval_neq
+      goto pass2_eval_relation1
+
+    // 論理因子は 式=式
+pass2_eval_relation6:
+    TokenText, "=", strcmp tt#=
+    if tt#<>0 goto pass2_eval_relation7
+      pass2_getToken
+      pass2_eval_aexpression
+      pass2_eval_cmp
+      pass2_eval_eq
+      goto pass2_eval_relation1
+
+    // 上記以外ならば終了
+pass2_eval_relation7:
+
+//  "pass2 eval relation end:", prints nl
+
+    0, end
+
+// 論理項の処理
+pass2_eval_lterm:
+
+// "pass2_eval lterm:", prints nl
+
+  // 論理因子を解析
+  pass2_eval_relation
+pass2_eval_lterm1:
+
+  // and以外ならば終了
+  TokenText, "and", strcmp tt#=
+  if tt#<>0 goto pass2_eval_lterm2
+
+  // 論理項は論理因子AND論理因子AND_1321442138.
+  pass2_getToken
+  pass2_eval_relation
+  pass2_eval_and
+  goto pass2_eval_lterm1
+
+pass2_eval_lterm2:
+
+// "pass2_eval lterm end:", prints nl
+
+  0, end
+
+// 式の処理
+pass2_eval_expression:
+
+// "pass2 eval expression:", prints nl
+
+  // 論理項を解析
+  pass2_eval_lterm
+pass2_eval_expression1:
+
+  // OR以外ならば終了
+  TokenText, "or", strcmp tt#=
+  if tt#<>0 goto pass2_eval_expression2 
+
+  // 論理式は論理項OR論理項OR_1321442138.
+  pass2_getToken
+  pass2_eval_lterm
+  pass2_eval_or
+  goto pass2_eval_expression1
+
+pass2_eval_expression2:
+
+//  "pass2 eval expression end:", prints nl
+
+  0, end
 
 
 _INIT_STATES:
@@ -3991,10 +7153,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _644062633_in
+ _2049076456_in
 
  end
-_644062633_in:
+_2049076456_in:
 // BASICを起動する
 start_basic:
 
@@ -4007,6 +7169,7 @@ start_basic:
   STACK_SIZE, malloc GosubStack#=
   NULL, prog, ->Program.prev#= prog, ->Program.next#=
   
+  ERROR, xxxstatus#=
   
   0xffffff, xcolor#=
   screen_width#, xwidth#=
@@ -4020,9 +7183,9 @@ start_basic:
 
   // コマンドモード(パラメータ無しで起動した場合)
   argv#(1), fname#=
-  if (fname)$<>NULL goto start_basic4
+  if argc#>1 then if (fname)$<>NULL goto start_basic4
     cls
-    "Oreore Basic ver 0.0.2", prints nl
+    "Oreore Basic ver 0.03", prints nl
     cmd_new
 basic_entry:
 

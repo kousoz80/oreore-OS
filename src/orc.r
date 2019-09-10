@@ -1,4 +1,4 @@
-// oregengo-Rコンパイラ for Kous-OS
+// oregengo-Rコンパイラ for oreore-OS
 // セルフホスト ver 0.03
 
  const SINGLE_QUOT 39
@@ -825,6 +825,41 @@ pass2:
  data " .data"
  data "/ align 8/
 " 
+
+
+// 実数比較
+ data " if \.<>\ then \"
+ data " if \1.=\2 goto L\0
+   \3
+L\0:
+"
+ data " if \.>=\ then \"
+ data " if \1.<\2 goto L\0
+   \3
+L\0:
+"
+ data " if \.<=\ then \"
+ data " if \1.>\2 goto L\0
+   \3
+L\0:
+"
+ data " if \.>\ then \"
+ data " if \1.<=\2 goto L\0
+ \3
+L\0:
+"
+ data " if \.<\ then \"
+ data " if \1.>=\2 goto L\0
+ \3
+L\0:
+"
+ data " if \.=\ then \"
+ data " if \1.<>\2 goto L\0
+ \3
+L\0:
+"
+
+// 整数比較
  data " if \<>\ then \"
  data " if \1=\2 goto L\0
    \3
@@ -855,6 +890,7 @@ L\0:
  \3
 L\0:
 "
+
 
  data "\: \"
  data "\1:
@@ -893,6 +929,44 @@ pass3:
  data " const0"
  data "/ = 0/
 "
+
+
+
+// 実数比較
+ data " if \.<>\ goto \"
+ data " \1,
+ \2,
+ .jnz \3
+"
+ data " if \.>=\ goto \"
+ data " \1,
+ \2,
+ .jge \3
+"
+ data " if \.<=\ goto \"
+ data " \2,
+ \1,
+ .jge \3
+"
+ data " if \.>\ goto \"
+ data " \2,
+  \1,
+  .jlt \3
+"
+ data " if \.<\ goto \"
+ data " \1,
+ \2,
+ .jlt \3
+"
+ data " if \.=\ goto \"
+ data " \1,
+ \2,
+ .jz \3
+"
+
+
+
+// 整数比較
  data " if \<>\ goto \"
  data " \1,
  \2,
@@ -923,6 +997,9 @@ pass3:
  \2,
  jz \3
 "
+
+
+
  data " goto \"
  data " jmp \1
 "

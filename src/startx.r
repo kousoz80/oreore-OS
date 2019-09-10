@@ -1,5 +1,5 @@
 // Xsys ウィンドウシステム for oreore-OS
-// ver 0.06
+// ver 0.07
  // GUIコンポーネントの基底クラス
  class Component
   long   subclass#         // サブクラスへのポインタ 
@@ -527,17 +527,12 @@ no_operation:
  end
 
 // 変数一覧
- long graphic_protocol#
- long pointer_protocol#
- long graphic_mode#,graphic_info#,graphic_base#
- long set_mode#,screen_width#,screen_height#,color#,co#
- long mouse_reset#,mouse_get_state#
  long mouse_x#,mouse_y#,mouse_left#,mouse_right#,mouse_mode#,mouse_speed#
  long mouse_left0#,mouse_right0#,mouse_dx#,mouse_dy#
  long copy_area#,font_area#,screen_buffer#
  long gui_is_running#,input_client#,key_code#,key_mask#
  long focused_component#,clicked_component#
- long color_title#,color_titlebar#
+ long color#,color_title#,color_titlebar#
  char mouse_cursor$(1024),mouse_cursor_area$(1024),mouse_data$(16)
 
  count ii#,jj#,ix#,iy#
@@ -1489,7 +1484,7 @@ read_input_device:
   if key_code#=quit_key# then 0, gui_is_running#= end                       // 終了
   if key_code#=mode_key# then 1, mouse_mode#, - mouse_mode#=    // マウス・キーボードの切り替え
   if mouse_mode#=0 goto get_keyboad_mouse
-  
+
 // マウスの状態を読み込む
 / rcx=pointer_protocol/
 / rcx=(rcx)/
@@ -1499,6 +1494,7 @@ read_input_device:
 / call (rax)/
 / rdi=rax/
   tt#=
+
   if tt#<>0 then 1, mouse_mode#= gotoget_keyboad_mouse // エラーが出たときはキーボードマウスを有効にする
   
   // マウスのデータを読み込む
@@ -1788,7 +1784,7 @@ draw_triangle:
 paint:
   const Q_SIZE   4096
   long   q_buf#(Q_SIZE)
-  long   put_p#,get_p#
+  long   put_p#,get_p#,co#
   
   gy#= pop gx#=
   if color#=COLOR_CLEAR then end
@@ -1876,43 +1872,6 @@ paste_image:
   end
     
 
-// 画像をロード
-// 使用法:  fname, load_image address#= pop size#=
-load_image:
-  char image_fp$(FILE_SIZE)
-  long fnm#,fsz#
-
-  fnm#=
-  fnm#, image_fp, ropen tt#=
-  if tt#=ERROR then NULL, end
-  4, sx, image_fp, _read
-  4, sy, image_fp, _read
-
-  sx!, sy!, *  4, *  tt#=
-  8, +  fsz#=  xmalloc pp#=
-  sx!, (pp)!(0)=   sy!, (pp)!(1)= 
-  pp#, 8, + qq#=
-  tt#, qq#,  image_fp, _read
-  image_fp, rclose
-  fsz#, pp#, end
-
-  
-// 画像をセーブ
-// 使用法: address, fname, save_image
-save_image:
-  pp#= pop qq#=
-  pp#, image_fp, wopen tt#=
-  if tt#=ERROR then ERROR, end
-  qq#, 4, + tt#=
-  4, qq#, image_fp, _write
-  4, tt#,  image_fp, _write
-  (qq)!, (tt)!, *  4, * tt#=
-  qq#, 8, + qq#=
-  tt#, qq#, image_fp, _write
-  image_fp, wclose
-  0, end
-
-  
 // 文字列描画
 draw_string:
   long dsx#,dsy#,dsw#,dss#,dsr#
@@ -1942,18 +1901,6 @@ draw_font:
   next ii#
   ii#, end
 
-
- .data
-
-// グラフィックAPIのガイド
-graphic_guid:
- data 0x4a3823dc9042a9de
- data 0x6a5180d0de7afb96
-
-// マウスAPIのガイド
-pointer_guid:
- data 0x11d50b7531878c87
- data 0x4dc13f2790004f9a
 
  .data
  
@@ -4516,28 +4463,15 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _251044579_in
+ _1764284554_in
 
  end
-_251044579_in:
+_1764284554_in:
 // ウィンドウシステムメイン関数
 
 
 // char log$(FILE_SIZE)
 // "log", log, wopen
- 
- 
-
-  graphic_guid, graphic_protocol, locate_protocol    // UEFIのグラフィックAPIを取得する
-  (graphic_protocol)#(1), set_mode#=
-  (graphic_protocol)#(3), graphic_mode#=
-  (graphic_mode)#(1), graphic_info#=
-  (graphic_mode)#(3), graphic_base#=
-  (graphic_info)!(1), screen_width#=
-  (graphic_info)!(2), screen_height#=
-  pointer_guid, pointer_protocol, locate_protocol    // UEFIのマウスAPIを取得する
-  (pointer_protocol)#(0), mouse_reset#=
-  (pointer_protocol)#(1), mouse_get_state#=
 
   screen_width#, screen_height#, * 4, * xmalloc screen_buffer#=
   if screen_buffer#=NULL then end

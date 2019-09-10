@@ -138,8 +138,6 @@
  /const draw_image  / p
  /const copy_image  / p
  /const paste_image  / p
- /const load_image  / p
- /const save_image  / p
  /const draw_string  / p
  /const draw_font  / p
  /const COLOR_BLACK  / p
@@ -233,8 +231,6 @@
  /const show_xfiler  / p
  /const mouse_x  / p
  /const mouse_y  / p
- /const screen_width  / p
- /const screen_height  / p
  /const Filer.window  / p
  /const request_focus  / p
  /const key_code  / p
@@ -243,5 +239,4 @@
  /const copy_area  / p
  /const FONT_WIDTH  / p
  /const FONT_HEIGHT  / p
- /const graphic_base  / p
 d

@@ -1,9 +1,13 @@
-for i=1 to 10
-gosub @ttt
-next
-end
- 
-@ttt:
-if i>5 then t=-i else t=2*i
-print t
-return
+print "mid"
+input a$
+input b
+input c
+print mid$(a$,b,c)
+print "left"
+input a$
+input b
+print left$(a$,b)
+print "right"
+input a$
+input b
+print right$(a$,b)

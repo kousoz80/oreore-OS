@@ -1,5 +1,5 @@
-//  "oreore-os.r" oreore-OS ver 0.0.6  for oregengo-R (x64) UEFIアプリケーション  
-// (マルチタスク対応版)
+//  "oreore-os.r" oreore-OS ver 0.0.7  for oregengo-R (x64) UEFIアプリケーション  
+// (ライブラリ拡張版)
 
  const TIMER_INTERVAL 10000 // 割り込み周期(0.1us単位)
  const EOF         -1         // ファイルの終わりをあらわす文字コード 
@@ -73,16 +73,6 @@
  short  __wide_str%(1024)
  char   __nallow_str$(1024)
  long   __strbuf#,__inputkey#
- long   __sys_table#
- long   __conin#,__conout#
- long   __cls#,__puts#,__getch#
- long   __locate#,__cursor#
- long   __boot_service#
- long   __set_wdt#,__locate_protocol#
- long   __file_sys#,__vol_open#
- long   __allocate_pages#,__free_pages#
- long   __allocate_pool#,__free_pool#
- long   __create_event#,__set_timer#
  long   __fbuf_length#
  count __p0#
  long   __p1#,__p2#,__p3#,__p4#,__p5#,__p6#,__p7#,__t#
@@ -131,97 +121,7 @@
 
 // プログラム開始位置
 _start:
-/ push rbp/
-/ rbp=rsp/
-/ 0x10(rbp)=rcx/
-/ 0x18(rbp)=rdx/
 
-/ rax=0x18(rbp)/
-/ rdi=__sys_table/
-/ (rdi)=rax/
-
-/ rsi=0x30(rax)/
-/ rdi=__conin/
-/ (rdi)=rsi/
-
-/ rcx=0x08(rsi)/
-/ rdi=__getch/
-/ (rdi)=rcx/
-
-/ rsi=0x40(rax)/
-/ rdi=__conout/
-/ (rdi)=rsi/
-
-/ rcx=0x30(rsi)/
-/ rdi=__cls/
-/ (rdi)=rcx/
-
-/ rcx=0x08(rsi)/
-/ rdi=__puts/
-/ (rdi)=rcx/
-
-/ rcx=0x38(rsi)/
-/ rdi=__locate/
-/ (rdi)=rcx/
-
-/ rcx=0x40(rsi)/
-/ rdi=__cursor/
-/ (rdi)=rcx/
-
-/ rsi=0x60(rax)/
-/ rdi=__boot_service/
-/ (rdi)=rsi/
-
-/ rcx=0x28(rsi)/
-/ rdi=__allocate_pages/
-/ (rdi)=rcx/
-
-/ rcx=0x30(rsi)/
-/ rdi=__free_pages/
-/ (rdi)=rcx/
-
-/ rcx=0x40(rsi)/
-/ rdi=__allocate_pool/
-/ (rdi)=rcx/
-
-/ rcx=0x48(rsi)/
-/ rdi=__free_pool/
-/ (rdi)=rcx/
-
-/ rcx=0x50(rsi)/
-/ rdi=__create_event/
-/ (rdi)=rcx/
-
-/ rcx=0x58(rsi)/
-/ rdi=__set_timer/
-/ (rdi)=rcx/
-
-/ rcx=0x100(rsi)/
-/ rdi=__set_wdt/
-/ (rdi)=rcx/
-
-/ rcx=0x140(rsi)/
-/ rdi=__locate_protocol/
-/ (rdi)=rcx/
-/ rax=rcx/
-/ rcx=__file_sys_guid/
-/ rdx=0/
-/ r8=__file_sys/
-/ call (rax)/
-
-/ rdi=__file_sys/
-/ rsi=(rdi)/
-/ rcx=0x08(rsi)/
-/ rdi=__vol_open/
-/ (rdi)=rcx/
-
-/ rcx=0/
-/ rdx=0/
-/ r8=0/
-/ r9=0/
-/ rax=__set_wdt/
-/ rax=(rax)/
-/ call (rax)/
 
 // スタックポインタを初期化
 / rcx=2/
@@ -301,13 +201,6 @@ _start:
 // エラートラップ(無限ループ)
 __end_loop:
   goto __end_loop
-
-// ファイルシステムプロトコルのガイド
- .data
-__file_sys_guid:
- data  0x11d26459964e5b22
- data  0x3b7269c9a000398e
-
 
 // デバッグ用文字列表示
 dprint:
@@ -1018,7 +911,7 @@ strncmp:
   __p1#++
   __p2#++
   __p3#--
- goto __strcmp1
+ goto __strncmp1
 
 
 // 文字列をコピーする
@@ -1062,14 +955,14 @@ __strcat2:
 strncat:
  __p3#= pop __p2#= pop __p1#=
 __strncat1:
- if (__p2)$<>NULL then __p2#++ goto__strcat1
+ if (__p2)$<>NULL then __p2#++ goto__strncat1
 __strncat2:
  if __p3#<=0 then NULL, (__p2)$= end
  (__p1)$, (__p2)$= __p4#=
  __p1#++
  __p2#++
  __p3#--
- if __p4#<>NULL goto __strcat2
+ if __p4#<>NULL goto __strncat2
  end
 
 
@@ -1673,10 +1566,27 @@ main:
   char bat_file$(FILE_SIZE)
   long infile#,f#
 
+  long graphic_protocol#
+  long pointer_protocol#
+  long graphic_mode#,graphic_info#,graphic_base#
+  long set_mode#,screen_width#,screen_height#
+  long mouse_reset#,mouse_get_state#
+
 // スタートアップルーチン
+  graphic_guid, graphic_protocol, locate_protocol    // UEFIのグラフィックAPIを取得する
+  (graphic_protocol)#(1), set_mode#=
+  (graphic_protocol)#(3), graphic_mode#=
+  (graphic_mode)#(1), graphic_info#=
+  (graphic_mode)#(3), graphic_base#=
+  (graphic_info)!(1), screen_width#=
+  (graphic_info)!(2), screen_height#=
+  pointer_guid, pointer_protocol, locate_protocol    // UEFIのマウスAPIを取得する
+  (pointer_protocol)#(0), mouse_reset#=
+  (pointer_protocol)#(1), mouse_get_state#=
+
   1, @SYS_CALL(CURSOR)
   @SYS_CALL(CLS)
-  "oreore-OS version 0.0.6", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
+  "oreore-OS version 0.07", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
 
   // バッチファイル"autoexec.bat"が存在すれば、それを実行する
   "autoexec.bat", bat_file, ropen f#=
@@ -1703,5 +1613,774 @@ error_end:
   ERROR, end
 
 
-// ここからアプリケーション領域
-  char __prog_start$(4000000)
+// sin関数
+math_sin:
+  long sin_x#,sin_x2#
+  sin_x#=  ^6.28318530717959, ./ (long) tt#=
+  if  tt#<0 then tt#--
+  tt#, (double) ^6.28318530717959, .* sin_x#, swap .- sin_x#=
+  sin_x#, .* sin_x2#=
+                    ^0.0000000000000028,
+  sin_x2#, .* ~0.0000000000007647, .+ 
+  sin_x2#, .* ^0.0000000001605904, .+
+  sin_x2#, .* ~0.0000000250521083, .+
+  sin_x2#, .* ^0.0000027557319223, .+
+  sin_x2#, .* ~0.0001984126984126, .+
+  sin_x2#, .* ^0.0083333333333333, .+
+  sin_x2#, .* ~0.1666666666666666, .+
+  sin_x2#, .* ^1.0,  .+
+  sin_x#, .*
+  end
+
+
+// cos関数
+math_cos:
+  ^1.570796326767849, .+ math_sin end
+
+
+// tan関数
+math_tan:
+  long tan_a#,tan_x#,tan_y#
+  tan_a#=
+  tan_a#, math_cos tan_x#=
+  if tan_x#.=^0.0 then NaN, end 
+  tan_a#, math_sin tan_y#= 
+  tan_y#, tan_x#, ./  end
+
+
+// arctan関数
+math_arctan:
+  long arctan_a#,arctan_s#
+  arctan_a#=
+  ^1.0, arctan_s#= 
+  if arctan_a#.<^0.0 then ^0.0, arctan_a#, .- arctan_a#= ~1.0, arctan_s#=
+
+math_arctan0:
+  if arctan_a#.<=^2.41421356237 goto math_arctan1
+  ^1.0, arctan_a#, ./ xarctan ^1.5707963268, swap .-
+  arctan_s#, .*
+  end
+  
+math_arctan1:
+  if arctan_a#.<=^0.41421356237 goto math_arctan2
+  arctan_a#,  ^1.0, .+ tt#=
+  ^2.0, .- tt#, ./ xarctan  ^0.78539816339, .+
+  arctan_s#, .*
+  end
+
+math_arctan2:
+  arctan_a#, xarctan 
+  arctan_s#, .*
+  end
+
+
+// 部分的に求める
+xarctan:
+  long txx#,txx2#,tkk#,tsign#,tret#
+  txx#= txx#, .* txx2#=
+  ^1.0, tkk#=
+  ^1.0, tsign#=
+  ^0.0, tret#=
+  for ii#=1 to 38
+    txx#, tkk#, ./ tsign#, .* tret#, .+ tret#=
+    txx#, txx2#, .* txx#=
+    tkk#, ^2.0, .+ tkk#=
+    tsign#, ~1.0, .* tsign#=
+  next ii#
+  tret#, end
+
+
+// exp関数
+math_exp:
+  long exp_a#,exp_s#,exp_n#,exp_r#
+  exp_a#=
+  if exp_a#.=^0.0 then ^1.0, end
+  if exp_a#.=^1.0 then ^2.718281828459, end
+  if exp_a#.=~1.0 then ^0.367879441171, end
+  0, exp_s#=
+  if exp_a#.<^0.0 then ^0.0, exp_a#, .- exp_a#= 1, exp_s#=
+  exp_a#, (long) exp_n#= (double) exp_a#, swap .- exp_a#=
+  ^1.0, exp_r#=
+  for ii#=17 to 1 step -1
+    ii#, (double) tt#=
+    exp_r#, exp_a#, .* tt#, ./ ^1.0, .+ exp_r#=
+  next ii#
+math_exp0:
+  if exp_n#<=0 goto math_exp1
+  exp_r#, ^2.718281828459, .* exp_r#=
+  exp_n#--
+  goto math_exp0
+math_exp1:
+  if exp_s#=1 then ^1.0, exp_r#, ./ exp_r#= 
+  exp_r#, end
+
+
+// log関数
+math_log:
+  long log_a#,log_d#,log_r#,log_s#
+  log_a#=
+  0, log_s#=
+  if log_a#.<=^0.0 then NaN, end
+  if log_a#.=^1.0 then ^0.0, end
+  if log_a#.<^1.0 then ^1.0, log_a#, ./ log_a#= 1, log_s#=
+  log_a#, 0x10000000000000, / 0xfff, and 1023, - // 指数部を抜き出してeのべき数に正規化した値を初期値とする
+   (double)  ^0.69315, .* log_r#=                           // ニュートン法で解を求める
+math_log1:
+  log_r#, math_exp log_a#, swap ./ ^1.0, .- log_d#=
+  log_r#, log_d#, .+ log_r#=
+  if log_d#.<^0.0 then ^0.0, log_d#, .- log_d#=
+  if log_d#.>^0.0000000001 goto math_log1
+  if log_s#=1 then ^0.0, log_r#, .- log_r#=
+  log_r#, end
+
+
+// random関数
+math_random:
+  long random_a#,random_v#
+  random_a#=
+  random_v#, end
+
+
+// べき乗関数
+math_power:
+  long power_a1#,power_a2#
+  power_a2#= pop power_a1#=
+  power_a1#, math_log power_a2#, .* math_exp
+  end
+
+
+// 画像操作関数
+ const COLOR_CLEAR 0xff000000 //透明色の定義
+
+// 作業変数
+ count ix#,iy#,ii#,jj#
+ long pp#,qq#,rr#,ss#,tt#,uu#,vv#,ww#
+ long xx#,yy#,zz#
+ 
+ long xcolor#,xwidth#,xheight#,bitmap#
+ long px#,py#,gx#,gy#,gx1#,gy1#
+ long tx#,ty#,rx#,ry#,ox#,oy#,vx#,vy#
+ long vx1#,vy1#,qx#,qy#,co#
+
+// 点を打つ
+xdraw_point:
+  py#= pop px#=
+  if xcolor#=COLOR_CLEAR then end
+  py#, xwidth#, * px#, +
+  4, * bitmap#, + pp#=
+  xcolor#, (pp)!=
+  end
+
+
+// 与えられた座標の色を返す
+xget_point:
+  py#= pop px#=
+  py#, xwidth#, * px#, +
+  4, * bitmap#, + pp#=
+  (pp)!,  end
+
+  
+// 線を引く
+// 使用法: gx, gy, gx1, gy1, xdraw_line
+xdraw_line:
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if xcolor#=COLOR_CLEAR then end
+
+xline:
+  gx#, gx1#, - tx#= abs rx#=
+  gy#, gy1#, - ty#= abs ry#=
+  if ry#>rx# goto xline_y
+  if gx#=gx1# then gx#, gy#, xdraw_point end
+  
+  // モードX
+  xline_x:
+    1, rx#=
+    if tx#<0  then -1, rx#=
+    for ix#=0 to tx# step rx#
+      ix#, ty#,  * tx#, / gy1#, + ry#=
+      ix#, gx1#, + ry#, xdraw_point
+    next ix#
+    end
+    
+  xline_y: /* モード　ｙ */
+    1, ry#=
+    if ty#<0  then -1, ry#=
+    for iy#=0 to ty# step ry#
+      iy#, tx#,  * ty#, / gx1#, + rx#=
+      iy#, gy1#, + rx#, swap xdraw_point
+    next iy#
+    end
+    
+// 画像を消去
+xgcls:
+  xwidth#,  xheight#, * 1, + tt#=
+  for ii#=2 to tt#
+    xcolor#, (bitmap)!(ii#)=
+  next ii#
+  end
+
+// 長方形を描いてうめる
+// 使用法: gx, gy, gx1, gy1, xfill_rect
+xfill_rect: 
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if xcolor#=COLOR_CLEAR then end
+
+  1, rx#= ry#=
+  if gy#<gy1# then -1, ry#=
+  if gx#<gx1# then -1, rx#=
+  for iy#=gy1# to gy# step ry#
+    for ix#=gx1# to gx# step rx#
+      ix#,  iy#, xdraw_point
+    next ix#
+  next iy#
+  end
+
+// 長方形を描く
+// 使用法: gx, gy, gx1, gy1, xdraw_rect
+xdraw_rect: 
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if xcolor#=COLOR_CLEAR then end
+  1, rx#= ry#=
+  if gy#<gy1# then -1, ry#=
+  if gx#<gx1# then -1, rx#=
+  for ix#=gx1# to gx# step rx#
+    ix#, gy#,  xdraw_point
+    ix#, gy1#, xdraw_point
+  next ix#
+  for iy#=gy1# to gy# step ry#
+    gx#,  iy#, xdraw_point
+    gx1#, iy#, xdraw_point
+  next iy#
+  end
+  
+// 楕円を描いてうめる
+// 使用法: gx, gy, gx1, gy1, xfill_circle
+xfill_circle:
+  xdraw_circle
+  ox1#, oy1#, xpaint
+  end
+
+// 楕円を描く
+// 使用法: gx, gy, gx1, gy1, xdraw_circle
+xdraw_circle:
+  long ox1#,oy1#
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if xcolor#=COLOR_CLEAR then end
+  gx#,  vx#=  gy#,  vy#=
+  gx1#, vx1#= gy1#, vy1#=
+  if gx1#>gx# then gx1#, gx#, swap gx#= swap gx1#=
+  if gy1#>gy# then gy1#, gy#, swap gy#= swap gy1#=
+  gx#, gx1#, + 2, / ox1#=
+  gy#, gy1#, + 2, / oy1#=
+  gx#, gx1#, - 2, / qx#=
+  if qx#=0 then xline end
+  gy#, gy1#, - 2, / qy#=
+  if qy#=0 then xline end
+  gx#, gx1#=  oy1#, gy1#=
+  for ii#=0 to TABLE_N
+    qx#, cos2table#(ii#), * 32767, / ox1#, + gx#=
+    qy#, sin2table#(ii#), * 32767, / oy1#, + gy#=
+    xline
+    gx#, gx1#= gy#, gy1#=
+  next ii#
+  end
+
+
+// 塗る
+xpaint:
+  const Q_SIZE   4096
+  long   q_buf#(Q_SIZE)
+  long   put_p#,get_p#
+  
+  gy#= pop gx#=
+  if xcolor#=COLOR_CLEAR then end
+  0, put_p#= get_p#=
+  gx#, gy#, xget_point co#=
+  if co#=xcolor# then end
+  gx#, gy#, xput_pset
+
+  xpaint1:  // うった点の座標を求める
+    if get_p#=put_p# then end
+    q_buf#(get_p#), vx#=   get_p#++
+    q_buf#(get_p#), vy#=   get_p#++
+    if get_p#>=Q_SIZE then 0, get_p#=
+
+    // うった点の四方にまた点をうつ
+    vx#, 1, + vy#, xput_pset
+    vx#, 1,  - vy#, xput_pset
+    vy#, 1, + vx#, swap xput_pset
+    vy#, 1,  -  vx#, swap xput_pset
+  goto xpaint1
+  
+  //  点をうってその座標を記録する
+  xput_pset:
+    qy#= pop qx#=
+    if qx#<0     then end  // 範囲外ならしない
+    if qx#>=xwidth#  then end
+    if qy#<0     then end
+    if qy#>=xheight# then end
+    qx#, qy#, xget_point co#=
+    if co#=xcolor# then end // すでに点がうってあるときもしない
+    qx#, qy#, xdraw_point
+    qx#, q_buf#(put_p#)=  put_p#++
+    qy#, q_buf#(put_p#)=  put_p#++
+    if put_p#>=Q_SIZE then 0, put_p#=
+    end
+
+
+// 画像を描画
+// 使用法: gx, gy, address, xdraw_image
+xdraw_image:
+  qq#= pop gy#= pop gx#=
+  if qq#=NULL then end
+  (qq)!, rx#=
+  if rx#<0 then end
+  if rx#>=xwidth# then end
+  qq#, 4, + qq#=
+  (qq)!, ry#=
+  if ry#<0 then end
+  if ry#>=xheight# then end
+  qq#, 4, + qq#=
+  gx#, rx#, + 1, - gx1#=
+  gy#, ry#, + 1, - gy1#=
+  for ii#=gy# to gy1#
+    for jj#=gx# to gx1#
+      ii#, xwidth#, * jj#, +
+      4, * bitmap#, + pp#=
+      if (qq)$(3)=0 then (qq)!, (pp)!=
+      qq#, 4, + qq#=
+    next jj#
+  next ii#
+  jj#, ii#, end
+    
+
+// 画像をロード
+// 使用法:  fname, load_image address#= pop size#=
+load_image:
+  char image_fp$(FILE_SIZE)
+  long fnm#,fsz#,sx#,sy#
+
+  fnm#=
+  fnm#, image_fp, ropen tt#=
+  if tt#=ERROR then NULL, end
+  4, sx, image_fp, _read
+  4, sy, image_fp, _read
+
+  sx!, sy!, *  4, *  tt#=
+  8, +  fsz#=  malloc pp#=
+  sx!, (pp)!(0)=   sy!, (pp)!(1)= 
+  pp#, 8, + qq#=
+  tt#, qq#,  image_fp, _read
+  image_fp, rclose
+  fsz#, pp#, end
+
+  
+// 画像をセーブ
+// 使用法: address, fname, save_image
+save_image:
+  pp#= pop qq#=
+  pp#, image_fp, wopen tt#=
+  if tt#=ERROR then ERROR, end
+  qq#, 4, + tt#=
+  4, qq#, image_fp, _write
+  4, tt#,  image_fp, _write
+  (qq)!, (tt)!, *  4, * tt#=
+  qq#, 8, + qq#=
+  tt#, qq#, image_fp, _write
+  image_fp, wclose
+  0, end
+
+  
+ .data
+
+// 三角関数テーブル
+  const TABLE_N 256 // 区分点 （全データ数＝３２１）
+sin2table: // ｆ（ｘ）＝３２７６７＊ｓｉｎ（ｘ）
+  data 0,804,1607,2410
+  data 3211,4011,4807,5601
+  data 6392,7179,7961,8739
+  data 9511,10278,11038,11792
+  data 12539,13278,14009,14732
+  data 15446,16150,16845,17530
+  data 18204,18867,19519,20159
+  data 20787,21402,22004,22594
+  data 23169,23731,24278,24811
+  data 25329,25831,26318,26789
+  data 27244,27683,28105,28510
+  data 28897,29268,29621,29955
+  data 30272,30571,30851,31113
+  data 31356,31580,31785,31970
+  data 32137,32284,32412,32520
+  data 32609,32678,32727,32757
+cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
+  data 32767,32757,32727,32678
+  data 32609,32520,32412,32284
+  data 32137,31970,31785,31580
+  data 31356,31113,30851,30571
+  data 30272,29955,29621,29268
+  data 28897,28510,28105,27683
+  data 27244,26789,26318,25831
+  data 25329,24811,24278,23731
+  data 23169,22594,22004,21402
+  data 20787,20159,19519,18867
+  data 18204,17530,16845,16150
+  data 15446,14732,14009,13278
+  data 12539,11792,11038,10278
+  data 9511,8739,7961,7179
+  data 6392,5601,4807,4011
+  data 3211,2410,1607,804
+  data 0,-805,-1608,-2411
+  data -3212,-4012,-4808,-5602
+  data -6393,-7180,-7962,-8740
+  data -9512,-10279,-11039,-11793
+  data -12540,-13279,-14010,-14733
+  data -15447,-16151,-16846,-17531
+  data -18205,-18868,-19520,-20160
+  data -20788,-21403,-22005,-22595
+  data -23170,-23732,-24279,-24812
+  data -25330,-25832,-26319,-26790
+  data -27245,-27684,-28106,-28511
+  data -28898,-29269,-29622,-29956
+  data -30273,-30572,-30852,-31114
+  data -31357,-31581,-31786,-31971
+  data -32138,-32285,-32413,-32521
+  data -32610,-32679,-32728,-32758
+  data -32767,-32758,-32728,-32679
+  data -32610,-32521,-32413,-32285
+  data -32138,-31971,-31786,-31581
+  data -31357,-31114,-30852,-30572
+  data -30273,-29956,-29622,-29269
+  data -28898,-28511,-28106,-27684
+  data -27245,-26790,-26319,-25832
+  data -25330,-24812,-24279,-23732
+  data -23170,-22595,-22005,-21403
+  data -20788,-20160,-19520,-18868
+  data -18205,-17531,-16846,-16151
+  data -15447,-14733,-14010,-13279
+  data -12540,-11793,-11039,-10279
+  data -9512,-8740,-7962,-7180
+  data -6393,-5602,-4808,-4012
+  data -3212,-2411,-1608,-805
+  data -1,804,1607,2410
+  data 3211,4011,4807,5601
+  data 6392,7179,7961,8739
+  data 9511,10278,11038,11792
+  data 12539,13278,14009,14732
+  data 15446,16150,16845,17530
+  data 18204,18867,19519,20159
+  data 20787,21402,22004,22594
+  data 23169,23731,24278,24811
+  data 25329,25831,26318,26789
+  data 27244,27683,28105,28510
+  data 28897,29268,29621,29955
+  data 30272,30571,30851,31113
+  data 31356,31580,31785,31970
+  data 32137,32284,32412,32520
+  data 32609,32678,32727,32757
+  data 32767,32757,32727,32678
+  data 32609,32520,32412,32284
+  data 32137,31970,31785,31580
+
+
+// 文字列を数値に変換する
+xval:
+  long xval_p#,xval_sign#,xval_x#,xval_exp#,xval_exp_sign#,xval_d#,xval_order#
+  long xval_state#
+  enum
+    XVAL_SIGN
+    XVAL_INTEGER
+    XVAL_FRAC
+    XVAL_EXP_SIGN
+    XVAL_EXP
+    XVAL_OCT
+    XVAL_HEX
+    XVAL_BIN
+    XVAL_OTHER
+  end
+  
+  xval_p#=
+  ^1.0, xval_sign#= 
+  ^0.0, xval_x#=
+  ^0.1, xval_order#=
+  1, xval_exp_sign#=
+  0, xval_exp#=
+  XVAL_SIGN, xval_state#=
+xval0:
+  (xval_p)$, xval_d#=
+
+// 符号入力状態
+xval1:
+  if xval_state#<>XVAL_SIGN goto xval2
+  if xval_d#='+' goto xval_next
+  if xval_d#='-' then xval_sign#, ^-1.0, .* xval_sign#= gotoxval_next
+  if xval_d#='&' then XVAL_OCT,   xval_state#= gotoxval_next
+  if xval_d#='.'   then XVAL_FRAC, xval_state#= gotoxval_next
+  XVAL_INTEGER, xval_state#=
+  if xval_d#>='0' then if xval_d#<='9' goto xval2
+  goto xval_error
+
+// 整数入力状態
+xval2:
+  if xval_state#<>XVAL_INTEGER goto xval3
+  if xval_d#='.' then XVAL_FRAC, xval_state#= gotoxval_next
+  if xval_d#='e' then XVAL_EXP_SIGN, xval_state#= gotoxval_next
+  if xval_d#<'0' goto xval_end
+  if xval_d#>'9' goto xval_end
+  xval_d#, '0', - (double) tt#=
+  xval_x#, ^10.0, .* tt#, .+ xval_x#=
+  goto xval_next
+
+// 小数入力状態
+xval3:
+  if xval_state#<>XVAL_FRAC goto xval4
+  if xval_d#='e' then XVAL_EXP_SIGN, xval_state#= gotoxval_next
+  if xval_d#='E' then XVAL_EXP_SIGN, xval_state#= gotoxval_next
+  if xval_d#<'0' goto xval_end
+  if xval_d#>'9' goto xval_end
+  xval_d#,  '0', - (double)  xval_order#, .*
+  xval_x#, .+ xval_x#=
+  xval_order#, ^10.0, ./ xval_order#=
+  goto xval_next
+
+// 指数符号入力状態
+xval4:
+  if xval_state#<>XVAL_EXP_SIGN goto xval5
+  if xval_d#='+' goto xval_next
+  if xval_d#='-' then xval_exp_sign#, -1, * xval_exp_sign#= gotoxval_next
+  XVAL_EXP, xval_state#=
+  if xval_d#>='0' then if xval_d#<='9' goto xval5
+  goto xval_error
+
+// 指数入力状態
+xval5:
+  if xval_state#<>XVAL_EXP goto xval6
+  if xval_d#<'0' goto xval5_0
+  if xval_d#>'9' goto xval5_0
+  xval_d#, '0', - tt#=
+  xval_exp#, 10, * tt#, + xval_exp#=
+  goto xval_next
+
+// 指数がプラスで終了
+xval5_0:
+  if xval_x#.=^0.0 goto xval_end
+  if xval_exp#=0 goto xval_end
+  if xval_exp_sign#<0 goto xval5_1
+  if xval_exp#>=40 goto xval_error
+  for ii#=1 to xval_exp#
+     xval_x#, ^10.0, .* xval_x#=
+  next ii#
+  goto xval_end
+
+// 指数がマイナスで終了
+xval5_1:
+  if xval_exp#>=40 then ^0.0, xval_x#= gotoxval_end
+  for ii#=1 to xval_exp#
+     xval_x#, ^10.0, ./ xval_x#=
+  next ii#
+  goto xval_end
+
+// 8進数入力
+xval6:
+  if xval_state#<>XVAL_OCT goto xval7
+  if xval_d#='h' then XVAL_HEX, xval_state#= gotoxval_next
+  if xval_d#='b' then XVAL_BIN, xval_state#= gotoxval_next
+  if xval_d#='o' goto xval_next
+  if xval_d#<'0' goto xval_end
+  if xval_d#>'7' goto xval_end
+  xval_d#, '0', - (double) tt#=
+  xval_x#, ^8.0, .* tt#, .+ xval_x#=
+  goto xval_next
+  
+// 16進数入力
+xval7:
+  if xval_state#<>XVAL_HEX goto xval8
+  if xval_d#<'0' goto xval7_1
+  if xval_d#>'9' goto xval7_1
+  xval_d#, '0', - (double) tt#=
+  xval_x#, ^16.0, .* tt#, .+ xval_x#=
+  goto xval_next
+xval7_1:
+  if xval_d#<'a' goto xval_end
+  if xval_d#>'f' goto xval_end
+  xval_d#, 'a'-10, - (double) tt#=
+  xval_x#, ^16.0, .* tt#, .+ xval_x#=
+  goto xval_next
+
+// 2進数入力
+xval8:
+  if xval_state#<>XVAL_BIN goto xval_error
+  if xval_d#<'0' goto xval_end
+  if xval_d#>'1' goto xval_end
+  xval_d#, '0', - (double) tt#=
+  xval_x#, ^2.0, .* tt#, .+ xval_x#=
+  goto xval_next
+
+// エラー終了
+xval_error:
+  xval_p#, NaN, end
+
+// 正常終了
+xval_end:
+  xval_sign#, xval_x#, .* xval_x#=
+  xval_p#, xval_x#, end
+
+// 次の文字を取り込む
+xval_next:
+  xval_p#++
+  goto xval0
+
+
+// 数値を文字列に変換する
+xstr:
+  long real_a#,real_d#,real_p#
+  long exp_val#,exp_max#,exp_min#,exp_pres#,exp_count#
+  char real_buf$(32),chr_buf$(8)
+
+  real_a#=
+  
+//  "xstr:", prints nl
+  
+
+  ^1e5, exp_max#=
+  ^0.0001, exp_min#=
+  ^0.0000000001, exp_pres#=
+ 0, exp_count#=
+  NULL, real_buf$=
+  real_buf, real_p#=
+  ^1.0, exp_val#=
+  
+//  "xstr0:", prints nl
+  
+  if real_a#.=^0.0 then "0", end
+  if real_a#.<^0.0 then ^0.0, real_a#, .- real_a#= "-", put_real_buf
+
+//  "xstr1:", prints nl
+
+  if real_a#.>exp_max# goto real1_0
+  if real_a#.<exp_min#  goto real2_0
+
+
+//  指数表示でない場合
+
+// "no exp:", prints nl
+
+real0:
+  exp_val#, ^10.0, .* exp_val#=
+  if exp_val#.<=real_a# goto real0
+  exp_val#, ^10.0, ./ exp_val#=
+
+real1:
+  if exp_val#.>^0.2   goto real2
+  if exp_val#.<^0.02 goto real2
+  ".", put_real_buf
+real2:
+  real_a#, exp_val#, ./  (long) real_d#=
+  '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
+  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
+  exp_val#, ^10.0, ./ exp_val#=
+  if exp_val#.>=^1.0 goto real1
+  if real_a#.>exp_pres# goto real1
+
+// "xstr end", prints nl
+
+  real_buf, end
+
+//   指数表示(+)
+real1_0:
+
+// "exp+:", prints nl
+
+real1_01:
+
+  exp_val#, ^10.0, .* exp_val#=
+  exp_count#++
+  if exp_val#.<=real_a# goto real1_01
+  exp_val#, ^10.0, ./ exp_val#=
+  exp_count#--
+  real_a#, exp_val#, ./ real_a#=
+  ^1.0, exp_val#=
+real1_1:
+  if exp_val#.>^0.2   goto real1_2
+  if exp_val#.<^0.02 goto real1_2
+  ".", put_real_buf
+real1_2:
+  real_a#, exp_val#, ./  (long) real_d#=
+  '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
+  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
+  exp_val#, ^10.0, ./ exp_val#=
+  if real_a#.>exp_pres# goto real1_1
+  "e+", put_real_buf
+  exp_count#, dec put_real_buf
+
+// "xstr end", prints nl
+
+  real_buf, end
+
+//   指数表示(-)
+real2_0:
+
+// "exp-:", prints nl
+
+real2_01:
+  exp_val#, ^10.0, ./ exp_val#=
+  exp_count#--
+  if exp_val#.>real_a# goto real2_01
+  real_a#, exp_val#, ./ real_a#=
+  ^1.0, exp_val#=
+real2_1:
+  if exp_val#.>^0.2   goto real2_2
+  if exp_val#.<^0.02 goto real2_2
+  ".", put_real_buf
+real2_2:
+  real_a#, exp_val#, ./  (long) real_d#=
+  '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
+  real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
+  exp_val#, ^10.0, ./ exp_val#=
+  if real_a#.>exp_pres# goto real2_1
+  "e", put_real_buf
+  exp_count#, dec put_real_buf
+
+// "xstr end", prints nl
+
+  real_buf, end
+
+// バッファに文字列を追加する
+put_real_buf:
+  tt#= real_buf, strcat
+  
+//  "put_real_buf:", prints nl 
+  
+  tt#, strlen real_p#, + real_p#=
+  
+//  "put_real_buf end:", prints nl 
+  
+  end
+
+
+// 数値を表示する 
+printr:
+  CONOUT, fprintr
+  end
+
+
+// 数値をファイルに出力する 
+fprintr:
+  long pp7#
+ pp7#= swap xstr pp7#, fprints
+ end
+
+
+ .data
+
+// グラフィックAPIのガイド
+graphic_guid:
+ data 0x4a3823dc9042a9de
+ data 0x6a5180d0de7afb96
+
+// ポインタAPIのガイド
+pointer_guid:
+ data 0x11d50b7531878c87
+ data 0x4dc13f2790004f9a
+
+ long _end#
+ 

@@ -14,27 +14,33 @@ then
 fi
 echo "option=" $option 
 
-# basicオプション
-if test $option = "-basic"
+
+
+if test $option = "-orc"
 then
-echo compile basic.r
-./orc stdio.rh startx.rh src/basic.r
-java -jar asm_x64.jar -p0x100000 -efi asm.s bin/basic.EFI
-#objdump -fsxdt bin/basic.EFI>basic.dump
-rm __str
-rm __var
-rm __tmp1
-rm __tmp2
+# コンパイラ
+echo compile orc.r
+./orc stdio.rh src/orc.r src/codegen.r
+#cp asm.s orc.s
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/orc.EFI
 exit 0
 fi
 
+
+#ブートローダのコンパイル
+echo compile boot-loader
+./orc src/boot-loader.r
+java -jar asm_x64.jar -efi -header asm.s bin/efi/boot/bootx64.EFI | sed -f boot-loader.sed > boot-loader.rh
+
+
+#OS本体のコンパイル
 echo compile oreore-os.r
-./orc src/oreore-os.r
+./orc boot-loader.rh src/oreore-os.r
 echo "// header file for oreore-OS application" > stdio.rh
-java -jar asm_x64.jar -efi -header asm.s bin/oreore-os.EFI |sed -f stdio.sed >> stdio.rh
+java -jar asm_x64.jar -p0x4000 -efi -header asm.s bin/oreore-os.EFI |sed -f stdio.sed >> stdio.rh
 cat stdio.base >> stdio.rh
+
 #objdump -fsxdt bin/oreore-os.EFI>oreore-os.dump
-cp bin/oreore-os.EFI bin/efi/boot/bootx64.EFI
 #cp asm.s oreore-os.s
 
 
@@ -51,92 +57,120 @@ fi
 
 cp stdio.rh bin
 
+
 # oreore-OSの各アプリケーションのコンパイル
 # ※コンパイルのアドレスはページ(4KB)単位で指定すること
 
-# エディタ
-echo compile edit.r
-./orc stdio.rh src/edit.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/edit.EFI
 
-# コンパイラ
-echo compile orc.r
-./orc stdio.rh src/orc.r src/codegen.r
-#cp asm.s orc.s
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/orc.EFI
-
-# アセンブラ
-echo compile asm.r
-./orc stdio.rh src/asm.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/asm.EFI
-
-# ls
-echo compile ls.r
-./orc stdio.rh src/ls.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/ls.EFI
-
-# ps
-echo compile ps.r
-./orc stdio.rh src/ps.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/ps.EFI
-
-# cat
-echo compile cat.r
-./orc stdio.rh src/cat.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/cat.EFI
-
-# cp
-echo compile cp.r
-./orc stdio.rh src/cp.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/cp.EFI
-
-# mv
-echo compile mv.r
-./orc stdio.rh src/mv.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/mv.EFI
-
-# rm
-echo compile rm.r
-./orc stdio.rh src/rm.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/rm.EFI
-
-# cls
-echo compile cls.r
-./orc stdio.rh src/cls.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/cls.EFI
 
 # startx
 echo compile startx.r
 ./orc stdio.rh src/startx.r
 #cp asm.s startx.s
-java -jar asm_x64.jar -p0xd000 -efi -header asm.s bin/startx.EFI |sed -f startx.sed > startx.rh
+java -jar asm_x64.jar -p0x24000 -efi -header asm.s bin/startx.EFI |sed -f startx.sed > startx.rh
 #objdump -fsxdt bin/startx.EFI>startx.dump
+if test $option = "-startx"
+then
+rm __str
+rm __var
+rm __tmp1
+rm __tmp2
+exit 0
+fi
+
+
+# basic
+echo compile basic.r
+./orc stdio.rh src/basic.r
+java -jar asm_x64.jar -p0x103000 -efi asm.s bin/basic.EFI
+#objdump -fsxdt bin/basic.EFI>basic.dump
+if test $option = "-basic"
+then
+rm __str
+rm __var
+rm __tmp1
+rm __tmp2
+exit 0
+fi
+
+
+# エディタ
+echo compile edit.r
+./orc stdio.rh src/edit.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/edit.EFI
+
+# コンパイラ
+echo compile orc.r
+./orc stdio.rh src/orc.r src/codegen.r
+#cp asm.s orc.s
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/orc.EFI
+
+# アセンブラ
+echo compile asm.r
+./orc stdio.rh src/asm.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/asm.EFI
+#cp asm.s asm_x64.s
+
+
+# ls
+echo compile ls.r
+./orc stdio.rh src/ls.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/ls.EFI
+
+# ps
+echo compile ps.r
+./orc stdio.rh src/ps.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/ps.EFI
+
+# cat
+echo compile cat.r
+./orc stdio.rh src/cat.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/cat.EFI
+
+# cp
+echo compile cp.r
+./orc stdio.rh src/cp.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/cp.EFI
+
+# mv
+echo compile mv.r
+./orc stdio.rh src/mv.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/mv.EFI
+
+# rm
+echo compile rm.r
+./orc stdio.rh src/rm.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/rm.EFI
+
+# cls
+echo compile cls.r
+./orc stdio.rh src/cls.r
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/cls.EFI
+
+
+
 
 # notepad
 echo compile notepad.r
 ./orc stdio.rh startx.rh src/notepad.r
-java -jar asm_x64.jar -p0xa0000 -efi asm.s bin/notepad.EFI
+java -jar asm_x64.jar -p0xa3000 -efi asm.s bin/notepad.EFI
 
 # calc
 echo compile calc.r
 ./orc stdio.rh startx.rh src/calc.r
-java -jar asm_x64.jar -p0xf0000 -efi asm.s bin/calc.EFI
+java -jar asm_x64.jar -p0xf3000 -efi asm.s bin/calc.EFI
 
 # paint
 echo compile paint.r
 ./orc stdio.rh startx.rh src/paint.r
 #cp asm.s paint.s
-java -jar asm_x64.jar -p0xc0000 -efi asm.s bin/paint.EFI
+java -jar asm_x64.jar -p0xc3000 -efi asm.s bin/paint.EFI
 
 # explore
 echo compile explore.r
 ./orc stdio.rh startx.rh src/explore.r
-java -jar asm_x64.jar -p0xd0000 -efi asm.s bin/explore.EFI
+java -jar asm_x64.jar -p0xd3000 -efi asm.s bin/explore.EFI
 
-# basic
-echo compile basic.r
-./orc stdio.rh startx.rh src/basic.r
-java -jar asm_x64.jar -p0x100000 -efi asm.s bin/basic.EFI
 
 # 作業ファイルを消去
 rm __str

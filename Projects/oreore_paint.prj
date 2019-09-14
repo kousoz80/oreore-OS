@@ -1306,8 +1306,8 @@ ipaint:
  g_bar, -&gt;HScrollBar.value# gg#=
  b_bar, -&gt;HScrollBar.value# bb#=
  rr#, 256, * gg#, + 256, * 
- bb#, + xcolor#=
- xcolor#, color_label, -&gt;Label.component -&gt;Component.background#= 
+ bb#, + gcolor#=
+ gcolor#, color_label, -&gt;Label.component -&gt;Component.background#= 
  desktop, -&gt;Desktop.component repaint
 
 </codetext>
@@ -1354,7 +1354,7 @@ ipaint:
 <codetext>// 元に戻す
 
 
- xundo
+ gundo
 </codetext>
 </operation>
 <relation>
@@ -1459,15 +1459,15 @@ ipaint:
 <codetext>// 新しい画像を作成
 
 
- width_field,  -&gt;TextField.text# 10, atoi xwidth#=
- height_field, -&gt;TextField.text# 10, atoi xheight#=
+ width_field,  -&gt;TextField.text# 10, atoi gwidth#=
+ height_field, -&gt;TextField.text# 10, atoi gheight#=
  if bitmap#&lt;&gt;NULL then bitmap#, free
- xwidth#, xheight#, * 4, * 8, +  malloc
+ gwidth#, gheight#, * 4, * 8, +  malloc
  bitmap#=
- xwidth#,  (bitmap)!(0)= 
- xheight#, (bitmap)!(1)= 
+ gwidth#,  (bitmap)!(0)= 
+ gheight#, (bitmap)!(1)= 
  display, bitmap#, set_button_image
- xgcls
+ ggcls
  desktop, -&gt;Desktop.component repaint
  
 </codetext>
@@ -1642,8 +1642,8 @@ ipaint:
 <description></description>
 <codetext>      // 点を打つ
 
-    xsave
-    click_x#, click_y#, xdraw_point
+    gsave
+    click_x#, click_y#, gdraw_point
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1678,10 +1678,10 @@ ipaint:
 <description></description>
 <codetext>      // 1マス分塗りつぶす
 
-    xsave
+    gsave
     click_x#, FONT_WIDTH,  + gx#=
     click_y#, FONT_HEIGHT, + gy#=
-    click_x#, click_y#, gx#, gy#, xfill_rect
+    click_x#, click_y#, gx#, gy#, gfill_rect
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1711,8 +1711,8 @@ ipaint:
 <description></description>
 <codetext>      // 塗りつぶす
 
-    xsave
-    click_x#, click_y#, xpaint
+    gsave
+    click_x#, click_y#, gpaint
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1742,10 +1742,10 @@ ipaint:
 <description></description>
 <codetext>      // 文字列を描く
 
-    xsave
+    gsave
     font_field, -&gt;TextField.text# pp#=
-    xwidth#, click_x#, - tt#=
-    click_x#, click_y#, tt#, pp#, xdraw_string
+    gwidth#, click_x#, - tt#=
+    click_x#, click_y#, tt#, pp#, gdraw_string
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1775,7 +1775,7 @@ ipaint:
 <description></description>
 <codetext>      //色を抜き取る
 
-    click_x#, click_y#, xget_point xcolor#=
+    click_x#, click_y#, gget_point xcolor#=
     xcolor$(2), r_bar, -&gt;HScrollBar.value#=
     xcolor$(1), g_bar, -&gt;HScrollBar.value#=
     xcolor$(0), b_bar, -&gt;HScrollBar.value#=
@@ -1809,8 +1809,8 @@ ipaint:
 <description></description>
 <codetext>      // コピー画像を貼り付ける
 
-    xsave
-    click_x#, click_y#, xpaste_image
+    gsave
+    click_x#, click_y#, gpaste_image
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1840,7 +1840,7 @@ ipaint:
 <description></description>
 <codetext>      // 画像をコピーする
 
-    click_x0#, click_y0#, click_x#, click_y#, xcopy_image
+    click_x0#, click_y0#, click_x#, click_y#, gcopy_image
 </codetext>
 </operation>
 <operation>
@@ -1869,8 +1869,8 @@ ipaint:
 <description></description>
 <codetext>     // 線を描く
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xdraw_line
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gdraw_line
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1900,8 +1900,8 @@ ipaint:
 <description></description>
 <codetext>     // 四角を描く
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xdraw_rect
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gdraw_rect
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1931,8 +1931,8 @@ ipaint:
 <description></description>
 <codetext>     // 四角を塗りつぶす
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xfill_rect
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gfill_rect
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1962,8 +1962,8 @@ ipaint:
 <description></description>
 <codetext>     // 楕円を描く
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xdraw_circle
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gdraw_circle
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -1993,8 +1993,8 @@ ipaint:
 <description></description>
 <codetext>     //楕円を塗りつぶす
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xfill_circle
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gfill_circle
     desktop, -&gt;Desktop.component repaint
 </codetext>
 </operation>
@@ -2111,109 +2111,110 @@ ipaint:
  long vx1#,vy1#,qx#,qy#,co#
 
 // 点を打つ
-xdraw_point:
+gdraw_point:
   py#= pop px#=
-  if xcolor#=COLOR_CLEAR then end
-  py#, xwidth#, * px#, +
+  if gcolor#=COLOR_CLEAR then end
+  py#, gwidth#, * px#, +
   4, * bitmap#, + pp#=
-  xcolor#, (pp)!=
+  gcolor#, (pp)!=
   end
 
 
 // 与えられた座標の色を返す
-xget_point:
+gget_point:
   py#= pop px#=
-  py#, xwidth#, * px#, +
+  py#, gwidth#, * px#, +
   4, * bitmap#, + pp#=
   (pp)!,  end
 
   
 // 線を引く
-// 使用法: gx, gy, gx1, gy1, xdraw_line
-xdraw_line:
+// 使用法: gx, gy, gx1, gy1, gdraw_line
+gdraw_line:
   gy1#= pop gx1#= pop gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
+  if gcolor#=COLOR_CLEAR then end
 
-xline:
+gline:
   gx#, gx1#, - tx#= abs rx#=
   gy#, gy1#, - ty#= abs ry#=
-  if ry#&gt;rx# goto xline_y
-  if gx#=gx1# then gx#, gy#, xdraw_point end
+  if ry#&gt;rx# goto gline_y
+  if gx#=gx1# then gx#, gy#, gdraw_point end
   
   // モードX
-  xline_x:
+  gline_x:
     1, rx#=
     if tx#&lt;0  then -1, rx#=
     for ix#=0 to tx# step rx#
       ix#, ty#,  * tx#, / gy1#, + ry#=
-      ix#, gx1#, + ry#, xdraw_point
+      ix#, gx1#, + ry#, gdraw_point
     next ix#
     end
     
-  xline_y: /* モード　ｙ */
+  // モード　ｙ
+  gline_y:
     1, ry#=
     if ty#&lt;0  then -1, ry#=
     for iy#=0 to ty# step ry#
       iy#, tx#,  * ty#, / gx1#, + rx#=
-      iy#, gy1#, + rx#, swap xdraw_point
+      iy#, gy1#, + rx#, swap gdraw_point
     next iy#
     end
     
 // 画像を消去
-xgcls:
-  xwidth#,  xheight#, * 1, + tt#=
+ggcls:
+  gwidth#,  gheight#, * 1, + tt#=
   for ii#=2 to tt#
-    xcolor#, (bitmap)!(ii#)=
+    gcolor#, (bitmap)!(ii#)=
   next ii#
   end
 
 // 長方形を描いてうめる
-// 使用法: gx, gy, gx1, gy1, xfill_rect
-xfill_rect: 
+// 使用法: gx, gy, gx1, gy1, gfill_rect
+gfill_rect: 
   gy1#= pop gx1#= pop gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
+  if gcolor#=COLOR_CLEAR then end
 
   1, rx#= ry#=
   if gy#&lt;gy1# then -1, ry#=
   if gx#&lt;gx1# then -1, rx#=
   for iy#=gy1# to gy# step ry#
     for ix#=gx1# to gx# step rx#
-      ix#,  iy#, xdraw_point
+      ix#,  iy#, gdraw_point
     next ix#
   next iy#
   end
 
 // 長方形を描く
-// 使用法: gx, gy, gx1, gy1, xdraw_rect
-xdraw_rect: 
+// 使用法: gx, gy, gx1, gy1, gdraw_rect
+gdraw_rect: 
   gy1#= pop gx1#= pop gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
+  if gcolor#=COLOR_CLEAR then end
   1, rx#= ry#=
   if gy#&lt;gy1# then -1, ry#=
   if gx#&lt;gx1# then -1, rx#=
   for ix#=gx1# to gx# step rx#
-    ix#, gy#,  xdraw_point
-    ix#, gy1#, xdraw_point
+    ix#, gy#,   gdraw_point
+    ix#, gy1#, gdraw_point
   next ix#
   for iy#=gy1# to gy# step ry#
-    gx#,  iy#, xdraw_point
-    gx1#, iy#, xdraw_point
+    gx#,  iy#,  gdraw_point
+    gx1#, iy#, gdraw_point
   next iy#
   end
   
 // 楕円を描いてうめる
-// 使用法: gx, gy, gx1, gy1, xfill_circle
-xfill_circle:
-  xdraw_circle
-  ox1#, oy1#, xpaint
+// 使用法: gx, gy, gx1, gy1, gfill_circle
+gfill_circle:
+  gdraw_circle
+  ox1#, oy1#, gpaint
   end
 
 // 楕円を描く
-// 使用法: gx, gy, gx1, gy1, xdraw_circle
-xdraw_circle:
+// 使用法: gx, gy, gx1, gy1, gdraw_circle
+gdraw_circle:
   long ox1#,oy1#
   gy1#= pop gx1#= pop gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
+  if gcolor#=COLOR_CLEAR then end
   gx#,  vx#=  gy#,  vy#=
   gx1#, vx1#= gy1#, vy1#=
   if gx1#&gt;gx# then gx1#, gx#, swap gx#= swap gx1#=
@@ -2221,55 +2222,55 @@ xdraw_circle:
   gx#, gx1#, + 2, / ox1#=
   gy#, gy1#, + 2, / oy1#=
   gx#, gx1#, - 2, / qx#=
-  if qx#=0 then xline end
+  if qx#=0 then gline end
   gy#, gy1#, - 2, / qy#=
-  if qy#=0 then xline end
+  if qy#=0 then gline end
   gx#, gx1#=  oy1#, gy1#=
   for ii#=0 to TABLE_N
     qx#, cos2table#(ii#), * 32767, / ox1#, + gx#=
     qy#, sin2table#(ii#), * 32767, / oy1#, + gy#=
-    xline
+    gline
     gx#, gx1#= gy#, gy1#=
   next ii#
   end
 
 
 // 塗る
-xpaint:
+gpaint:
   const Q_SIZE   4096
   long   q_buf#(Q_SIZE)
   long   put_p#,get_p#
   
   gy#= pop gx#=
-  if xcolor#=COLOR_CLEAR then end
+  if gcolor#=COLOR_CLEAR then end
   0, put_p#= get_p#=
-  gx#, gy#, xget_point co#=
-  if co#=xcolor# then end
-  gx#, gy#, xput_pset
+  gx#, gy#, gget_point co#=
+  if co#=gcolor# then end
+  gx#, gy#, gput_pset
 
-  xpaint1:  // うった点の座標を求める
+  gpaint1:  // うった点の座標を求める
     if get_p#=put_p# then end
     q_buf#(get_p#), vx#=   get_p#++
     q_buf#(get_p#), vy#=   get_p#++
     if get_p#&gt;=Q_SIZE then 0, get_p#=
 
     // うった点の四方にまた点をうつ
-    vx#, 1, + vy#, xput_pset
-    vx#, 1,  - vy#, xput_pset
-    vy#, 1, + vx#, swap xput_pset
-    vy#, 1,  -  vx#, swap xput_pset
-  goto xpaint1
+    vx#, 1, + vy#, gput_pset
+    vx#, 1,  - vy#, gput_pset
+    vy#, 1, + vx#, swap gput_pset
+    vy#, 1,  -  vx#, swap gput_pset
+  goto gpaint1
   
   //  点をうってその座標を記録する
-  xput_pset:
+  gput_pset:
     qy#= pop qx#=
     if qx#&lt;0     then end  // 範囲外ならしない
-    if qx#&gt;=xwidth#  then end
+    if qx#&gt;=gwidth#  then end
     if qy#&lt;0     then end
-    if qy#&gt;=xheight# then end
-    qx#, qy#, xget_point co#=
-    if co#=xcolor# then end // すでに点がうってあるときもしない
-    qx#, qy#, xdraw_point
+    if qy#&gt;=gheight# then end
+    qx#, qy#, gget_point co#=
+    if co#=gcolor# then end // すでに点がうってあるときもしない
+    qx#, qy#, gdraw_point
     qx#, q_buf#(put_p#)=  put_p#++
     qy#, q_buf#(put_p#)=  put_p#++
     if put_p#&gt;=Q_SIZE then 0, put_p#=
@@ -2277,23 +2278,23 @@ xpaint:
 
 
 // 画像を描画
-// 使用法: gx, gy, address, xdraw_image
-xdraw_image:
+// 使用法: gx, gy, address, gdraw_image
+gdraw_image:
   qq#= pop gy#= pop gx#=
   if qq#=NULL then end
   (qq)!, rx#=
   if rx#&lt;0 then end
-  if rx#&gt;=xwidth# then end
+  if rx#&gt;=gwidth# then end
   qq#, 4, + qq#=
   (qq)!, ry#=
   if ry#&lt;0 then end
-  if ry#&gt;=xheight# then end
+  if ry#&gt;=gheight# then end
   qq#, 4, + qq#=
   gx#, rx#, + 1, - gx1#=
   gy#, ry#, + 1, - gy1#=
   for ii#=gy# to gy1#
     for jj#=gx# to gx1#
-      ii#, xwidth#, * jj#, +
+      ii#, gwidth#, * jj#, +
       4, * bitmap#, + pp#=
       if (qq)$(3)=0 then (qq)!, (pp)!=
       qq#, 4, + qq#=
@@ -2304,10 +2305,10 @@ xdraw_image:
 
 // コピーエリアに画像をコピー
 // 使用法: gx, gy, gx1, gy1, xcopy_image
-xcopy_image:
+gcopy_image:
   gy1#= pop gx1#= pop gy#= pop gx#=
-  if gx1#&gt;=xwidth#  then xwidth#,  1, - gx1#= 
-  if gy1#&gt;=xheight# then xheight#, 1, - gy1#= 
+  if gx1#&gt;=gwidth#  then gwidth#,  1, - gx1#= 
+  if gy1#&gt;=gheight# then gheight#, 1, - gy1#= 
   copy_area#, qq#=
   gx1#, gx#, - 1, + (qq)!=
   qq#, 4, + qq#=
@@ -2315,7 +2316,7 @@ xcopy_image:
   qq#, 4, + qq#=
   for ii#=gy# to gy1#
     for jj#=gx# to gx1#
-      ii#, xwidth#, * jj#, +
+      ii#, gwidth#, * jj#, +
       4, * bitmap#, + pp#=
       (pp)!, (qq)!=
       qq#, 4, + qq#=
@@ -2326,36 +2327,36 @@ xcopy_image:
 
 // コピーエリアから貼り付ける
 // 使用法: gx, gy, xpaste_image
-xpaste_image:
-  copy_area#, xdraw_image
+gpaste_image:
+  copy_area#, gdraw_image
   end
     
 
   
 // 文字列描画
-xdraw_string:
+gdraw_string:
   long dsx#,dsy#,dsw#,dss#,dsr#
   dss#= pop dsw#= pop dsy#= pop dsx#=
-  if xcolor#=COLOR_CLEAR then end
+  if gcolor#=COLOR_CLEAR then end
   dsx#, dsw#, + FONT_WIDTH, - dsw#=
-  xdraw_string1:
+  gdraw_string1:
     if (dss)$=NULL then end
-    dsx#, dsy#, (dss)$, xdraw_font dsr#=
+    dsx#, dsy#, (dss)$, gdraw_font dsr#=
     dsx#, FONT_WIDTH, + dsx#=
     dss#++
-  if dsx#&lt;dsw# goto xdraw_string1
+  if dsx#&lt;dsw# goto gdraw_string1
   dsr#, end
 
 
 // 1文字描画
-xdraw_font:
+gdraw_font:
   pp#= pop ty#= pop tx#=
   pp#, FONT_WIDTH, * FONT_HEIGHT, * font_area#, + qq#=
   tx#, FONT_WIDTH-1,  + rx#=
   ty#, FONT_HEIGHT-1, + ry#=
   for ii#=ty# to ry#
      for jj#=tx# to rx#
-        if (qq)$&lt;&gt;0 then jj#, ii#, xdraw_point
+        if (qq)$&lt;&gt;0 then jj#, ii#, gdraw_point
         qq#++
      next jj#
   next ii#
@@ -2526,9 +2527,9 @@ file_open:
   bitmap#, bitmap0#=
   fname#, load_image bitmap#=
   display, bitmap#, set_button_image
-  (bitmap)!(0), xwidth#= dec 
+  (bitmap)!(0), gwidth#= dec 
   width_field,  set_textfield_text
-  (bitmap)!(1), xheight#= dec 
+  (bitmap)!(1), gheight#= dec 
   height_field, set_textfield_text
   display, bitmap#, set_button_image
   desktop, -&gt;Desktop.component repaint
@@ -2608,7 +2609,7 @@ file_open:
 <height>34</height>
 <codetext>// 画像用変数
  long bitmap#,bitmap0#
- long fname#,xwidth#,xheight#,xcolor#
+ long fname#,gwidth#,gheight#,gcolor#
  long rr#,gg#,bb#,tt#
  count ii# 
 </codetext>
@@ -2620,10 +2621,10 @@ file_open:
 <width>136</width>
 <height>20</height>
 <codetext>// 元の画像の更新
-xsave:
+gsave:
   if bitmap0#&lt;&gt;NULL then bitmap0#, free
-  (bitmap)!(0), xwidth#= 
-  (bitmap)!(1), xheight#=
+  (bitmap)!(0), gwidth#= 
+  (bitmap)!(1), gheight#=
   * 4, * 8, + tt#= malloc  bitmap0#=
   tt#, 8, / 1, - tt#=
   for ii#=0 to tt#
@@ -2633,11 +2634,11 @@ xsave:
 
 
 // 画像のUNDO
-xundo:
+gundo:
   if bitmap0#=NULL then end
   if bitmap#&lt;&gt;NULL then bitmap#, free
-  (bitmap0)!(0), xwidth#= 
-  (bitmap0)!(1), xheight#=
+  (bitmap0)!(0), gwidth#= 
+  (bitmap0)!(1), gheight#=
   * 4, * 8, + tt#= malloc  bitmap#=
   tt#, 8, / 1, - tt#=
   for ii#=0 to tt#
@@ -2991,7 +2992,7 @@ xundo:
  61, com#, -&gt;Component.y#=
  122, com#, -&gt;Component.width#=
  19, com#, -&gt;Component.height#=
- 10729676, com#, -&gt;Component.foreground#=
+ 0, com#, -&gt;Component.foreground#=
  15658734, com#, -&gt;Component.background#=
  0, r_bar, -&gt;HScrollBar.min#=
  255, r_bar, -&gt;HScrollBar.max#=
@@ -3004,7 +3005,7 @@ xundo:
  84, com#, -&gt;Component.y#=
  121, com#, -&gt;Component.width#=
  15, com#, -&gt;Component.height#=
- 10729676, com#, -&gt;Component.foreground#=
+ 0, com#, -&gt;Component.foreground#=
  15658734, com#, -&gt;Component.background#=
  0, g_bar, -&gt;HScrollBar.min#=
  255, g_bar, -&gt;HScrollBar.max#=
@@ -3017,7 +3018,7 @@ xundo:
  104, com#, -&gt;Component.y#=
  119, com#, -&gt;Component.width#=
  14, com#, -&gt;Component.height#=
- 10729676, com#, -&gt;Component.foreground#=
+ 0, com#, -&gt;Component.foreground#=
  15658734, com#, -&gt;Component.background#=
  0, b_bar, -&gt;HScrollBar.min#=
  255, b_bar, -&gt;HScrollBar.max#=
@@ -3263,9 +3264,9 @@ BUTTON;display;null;2;105;453;358;51;51;51;255;255;255;Dialog;12;null;0;0;1;0;1;
 LABEL;LABEL1;R;3;35;16;18;51;51;51;192;192;192;Dialog;12;null;2;1;1;0;1;Label;
 LABEL;LABEL2;G;3;59;19;17;51;51;51;192;192;192;Dialog;12;null;2;1;1;0;0;Label;
 LABEL;LABEL3;B;4;78;16;21;51;51;51;192;192;192;Dialog;12;null;2;1;1;0;0;Label;
-HSLIDER;r_bar;0;255;20;36;122;19;163;184;204;238;238;238;1;0;1;HScrollBar;
-HSLIDER;g_bar;0;255;21;59;121;15;163;184;204;238;238;238;1;0;1;HScrollBar;
-HSLIDER;b_bar;0;255;22;79;119;14;163;184;204;238;238;238;1;0;1;HScrollBar;
+HSLIDER;r_bar;0;255;20;36;122;19;0;0;0;238;238;238;1;0;1;HScrollBar;
+HSLIDER;g_bar;0;255;21;59;121;15;0;0;0;238;238;238;1;0;1;HScrollBar;
+HSLIDER;b_bar;0;255;22;79;119;14;0;0;0;238;238;238;1;0;1;HScrollBar;
 BUTTON;open_button;null;32;3;25;25;51;51;51;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
 LABEL;color_label;null;152;35;66;61;51;51;51;0;0;0;Dialog;12;null;4;0;1;0;0;Label;
 BUTTON;save_button;null;59;2;27;25;51;51;51;192;192;192;Dialog;12;null;0;0;1;0;1;Button;

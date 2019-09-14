@@ -163,10 +163,7 @@
  const mouse_reset  0x000000000041c660
  const mouse_get_state  0x000000000041c668
  const xcolor  0x000000000041c808
- const xwidth  0x000000000041c810
- const xheight  0x000000000041c818
- const bitmap  0x000000000041c820
- const _end  0x00000000004249c0
+ const _end  0x00000000004249a8
 // "stdio.base" the base text of "stdio.rh"
 
 __xxmain1:

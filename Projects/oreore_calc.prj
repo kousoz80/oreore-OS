@@ -6,7 +6,7 @@
 <y0>0</y0>
 <width>200</width>
 <height>100</height>
-<ID_maker>33</ID_maker>
+<ID_maker>34</ID_maker>
 <objectname>oreore_calc</objectname>
 <description>新規のアプリケーション</description>
 <pin>
@@ -644,8 +644,8 @@ int main( int argc, char** argv ){
 </xobject>
 <xobject>
 <ID>_X5</ID>
-<x0>407</x0>
-<y0>142</y0>
+<x0>410</x0>
+<y0>126</y0>
 <width>184</width>
 <height>199</height>
 <ID_maker>37</ID_maker>
@@ -938,13 +938,13 @@ int main( int argc, char** argv ){
 <y0>56</y0>
 <width>188</width>
 <height>386</height>
-<ID_maker>20</ID_maker>
+<ID_maker>28</ID_maker>
 <objectname>メインコントロール</objectname>
 <description></description>
 <state>
 <ID>_SINIT</ID>
 <x0>21</x0>
-<y0>47</y0>
+<y0>23</y0>
 <width>70</width>
 <height>40</height>
 <text>  初期状態</text>
@@ -952,8 +952,8 @@ int main( int argc, char** argv ){
 </state>
 <pin>
 <ID>_P0</ID>
-<x0>383</x0>
-<y0>393</y0>
+<x0>442</x0>
+<y0>386</y0>
 <width>74</width>
 <height>27</height>
 <text>op_in(op#)</text>
@@ -962,8 +962,8 @@ int main( int argc, char** argv ){
 </pin>
 <pin>
 <ID>_P1</ID>
-<x0>407</x0>
-<y0>35</y0>
+<x0>573</x0>
+<y0>103</y0>
 <width>101</width>
 <height>28</height>
 <text>num_in(num#)</text>
@@ -973,7 +973,7 @@ int main( int argc, char** argv ){
 <pin>
 <ID>_P2</ID>
 <x0>47</x0>
-<y0>145</y0>
+<y0>121</y0>
 <width>60</width>
 <height>30</height>
 <text>start()</text>
@@ -982,20 +982,20 @@ int main( int argc, char** argv ){
 </pin>
 <codeclip>
 <ID>_C3</ID>
-<x0>660</x0>
-<y0>50</y0>
+<x0>603</x0>
+<y0>357</y0>
 <width>267</width>
 <height>218</height>
 <codetext>// 主要変数 
  long disp#,reg#
  long memory#
  long op#,op0#
- long num#
+ long num#,digit#
  char buf$(64)
 
 // 数値を表示
 paint_disp:
- disp#, dec buf, strcpy
+ disp#, xstr buf, strcpy
  buf, display, -&gt;Label.text#=
  display, -&gt;Label.component repaint
  end
@@ -1006,7 +1006,7 @@ paint_disp:
 <state1>_SINIT</state1>
 <state2>_S8</state2>
 <x0>133</x0>
-<y0>82</y0>
+<y0>58</y0>
 <width>111</width>
 <height>49</height>
 <inconnectx0>0</inconnectx0>
@@ -1029,8 +1029,8 @@ paint_disp:
 
 
  GUI, xcalc, set_window_icon
- 0, disp#=
- 0, memory#=
+ ^0.0, disp#=
+ ^0.0, memory#=
  &apos;=&apos;, op#=
  paint_disp
 </codetext>
@@ -1043,7 +1043,7 @@ paint_disp:
 <state>
 <ID>_S8</ID>
 <x0>182</x0>
-<y0>176</y0>
+<y0>152</y0>
 <width>98</width>
 <height>37</height>
 <text>  初期入力状態</text>
@@ -1051,19 +1051,19 @@ paint_disp:
 </state>
 <state>
 <ID>_S9</ID>
-<x0>419</x0>
-<y0>172</y0>
+<x0>371</x0>
+<y0>159</y0>
 <width>88</width>
 <height>37</height>
-<text> 数字入力状態</text>
+<text> 整数入力状態</text>
 <isinitstate>0</isinitstate>
 </state>
 <operation>
 <ID>_O10</ID>
 <state1>_S8</state1>
 <state2>_S9</state2>
-<x0>261</x0>
-<y0>81</y0>
+<x0>350</x0>
+<y0>22</y0>
 <width>142</width>
 <height>52</height>
 <inconnectx0>3</inconnectx0>
@@ -1085,7 +1085,7 @@ paint_disp:
 <codetext>// 数字の1桁目を入力
 
 
- num#, disp#=
+ num#, (double) disp#=
  paint_disp
  
 </codetext>
@@ -1094,8 +1094,8 @@ paint_disp:
 <ID>_O11</ID>
 <state1>_S9</state1>
 <state2>_S9</state2>
-<x0>502</x0>
-<y0>77</y0>
+<x0>573</x0>
+<y0>21</y0>
 <width>135</width>
 <height>55</height>
 <inconnectx0>10</inconnectx0>
@@ -1117,7 +1117,8 @@ paint_disp:
 <codetext>// 数字を入力する
 
 
- disp#, 10, * num#, + disp#=
+ num#, (double) num#=
+ disp#, ^10.0, .* num#, .+ disp#=
  paint_disp
 </codetext>
 </operation>
@@ -1136,7 +1137,7 @@ paint_disp:
 <state1>_S8</state1>
 <state2>_S16</state2>
 <x0>254</x0>
-<y0>258</y0>
+<y0>234</y0>
 <width>140</width>
 <height>58</height>
 <inconnectx0>38</inconnectx0>
@@ -1163,8 +1164,8 @@ paint_disp:
 <ID>_O15</ID>
 <state1>_S9</state1>
 <state2>_S16</state2>
-<x0>441</x0>
-<y0>255</y0>
+<x0>418</x0>
+<y0>237</y0>
 <width>127</width>
 <height>55</height>
 <inconnectx0>26</inconnectx0>
@@ -1191,8 +1192,8 @@ paint_disp:
 </operation>
 <state>
 <ID>_S16</ID>
-<x0>251</x0>
-<y0>384</y0>
+<x0>291</x0>
+<y0>350</y0>
 <width>70</width>
 <height>40</height>
 <text>  計算状態</text>
@@ -1203,7 +1204,7 @@ paint_disp:
 <state1>_S16</state1>
 <state2>_S8</state2>
 <x0>112</x0>
-<y0>265</y0>
+<y0>241</y0>
 <width>102</width>
 <height>55</height>
 <inconnectx0>0</inconnectx0>
@@ -1226,14 +1227,14 @@ paint_disp:
 
 
 
-  if op#=&apos;I&apos;     then 0, disp#, - disp#= gotoskip1
-  if op#=&apos;C&apos;    then 0, disp#= gotoskip1
-  if op#=&apos;P&apos;    then memory#, disp#, + memory#= gotoskip1  
-  if op#=&apos;M&apos;   then memory#, disp#= 0, memory#= gotoskip1
-  if op0#=&apos;+&apos; then disp#, reg#, + disp#= gotoskip0
-  if op0#=&apos;-&apos;   then disp#, reg#,  -  disp#= gotoskip0
-  if op0#=&apos;*&apos;  then disp#, reg#, *  disp#= gotoskip0
-  if op0#=&apos;/&apos;   then disp#, reg#, /  disp#=
+  if op#=&apos;I&apos;     then ^0.0, disp#, .- disp#= gotoskip1
+  if op#=&apos;C&apos;    then ^0.0, disp#= gotoskip1
+  if op#=&apos;P&apos;    then memory#, disp#, .+ memory#= gotoskip1  
+  if op#=&apos;M&apos;   then memory#, disp#= ^0.0, memory#= gotoskip1
+  if op0#=&apos;+&apos; then disp#, reg#, .+ disp#= gotoskip0
+  if op0#=&apos;-&apos;   then disp#, reg#,  .-  disp#= gotoskip0
+  if op0#=&apos;*&apos;  then disp#, reg#, .*  disp#= gotoskip0
+  if op0#=&apos;/&apos;   then disp#, reg#, ./  disp#=
 skip0:
   op#, op0#=
   disp#, reg#=
@@ -1250,6 +1251,133 @@ skip1:
 <ID>_A19</ID>
 <comp1name>_P0</comp1name>
 <comp2name>_O14</comp2name>
+</action>
+<state>
+<ID>_S20</ID>
+<x0>742</x0>
+<y0>230</y0>
+<width>103</width>
+<height>42</height>
+<text>  小数入力状態</text>
+<isinitstate>0</isinitstate>
+</state>
+<pin>
+<ID>_P21</ID>
+<x0>693</x0>
+<y0>170</y0>
+<width>60</width>
+<height>30</height>
+<text>dot_in()</text>
+<px>14</px>
+<py>272</py>
+</pin>
+<operation>
+<ID>_O22</ID>
+<state1>_S9</state1>
+<state2>_S20</state2>
+<x0>546</x0>
+<y0>144</y0>
+<width>128</width>
+<height>60</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>31</inconnecty0>
+<outconnectx0>9</outconnectx0>
+<outconnecty0>47</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>81</inpinx0>
+<inpiny0>40</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>//小数入力状態に
+// 遷移する
+
+
+ ^1.0, digit#=
+  
+</codetext>
+</operation>
+<operation>
+<ID>_O23</ID>
+<state1>_S20</state1>
+<state2>_S20</state2>
+<x0>752</x0>
+<y0>86</y0>
+<width>105</width>
+<height>62</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>47</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>47</outconnecty0>
+<inpintext>in(num#)</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>39</inpiny0>
+<inpinwidth>63</inpinwidth>
+<inpinheight>21</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>//小数を入力
+
+
+
+ digit#, ^10.0, ./ digit#=
+ num#, (double) num#=
+ num#, digit#, .* disp#, .+ disp#=
+ paint_disp
+</codetext>
+</operation>
+<action>
+<ID>_A24</ID>
+<comp1name>_P1</comp1name>
+<comp2name>_O23</comp2name>
+</action>
+<action>
+<ID>_A25</ID>
+<comp1name>_P21</comp1name>
+<comp2name>_O22</comp2name>
+</action>
+<operation>
+<ID>_O26</ID>
+<state1>_S20</state1>
+<state2>_S16</state2>
+<x0>563</x0>
+<y0>244</y0>
+<width>142</width>
+<height>49</height>
+<inconnectx0>109</inconnectx0>
+<inconnecty0>10</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>30</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>32</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// 計算状態に遷移
+</codetext>
+</operation>
+<action>
+<ID>_A27</ID>
+<comp1name>_P0</comp1name>
+<comp2name>_O26</comp2name>
 </action>
 </aobject>
 <relation>
@@ -1961,4 +2089,9 @@ xcalc:
  data -16777216,-16777216,-16777216,-16777216
 </codetext>
 </codeclip>
+<relation>
+<ID>_R33</ID>
+<pin1name>_A0(_PAdot_Button)</pin1name>
+<pin2name>_A7(_P21)</pin2name>
+</relation>
 </xobject>

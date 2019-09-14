@@ -2556,7 +2556,7 @@ eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 then  0, end
 
-  // 論理項は論理因子AND論理因子AND_849619487.
+  // 論理項は論理因子AND論理因子AND_939231803.
   getToken
   eval_relation
   eval_and
@@ -2577,7 +2577,7 @@ eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 then  0, end 
 
-  // 論理式は論理項OR論理項OR_849619487.
+  // 論理式は論理項OR論理項OR_939231803.
   getToken
   eval_lterm
   eval_or
@@ -7108,7 +7108,7 @@ pass2_eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 goto pass2_eval_lterm2
 
-  // 論理項は論理因子AND論理因子AND_1321442138.
+  // 論理項は論理因子AND論理因子AND_626671684.
   pass2_getToken
   pass2_eval_relation
   pass2_eval_and
@@ -7133,7 +7133,7 @@ pass2_eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 goto pass2_eval_expression2 
 
-  // 論理式は論理項OR論理項OR_1321442138.
+  // 論理式は論理項OR論理項OR_626671684.
   pass2_getToken
   pass2_eval_lterm
   pass2_eval_or
@@ -7153,10 +7153,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _2049076456_in
+ _38459378_in
 
  end
-_2049076456_in:
+_38459378_in:
 // BASICを起動する
 start_basic:
 
@@ -7170,11 +7170,7 @@ start_basic:
   NULL, prog, ->Program.prev#= prog, ->Program.next#=
   
   ERROR, xxxstatus#=
-  
   0xffffff, xcolor#=
-  screen_width#, xwidth#=
-  screen_height#, xheight#=
-  graphic_base#, bitmap#=
   
   0, prog, ->Program.lineno#=
   text, prog, ->Program.text#=

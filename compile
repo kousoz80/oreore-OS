@@ -79,6 +79,18 @@ exit 0
 fi
 
 
+# paint
+if test $option = "-paint"
+then
+echo compile paint.r
+./orc stdio.rh startx.rh src/paint.r
+#cp asm.s paint.s
+java -jar asm_x64.jar -p0xc3000 -efi asm.s bin/paint.EFI
+exit 0
+fi
+
+
+
 # basic
 echo compile basic.r
 ./orc stdio.rh src/basic.r

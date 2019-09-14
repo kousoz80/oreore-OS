@@ -3241,11 +3241,7 @@ start_basic:
   NULL, prog, -&gt;Program.prev#= prog, -&gt;Program.next#=
   
   ERROR, xxxstatus#=
-  
   0xffffff, xcolor#=
-  screen_width#, xwidth#=
-  screen_height#, xheight#=
-  graphic_base#, bitmap#=
   
   0, prog, -&gt;Program.lineno#=
   text, prog, -&gt;Program.text#=

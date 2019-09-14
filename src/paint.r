@@ -897,25 +897,25 @@ file_open:
   bitmap#, bitmap0#=
   fname#, load_image bitmap#=
   display, bitmap#, set_button_image
-  (bitmap)!(0), xwidth#= dec 
+  (bitmap)!(0), gwidth#= dec 
   width_field,  set_textfield_text
-  (bitmap)!(1), xheight#= dec 
+  (bitmap)!(1), gheight#= dec 
   height_field, set_textfield_text
   display, bitmap#, set_button_image
   desktop, ->Desktop.component repaint
   end
 
 // 画像用変数
- long bitmap0#
- long fname#
+ long bitmap#,bitmap0#
+ long fname#,gwidth#,gheight#,gcolor#
  long rr#,gg#,bb#,tt#
  count ii# 
 
 // 元の画像の更新
-xsave:
+gsave:
   if bitmap0#<>NULL then bitmap0#, free
-  (bitmap)!(0), xwidth#= 
-  (bitmap)!(1), xheight#=
+  (bitmap)!(0), gwidth#= 
+  (bitmap)!(1), gheight#=
   * 4, * 8, + tt#= malloc  bitmap0#=
   tt#, 8, / 1, - tt#=
   for ii#=0 to tt#
@@ -925,11 +925,11 @@ xsave:
 
 
 // 画像のUNDO
-xundo:
+gundo:
   if bitmap0#=NULL then end
   if bitmap#<>NULL then bitmap#, free
-  (bitmap0)!(0), xwidth#= 
-  (bitmap0)!(1), xheight#=
+  (bitmap0)!(0), gwidth#= 
+  (bitmap0)!(1), gheight#=
   * 4, * 8, + tt#= malloc  bitmap#=
   tt#, 8, / 1, - tt#=
   for ii#=0 to tt#
@@ -939,7 +939,7 @@ xundo:
   desktop, ->Desktop.component repaint
   end
 
- long STATE_1703655714#,STATE2_1703655714#
+ long STATE_686286594#,STATE2_686286594#
 create_gui:
  char GUI$(Window.SIZE)
  long guicom#,com#
@@ -1263,13 +1263,205 @@ create_gui:
  long tx#,ty#,rx#,ry#,ox#,oy#,vx#,vy#
  long vx1#,vy1#,qx#,qy#,co#
 
+// 点を打つ
+gdraw_point:
+  py#= pop px#=
+  if gcolor#=COLOR_CLEAR then end
+  py#, gwidth#, * px#, +
+  4, * bitmap#, + pp#=
+  gcolor#, (pp)!=
+  end
+
+
+// 与えられた座標の色を返す
+gget_point:
+  py#= pop px#=
+  py#, gwidth#, * px#, +
+  4, * bitmap#, + pp#=
+  (pp)!,  end
+
+  
+// 線を引く
+// 使用法: gx, gy, gx1, gy1, gdraw_line
+gdraw_line:
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if gcolor#=COLOR_CLEAR then end
+
+gline:
+  gx#, gx1#, - tx#= abs rx#=
+  gy#, gy1#, - ty#= abs ry#=
+  if ry#>rx# goto gline_y
+  if gx#=gx1# then gx#, gy#, gdraw_point end
+  
+  // モードX
+  gline_x:
+    1, rx#=
+    if tx#<0  then -1, rx#=
+    for ix#=0 to tx# step rx#
+      ix#, ty#,  * tx#, / gy1#, + ry#=
+      ix#, gx1#, + ry#, gdraw_point
+    next ix#
+    end
+    
+  // モード　ｙ
+  gline_y:
+    1, ry#=
+    if ty#<0  then -1, ry#=
+    for iy#=0 to ty# step ry#
+      iy#, tx#,  * ty#, / gx1#, + rx#=
+      iy#, gy1#, + rx#, swap gdraw_point
+    next iy#
+    end
+    
+// 画像を消去
+ggcls:
+  gwidth#,  gheight#, * 1, + tt#=
+  for ii#=2 to tt#
+    gcolor#, (bitmap)!(ii#)=
+  next ii#
+  end
+
+// 長方形を描いてうめる
+// 使用法: gx, gy, gx1, gy1, gfill_rect
+gfill_rect: 
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if gcolor#=COLOR_CLEAR then end
+
+  1, rx#= ry#=
+  if gy#<gy1# then -1, ry#=
+  if gx#<gx1# then -1, rx#=
+  for iy#=gy1# to gy# step ry#
+    for ix#=gx1# to gx# step rx#
+      ix#,  iy#, gdraw_point
+    next ix#
+  next iy#
+  end
+
+// 長方形を描く
+// 使用法: gx, gy, gx1, gy1, gdraw_rect
+gdraw_rect: 
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if gcolor#=COLOR_CLEAR then end
+  1, rx#= ry#=
+  if gy#<gy1# then -1, ry#=
+  if gx#<gx1# then -1, rx#=
+  for ix#=gx1# to gx# step rx#
+    ix#, gy#,   gdraw_point
+    ix#, gy1#, gdraw_point
+  next ix#
+  for iy#=gy1# to gy# step ry#
+    gx#,  iy#,  gdraw_point
+    gx1#, iy#, gdraw_point
+  next iy#
+  end
+  
+// 楕円を描いてうめる
+// 使用法: gx, gy, gx1, gy1, gfill_circle
+gfill_circle:
+  gdraw_circle
+  ox1#, oy1#, gpaint
+  end
+
+// 楕円を描く
+// 使用法: gx, gy, gx1, gy1, gdraw_circle
+gdraw_circle:
+  long ox1#,oy1#
+  gy1#= pop gx1#= pop gy#= pop gx#=
+  if gcolor#=COLOR_CLEAR then end
+  gx#,  vx#=  gy#,  vy#=
+  gx1#, vx1#= gy1#, vy1#=
+  if gx1#>gx# then gx1#, gx#, swap gx#= swap gx1#=
+  if gy1#>gy# then gy1#, gy#, swap gy#= swap gy1#=
+  gx#, gx1#, + 2, / ox1#=
+  gy#, gy1#, + 2, / oy1#=
+  gx#, gx1#, - 2, / qx#=
+  if qx#=0 then gline end
+  gy#, gy1#, - 2, / qy#=
+  if qy#=0 then gline end
+  gx#, gx1#=  oy1#, gy1#=
+  for ii#=0 to TABLE_N
+    qx#, cos2table#(ii#), * 32767, / ox1#, + gx#=
+    qy#, sin2table#(ii#), * 32767, / oy1#, + gy#=
+    gline
+    gx#, gx1#= gy#, gy1#=
+  next ii#
+  end
+
+
+// 塗る
+gpaint:
+  const Q_SIZE   4096
+  long   q_buf#(Q_SIZE)
+  long   put_p#,get_p#
+  
+  gy#= pop gx#=
+  if gcolor#=COLOR_CLEAR then end
+  0, put_p#= get_p#=
+  gx#, gy#, gget_point co#=
+  if co#=gcolor# then end
+  gx#, gy#, gput_pset
+
+  gpaint1:  // うった点の座標を求める
+    if get_p#=put_p# then end
+    q_buf#(get_p#), vx#=   get_p#++
+    q_buf#(get_p#), vy#=   get_p#++
+    if get_p#>=Q_SIZE then 0, get_p#=
+
+    // うった点の四方にまた点をうつ
+    vx#, 1, + vy#, gput_pset
+    vx#, 1,  - vy#, gput_pset
+    vy#, 1, + vx#, swap gput_pset
+    vy#, 1,  -  vx#, swap gput_pset
+  goto gpaint1
+  
+  //  点をうってその座標を記録する
+  gput_pset:
+    qy#= pop qx#=
+    if qx#<0     then end  // 範囲外ならしない
+    if qx#>=gwidth#  then end
+    if qy#<0     then end
+    if qy#>=gheight# then end
+    qx#, qy#, gget_point co#=
+    if co#=gcolor# then end // すでに点がうってあるときもしない
+    qx#, qy#, gdraw_point
+    qx#, q_buf#(put_p#)=  put_p#++
+    qy#, q_buf#(put_p#)=  put_p#++
+    if put_p#>=Q_SIZE then 0, put_p#=
+    end
+
+
+// 画像を描画
+// 使用法: gx, gy, address, gdraw_image
+gdraw_image:
+  qq#= pop gy#= pop gx#=
+  if qq#=NULL then end
+  (qq)!, rx#=
+  if rx#<0 then end
+  if rx#>=gwidth# then end
+  qq#, 4, + qq#=
+  (qq)!, ry#=
+  if ry#<0 then end
+  if ry#>=gheight# then end
+  qq#, 4, + qq#=
+  gx#, rx#, + 1, - gx1#=
+  gy#, ry#, + 1, - gy1#=
+  for ii#=gy# to gy1#
+    for jj#=gx# to gx1#
+      ii#, gwidth#, * jj#, +
+      4, * bitmap#, + pp#=
+      if (qq)$(3)=0 then (qq)!, (pp)!=
+      qq#, 4, + qq#=
+    next jj#
+  next ii#
+  jj#, ii#, end
+    
 
 // コピーエリアに画像をコピー
 // 使用法: gx, gy, gx1, gy1, xcopy_image
-xcopy_image:
+gcopy_image:
   gy1#= pop gx1#= pop gy#= pop gx#=
-  if gx1#>=xwidth#  then xwidth#,  1, - gx1#= 
-  if gy1#>=xheight# then xheight#, 1, - gy1#= 
+  if gx1#>=gwidth#  then gwidth#,  1, - gx1#= 
+  if gy1#>=gheight# then gheight#, 1, - gy1#= 
   copy_area#, qq#=
   gx1#, gx#, - 1, + (qq)!=
   qq#, 4, + qq#=
@@ -1277,7 +1469,7 @@ xcopy_image:
   qq#, 4, + qq#=
   for ii#=gy# to gy1#
     for jj#=gx# to gx1#
-      ii#, xwidth#, * jj#, +
+      ii#, gwidth#, * jj#, +
       4, * bitmap#, + pp#=
       (pp)!, (qq)!=
       qq#, 4, + qq#=
@@ -1288,42 +1480,131 @@ xcopy_image:
 
 // コピーエリアから貼り付ける
 // 使用法: gx, gy, xpaste_image
-xpaste_image:
-  copy_area#, xdraw_image
+gpaste_image:
+  copy_area#, gdraw_image
   end
     
 
   
 // 文字列描画
-xdraw_string:
+gdraw_string:
   long dsx#,dsy#,dsw#,dss#,dsr#
   dss#= pop dsw#= pop dsy#= pop dsx#=
-  if xcolor#=COLOR_CLEAR then end
+  if gcolor#=COLOR_CLEAR then end
   dsx#, dsw#, + FONT_WIDTH, - dsw#=
-  xdraw_string1:
+  gdraw_string1:
     if (dss)$=NULL then end
-    dsx#, dsy#, (dss)$, xdraw_font dsr#=
+    dsx#, dsy#, (dss)$, gdraw_font dsr#=
     dsx#, FONT_WIDTH, + dsx#=
     dss#++
-  if dsx#<dsw# goto xdraw_string1
+  if dsx#<dsw# goto gdraw_string1
   dsr#, end
 
 
 // 1文字描画
-xdraw_font:
+gdraw_font:
   pp#= pop ty#= pop tx#=
   pp#, FONT_WIDTH, * FONT_HEIGHT, * font_area#, + qq#=
   tx#, FONT_WIDTH-1,  + rx#=
   ty#, FONT_HEIGHT-1, + ry#=
   for ii#=ty# to ry#
      for jj#=tx# to rx#
-        if (qq)$<>0 then jj#, ii#, xdraw_point
+        if (qq)$<>0 then jj#, ii#, gdraw_point
         qq#++
      next jj#
   next ii#
   ii#, end
 
 
+ .data
+
+// 三角関数テーブル
+  const TABLE_N 256 // 区分点 （全データ数＝３２１）
+sin2table: // ｆ（ｘ）＝３２７６７＊ｓｉｎ（ｘ）
+  data 0,804,1607,2410
+  data 3211,4011,4807,5601
+  data 6392,7179,7961,8739
+  data 9511,10278,11038,11792
+  data 12539,13278,14009,14732
+  data 15446,16150,16845,17530
+  data 18204,18867,19519,20159
+  data 20787,21402,22004,22594
+  data 23169,23731,24278,24811
+  data 25329,25831,26318,26789
+  data 27244,27683,28105,28510
+  data 28897,29268,29621,29955
+  data 30272,30571,30851,31113
+  data 31356,31580,31785,31970
+  data 32137,32284,32412,32520
+  data 32609,32678,32727,32757
+cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
+  data 32767,32757,32727,32678
+  data 32609,32520,32412,32284
+  data 32137,31970,31785,31580
+  data 31356,31113,30851,30571
+  data 30272,29955,29621,29268
+  data 28897,28510,28105,27683
+  data 27244,26789,26318,25831
+  data 25329,24811,24278,23731
+  data 23169,22594,22004,21402
+  data 20787,20159,19519,18867
+  data 18204,17530,16845,16150
+  data 15446,14732,14009,13278
+  data 12539,11792,11038,10278
+  data 9511,8739,7961,7179
+  data 6392,5601,4807,4011
+  data 3211,2410,1607,804
+  data 0,-805,-1608,-2411
+  data -3212,-4012,-4808,-5602
+  data -6393,-7180,-7962,-8740
+  data -9512,-10279,-11039,-11793
+  data -12540,-13279,-14010,-14733
+  data -15447,-16151,-16846,-17531
+  data -18205,-18868,-19520,-20160
+  data -20788,-21403,-22005,-22595
+  data -23170,-23732,-24279,-24812
+  data -25330,-25832,-26319,-26790
+  data -27245,-27684,-28106,-28511
+  data -28898,-29269,-29622,-29956
+  data -30273,-30572,-30852,-31114
+  data -31357,-31581,-31786,-31971
+  data -32138,-32285,-32413,-32521
+  data -32610,-32679,-32728,-32758
+  data -32767,-32758,-32728,-32679
+  data -32610,-32521,-32413,-32285
+  data -32138,-31971,-31786,-31581
+  data -31357,-31114,-30852,-30572
+  data -30273,-29956,-29622,-29269
+  data -28898,-28511,-28106,-27684
+  data -27245,-26790,-26319,-25832
+  data -25330,-24812,-24279,-23732
+  data -23170,-22595,-22005,-21403
+  data -20788,-20160,-19520,-18868
+  data -18205,-17531,-16846,-16151
+  data -15447,-14733,-14010,-13279
+  data -12540,-11793,-11039,-10279
+  data -9512,-8740,-7962,-7180
+  data -6393,-5602,-4808,-4012
+  data -3212,-2411,-1608,-805
+  data -1,804,1607,2410
+  data 3211,4011,4807,5601
+  data 6392,7179,7961,8739
+  data 9511,10278,11038,11792
+  data 12539,13278,14009,14732
+  data 15446,16150,16845,17530
+  data 18204,18867,19519,20159
+  data 20787,21402,22004,22594
+  data 23169,23731,24278,24811
+  data 25329,25831,26318,26789
+  data 27244,27683,28105,28510
+  data 28897,29268,29621,29955
+  data 30272,30571,30851,31113
+  data 31356,31580,31785,31970
+  data 32137,32284,32412,32520
+  data 32609,32678,32727,32757
+  data 32767,32757,32727,32678
+  data 32609,32520,32412,32284
+  data 32137,31970,31785,31580
 
 // クリックパラメータ
  long click_x#,click_y#
@@ -1359,7 +1640,7 @@ case_2params:
 
 
 _INIT_STATES:
- _SINIT_1703655714
+ _SINIT_686286594
 
  end
 main:
@@ -1369,7 +1650,7 @@ _PSTART:
  Start
 
  end
-_1544695806_in:
+_250701860_in:
  GUI, ->Window.component remove_component
 
 
@@ -1377,7 +1658,7 @@ _1544695806_in:
   if bitmap0#<>NULL then bitmap0#, free
 
  end
-_1798643638_in:
+_562304090_in:
 // 初期設定
 
 
@@ -1406,7 +1687,7 @@ _1798643638_in:
 
 
  end
-_482862077_in:
+_1893672080_in:
 // 色を設定
 
 
@@ -1414,269 +1695,269 @@ _482862077_in:
  g_bar, ->HScrollBar.value# gg#=
  b_bar, ->HScrollBar.value# bb#=
  rr#, 256, * gg#, + 256, * 
- bb#, + xcolor#=
- xcolor#, color_label, ->Label.component ->Component.background#= 
+ bb#, + gcolor#=
+ gcolor#, color_label, ->Label.component ->Component.background#= 
  desktop, ->Desktop.component repaint
 
 
  end
-_910623832_in:
+_1348979924_in:
 // 元に戻す
 
 
- xundo
+ gundo
 
  end
-_2070388913_in:
+_1431449268_in:
 // 開く
 
 
   file_open, show_open_dialog
 
  end
-_946657476_in:
+_1425393280_in:
 // 保存する
 
 
   file_save, show_save_dialog
 
  end
-_454495295_in:
+_1560773418_in:
 // 新しい画像を作成
 
 
- width_field,  ->TextField.text# 10, atoi xwidth#=
- height_field, ->TextField.text# 10, atoi xheight#=
+ width_field,  ->TextField.text# 10, atoi gwidth#=
+ height_field, ->TextField.text# 10, atoi gheight#=
  if bitmap#<>NULL then bitmap#, free
- xwidth#, xheight#, * 4, * 8, +  malloc
+ gwidth#, gheight#, * 4, * 8, +  malloc
  bitmap#=
- xwidth#,  (bitmap)!(0)= 
- xheight#, (bitmap)!(1)= 
+ gwidth#,  (bitmap)!(0)= 
+ gheight#, (bitmap)!(1)= 
  display, bitmap#, set_button_image
- xgcls
+ ggcls
  desktop, ->Desktop.component repaint
  
 
  end
 Start:
- STATE_1703655714#, STATE2_1703655714#=
+ STATE_686286594#, STATE2_686286594#=
  in
 
  end
 GUI_created:
- STATE_1703655714#, STATE2_1703655714#=
- _1798643638_in
+ STATE_686286594#, STATE2_686286594#=
+ _562304090_in
 
  end
 GUI_closed:
- STATE_1703655714#, STATE2_1703655714#=
- _1544695806_in
+ STATE_686286594#, STATE2_686286594#=
+ _250701860_in
 
  end
 display_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _841483871_display_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _93210965_display_clicked
 
  end
 r_bar_changed:
- STATE_1703655714#, STATE2_1703655714#=
- _482862077_in
+ STATE_686286594#, STATE2_686286594#=
+ _1893672080_in
 
  end
 g_bar_changed:
- STATE_1703655714#, STATE2_1703655714#=
- _482862077_in
+ STATE_686286594#, STATE2_686286594#=
+ _1893672080_in
 
  end
 b_bar_changed:
- STATE_1703655714#, STATE2_1703655714#=
- _482862077_in
+ STATE_686286594#, STATE2_686286594#=
+ _1893672080_in
 
  end
 open_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _2070388913_in
+ STATE_686286594#, STATE2_686286594#=
+ _1431449268_in
 
  end
 save_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _946657476_in
+ STATE_686286594#, STATE2_686286594#=
+ _1425393280_in
 
  end
 new_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _454495295_in
+ STATE_686286594#, STATE2_686286594#=
+ _1560773418_in
 
  end
 copy_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _368885441_copy_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _870905138_copy_button_clicked
 
  end
 paste_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _1398339303_paste_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _1997232757_paste_button_clicked
 
  end
 pencil_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _229424816_pencil_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _229655506_pencil_button_clicked
 
  end
 eraser_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _788082126_eraser_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _1817157533_eraser_button_clicked
 
  end
 font_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _1577288806_font_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _410695235_font_button_clicked
 
  end
 line_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _1257811599_line_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _890216395_line_button_clicked
 
  end
 rect_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _575258718_rect_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _984544363_rect_button_clicked
 
  end
 circle_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _1169759876_circle_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _705505236_circle_button_clicked
 
  end
 ink_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _131830497_ink_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _1728599160_ink_button_clicked
 
  end
 spoit_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _148428867_spoit_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _774925973_spoit_button_clicked
 
  end
 undo_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _910623832_in
+ STATE_686286594#, STATE2_686286594#=
+ _1348979924_in
 
  end
 rectf_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _1686086198_rectf_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _1676728980_rectf_button_clicked
 
  end
 circlef_button_clicked:
- STATE_1703655714#, STATE2_1703655714#=
- _1765788931_circlef_button_clicked
+ STATE_686286594#, STATE2_686286594#=
+ _536896185_circlef_button_clicked
 
  end
 in:
- if  STATE2_1703655714#<>1925920581 then  end
+ if  STATE2_686286594#<>1818002233 then  end
 // GUIを作成する
  create_gui
 
- _SINIT_1703655714
+ _SINIT_686286594
 
  end
-_SINIT_1703655714:
- 1925920581, STATE_1703655714#=
+_SINIT_686286594:
+ 1818002233, STATE_686286594#=
 
  end
-_368885441_copy_button_clicked:
- _2116716003_in
+_870905138_copy_button_clicked:
+ _1108222104_in
 
  end
-_1398339303_paste_button_clicked:
- _2024968460_in
+_1997232757_paste_button_clicked:
+ _157874869_in
 
  end
-_229424816_pencil_button_clicked:
- _437348130_in
+_229655506_pencil_button_clicked:
+ _252658804_in
 
  end
-_788082126_eraser_button_clicked:
- _577474539_in
+_1817157533_eraser_button_clicked:
+ _1993492840_in
 
  end
-_1577288806_font_button_clicked:
- _392240978_in
+_410695235_font_button_clicked:
+ _407682303_in
 
  end
-_1257811599_line_button_clicked:
- _1630441211_in
+_890216395_line_button_clicked:
+ _1062782818_in
 
  end
-_575258718_rect_button_clicked:
- _631621439_in
+_984544363_rect_button_clicked:
+ _2033199544_in
 
  end
-_1169759876_circle_button_clicked:
- _1675397414_in
+_705505236_circle_button_clicked:
+ _83502585_in
 
  end
-_131830497_ink_button_clicked:
- _154265084_in
+_1728599160_ink_button_clicked:
+ _421152502_in
 
  end
-_148428867_spoit_button_clicked:
- _114840299_in
+_774925973_spoit_button_clicked:
+ _1838507878_in
 
  end
-_1686086198_rectf_button_clicked:
- _1232279670_in
+_1676728980_rectf_button_clicked:
+ _935577977_in
 
  end
-_1765788931_circlef_button_clicked:
- _1989188336_in
+_536896185_circlef_button_clicked:
+ _2111869395_in
 
  end
-_841483871_display_clicked:
- _2106009378_in
+_93210965_display_clicked:
+ _90507838_in
 
  end
-_437348130_in:
+_252658804_in:
       // 点を打つ
 
-    xsave
-    click_x#, click_y#, xdraw_point
+    gsave
+    click_x#, click_y#, gdraw_point
     desktop, ->Desktop.component repaint
 
  end
-_577474539_in:
+_1993492840_in:
       // 1マス分塗りつぶす
 
-    xsave
+    gsave
     click_x#, FONT_WIDTH,  + gx#=
     click_y#, FONT_HEIGHT, + gy#=
-    click_x#, click_y#, gx#, gy#, xfill_rect
+    click_x#, click_y#, gx#, gy#, gfill_rect
     desktop, ->Desktop.component repaint
 
  end
-_154265084_in:
+_421152502_in:
       // 塗りつぶす
 
-    xsave
-    click_x#, click_y#, xpaint
+    gsave
+    click_x#, click_y#, gpaint
     desktop, ->Desktop.component repaint
 
  end
-_392240978_in:
+_407682303_in:
       // 文字列を描く
 
-    xsave
+    gsave
     font_field, ->TextField.text# pp#=
-    xwidth#, click_x#, - tt#=
-    click_x#, click_y#, tt#, pp#, xdraw_string
+    gwidth#, click_x#, - tt#=
+    click_x#, click_y#, tt#, pp#, gdraw_string
     desktop, ->Desktop.component repaint
 
  end
-_114840299_in:
+_1838507878_in:
       //色を抜き取る
 
-    click_x#, click_y#, xget_point xcolor#=
+    click_x#, click_y#, gget_point xcolor#=
     xcolor$(2), r_bar, ->HScrollBar.value#=
     xcolor$(1), g_bar, ->HScrollBar.value#=
     xcolor$(0), b_bar, ->HScrollBar.value#=
@@ -1684,61 +1965,61 @@ _114840299_in:
     desktop, ->Desktop.component repaint
 
  end
-_2024968460_in:
+_157874869_in:
       // コピー画像を貼り付ける
 
-    xsave
-    click_x#, click_y#, xpaste_image
+    gsave
+    click_x#, click_y#, gpaste_image
     desktop, ->Desktop.component repaint
 
  end
-_2116716003_in:
+_1108222104_in:
       // 画像をコピーする
 
-    click_x0#, click_y0#, click_x#, click_y#, xcopy_image
+    click_x0#, click_y0#, click_x#, click_y#, gcopy_image
 
  end
-_1630441211_in:
+_1062782818_in:
      // 線を描く
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xdraw_line
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gdraw_line
     desktop, ->Desktop.component repaint
 
  end
-_631621439_in:
+_2033199544_in:
      // 四角を描く
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xdraw_rect
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gdraw_rect
     desktop, ->Desktop.component repaint
 
  end
-_1232279670_in:
+_935577977_in:
      // 四角を塗りつぶす
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xfill_rect
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gfill_rect
     desktop, ->Desktop.component repaint
 
  end
-_1675397414_in:
+_83502585_in:
      // 楕円を描く
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xdraw_circle
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gdraw_circle
     desktop, ->Desktop.component repaint
 
  end
-_1989188336_in:
+_2111869395_in:
      //楕円を塗りつぶす
 
-    xsave
-    click_x0#, click_y0#, click_x#, click_y#, xfill_circle
+    gsave
+    click_x0#, click_y0#, click_x#, click_y#, gfill_circle
     desktop, ->Desktop.component repaint
 
  end
-_2106009378_in:
+_90507838_in:
 // パラメータ座標を設定する
 
     long xtop#,xleft#,xright#

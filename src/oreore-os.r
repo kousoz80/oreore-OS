@@ -1763,7 +1763,7 @@ math_power:
  long pp#,qq#,rr#,ss#,tt#,uu#,vv#,ww#
  long xx#,yy#,zz#
  
- long xcolor#,xwidth#,xheight#,bitmap#
+ long xcolor#
  long px#,py#,gx#,gy#,gx1#,gy1#
  long tx#,ty#,rx#,ry#,ox#,oy#,vx#,vy#
  long vx1#,vy1#,qx#,qy#,co#

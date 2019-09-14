@@ -165,9 +165,6 @@
 /const printr / p
 /const fprintr / p
 /const xcolor / p
-/const xwidth / p
-/const xheight / p
-/const bitmap / p
 /const _start / p
 /const _end / p
 d

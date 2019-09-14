@@ -19,7 +19,7 @@ main:
   "notitle.txt", fname, strcpy
   1,   li#= li0#= el#=
   1000000, malloc buf#=
-  buf#, text#= tail#= copy_p#=
+  buf#, text#= text0#= tail#= copy_p#=
   0,   xx#= yy#= y0#= (buf)$=
 
   if argc#>1 then argv#(1), fname, strcpy 0, sbuf$= read_file1

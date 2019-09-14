@@ -1,5 +1,5 @@
-//  "oreore-os.r" oreore-OS ver 0.0.7  for oregengo-R (x64) UEFIアプリケーション  
-// (ライブラリ拡張版)
+//  "oreore-os.r" oreore-OS ver 0.0.8  for oregengo-R (x64) UEFIアプリケーション  
+// (Pauseキーでスクリーンキャプチャ機能を追加)
 
  const TIMER_INTERVAL 10000 // 割り込み周期(0.1us単位)
  const EOF         -1         // ファイルの終わりをあらわす文字コード 
@@ -1446,6 +1446,9 @@ inkey:
 / rsi=__getch/
 / rax=(rsi)/
 / call (rax)/
+
+ if __inputkey!=72 then capture_screen
+
 / rax=0/
 / rsi=__inputkey/
 / rdi=(rsi)/
@@ -1459,6 +1462,9 @@ getch:
 / rsi=__getch/
 / rax=(rsi)/
 / call (rax)/
+
+ if __inputkey!=72 then capture_screen
+
 / rax=0/
 / rsi=__inputkey+2/
 / rax=(rsi)/
@@ -1766,8 +1772,8 @@ math_power:
 xdraw_point:
   py#= pop px#=
   if xcolor#=COLOR_CLEAR then end
-  py#, xwidth#, * px#, +
-  4, * bitmap#, + pp#=
+  py#, screen_width#, * px#, +
+  4, * graphic_base#, + pp#=
   xcolor#, (pp)!=
   end
 
@@ -1775,8 +1781,8 @@ xdraw_point:
 // 与えられた座標の色を返す
 xget_point:
   py#= pop px#=
-  py#, xwidth#, * px#, +
-  4, * bitmap#, + pp#=
+  py#, screen_width#, * px#, +
+  4, * graphic_base#, + pp#=
   (pp)!,  end
 
   
@@ -1813,9 +1819,9 @@ xline:
     
 // 画像を消去
 xgcls:
-  xwidth#,  xheight#, * 1, + tt#=
+  screen_width#,  screen_height#, * 1, + tt#=
   for ii#=2 to tt#
-    xcolor#, (bitmap)!(ii#)=
+    xcolor#, (graphic_base)!(ii#)=
   next ii#
   end
 
@@ -1916,9 +1922,9 @@ xpaint:
   xput_pset:
     qy#= pop qx#=
     if qx#<0     then end  // 範囲外ならしない
-    if qx#>=xwidth#  then end
+    if qx#>=screen_width#  then end
     if qy#<0     then end
-    if qy#>=xheight# then end
+    if qy#>=screen_height# then end
     qx#, qy#, xget_point co#=
     if co#=xcolor# then end // すでに点がうってあるときもしない
     qx#, qy#, xdraw_point
@@ -1935,18 +1941,18 @@ xdraw_image:
   if qq#=NULL then end
   (qq)!, rx#=
   if rx#<0 then end
-  if rx#>=xwidth# then end
+  if rx#>=screen_width# then end
   qq#, 4, + qq#=
   (qq)!, ry#=
   if ry#<0 then end
-  if ry#>=xheight# then end
+  if ry#>=screen_height# then end
   qq#, 4, + qq#=
   gx#, rx#, + 1, - gx1#=
   gy#, ry#, + 1, - gy1#=
   for ii#=gy# to gy1#
     for jj#=gx# to gx1#
-      ii#, xwidth#, * jj#, +
-      4, * bitmap#, + pp#=
+      ii#, screen_width#, * jj#, +
+      4, * graphic_base#, + pp#=
       if (qq)$(3)=0 then (qq)!, (pp)!=
       qq#, 4, + qq#=
     next jj#
@@ -1989,6 +1995,25 @@ save_image:
   tt#, qq#, image_fp, _write
   image_fp, wclose
   0, end
+
+  
+// スクリーン画像をセーブ
+capture_screen:
+  "screenshot.img", image_fp, wopen tt#=
+  if tt#=ERROR then end
+  4, screen_width,   image_fp, _write
+  4, screen_height,  image_fp, _write
+  screen_width#,  1, - xx#=
+  screen_height#, 1, - yy#=
+  for iy#=0 to yy#
+    for ix#=0 to xx#
+      screen_width#, iy#, * ix#, +  4, *
+      graphic_base#, + tt#=
+      4, tt#, image_fp, _write
+    next ix#
+  next iy#
+  image_fp, wclose
+  end
 
   
  .data

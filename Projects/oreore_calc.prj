@@ -987,7 +987,7 @@ int main( int argc, char** argv ){
 <width>267</width>
 <height>218</height>
 <codetext>// 主要変数 
- long disp#,reg#
+ long disp#,reg#,tt#
  long memory#
  long op#,op0#
  long num#,digit#
@@ -1117,8 +1117,8 @@ paint_disp:
 <codetext>// 数字を入力する
 
 
- num#, (double) num#=
- disp#, ^10.0, .* num#, .+ disp#=
+ num#, (double) tt#=
+ disp#, ^10.0, .* tt#, .+ disp#=
  paint_disp
 </codetext>
 </operation>
@@ -1332,8 +1332,8 @@ skip1:
 
 
  digit#, ^10.0, ./ digit#=
- num#, (double) num#=
- num#, digit#, .* disp#, .+ disp#=
+ num#, (double) 
+ digit#, .* disp#, .+ disp#=
  paint_disp
 </codetext>
 </operation>

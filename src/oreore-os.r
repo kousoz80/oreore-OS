@@ -1622,7 +1622,7 @@ error_end:
 // sin関数
 math_sin:
   long sin_x#,sin_x2#
-  sin_x#=  ^6.28318530717959, ./ (long) tt#=
+  sin_x#=  ^6.28318530717959, ./ (_long) tt#=
   if  tt#<0 then tt#--
   tt#, (double) ^6.28318530717959, .* sin_x#, swap .- sin_x#=
   sin_x#, .* sin_x2#=
@@ -1705,7 +1705,7 @@ math_exp:
   if exp_a#.=~1.0 then ^0.367879441171, end
   0, exp_s#=
   if exp_a#.<^0.0 then ^0.0, exp_a#, .- exp_a#= 1, exp_s#=
-  exp_a#, (long) exp_n#= (double) exp_a#, swap .- exp_a#=
+  exp_a#, (_long) exp_n#= (double) exp_a#, swap .- exp_a#=
   ^1.0, exp_r#=
   for ii#=17 to 1 step -1
     ii#, (double) tt#=
@@ -2266,7 +2266,7 @@ xstr:
 //  "xstr:", prints nl
   
 
-  ^1e5, exp_max#=
+  ^999999999, exp_max#=
   ^0.0001, exp_min#=
   ^0.0000000001, exp_pres#=
  0, exp_count#=
@@ -2299,7 +2299,7 @@ real1:
   if exp_val#.<^0.02 goto real2
   ".", put_real_buf
 real2:
-  real_a#, exp_val#, ./  (long) real_d#=
+  real_a#, exp_val#, ./  (_long) real_d#=
   '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
   real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
   exp_val#, ^10.0, ./ exp_val#=
@@ -2329,7 +2329,7 @@ real1_1:
   if exp_val#.<^0.02 goto real1_2
   ".", put_real_buf
 real1_2:
-  real_a#, exp_val#, ./  (long) real_d#=
+  real_a#, exp_val#, ./  (_long) real_d#=
   '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
   real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
   exp_val#, ^10.0, ./ exp_val#=
@@ -2357,7 +2357,7 @@ real2_1:
   if exp_val#.<^0.02 goto real2_2
   ".", put_real_buf
 real2_2:
-  real_a#, exp_val#, ./  (long) real_d#=
+  real_a#, exp_val#, ./  (_long) real_d#=
   '0', real_d#, + chr_buf+0$=  NULL, chr_buf+1$= chr_buf, put_real_buf
   real_d#, (double) exp_val#, .* real_a#, swap .- real_a#=
   exp_val#, ^10.0, ./ exp_val#=

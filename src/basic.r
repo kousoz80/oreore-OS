@@ -1849,7 +1849,7 @@ func_int:
   "(", checkToken
   eval_expression
   ")", checkToken
-  get_number (long) (double)  put_number
+  get_number (_long) (double)  put_number
   0, end
 
 // sqr関数
@@ -2556,7 +2556,7 @@ eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 then  0, end
 
-  // 論理項は論理因子AND論理因子AND_939231803.
+  // 論理項は論理因子AND論理因子AND_2001963816.
   getToken
   eval_relation
   eval_and
@@ -2577,7 +2577,7 @@ eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 then  0, end 
 
-  // 論理式は論理項OR論理項OR_939231803.
+  // 論理式は論理項OR論理項OR_2001963816.
   getToken
   eval_lterm
   eval_or
@@ -6382,7 +6382,7 @@ pass2_func_int:
   pass2_eval_expression
   ")", pass2_checkToken
 
-  " get_number (long) (double)  put_number", xxxprints xxxnl
+  " get_number (_long) (double)  put_number", xxxprints xxxnl
 
   0, end
 
@@ -7108,7 +7108,7 @@ pass2_eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 goto pass2_eval_lterm2
 
-  // 論理項は論理因子AND論理因子AND_626671684.
+  // 論理項は論理因子AND論理因子AND_1081450495.
   pass2_getToken
   pass2_eval_relation
   pass2_eval_and
@@ -7133,7 +7133,7 @@ pass2_eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 goto pass2_eval_expression2 
 
-  // 論理式は論理項OR論理項OR_626671684.
+  // 論理式は論理項OR論理項OR_1081450495.
   pass2_getToken
   pass2_eval_lterm
   pass2_eval_or
@@ -7153,10 +7153,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _38459378_in
+ _1805019904_in
 
  end
-_38459378_in:
+_1805019904_in:
 // BASICを起動する
 start_basic:
 

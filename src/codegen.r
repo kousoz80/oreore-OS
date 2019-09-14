@@ -88,6 +88,10 @@ codegen:
  data " xmm0=(double)rdi
  rdi=xmm0
 "
+ data " (_long)"
+ data " xmm0=rdi
+ rdi=(_long)xmm0
+"
  data " (long)"
  data " xmm0=rdi
  rdi=(long)xmm0

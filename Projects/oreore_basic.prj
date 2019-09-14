@@ -2046,7 +2046,7 @@ func_int:
   &quot;(&quot;, checkToken
   eval_expression
   &quot;)&quot;, checkToken
-  get_number (long) (double)  put_number
+  get_number (_long) (double)  put_number
   0, end
 </codetext>
 </codeclip>
@@ -7857,7 +7857,7 @@ pass2_func_int:
   pass2_eval_expression
   &quot;)&quot;, pass2_checkToken
 
-  &quot; get_number (long) (double)  put_number&quot;, xxxprints xxxnl
+  &quot; get_number (_long) (double)  put_number&quot;, xxxprints xxxnl
 
   0, end
 </codetext>

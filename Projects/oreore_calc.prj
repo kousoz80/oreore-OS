@@ -1231,10 +1231,10 @@ paint_disp:
   if op#=&apos;C&apos;    then ^0.0, disp#= gotoskip1
   if op#=&apos;P&apos;    then memory#, disp#, .+ memory#= gotoskip1  
   if op#=&apos;M&apos;   then memory#, disp#= ^0.0, memory#= gotoskip1
-  if op0#=&apos;+&apos; then disp#, reg#, .+ disp#= gotoskip0
-  if op0#=&apos;-&apos;   then disp#, reg#,  .-  disp#= gotoskip0
-  if op0#=&apos;*&apos;  then disp#, reg#, .*  disp#= gotoskip0
-  if op0#=&apos;/&apos;   then disp#, reg#, ./  disp#=
+  if op0#=&apos;+&apos; then reg#,  disp#, .+ disp#= gotoskip0
+  if op0#=&apos;-&apos;   then reg#, disp#,  .-  disp#= gotoskip0
+  if op0#=&apos;*&apos;  then reg#,  disp#, .*  disp#= gotoskip0
+  if op0#=&apos;/&apos;   then reg#,  disp#, ./  disp#=
 skip0:
   op#, op0#=
   disp#, reg#=

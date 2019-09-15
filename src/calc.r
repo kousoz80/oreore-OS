@@ -35,7 +35,7 @@ xcalc:
  data -16777216,-16777216,-16777216,-16777216
  data -16777216,-16777216,-16777216,-16777216
 
- long STATE_539858037#,STATE2_539858037#
+ long STATE_1842002945#,STATE2_1842002945#
 // 主要変数 
  long disp#,reg#,tt#
  long memory#
@@ -50,7 +50,7 @@ paint_disp:
  display, ->Label.component repaint
  end
 
- long STATE_678564897#,STATE2_678564897#
+ long STATE_1377992899#,STATE2_1377992899#
 create_gui:
  char GUI$(Window.SIZE)
  long guicom#,com#
@@ -278,8 +278,8 @@ create_gui:
 
 
 _INIT_STATES:
- _SINIT_539858037
- _SINIT_678564897
+ _SINIT_1842002945
+ _SINIT_1377992899
 
  end
 main:
@@ -289,42 +289,42 @@ _PSTART:
  Start
 
  end
-_524577335_in:
+_45538843_in:
  GUI, ->Window.component remove_component
  
 
  end
-_1463130725_op_in:
- STATE_539858037#, STATE2_539858037#=
- _1302355178_in
+_1048966872_op_in:
+ STATE_1842002945#, STATE2_1842002945#=
+ _371951497_in
  op#, op#=
- _187936463_in
+ _2133142746_in
  op#, op#=
- _1390200442_in
+ _1450286694_in
 
  end
-_517700348_num_in:
- STATE_539858037#, STATE2_539858037#=
+_517818535_num_in:
+ STATE_1842002945#, STATE2_1842002945#=
  num#, num#=
- _339177144_in
+ _974019556_in
  num#, num#=
- _513697760_in
+ _1860373775_in
  num#, num#=
- _1393136219_in
+ _576517708_in
 
  end
-_2120447765_start:
- STATE_539858037#, STATE2_539858037#=
- _1158907066_in
+_1452680682_start:
+ STATE_1842002945#, STATE2_1842002945#=
+ _177499431_in
 
  end
-_1180310225_dot_in:
- STATE_539858037#, STATE2_539858037#=
- _2046536377_in
+_1005740611_dot_in:
+ STATE_1842002945#, STATE2_1842002945#=
+ _1291039455_in
 
  end
-_1158907066_in:
- if  STATE2_539858037#<>1542706759 then  end
+_177499431_in:
+ if  STATE2_1842002945#<>1077815914 then  end
 // 初期設定
 
 
@@ -333,48 +333,48 @@ _1158907066_in:
  ^0.0, memory#=
  '=', op#=
  paint_disp
- _S8_539858037
+ _S8_1842002945
 
  end
-_1393136219_in:
- if  STATE2_539858037#<>1948131631 then  end
+_576517708_in:
+ if  STATE2_1842002945#<>136812786 then  end
 // 数字の1桁目を入力
 
 
  num#, (double) disp#=
  paint_disp
  
- _S9_539858037
+ _S9_1842002945
 
  end
-_513697760_in:
- if  STATE2_539858037#<>1343546231 then  end
+_1860373775_in:
+ if  STATE2_1842002945#<>1494464099 then  end
 // 数字を入力する
 
 
  num#, (double) tt#=
  disp#, ^10.0, .* tt#, .+ disp#=
  paint_disp
- _S9_539858037
+ _S9_1842002945
 
  end
-_187936463_in:
- if  STATE2_539858037#<>1948131631 then  end
+_2133142746_in:
+ if  STATE2_1842002945#<>136812786 then  end
 // 計算状態に遷移
 
- _S16_539858037
+ _S16_1842002945
 
  end
-_1390200442_in:
- if  STATE2_539858037#<>1343546231 then  end
+_1450286694_in:
+ if  STATE2_1842002945#<>1494464099 then  end
 // 計算状態に遷移
 
 
 
- _S16_539858037
+ _S16_1842002945
 
  end
-_530363027_in:
+_332293383_in:
 // 計算する
 
 
@@ -383,31 +383,31 @@ _530363027_in:
   if op#='C'    then ^0.0, disp#= gotoskip1
   if op#='P'    then memory#, disp#, .+ memory#= gotoskip1  
   if op#='M'   then memory#, disp#= ^0.0, memory#= gotoskip1
-  if op0#='+' then disp#, reg#, .+ disp#= gotoskip0
-  if op0#='-'   then disp#, reg#,  .-  disp#= gotoskip0
-  if op0#='*'  then disp#, reg#, .*  disp#= gotoskip0
-  if op0#='/'   then disp#, reg#, ./  disp#=
+  if op0#='+' then reg#,  disp#, .+ disp#= gotoskip0
+  if op0#='-'   then reg#, disp#,  .-  disp#= gotoskip0
+  if op0#='*'  then reg#,  disp#, .*  disp#= gotoskip0
+  if op0#='/'   then reg#,  disp#, ./  disp#=
 skip0:
   op#, op0#=
   disp#, reg#=
 skip1:
  paint_disp
- _S8_539858037
+ _S8_1842002945
 
  end
-_2046536377_in:
- if  STATE2_539858037#<>1343546231 then  end
+_1291039455_in:
+ if  STATE2_1842002945#<>1494464099 then  end
 //小数入力状態に
 // 遷移する
 
 
  ^1.0, digit#=
   
- _S20_539858037
+ _S20_1842002945
 
  end
-_339177144_in:
- if  STATE2_539858037#<>1519918793 then  end
+_974019556_in:
+ if  STATE2_1842002945#<>580018286 then  end
 //小数を入力
 
 
@@ -416,345 +416,345 @@ _339177144_in:
  num#, (double) 
  digit#, .* disp#, .+ disp#=
  paint_disp
- _S20_539858037
+ _S20_1842002945
 
  end
-_1302355178_in:
- if  STATE2_539858037#<>1519918793 then  end
+_371951497_in:
+ if  STATE2_1842002945#<>580018286 then  end
 // 計算状態に遷移
- _S16_539858037
+ _S16_1842002945
 
  end
-_SINIT_539858037:
- 1542706759, STATE_539858037#=
+_SINIT_1842002945:
+ 1077815914, STATE_1842002945#=
 
  end
-_S8_539858037:
- 1948131631, STATE_539858037#=
+_S8_1842002945:
+ 136812786, STATE_1842002945#=
 
  end
-_S9_539858037:
- 1343546231, STATE_539858037#=
+_S9_1842002945:
+ 1494464099, STATE_1842002945#=
 
  end
-_S16_539858037:
- 1594514412, STATE_539858037#=
- _530363027_in
+_S16_1842002945:
+ 373726406, STATE_1842002945#=
+ _332293383_in
 
  end
-_S20_539858037:
- 1519918793, STATE_539858037#=
+_S20_1842002945:
+ 580018286, STATE_1842002945#=
 
  end
 Start:
- STATE_678564897#, STATE2_678564897#=
+ STATE_1377992899#, STATE2_1377992899#=
  in
 
  end
 GUI_created:
- STATE_678564897#, STATE2_678564897#=
- _2120447765_start
+ STATE_1377992899#, STATE2_1377992899#=
+ _1452680682_start
 
  end
 GUI_closed:
- STATE_678564897#, STATE2_678564897#=
- _524577335_in
+ STATE_1377992899#, STATE2_1377992899#=
+ _45538843_in
 
  end
 div_Button_clicked:
- STATE_678564897#, STATE2_678564897#=
- _559793528_div
+ STATE_1377992899#, STATE2_1377992899#=
+ _583174211_div
 
  end
 mult_Button_clicked:
- STATE_678564897#, STATE2_678564897#=
- _726507635_mul
+ STATE_1377992899#, STATE2_1377992899#=
+ _1859963695_mul
 
  end
 minus_Button_clicked:
- STATE_678564897#, STATE2_678564897#=
- _361061805_minus
+ STATE_1377992899#, STATE2_1377992899#=
+ _1933765465_minus
 
  end
 plus_Button_clicked:
- STATE_678564897#, STATE2_678564897#=
- _1382870507_plus
+ STATE_1377992899#, STATE2_1377992899#=
+ _1596747449_plus
 
  end
 equal_Button_clicked:
- STATE_678564897#, STATE2_678564897#=
- _699177208_equal
+ STATE_1377992899#, STATE2_1377992899#=
+ _1202763052_equal
 
  end
 CLR_Button_clicked:
- STATE_678564897#, STATE2_678564897#=
- _457570680_clr
+ STATE_1377992899#, STATE2_1377992899#=
+ _453410480_clr
 
  end
 MR_Button_clicked:
- STATE_678564897#, STATE2_678564897#=
- _1712713392_mem
+ STATE_1377992899#, STATE2_1377992899#=
+ _1904651529_mem
 
  end
 mem_pButton_clicked:
- STATE_678564897#, STATE2_678564897#=
- _538805305_mem_plus
+ STATE_1377992899#, STATE2_1377992899#=
+ _2030798245_mem_plus
 
  end
 inv_Bottun_clicked:
- STATE_678564897#, STATE2_678564897#=
- _524996002_inv
+ STATE_1377992899#, STATE2_1377992899#=
+ _502768126_inv
 
  end
 dot_Button_clicked:
- STATE_678564897#, STATE2_678564897#=
- _1180310225_dot_in
+ STATE_1377992899#, STATE2_1377992899#=
+ _1005740611_dot_in
 
  end
 Button3_clicked:
- STATE_678564897#, STATE2_678564897#=
- _728616825_key3
+ STATE_1377992899#, STATE2_1377992899#=
+ _574141539_key3
 
  end
 Button9_clicked:
- STATE_678564897#, STATE2_678564897#=
- _525823317_key9
+ STATE_1377992899#, STATE2_1377992899#=
+ _182693226_key9
 
  end
 Button8_clicked:
- STATE_678564897#, STATE2_678564897#=
- _1690974824_key8
+ STATE_1377992899#, STATE2_1377992899#=
+ _457292248_key8
 
  end
 Button7_clicked:
- STATE_678564897#, STATE2_678564897#=
- _553885847_key7
+ STATE_1377992899#, STATE2_1377992899#=
+ _1865241191_key7
 
  end
 Button6_clicked:
- STATE_678564897#, STATE2_678564897#=
- _1691395529_key6
+ STATE_1377992899#, STATE2_1377992899#=
+ _147945549_key6
 
  end
 Button5_clicked:
- STATE_678564897#, STATE2_678564897#=
- _1078546883_key5
+ STATE_1377992899#, STATE2_1377992899#=
+ _533601472_key5
 
  end
 Button4_clicked:
- STATE_678564897#, STATE2_678564897#=
- _1969564376_key4
+ STATE_1377992899#, STATE2_1377992899#=
+ _156756376_key4
 
  end
 Button2_clicked:
- STATE_678564897#, STATE2_678564897#=
- _1239297019_key2
+ STATE_1377992899#, STATE2_1377992899#=
+ _208420031_key2
 
  end
 Button1_clicked:
- STATE_678564897#, STATE2_678564897#=
- _683749860_key1
+ STATE_1377992899#, STATE2_1377992899#=
+ _259796591_key1
 
  end
 Button0_clicked:
- STATE_678564897#, STATE2_678564897#=
- _579644022_key0
+ STATE_1377992899#, STATE2_1377992899#=
+ _1614482268_key0
 
  end
 display_created:
- STATE_678564897#, STATE2_678564897#=
+ STATE_1377992899#, STATE2_1377992899#=
 
  end
 in:
- if  STATE2_678564897#<>1384129430 then  end
+ if  STATE2_1377992899#<>841232861 then  end
 // GUIを作成する
  create_gui
 
- _SINIT_678564897
+ _SINIT_1377992899
 
  end
-_SINIT_678564897:
- 1384129430, STATE_678564897#=
+_SINIT_1377992899:
+ 841232861, STATE_1377992899#=
 
  end
-_1693953780_num_out:
+_1940037679_num_out:
  num#, num#=
- _517700348_num_in
+ _517818535_num_in
 
  end
-_579644022_key0:
- _1215566169_Pin11
+_1614482268_key0:
+ _59025127_Pin11
 
  end
-_683749860_key1:
- _1160570496_Pin12
+_259796591_key1:
+ _562477821_Pin12
 
  end
-_1239297019_key2:
- _2110202136_Pin13
+_208420031_key2:
+ _1742996118_Pin13
 
  end
-_728616825_key3:
- _772284837_Pin14
+_574141539_key3:
+ _1960672622_Pin14
 
  end
-_1969564376_key4:
- _1184760804_Pin15
+_156756376_key4:
+ _1388859020_Pin15
 
  end
-_1078546883_key5:
- _1688532305_Pin16
+_533601472_key5:
+ _1183663994_Pin16
 
  end
-_1691395529_key6:
- _540006204_Pin17
+_147945549_key6:
+ _20581775_Pin17
 
  end
-_553885847_key7:
- _1329979285_Pin18
+_1865241191_key7:
+ _504575691_Pin18
 
  end
-_1690974824_key8:
- _2037544122_Pin19
+_457292248_key8:
+ _247441323_Pin19
 
  end
-_525823317_key9:
- _977213624_Pin20
+_182693226_key9:
+ _572884881_Pin20
 
  end
-_1215566169_Pin11:
+_59025127_Pin11:
  0, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_1160570496_Pin12:
+_562477821_Pin12:
  1, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_2110202136_Pin13:
+_1742996118_Pin13:
  2, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_772284837_Pin14:
+_1960672622_Pin14:
  3, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_1184760804_Pin15:
+_1388859020_Pin15:
  4, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_1688532305_Pin16:
+_1183663994_Pin16:
  5, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_540006204_Pin17:
+_20581775_Pin17:
  6, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_1329979285_Pin18:
+_504575691_Pin18:
  7, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_2037544122_Pin19:
+_247441323_Pin19:
  8, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_977213624_Pin20:
+_572884881_Pin20:
  9, num#=
- _1693953780_num_out
+ _1940037679_num_out
 
  end
-_1020422411_op_out:
+_1275196755_op_out:
  op#, op#=
- _1463130725_op_in
+ _1048966872_op_in
 
  end
-_1382870507_plus:
- _1976745784_Pin14
+_1596747449_plus:
+ _389339373_Pin14
 
  end
-_361061805_minus:
- _180769492_Pin13
+_1933765465_minus:
+ _419155230_Pin13
 
  end
-_726507635_mul:
- _151107083_Pin15
+_1859963695_mul:
+ _778694273_Pin15
 
  end
-_559793528_div:
- _1615118494_Pin16
+_583174211_div:
+ _1525345855_Pin16
 
  end
-_699177208_equal:
- _1479311024_Pin17
+_1202763052_equal:
+ _482302785_Pin17
 
  end
-_524996002_inv:
- _1871847219_Pin10
+_502768126_inv:
+ _133236282_Pin10
 
  end
-_538805305_mem_plus:
- _1962130430_Pin12
+_2030798245_mem_plus:
+ _1872980625_Pin12
 
  end
-_1712713392_mem:
- _954675698_Pin18
+_1904651529_mem:
+ _771562379_Pin18
 
  end
-_457570680_clr:
- _757735585_Pin11
+_453410480_clr:
+ _166068314_Pin11
 
  end
-_1871847219_Pin10:
+_133236282_Pin10:
  'I', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end
-_757735585_Pin11:
+_166068314_Pin11:
  'C', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end
-_1962130430_Pin12:
+_1872980625_Pin12:
  'P', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end
-_180769492_Pin13:
+_419155230_Pin13:
  '-', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end
-_1976745784_Pin14:
+_389339373_Pin14:
  '+', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end
-_151107083_Pin15:
+_778694273_Pin15:
  '*', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end
-_1615118494_Pin16:
+_1525345855_Pin16:
  '/', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end
-_1479311024_Pin17:
+_482302785_Pin17:
  '=', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end
-_954675698_Pin18:
+_771562379_Pin18:
  'M', op#=
- _1020422411_op_out
+ _1275196755_op_out
 
  end

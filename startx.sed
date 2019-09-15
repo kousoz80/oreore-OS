@@ -239,4 +239,5 @@
  /const copy_area  / p
  /const FONT_WIDTH  / p
  /const FONT_HEIGHT  / p
+ /const gui_end  / p
 d

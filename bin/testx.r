@@ -1,13 +1,17 @@
 main:
-  char a$(20),b$(20)
-   long aa#,bb#
- "a= ", prints a, inputs
- "b= ", prints b, inputs
-  a, 10, atoi aa#=
-  b, 10, atoi bb#=
-  "a=", prints a, prints nl
-  "b=", prints b, prints nl
-  "a+b=", prints 
-  aa#, bb#, + printd nl
+  char tim$(20)
+
+/ rcx=tim/
+/ rdx=time_cap/
+/ rax=__runtime_service/
+/ rax=0x18(rax)/
+/ call (rax)/
+
+  time$(4), printd ":", prints tim$(5), printd nl
   end
 
+
+ .data
+time_cap:
+ data 0x100000001
+ data 0x0

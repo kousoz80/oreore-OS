@@ -111,6 +111,7 @@
 /const argv / p
 /const __prog_start / p
 /const __sys_table / p
+/const __runtime_service / p
 /const __boot_service / p
 /const dprint / p
 /const no_operation / p

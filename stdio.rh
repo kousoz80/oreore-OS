@@ -1,6 +1,7 @@
 // header file for oreore-OS application
- const __sys_table  0x00000000004023d8
- const __boot_service  0x0000000000402458
+ const __sys_table  0x00000000004023e8
+ const __boot_service  0x0000000000402468
+ const __runtime_service  0x0000000000402470
  const EOF  0xffffffffffffffff
  const ERROR  0xffffffffffffffff
  const NULL  0x0000000000000000

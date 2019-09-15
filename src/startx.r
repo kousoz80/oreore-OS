@@ -551,6 +551,7 @@ no_operation:
  long nn0#,pp0#,qq0#,rr0#,ss0#,tt0#,uu0#
  long max_speed#,quit_key#,mode_key#,speed_key#
  long left_key#,right_key#,up_key#,down_key#,lclick_key#,rclick_key#
+ long clock_interval#
 
 // ラベル
  class Label
@@ -2028,6 +2029,8 @@ cos2table: /* ｆ（ｘ）＝３２７６７＊ｃｏｓ（ｘ） */
  const ENTER_KEY 851968
  const END_KEY 6
  const PGDN_KEY 10
+ const CLOCK_INTERVAL 100000
+ 
 
 // デスクトップ
  class Desktop
@@ -3518,6 +3521,62 @@ set_textarea_text1:
   ss0#, ara#, ->TextArea.size#=
   end
 
+// タスクバー
+ 
+  char task_bar$(Label.SIZE)
+  char clock$(Button.SIZE)
+
+// タスクバーを作成する
+create_task_bar:
+  desktop, ->Desktop.component com#=
+
+  // 本体を生成
+  task_bar, desktop, com#, "", create_label 
+  task_bar, ->Label.component com0#=
+  0, com0#, ->Component.x#=
+  screen_height#, FONT_HEIGHT+6, - com0#, ->Component.y#=
+  screen_width#, com0#, ->Component.width#=
+  FONT_HEIGHT+6, com0#, ->Component.height#=
+  TRUE, com0#, ->Component.is_visible#=
+
+  // 時計を生成
+  clock, desktop, com0#, "00:00", create_button 
+  clock, ->Button.component com1#=
+  screen_width#,  FONT_WIDTH*5+4, -  com1#, ->Component.x#=
+  4, com1#, ->Component.y#=
+  FONT_WIDTH*5+1, com1#, ->Component.width#=
+  FONT_HEIGHT+2, com1#, ->Component.height#=
+  TRUE, com1#, ->Component.is_visible#=
+
+  end
+
+
+// 時計の時刻を表示する
+disp_clock:
+  char tim_val$(20),tim_buf$(12)
+
+/ rcx=tim_val/
+/ rdx=time_cap/
+/ rax=__runtime_service/
+/ rax=(rax)/
+/ rax=0x18(rax)/
+/ call (rax)/
+
+  tim_val$(4), dec tim_buf, strcpy
+  ":", tim_buf, strcat
+  if tim_val$(5)<10 then "0", tim_buf, strcat
+  tim_val$(5), dec tim_buf, strcat
+  clock, tim_buf, set_button_text
+  clock, ->Button.component  repaint
+  end
+
+
+ .data
+time_cap:
+ data 0x100000001
+ data 0x0
+  end
+
 // ファイルコンポーネントはファイル管理を目的として実装された
 // GUIコンポーネントです
 // ファイラークラス
@@ -4463,15 +4522,17 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _1764284554_in
+ _942564638_in
 
  end
-_1764284554_in:
+_942564638_in:
 // ウィンドウシステムメイン関数
 
 
 // char log$(FILE_SIZE)
 // "log", log, wopen
+
+ CLOCK_INTERVAL, clock_interval#=
 
   screen_width#, screen_height#, * 4, * xmalloc screen_buffer#=
   if screen_buffer#=NULL then end
@@ -4525,14 +4586,18 @@ _1764284554_in:
   load_desktop                        // デスクトップの設定を読み込む
   create_xdialog                      // 開く・保存用のダイアログを作成
   create_xfiler                         // 内部ファイラーを作成
+  create_task_bar                    // タスクバーを作成
 
   desktop, ->Desktop.component  input_client#= tt#=
   show_desktop_menu, desktop, ->Desktop.rclicked#= // デスクトップの右クリック動作を定義
   desktop, ->Desktop.component repaint
 
 event_loop: 
-
   if gui_is_running#=0 goto event_loop_exit
+
+  // 既定の時間ごとに時計の表示を更新する
+  if clock_interval#>=CLOCK_INTERVAL then disp_clock 0, clock_interval#=
+  clock_interval#++
 
   // マウス・キーボード等の状態を読み込んでマウスカーソルの位置を更新する
   read_input_device
@@ -4574,5 +4639,7 @@ event_loop_exit:
 //  log, wclose
   
   end
+
+ long gui_end#
 
  end

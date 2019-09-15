@@ -6,6 +6,7 @@
 /const __getch / p
 /const __locate / p
 /const __cursor / p
+/const __runtime_service / p
 /const __boot_service / p
 /const __set_wdt / p
 /const __locate_protocol / p

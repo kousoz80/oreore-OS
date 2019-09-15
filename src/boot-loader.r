@@ -30,7 +30,7 @@
  long   __conin#,__conout#
  long   __cls#,__puts#,__getch#
  long   __locate#,__cursor#
- long   __boot_service#
+ long   __boot_service#,__runtime_service#
  long   __set_wdt#,__locate_protocol#
  long   __file_sys#,__vol_open#
  long   __allocate_pages#,__free_pages#
@@ -92,6 +92,10 @@ _start:
 / rcx=0x40(rsi)/
 / rdi=__cursor/
 / (rdi)=rcx/
+
+/ rsi=0x58(rax)/
+/ rdi=__runtime_service/
+/ (rdi)=rsi/
 
 / rsi=0x60(rax)/
 / rdi=__boot_service/

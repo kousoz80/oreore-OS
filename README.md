@@ -5,6 +5,7 @@
 
 ### 起動画面
 ![enter image description here](https://imgur.com/ZDg0Yyl.jpg)
+  
 ・操作法
 デスクトップ画面やアイコンを右クリックすると
 メニューが表示されてアイコンの作成や移動、削除、変更することができます。

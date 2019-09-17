@@ -26,10 +26,6 @@
  long   __conin#,__conout#
  long   __cls#,__puts#,__getch#
  long   __locate#,__cursor#
- long   __sys_table#
- long   __conin#,__conout#
- long   __cls#,__puts#,__getch#
- long   __locate#,__cursor#
  long   __boot_service#,__runtime_service#
  long   __set_wdt#,__locate_protocol#
  long   __file_sys#,__vol_open#

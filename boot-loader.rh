@@ -6,15 +6,15 @@
  const __getch  0x0000000000402410
  const __locate  0x0000000000402418
  const __cursor  0x0000000000402420
- const __boot_service  0x0000000000402468
- const __runtime_service  0x0000000000402470
- const __set_wdt  0x0000000000402478
- const __locate_protocol  0x0000000000402480
- const __file_sys  0x0000000000402488
- const __vol_open  0x0000000000402490
- const __allocate_pages  0x0000000000402498
- const __free_pages  0x00000000004024a0
- const __allocate_pool  0x00000000004024a8
- const __free_pool  0x00000000004024b0
- const __create_event  0x00000000004024b8
- const __set_timer  0x00000000004024c0
+ const __boot_service  0x0000000000402428
+ const __runtime_service  0x0000000000402430
+ const __set_wdt  0x0000000000402438
+ const __locate_protocol  0x0000000000402440
+ const __file_sys  0x0000000000402448
+ const __vol_open  0x0000000000402450
+ const __allocate_pages  0x0000000000402458
+ const __free_pages  0x0000000000402460
+ const __allocate_pool  0x0000000000402468
+ const __free_pool  0x0000000000402470
+ const __create_event  0x0000000000402478
+ const __set_timer  0x0000000000402480

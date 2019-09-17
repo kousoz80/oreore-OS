@@ -4,8 +4,7 @@
 本プログラム群はUEFIで起動しX86-64アーキテクチャ上で動作するOSを形成します 
 
 ### 起動画面
-
-![enter image description here](https://imgur.com/w0Ue9IM.jpg)
+![enter image description here](https://imgur.com/ZDg0Yyl.jpg)
 ・操作法
 デスクトップ画面やアイコンを右クリックすると
 メニューが表示されてアイコンの作成や移動、削除、変更することができます。
@@ -33,7 +32,7 @@ Enterキー・・・左クリック
   
 SPACEキー・・・右クリック
   
-Pauseキー・・・画面のイメージを画像ファイル"screenshot.img"に保存する
+ Pauseキー・・・画面のイメージを画像ファイル"screenshot.img"に保存する
    
 ※画像ファイルは独自フォーマットなのでlinux等のOSで閲覧するときは画像ファイルを直下のbinフォルダにコピーしてから以下のコマンドをタイプして下さい。
 
@@ -124,7 +123,9 @@ https://github.com/kousoz80/Oreore-Basic
   rm      ・・・ファイルの消去
 
  cls      ・・・画面の消去
-
+  
+ shutdown      ・・・シャットダウン
+  
 
 ### edit       ・・・エディタ
 

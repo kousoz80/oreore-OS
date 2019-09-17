@@ -15,22 +15,6 @@ fi
 echo "option=" $option 
 
 
-
-# calc
-if test $option = "-calc"
-then
-echo compile calc.r
-./orc stdio.rh startx.rh src/calc.r
-java -jar asm_x64.jar -p0xf6000 -efi asm.s bin/calc.EFI
-rm __str
-rm __var
-rm __tmp1
-rm __tmp2
-exit 0
-fi
-
-
-
 #ブートローダのコンパイル
 echo compile boot-loader
 ./orc src/boot-loader.r
@@ -150,6 +134,11 @@ java -jar asm_x64.jar -p0xa6000 -efi asm.s bin/rm.EFI
 echo compile cls.r
 ./orc stdio.rh src/cls.r
 java -jar asm_x64.jar -p0xa6000 -efi asm.s bin/cls.EFI
+
+# shutdown
+echo compile shutdown.r
+./orc stdio.rh src/shutdown.r
+java -jar asm_x64.jar -p0xa6000 -efi asm.s bin/shutdown.EFI
 
 
 

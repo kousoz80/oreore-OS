@@ -551,7 +551,7 @@ no_operation:
  long nn0#,pp0#,qq0#,rr0#,ss0#,tt0#,uu0#
  long max_speed#,quit_key#,mode_key#,speed_key#
  long left_key#,right_key#,up_key#,down_key#,lclick_key#,rclick_key#
- long clock_interval#
+ long clock_interval#,clock_count#,time_zone#
 
 // ラベル
  class Label
@@ -2156,7 +2156,13 @@ load_desktop:
   // 壁紙
   wallpaper,  fp, finputs
   wallpaper, load_image  desktop, ->Desktop.image#=
-
+  
+  // 時計の更新周期
+  dbuf,  fp, finputs dbuf, 10, atoi clock_interval#=
+  
+  // タイムゾーン
+  dbuf,  fp, finputs dbuf, 10, atoi time_zone#=
+  
   // アイコン
   load_desktop1:
     dbuf,  fp, finputs  tt#=
@@ -2214,6 +2220,12 @@ save_desktop:
 
   // 壁紙
   wallpaper, fp, fprints fp, fnl
+
+  // 時計の更新周期
+  clock_interval#, fp,  fprintd fp, fnl
+
+  // タイムゾーン
+  time_zone#, fp,  fprintd fp, fnl
 
   // アイコン
   desktop, ->Desktop.component ->Component.top_child# com#=
@@ -3546,6 +3558,7 @@ create_task_bar:
   4, com1#, ->Component.y#=
   FONT_WIDTH*5+1, com1#, ->Component.width#=
   FONT_HEIGHT+2, com1#, ->Component.height#=
+  NULL, com1#, ->Component.border#=
   TRUE, com1#, ->Component.is_visible#=
 
   end
@@ -3562,7 +3575,7 @@ disp_clock:
 / rax=0x18(rax)/
 / call (rax)/
 
-  tim_val$(4), dec tim_buf, strcpy
+  tim_val$(4), time_zone#, + 24, mod dec tim_buf, strcpy
   ":", tim_buf, strcat
   if tim_val$(5)<10 then "0", tim_buf, strcat
   tim_val$(5), dec tim_buf, strcat
@@ -4522,17 +4535,18 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _942564638_in
+ _549701305_in
 
  end
-_942564638_in:
+_549701305_in:
 // ウィンドウシステムメイン関数
 
 
 // char log$(FILE_SIZE)
 // "log", log, wopen
 
- CLOCK_INTERVAL, clock_interval#=
+ 1000000, clock_interval#=
+ 0, time_zone#=
 
   screen_width#, screen_height#, * 4, * xmalloc screen_buffer#=
   if screen_buffer#=NULL then end
@@ -4591,13 +4605,14 @@ _942564638_in:
   desktop, ->Desktop.component  input_client#= tt#=
   show_desktop_menu, desktop, ->Desktop.rclicked#= // デスクトップの右クリック動作を定義
   desktop, ->Desktop.component repaint
+  clock_interval#, clock_count#=
 
 event_loop: 
   if gui_is_running#=0 goto event_loop_exit
 
   // 既定の時間ごとに時計の表示を更新する
-  if clock_interval#>=CLOCK_INTERVAL then disp_clock 0, clock_interval#=
-  clock_interval#++
+  if clock_count#>=clock_interval# then disp_clock 0, clock_count#=
+  clock_count#++
 
   // マウス・キーボード等の状態を読み込んでマウスカーソルの位置を更新する
   read_input_device

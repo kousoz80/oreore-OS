@@ -4033,6 +4033,7 @@ file_property_sheet_cancel_clicked:
   char file_menu$(Label.SIZE)
   char file_menu_update$(Button.SIZE)
   char file_menu_copy$(Button.SIZE)
+  char file_menu_edit$(Button.SIZE)
   char file_menu_delete$(Button.SIZE)
   char file_menu_property$(Button.SIZE)
   char file_menu_cancel$(Button.SIZE)
@@ -4046,7 +4047,7 @@ create_file_menu:
   file_menu, desktop, com#, "", create_label 
   file_menu, ->Label.component com0#=
   160, com0#, ->Component.width#=
-  100, com0#, ->Component.height#=
+  120, com0#, ->Component.height#=
   RAISED_BORDER, com#, ->Component.border#=
   FALSE, com0#, ->Component.is_visible#=
 
@@ -4068,11 +4069,20 @@ create_file_menu:
   20,   com1#, ->Component.height#=
   file_menu_copy, file_menu_copy_clicked, set_button_lclicked
 
+  // ファイル編集ボタンを生成
+  file_menu_edit, desktop, com0#, "    edit", create_button 
+  file_menu_edit, ->Button.component com1#=
+  0,   com1#, ->Component.x#=
+  40,   com1#, ->Component.y#=
+  160, com1#, ->Component.width#=
+  20,   com1#, ->Component.height#=
+  file_menu_edit, file_menu_edit_clicked, set_button_lclicked
+
   // ファイル削除ボタンを生成
   file_menu_delete, desktop, com0#, "   delete", create_button 
   file_menu_delete, ->Button.component com1#=
   0,   com1#, ->Component.x#=
-  40,   com1#, ->Component.y#=
+  60,   com1#, ->Component.y#=
   160, com1#, ->Component.width#=
   20,   com1#, ->Component.height#=
   file_menu_delete, file_menu_delete_clicked, set_button_lclicked
@@ -4081,7 +4091,7 @@ create_file_menu:
   file_menu_property, desktop, com0#, "  property", create_button 
   file_menu_property, ->Button.component com1#=
   0,   com1#, ->Component.x#=
-  60,   com1#, ->Component.y#=
+  80,   com1#, ->Component.y#=
   160, com1#, ->Component.width#=
   20,   com1#, ->Component.height#=
   file_menu_property, file_menu_property_clicked, set_button_lclicked
@@ -4090,7 +4100,7 @@ create_file_menu:
   file_menu_cancel, desktop, com0#, "   cancel", create_button 
   file_menu_cancel, ->Button.component com1#=
   0,   com1#, ->Component.x#=
-  80,   com1#, ->Component.y#=
+  100,   com1#, ->Component.y#=
   160, com1#, ->Component.width#=
   20,   com1#, ->Component.height#=
   file_menu_cancel, file_menu_cancel_clicked, set_button_lclicked
@@ -4149,8 +4159,22 @@ file_menu_copy_clicked:
   file_menu_copy_clicked2:
   infile,   rclose
   outfile, wclose
-
 file_menu_copy_clicked3:
+  filer#, update_filer
+  desktop, ->Desktop.component repaint
+  end
+
+
+// ファイル編集をクリックしたとき
+file_menu_edit_clicked:
+  FALSE, key_mask#=
+  file_menu, ->Label.component com#=
+  FALSE, com#, ->Component.is_visible#=
+  if file_edit_cmd#<0 then end
+  file_association#(file_edit_cmd#), dbuf, strcpy
+  " ", dbuf, strcat
+  file_name#, dbuf, strcat
+  dbuf, exec_command
   filer#, update_filer
   desktop, ->Desktop.component repaint
   end
@@ -4195,9 +4219,11 @@ file_menu_cancel_clicked:
  char file_association$(MAX_FILE_ASSOCIATION*3)
  long file_icon#(MAX_FILE_ICON)
  char fbuf$(512),xfp$(FILE_SIZE)
+ long file_edit_cmd#
 
 // ファイル情報を読み込む
 load_file_data:
+  -1, file_edit_cmd#=
   0, file_icons#= file_associations#=
 
   "system.ini",  xfp, ropen  tt0#=
@@ -4225,6 +4251,11 @@ load_file_data:
     fbuf, pp0#, strcpy 
      file_associations#, 3, * ii0#=
     pp0#, file_association#(ii0#)=
+
+    // ファイル編集コマンド(テキストとして開く)を設定
+    fbuf, ".txt", strcmp tt0#= 
+    if tt0#=0 then ii0#, 2, + file_edit_cmd#= 
+
 
     // アイコン番号
     fbuf,  xfp, finputs  tt0#=
@@ -4535,10 +4566,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _549701305_in
+ _1960324856_in
 
  end
-_549701305_in:
+_1960324856_in:
 // ウィンドウシステムメイン関数
 
 

@@ -220,19 +220,19 @@
  const create_filer  0x000000000045c2a2
  const update_filer  0x000000000045e866
  const set_filer_open_action  0x000000000045f1ae
- const get_file_command  0x000000000046689d
- const get_file_icon  0x0000000000466bfd
- const get_file_type  0x0000000000466d98
- const get_file_extention  0x00000000004672f1
- const show_open_dialog  0x0000000000468c86
- const show_save_dialog  0x0000000000468caa
- const show_xfiler  0x0000000000469cf2
- const mouse_x  0x000000000046c5a0
- const mouse_y  0x000000000046c5a8
- const copy_area  0x000000000046c5f0
- const font_area  0x000000000046c5f8
- const gui_is_running  0x000000000046c608
- const key_code  0x000000000046c618
- const key_mask  0x000000000046c620
- const desktop  0x0000000000475378
- const gui_end  0x0000000000478bd0
+ const get_file_command  0x000000000046729f
+ const get_file_icon  0x00000000004675ff
+ const get_file_type  0x000000000046779a
+ const get_file_extention  0x0000000000467cf3
+ const show_open_dialog  0x0000000000469688
+ const show_save_dialog  0x00000000004696ac
+ const show_xfiler  0x000000000046a6f4
+ const mouse_x  0x000000000046cfb8
+ const mouse_y  0x000000000046cfc0
+ const copy_area  0x000000000046d008
+ const font_area  0x000000000046d010
+ const gui_is_running  0x000000000046d020
+ const key_code  0x000000000046d030
+ const key_mask  0x000000000046d038
+ const desktop  0x0000000000475d90
+ const gui_end  0x00000000004796f8

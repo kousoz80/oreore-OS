@@ -560,6 +560,7 @@ no_operation:
 
   // イベント拡張
   long paint#      // 描画処理
+  long keyinput# // キー入力処理
   long removed# // 削除処理
 
   // コンポーネント本体
@@ -569,13 +570,13 @@ no_operation:
 // look&feel
  .data
 lf_label:
-  data paint_label      // paint_component
-  data no_operation   // key_pressed
-  data no_operation   // mouse_lclicked
-  data no_operation   // mouse_rclicked
-  data no_operation   // mouse_lclicked2
-  data no_operation   // mouse_rclicked2
-  data label_removed // remove_component
+  data paint_label             // paint_component
+  data key_pressed_label  // key_pressed
+  data no_operation          // mouse_lclicked
+  data no_operation          // mouse_rclicked
+  data no_operation          // mouse_lclicked2
+  data no_operation          // mouse_rclicked2
+  data label_removed        // remove_component
 
 
 // ラベルを生成する
@@ -615,6 +616,15 @@ paint_label:
   lbl#, ->Label.text#
   draw_string
   lbl#, lbl#, ->@Label.paint
+  end
+
+
+// キー入力処理( 直接呼び出し不可 )
+key_pressed_label:
+  com#= is_visible tt#=
+  if tt#=FALSE then end
+  com#, ->Component.subclass# lbl#=
+  lbl#, lbl#, ->@Label.keyinput
   end
 
 
@@ -2488,8 +2498,7 @@ paint_window1:
 // ウィンドウのキー入力したときの処理( 直接呼び出し不可 )
 window_keyinput:
   wincom#= ->Component.subclass# win#=
-  if key_code+2%<32   then end // 有効な文字コードでないときは無視する
-  if key_code+2%>127 then end
+  if key_code#=0  then end // 有効な文字コードでないときは無視する
   win#, win#, ->@Window.keyinput
   end
 
@@ -4566,10 +4575,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _1960324856_in
+ _197078315_in
 
  end
-_1960324856_in:
+_197078315_in:
 // ウィンドウシステムメイン関数
 
 

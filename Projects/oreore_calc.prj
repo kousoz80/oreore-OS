@@ -6,13 +6,13 @@
 <y0>0</y0>
 <width>200</width>
 <height>100</height>
-<ID_maker>34</ID_maker>
+<ID_maker>44</ID_maker>
 <objectname>oreore_calc</objectname>
 <description>新規のアプリケーション</description>
 <pin>
 <ID>_PSTART</ID>
-<x0>10</x0>
-<y0>40</y0>
+<x0>15</x0>
+<y0>37</y0>
 <width>55</width>
 <height>24</height>
 <text>Start()</text>
@@ -293,7 +293,7 @@ int main( int argc, char** argv ){
 <ID>_O2</ID>
 <state1>_SINIT</state1>
 <state2>_SINIT</state2>
-<x0>256</x0>
+<x0>200</x0>
 <y0>12</y0>
 <width>312</width>
 <height>48</height>
@@ -324,7 +324,7 @@ int main( int argc, char** argv ){
 </relation>
 <xobject>
 <ID>_X4</ID>
-<x0>407</x0>
+<x0>351</x0>
 <y0>349</y0>
 <width>185</width>
 <height>229</height>
@@ -338,8 +338,8 @@ int main( int argc, char** argv ){
 <width>113</width>
 <height>29</height>
 <text>num_out(num#)</text>
-<px>63</px>
-<py>92</py>
+<px>73</px>
+<py>144</py>
 </pin>
 <pin>
 <ID>_P1</ID>
@@ -644,11 +644,11 @@ int main( int argc, char** argv ){
 </xobject>
 <xobject>
 <ID>_X5</ID>
-<x0>410</x0>
+<x0>354</x0>
 <y0>126</y0>
 <width>184</width>
 <height>199</height>
-<ID_maker>37</ID_maker>
+<ID_maker>39</ID_maker>
 <objectname>演算子を出力</objectname>
 <description></description>
 <pin>
@@ -934,8 +934,8 @@ int main( int argc, char** argv ){
 </xobject>
 <aobject>
 <ID>_A7</ID>
-<x0>617</x0>
-<y0>56</y0>
+<x0>732</x0>
+<y0>73</y0>
 <width>188</width>
 <height>386</height>
 <ID_maker>28</ID_maker>
@@ -967,8 +967,8 @@ int main( int argc, char** argv ){
 <width>101</width>
 <height>28</height>
 <text>num_in(num#)</text>
-<px>16</px>
-<py>320</py>
+<px>13</px>
+<py>347</py>
 </pin>
 <pin>
 <ID>_P2</ID>
@@ -1268,8 +1268,8 @@ skip1:
 <width>60</width>
 <height>30</height>
 <text>dot_in()</text>
-<px>14</px>
-<py>272</py>
+<px>18</px>
+<py>258</py>
 </pin>
 <operation>
 <ID>_O22</ID>
@@ -1485,14 +1485,9 @@ skip1:
 <pin1name>_A0(_PAButton0)</pin1name>
 <pin2name>_X4(_P1)</pin2name>
 </relation>
-<relation>
-<ID>_R30</ID>
-<pin1name>_A0(_PGUIout)</pin1name>
-<pin2name>_A7(_P2)</pin2name>
-</relation>
 <aobject>
 <ID>_A0</ID>
-<x0>100</x0>
+<x0>44</x0>
 <y0>100</y0>
 <width>280</width>
 <objectname>GUI</objectname>
@@ -2047,8 +2042,8 @@ LABEL;display;null;2;1;225;24;51;51;51;255;255;255;Dialog;12;null;4;0;1;1;1;Labe
 </aobject>
 <codeclip>
 <ID>_C32</ID>
-<x0>607</x0>
-<y0>28</y0>
+<x0>728</x0>
+<y0>30</y0>
 <width>103</width>
 <height>22</height>
 <codetext>// アイコン
@@ -2093,5 +2088,173 @@ xcalc:
 <ID>_R33</ID>
 <pin1name>_A0(_PAdot_Button)</pin1name>
 <pin2name>_A7(_P21)</pin2name>
+</relation>
+<operation>
+<ID>_O34</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>582</x0>
+<y0>145</y0>
+<width>81</width>
+<height>68</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>90</inpinx0>
+<inpiny0>20</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out(op#)</outpintext>
+<outpinx0>14</outpinx0>
+<outpiny0>46</outpiny0>
+<outpinwidth>57</outpinwidth>
+<outpinheight>21</outpinheight>
+<inpinlinkcount>0</inpinlinkcount>
+<description></description>
+<codetext>op_in:
+  op#=
+</codetext>
+</operation>
+<relation>
+<ID>_R35</ID>
+<pin1name>_O34</pin1name>
+<pin2name>_A7(_P0)</pin2name>
+</relation>
+<operation>
+<ID>_O36</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>583</x0>
+<y0>364</y0>
+<width>85</width>
+<height>67</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>90</inpinx0>
+<inpiny0>20</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out(num#)</outpintext>
+<outpinx0>8</outpinx0>
+<outpiny0>44</outpiny0>
+<outpinwidth>66</outpinwidth>
+<outpinheight>22</outpinheight>
+<inpinlinkcount>0</inpinlinkcount>
+<description></description>
+<codetext>num_in:
+  num#=
+</codetext>
+</operation>
+<relation>
+<ID>_R37</ID>
+<pin1name>_O36</pin1name>
+<pin2name>_A7(_P1)</pin2name>
+</relation>
+<codeclip>
+<ID>_C38</ID>
+<x0>593</x0>
+<y0>507</y0>
+<width>119</width>
+<height>33</height>
+<codetext>// キー入力処理
+calc_keyin:
+  if key_code+2%=&apos;+&apos; then &apos;+&apos;, op_in
+  if key_code+2%=&apos;-&apos;  then &apos;-&apos;, op_in
+  if key_code+2%=&apos;*&apos;  then &apos;*&apos;, op_in
+  if key_code+2%=&apos;/&apos;   then &apos;/&apos;, op_in
+  if key_code+2%=&apos;m&apos; then &apos;M&apos;, op_in
+  if key_code+2%=&apos;p&apos;  then &apos;P&apos;, op_in
+  if key_code+2%=&apos;i&apos;   then &apos;I&apos;, op_in
+  if key_code+2%=&apos;c&apos;  then &apos;C&apos;, op_in
+  if key_code+2%=&apos;=&apos; then &apos;=&apos;, op_in
+  if key_code+2%=&apos;.&apos;   then dot_in
+  if key_code+2%&lt;&apos;0&apos;  then end
+  if key_code+2%&gt;&apos;9&apos;  then end
+  key_code+2%, &apos;0&apos;, - num_in
+  end
+</codetext>
+</codeclip>
+<operation>
+<ID>_O39</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>589</x0>
+<y0>272</y0>
+<width>79</width>
+<height>46</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>90</inpinx0>
+<inpiny0>20</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>26</outpinx0>
+<outpiny0>27</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>0</inpinlinkcount>
+<description></description>
+<codetext>dot_in:
+</codetext>
+</operation>
+<relation>
+<ID>_R40</ID>
+<pin1name>_O39</pin1name>
+<pin2name>_A7(_P21)</pin2name>
+</relation>
+<operation>
+<ID>_O41</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>534</x0>
+<y0>45</y0>
+<width>148</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>31</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>97</outpinx0>
+<outpiny0>28</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// キー入力処理を設定
+
+
+
+   long comx#
+   GUI, -&gt;Window.component comx#=
+   TRUE, comx#, -&gt;Component.is_focusable#=
+   comx#, request_focus
+   calc_keyin, GUI, -&gt;Window.keyinput#=
+   
+</codetext>
+</operation>
+<relation>
+<ID>_R42</ID>
+<pin1name>_A0(_PGUIout)</pin1name>
+<pin2name>_O41</pin2name>
+</relation>
+<relation>
+<ID>_R43</ID>
+<pin1name>_O41</pin1name>
+<pin2name>_A7(_P2)</pin2name>
 </relation>
 </xobject>

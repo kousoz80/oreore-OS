@@ -8,6 +8,7 @@ __xxmain1:
 __tcb:
  data 0,0,0,0,0,0,0,0
  data 0,0,0,0,0,0,0,0
+ data 0,0,0,0,0,0,0,0
 
  long   read_p#
 
@@ -16,9 +17,6 @@ sync:
   end
 create_task:
  @SYS_CALL(CREATE_TASK)
-  end
-exit_task:
- @SYS_CALL(EXIT_TASK)
   end
 kill_task:
  @SYS_CALL(KILL_TASK)
@@ -43,9 +41,6 @@ send_message:
   end
 get_message:
  @SYS_CALL(GET_MESSAGE)
-  end
-exit_process:
- @SYS_CALL(EXIT_PROCESS)
   end
 _wide:
  @SYS_CALL(_WIDE)
@@ -191,6 +186,9 @@ wputs:
 exec_command:
  @SYS_CALL(EXEC_COMMAND)
   end
+exit_process:
+  taskman, @SYS_CALL(GO_TASK)
+  end
 
 putchar:
   stdout#, putc
@@ -230,25 +228,27 @@ __wait1:
 
 __xxmain2:
 
-  long   _indev#,_outdev#,stdin#,stdout#,_f#
+  long   _indev#,_outdev#,stdin#,stdout#,_flags#
   char  _infile$(FILE_SIZE),_outfile$(FILE_SIZE)
 
   CONIN,    stdin#=
   CONOUT, stdout#=
-  (present_task)#(INDEV/8),    _indev#=
-  (present_task)#(OUTDEV/8), _outdev#=
+  present_task#, ->TCB.indev#    _indev#=
+  present_task#, ->TCB.outdev#  _outdev#=
   if (_indev)$=NULL goto __xxmain3
-    _indev#,  _infile, ropen _f#=
-    if _f#<>ERROR then _infile, stdin#=
+    _indev#,  _infile, ropen _flags#=
+    if _flags#<>ERROR then _infile, stdin#=
 __xxmain3:
   if (_outdev)$=NULL goto __xxmain4
-    _outdev#,  _outfile, wopen _f#=
-    if _f#<>ERROR then _outfile, stdout#=
+    _outdev#,  _outfile, wopen _flags#=
+    if _flags#<>ERROR then _outfile, stdout#=
 __xxmain4:
-  if (present_task)$(CMD_LINE)='B' then "*** background ***", prints nl
+  present_task#, ->TCB.cmd_line# _flags#=
+  if (_flags)$='B' then "*** background ***", prints nl
   main
   stdin#,   rclose
   stdout#, wclose
-  if (present_task)$(CMD_LINE)='F' then  (present_task)#(CLIENT/8), run_task
+  if (_flags)$='F' then  present_task#, ->TCB.client# run_task
+  _flags#, free
   exit_process
   end

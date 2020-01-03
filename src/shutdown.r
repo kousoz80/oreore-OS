@@ -8,4 +8,4 @@ main:
 / rax=(rax)/
 / rax=0x68(rax)/
 / call (rax)/
-end
+  end

@@ -111,6 +111,7 @@ Command:
   data "make",cmd_make
   data "then",cmd_then
   data "else",cmd_else
+  data "out",cmd_out
   data NULL,NULL
 
 Function:
@@ -143,6 +144,7 @@ Function:
     data "instr",func_instr
   data "rnd",func_rnd
   data "point",func_point
+  data "inp",func_inp
 //  data "netstat",func_netstat
   data NULL,NULL
 
@@ -1569,6 +1571,24 @@ cmd_then:
   "then without if", assertError
   DONE, end
 
+// outコマンド
+cmd_out:
+  clear_value
+  eval_expression
+  get_number (long) xx#=
+  ",", checkToken
+  clear_value
+  eval_expression
+  get_number (long) yy#=
+  xx#, yy#, io_write32
+  DONE, end
+
+io_write32:
+/ rax=rdi/
+/ rdx=rsi/
+/ out (dx),eax/
+  end
+
 // len関数
 func_len:
 
@@ -2082,6 +2102,37 @@ func_octs:
   get_number (long) oct put_string
   0, end
 
+// inp関数
+func_inp:
+ long vinp#
+ 
+// "func inp:", prints nl
+
+  getToken
+  "(", checkToken
+  eval_expression
+  ")", checkToken
+  get_number vinp#=
+  
+//  "in=", prints vinp#, printr nl
+  
+  vinp#, io_read32 vinp#=
+  
+//  "out=", prints vinp#, printr nl
+  
+  vinp#, put_number
+
+// "func inp end:", prints nl
+
+  0, end
+
+io_read32:
+/ rdx=rdi/
+/ in eax,(dx)/
+/ ext eax/
+/ rdi=rax/
+  end
+
 // =  の確認
 eval_eq:
 
@@ -2556,7 +2607,7 @@ eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 then  0, end
 
-  // 論理項は論理因子AND論理因子AND_2001963816.
+  // 論理項は論理因子AND論理因子AND_1855474646.
   getToken
   eval_relation
   eval_and
@@ -2577,7 +2628,7 @@ eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 then  0, end 
 
-  // 論理式は論理項OR論理項OR_2001963816.
+  // 論理式は論理項OR論理項OR_1855474646.
   getToken
   eval_lterm
   eval_or
@@ -7108,7 +7159,7 @@ pass2_eval_lterm1:
   TokenText, "and", strcmp tt#=
   if tt#<>0 goto pass2_eval_lterm2
 
-  // 論理項は論理因子AND論理因子AND_1081450495.
+  // 論理項は論理因子AND論理因子AND_408742851.
   pass2_getToken
   pass2_eval_relation
   pass2_eval_and
@@ -7133,7 +7184,7 @@ pass2_eval_expression1:
   TokenText, "or", strcmp tt#=
   if tt#<>0 goto pass2_eval_expression2 
 
-  // 論理式は論理項OR論理項OR_1081450495.
+  // 論理式は論理項OR論理項OR_408742851.
   pass2_getToken
   pass2_eval_lterm
   pass2_eval_or
@@ -7153,10 +7204,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _1805019904_in
+ _272024265_in
 
  end
-_1805019904_in:
+_272024265_in:
 // BASICを起動する
 start_basic:
 

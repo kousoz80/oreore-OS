@@ -1,0 +1,4956 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+<!-- なんちゃってXML version 0.1( ObjectEditor専用 ) -->
+<xobject>
+<ID>project</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>200</width>
+<height>100</height>
+<ID_maker>166</ID_maker>
+<objectname>telnet</objectname>
+<description>新規のアプリケーション</description>
+<プロパティ>
+<ID>properties</ID>
+<LookandFeel>javax.swing.plaf.metal.MetalLookAndFeel</LookandFeel>
+<MainWinx0>0</MainWinx0>
+<MainWiny0>0</MainWiny0>
+<MainWinWidth>1024</MainWinWidth>
+<MainWinHeight>745</MainWinHeight>
+<MesgWinx0>0</MesgWinx0>
+<MesgWiny0>559</MesgWiny0>
+<MesgWinWidth>1024</MesgWinWidth>
+<MesgWinHeight>186</MesgWinHeight>
+<FileWinx0>80</FileWinx0>
+<FileWiny0>305</FileWiny0>
+<FileWinWidth>578</FileWinWidth>
+<FileWinHeight>262</FileWinHeight>
+<EditWinx0>347</EditWinx0>
+<EditWiny0>0</EditWiny0>
+<EditWinWidth>676</EditWinWidth>
+<EditWinHeight>541</EditWinHeight>
+<PropWinx0>1</PropWinx0>
+<PropWiny0>1</PropWiny0>
+<PropWinWidth>615</PropWinWidth>
+<PropWinHeight>448</PropWinHeight>
+<DividerLocation1>2</DividerLocation1>
+<DividerLocation2>2</DividerLocation2>
+<ToolBarVisible>1</ToolBarVisible>
+<ViewSourceAtCompile>0</ViewSourceAtCompile>
+<NoSourceCreate>0</NoSourceCreate>
+<JavaEditCommand>geany</JavaEditCommand>
+<JavaViewCommand></JavaViewCommand>
+<HelpCommand></HelpCommand>
+<ApplicationType>7</ApplicationType>
+<CompileCommand0>./compile_java</CompileCommand0>
+<RunCommand0>./run_java</RunCommand0>
+<GUIDesignerCommand0>java -jar guidsin.jar -java</GUIDesignerCommand0>
+<ImportFiles0> import java.awt.*;
+ import java.awt.event.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import javax.swing.border.*;
+import javax.swing.filechooser.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.image.BufferedImage;
+import javax.sound.sampled.*;
+
+class Starter{
+  public static void main( String args[] ){
+    %AppName% ap = new %AppName%();
+    ap.ARGS = args;
+    ap.Start();
+  }
+}
+</ImportFiles0>
+<ProgramStartupCode0> String[] ARGS;
+</ProgramStartupCode0>
+<NativeHelpCommand0></NativeHelpCommand0>
+<CompileCommand1></CompileCommand1>
+<RunCommand1></RunCommand1>
+<GUIDesignerCommand1>java -jar guidsin.jar -applet</GUIDesignerCommand1>
+<ImportFiles1> import java.awt.*;
+ import java.awt.event.*;
+ import java.applet.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+ public class javatext extends Applet {
+   %AppName% ap;
+   public void init() {
+     ap = new %AppName%();
+     ap.APPLET = this;
+     ap.Start();
+   }
+ }
+</ImportFiles1>
+<ProgramStartupCode1> Applet APPLET;
+</ProgramStartupCode1>
+<NativeHelpCommand1></NativeHelpCommand1>
+<CompileCommand2></CompileCommand2>
+<RunCommand2></RunCommand2>
+<GUIDesignerCommand2></GUIDesignerCommand2>
+<ImportFiles2>#include &lt;stdio.h&gt;
+
+void Startup();
+</ImportFiles2>
+<ProgramStartupCode2>int main(){
+ Startup();
+ %AppName%::Start();
+ }
+</ProgramStartupCode2>
+<NativeHelpCommand2></NativeHelpCommand2>
+<CompileCommand3></CompileCommand3>
+<RunCommand3></RunCommand3>
+<GUIDesignerCommand3>java -jar guidsin.jar -cpp</GUIDesignerCommand3>
+<ImportFiles3>#include &lt;stdio.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;math.h&gt;
+#include &quot;Ekagen.h&quot;
+void Startup();
+</ImportFiles3>
+<ProgramStartupCode3>void Emain(){
+Startup();
+%AppName%::Start();
+}
+</ProgramStartupCode3>
+<NativeHelpCommand3></NativeHelpCommand3>
+<MoveStep>8</MoveStep>
+<ImageEditCommand></ImageEditCommand>
+<CompilerFileName>javac.exe</CompilerFileName>
+<CompileCommand4>./compile_android Test com example test</CompileCommand4>
+<RunCommand4>echo no action</RunCommand4>
+<GUIDesignerCommand4>java -jar guidsin.jar -android</GUIDesignerCommand4>
+<ImportFiles4>package com.example.test;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.widget.Button;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.widget.EditText;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.graphics.Matrix;
+import android.graphics.Typeface;
+import android.graphics.RectF;
+import android.graphics.BitmapFactory;
+import java.io.*;
+ import java.net.*;
+import java.util.*;
+import java.text.SimpleDateFormat;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.content.res.Configuration;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.app.Activity;
+import android.graphics.Color;
+
+import android.widget.AbsoluteLayout;
+import android.widget.*;
+import android.view.Gravity;
+import android.view.View.OnClickListener;
+
+import android.hardware.Camera;
+
+public class HelloWorld extends Activity {
+  public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    %AppName% ap = new %AppName%();
+    ap.ACTIVITY = this;
+    ap.Start();
+  }
+}
+</ImportFiles4>
+<ProgramStartupCode4>Activity ACTIVITY;
+</ProgramStartupCode4>
+<NativeHelpCommand4>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.test&quot;
+    android:versionCode=&quot;1&quot;
+    android:versionName=&quot;1.0&quot; &gt;
+
+    
+    
+  &lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.usb.host&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.RECORD_AUDIO&quot;/&gt;
+  &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+
+  &lt;uses-sdk android:minSdkVersion=&quot;3&quot; android:targetSdkVersion=&quot;21&quot;/&gt;
+  
+ 
+    &lt;application android:label=&quot;@string/app_name&quot; &gt;
+        &lt;activity
+            android:name=&quot;HelloWorld&quot;
+            android:label=&quot;@string/app_name&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</NativeHelpCommand4>
+<HtmlEditCommand></HtmlEditCommand>
+<CompileCommand5></CompileCommand5>
+<RunCommand5></RunCommand5>
+<GUIDesignerCommand5></GUIDesignerCommand5>
+<ImportFiles5></ImportFiles5>
+<ProgramStartupCode5>gosub @_PSTART
+end
+</ProgramStartupCode5>
+<NativeHelpCommand5></NativeHelpCommand5>
+<NoOptimizePin>0</NoOptimizePin>
+<CompileCommand6>./compile_c</CompileCommand6>
+<RunCommand6>./run_c</RunCommand6>
+<GUIDesignerCommand6></GUIDesignerCommand6>
+<ImportFiles6>#include &lt;setjmp.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;math.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netdb.h&gt;
+
+#include &lt;X11/Xlib.h&gt;
+#include &lt;X11/Xutil.h&gt;
+#include &lt;X11/Xlocale.h&gt; /* ロケール用ヘッダーファイル */
+#include &lt;X11/xpm.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;errno.h&gt;
+</ImportFiles6>
+<ProgramStartupCode6>int ARGC; char** ARGV;
+int main( int argc, char** argv ){
+  ARGC=argc;
+  ARGV=argv;
+  _PSTART();
+}
+</ProgramStartupCode6>
+<NativeHelpCommand6></NativeHelpCommand6>
+<CompileCommand7>./compile_network</CompileCommand7>
+<RunCommand7>./run_startx</RunCommand7>
+<GUIDesignerCommand7>java -jar guidsin.jar -ore</GUIDesignerCommand7>
+<ImportFiles7></ImportFiles7>
+<ProgramStartupCode7>main:
+  _INIT_STATES
+  goto _PSTART
+</ProgramStartupCode7>
+<NativeHelpCommand7></NativeHelpCommand7>
+<IDF_LocalVariable5>%</IDF_LocalVariable5>
+<IDF_LocalVariable7>\</IDF_LocalVariable7>
+</プロパティ>
+<pin>
+<ID>_PSTART</ID>
+<x0>490</x0>
+<y0>504</y0>
+<width>55</width>
+<height>24</height>
+<text>Start()</text>
+<px>50</px>
+<py>50</py>
+</pin>
+<codeclip>
+<ID>_C27</ID>
+<x0>714</x0>
+<y0>12</y0>
+<width>262</width>
+<height>523</height>
+<codetext>// パケット構造体
+ const DEFAULT_NETBUF_SIZE 1800
+ struct netbuf
+   long size#
+   long top#
+   long next#
+   long ethernet_type#
+   long ethernet_addr#
+   long ip_protocol#
+   long ip_cmd#
+   long ip_addr#
+   long icmp_number#
+   long icmp_addr#
+   long icmp_callback#
+   long tcp_accept_port#
+   long tcp_connect_port#
+   long tcp_connect_addr#
+   long tcp_callback#
+   long tcp_establish_number#
+   long tcp_close_number#
+   long tcp_send_number#
+   long udp_regport_src_port#
+   long udp_regport_dst_port#
+   long udp_regport_addr#
+   long udp_callback#
+   long udp_relport_port#
+   long udp_recv_port#
+   long udp_send_src_port#
+   long udp_send_dst_port#
+   long udp_send_addr#
+   long data#
+ end
+</codetext>
+</codeclip>
+<xobject>
+<ID>_X_G28</ID>
+<x0>144</x0>
+<y0>292</y0>
+<width>175</width>
+<height>180</height>
+<objectname>tcp</objectname>
+<description></description>
+<ID_maker>142</ID_maker>
+<pin>
+<ID>_P37</ID>
+<x0>7</x0>
+<y0>184</y0>
+<width>60</width>
+<height>30</height>
+<text>accept()</text>
+<px>0</px>
+<py>108</py>
+</pin>
+<pin>
+<ID>_P38</ID>
+<x0>11</x0>
+<y0>120</y0>
+<width>60</width>
+<height>30</height>
+<text>connect()</text>
+<px>0</px>
+<py>131</py>
+</pin>
+<pin>
+<ID>_P39</ID>
+<x0>16</x0>
+<y0>63</y0>
+<width>60</width>
+<height>30</height>
+<text>close()</text>
+<px>1</px>
+<py>152</py>
+</pin>
+<pin>
+<ID>_P40</ID>
+<x0>194</x0>
+<y0>20</y0>
+<width>60</width>
+<height>30</height>
+<text>recved()</text>
+<px>59</px>
+<py>88</py>
+</pin>
+<pin>
+<ID>_P41</ID>
+<x0>345</x0>
+<y0>255</y0>
+<width>60</width>
+<height>30</height>
+<text>tx()</text>
+<px>0</px>
+<py>76</py>
+</pin>
+<codeclip>
+<ID>_C56</ID>
+<x0>71</x0>
+<y0>443</y0>
+<width>180</width>
+<height>180</height>
+<codetext> struct tcp_header
+   short src_port%
+   short dst_port%
+   int seq_number!
+   int ack_number!
+   char  offset$
+   char  flags$
+   short window%
+   short checksum%
+   short urgent%
+ end
+</codetext>
+</codeclip>
+<pin>
+<ID>_P57</ID>
+<x0>13</x0>
+<y0>271</y0>
+<width>51</width>
+<height>29</height>
+<text>init()</text>
+<px>126</px>
+<py>129</py>
+</pin>
+<pin>
+<ID>_P59</ID>
+<x0>770</x0>
+<y0>249</y0>
+<width>46</width>
+<height>27</height>
+<text>send()</text>
+<px>84</px>
+<py>145</py>
+</pin>
+<operation>
+<ID>_O70</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>280</x0>
+<y0>68</y0>
+<width>92</width>
+<height>45</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>45</outpinx0>
+<outpiny0>26</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>tcp_recv:
+
+
+
+  long tpkt1#,tcon1#,tcphdr1#,opened#,closed#
+  tpkt1#=
+
+  &quot;tcp_recv:&quot;, dprint dnl
+
+  tcp_busy#++
+  
+  
+  tpkt1#, -&gt;netbuf.top# tcphdr1#=
+
+  0, opened#= closed#=
+
+  0,
+  tpkt1#, -&gt;netbuf.ip_addr#
+  tcphdr1#, -&gt;tcp_header.dst_port%
+  tcphdr1#, -&gt;tcp_header.src_port%
+  tcp_get_connection tcon1#=
+  if tcon1#=NULL then 0, 0, tcphdr1#, -&gt;tcp_header.dst_port% 0, tcp_get_connection tcon1#=
+  if tcon1#=NULL goto tcp_recv_end
+
+tcp_recv_RST:
+  tcphdr1#, -&gt;tcp_header.flags$ TCP_HEADER_FLAG_RST, and tt#=
+  if tt#=0 goto tcp_recv_ACK
+//  &quot;tcp_recv_RST:&quot;, dprint dnl
+  closed#++
+
+tcp_recv_ACK:
+  tcphdr1#, -&gt;tcp_header.flags$ TCP_HEADER_FLAG_ACK, and tt#=
+  if tt#=0 goto tcp_recv_SYN
+//  &quot;tcp_recv_ACK:&quot;, dprint dnl
+  
+   tcphdr1#, -&gt;tcp_header.ack_number get_int32 tcon1#, -&gt;connection.seq_number#=  
+
+    // データ送信に対してACKが返ってきたので，tx_busy#を解除する
+    tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_ESTAB, - tt#=
+    if tt#=0 then 0, tcon1#, -&gt;connection.tx_busy#=
+
+    tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_SYNSENT1, - tt#=
+    if tt#=0 then TCP_CONNECTION_STATUS_SYNSENT2, tcon1#, -&gt;connection.status#=
+
+    tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_SYNRECV, - tt#=
+    if tt#=0 then TCP_CONNECTION_STATUS_ESTAB, tcon1#, -&gt;connection.status#= opened#++
+
+    tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_FINWAIT1, - tt#=
+    if tt#=0 then TCP_CONNECTION_STATUS_FINWAIT2, tcon1#, -&gt;connection.status#=
+
+    tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_LASTACK, - tt#=
+    if tt#=0 then TCP_CONNECTION_STATUS_CLOSED, tcon1#, -&gt;connection.status#= closed#++
+
+tcp_recv_SYN:
+  tcphdr1#, -&gt;tcp_header.flags$ TCP_HEADER_FLAG_SYN, and tt#=
+  if tt#=0 goto tcp_recv_FIN
+//  &quot;tcp_recv_SYN:&quot;, dprint dnl
+  
+  /* LISTENならばSYN+ACKを返す */
+  tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_LISTEN, - tt#=
+  if tt#&lt;&gt;0 goto tcp_recv_SYN1
+     1, tcon1#, -&gt;connection.snd_number#=
+     1, tcon1#, -&gt;connection.seq_number#=
+     tpkt1#, -&gt;netbuf.ip_addr# tcon1#, -&gt;connection.dst_ipaddr#=
+     tcphdr1#, -&gt;tcp_header.src_port%  tcon1#, -&gt;connection.dst_port#=
+     tcphdr1#, -&gt;tcp_header.seq_number get_int32 1, + tcon1#, -&gt;connection.ack_number#=
+     tcon1#, TCP_HEADER_FLAG_SYNACK, tcp_send_signal
+     TCP_CONNECTION_STATUS_SYNRECV, tcon1#, -&gt;connection.status#=
+  tcp_recv_SYN1:
+       
+  /* SYNSENTならばACKを返す(たぶんSYN+ACKが来ている) */
+  tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_SYNSENT2, - tt#=
+  if tt#&lt;&gt;0 goto tcp_recv_SYN2
+     tcphdr1#, -&gt;tcp_header.seq_number get_int32 1, + tcon1#, -&gt;connection.ack_number#=
+     tcon1#, TCP_HEADER_FLAG_ACK, tcp_send_signal
+     TCP_CONNECTION_STATUS_ESTAB, tcon1#, -&gt;connection.status#=
+     opened#++
+  tcp_recv_SYN2:
+
+tcp_recv_FIN:
+  tcphdr1#, -&gt;tcp_header.flags$ TCP_HEADER_FLAG_FIN, and tt#=
+  if tt#=0 goto tcp_recv_PSH
+//  &quot;tcp_recv_FIN:&quot;, dprint dnl
+
+
+  
+  /* FINWAIT2なら，ACKを返してCLOSEDに遷移 */
+  tcon1#, -&gt;connection.status# - TCP_CONNECTION_STATUS_FINWAIT2, tt#=
+  if tt#&lt;&gt;0 goto tcp_recv_FIN1
+     tcphdr1#, -&gt;tcp_header.seq_number get_int32 1, + tcon1#, -&gt;connection.ack_number#=
+     tcon1#, TCP_HEADER_FLAG_ACK, tcp_send_signal
+     TCP_CONNECTION_STATUS_CLOSED, tcon1#, -&gt;connection.status#=
+      closed#++
+  tcp_recv_FIN1:
+
+
+  /* ESTABなら，ACK, FIN+ACK を返してLASTACKに遷移 */
+  tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_ESTAB, - tt#=
+  if tt#&lt;&gt;0 goto tcp_recv_FIN2
+     tcphdr1#, -&gt;tcp_header.seq_number get_int32 1, + tcon1#, -&gt;connection.ack_number#=
+     tcon1#, TCP_HEADER_FLAG_ACK,       tcp_send_signal
+     tcon1#, TCP_HEADER_FLAG_FINACK,  tcp_send_signal
+     TCP_CONNECTION_STATUS_LASTACK,  tcon1#, -&gt;connection.status#=
+  tcp_recv_FIN2:
+  
+
+tcp_recv_PSH:
+  tcphdr1#, -&gt;tcp_header.flags$ TCP_HEADER_FLAG_PSH, and tt#=
+  if tt#=0 goto tcp_recv_opened
+//  &quot;tcp_recv_PSH:&quot;, dprint dnl
+
+  /* データを受信 */
+  tcon1#, -&gt;connection.status# TCP_CONNECTION_STATUS_ESTAB, - tt#=
+  if tt#&lt;&gt;0 goto tcp_recv_PSH1
+
+
+   // ACKを返す
+   tpkt1#, -&gt;netbuf.top# tcphdr1#=
+   tcphdr1#, -&gt;tcp_header.offset$ 16, / 0x0f, and 4, *
+   hdrlen#=
+   tpkt1#, -&gt;netbuf.top#  hdrlen#, + tpkt1#, -&gt;netbuf.top#= 
+   tpkt1#, -&gt;netbuf.size# hdrlen#,  -  tpkt1#, -&gt;netbuf.size#= 
+   tcphdr1#, -&gt;tcp_header.seq_number get_int32 tpkt1#, -&gt;netbuf.size# + tcon1#, -&gt;connection.ack_number#=
+   tcon1#, TCP_HEADER_FLAG_ACK, tcp_send_signal
+
+   // コールバックを呼び出す
+   tcon1#, -&gt;connection.callback# tcallback#=
+   tpkt1#, @tcallback
+   
+tcp_recv_PSH1:
+
+tcp_recv_opened: 
+  if opened#=0 goto tcp_recv_closed
+//  &quot;tcp_recv_opened:&quot;, dprint dnl
+  
+tcp_recv_closed:
+  if closed#=0 goto tcp_recv_end
+//  &quot;tcp_recv_closed&quot;, dprint dnl
+  tcon1#, tcp_delete_connection
+
+tcp_recv_end:
+
+  &quot;tcp_recv end:&quot;, dprint dnl
+
+  tcp_busy#--
+  end
+</codetext>
+</operation>
+<operation>
+<ID>_O71</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>444</x0>
+<y0>234</y0>
+<width>95</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>43</outpinx0>
+<outpiny0>28</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>tcp_send:
+
+
+
+     long tcon2#,tsize2#,tdata2#,tt2#
+     tcon2#= pop tsize2#= pop tdata2#=
+     if tcp_busy#&lt;&gt;0 then -1, end
+
+     tcon2#, -&gt;connection.tx_busy# tt2#=
+     if tt2#&lt;&gt;0 then -1, end
+     tcp_busy#++
+
+  &quot;tcp_send:&quot;, dprint dnl
+
+     tcon2#,
+     TCP_HEADER_FLAG_PSH+TCP_HEADER_FLAG_ACK,
+     1460, 0, 0, tsize2#, tdata2#, tcp_create_pkt
+     tcon2#, tcp_send_pkt
+
+  &quot;tcp_send end:&quot;, dprint dnl
+    1, tcon2#, -&gt;connection.tx_busy#=
+    tcp_busy#--
+    0,   end
+</codetext>
+</operation>
+<operation>
+<ID>_O76</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>578</x0>
+<y0>234</y0>
+<width>125</width>
+<height>45</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>76</outpinx0>
+<outpiny0>27</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>2</inpinlinkcount>
+<description></description>
+<codetext>  tcp_send_pkt:
+
+
+
+   tcon#= pop tpkt#=
+
+  &quot;tcp_sendpkt:&quot;, dprint dnl
+
+   if tpkt#=NULL then &quot;no packet&quot;, dprint dnl end
+
+   tpkt#, -&gt;netbuf.top# tcphdr#=
+   tcphdr#, -&gt;tcp_header.offset$ 16, / 0x0f, and 4, *
+   hdrlen#=
+   tcon#, -&gt;connection.seq_number# tcphdr#, -&gt;tcp_header.seq_number set_int32
+   tcon#, -&gt;connection.ack_number# tcphdr#, -&gt;tcp_header.ack_number set_int32
+   0, tsize#=
+   tcphdr#, -&gt;tcp_header.flags$ TCP_HEADER_FLAG_PSH, and tt#=
+   if tt#&lt;&gt;0 then tpkt#, -&gt;netbuf.size# hdrlen#, - tsize#=
+   tcphdr#, -&gt;tcp_header.flags$ TCP_HEADER_FLAG_SYN+TCP_HEADER_FLAG_FIN, and tt#=
+   if tt#&lt;&gt;0 then 1, tsize#=
+   tcphdr#, -&gt;tcp_header.flags$ TCP_HEADER_FLAG_FINACK, and TCP_HEADER_FLAG_FINACK, - tt#=
+   if tt#=0 then TCP_CONNECTION_STATUS_FINWAIT1, tcon#, -&gt;connection.status#=
+   tcon#, -&gt;connection.src_ipaddr#
+   tcon#, -&gt;connection.dst_ipaddr#
+   IP_PROTOCOL_TCP,
+   tpkt#, -&gt;netbuf.size#
+   calc_pseudosum tcphdr#, -&gt;tcp_header.checksum set_int16 
+   tcphdr#,   tpkt#, -&gt;netbuf.size#  calc_checksum  
+   tcphdr#, -&gt;tcp_header.checksum set_int16
+   IP_PROTOCOL_TCP, tpkt#, -&gt;netbuf.ip_protocol#= 
+   tcon#, -&gt;connection.dst_ipaddr#  tpkt#, -&gt;netbuf.ip_addr#=
+   tpkt#, ip_send
+   tcon#, -&gt;connection.seq_number# tsize#, + tcon#, -&gt;connection.snd_number#= 
+
+  &quot;tcp_sendpkt:end&quot;, dprint dnl
+
+   end
+</codetext>
+</operation>
+<relation>
+<ID>_R77</ID>
+<pin1name>_O76</pin1name>
+<pin2name>_P59</pin2name>
+</relation>
+<pin>
+<ID>_P89</ID>
+<x0>436</x0>
+<y0>41</y0>
+<width>40</width>
+<height>29</height>
+<text>rx()</text>
+<px>0</px>
+<py>57</py>
+</pin>
+<operation>
+<ID>_O95</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>82</x0>
+<y0>184</y0>
+<width>131</width>
+<height>49</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>31</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>85</outpinx0>
+<outpiny0>30</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>tcp_accept:
+
+
+
+  long taccept_port#
+  tcallback#= pop taccept_port#=
+  if tcp_busy#&lt;&gt;0 then -1, end
+  tcp_busy#++
+  
+  &quot;tcp_accept:&quot;, dprint dnl
+
+  my_ipaddr#,
+  0,
+  taccept_port#,
+  0,
+  TCP_CONNECTION_STATUS_LISTEN,
+  tcallback#,
+  tcp_create_connection tcon#=
+
+  tcp_busy#--
+
+  &quot;tcp_accept:end&quot;, dprint dnl
+  tcon#,  end
+</codetext>
+</operation>
+<relation>
+<ID>_R96</ID>
+<pin1name>_P37</pin1name>
+<pin2name>_O95</pin2name>
+</relation>
+<operation>
+<ID>_O97</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>99</x0>
+<y0>126</y0>
+<width>124</width>
+<height>44</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>26</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>74</outpinx0>
+<outpiny0>25</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>tcp_connect:
+
+
+
+  long tconnect_addr#,tconnect_port#,tcon0#
+  tcallback#= pop tconnect_port#= pop tconnect_addr#=
+  if tcp_busy#&lt;&gt;0 then -1, end
+  tcp_busy#++
+
+  &quot;tcp_connect:&quot;, dprint dnl
+
+  my_ipaddr#, 
+  tconnect_addr#,
+  tcp_port#,
+  tconnect_port#,
+  TCP_CONNECTION_STATUS_SYNSENT1,
+  tcallback#,
+  tcp_create_connection tcon0#=
+  tcp_port#++
+  tcon0#, TCP_HEADER_FLAG_SYN, tcp_send_signal        // SYNを送信
+
+  &quot;tcp_connect end:&quot;, dprint dnl
+
+  tcp_busy#--
+  tcon0#, end
+</codetext>
+</operation>
+<relation>
+<ID>_R98</ID>
+<pin1name>_P38</pin1name>
+<pin2name>_O97</pin2name>
+</relation>
+<operation>
+<ID>_O99</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>121</x0>
+<y0>72</y0>
+<width>102</width>
+<height>50</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>29</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>51</outpinx0>
+<outpiny0>30</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>tcp_close:
+
+
+  tcon#=
+  if tcp_busy#&lt;&gt;0 then -1, end
+  tcp_busy#++
+
+  &quot;tcp_close:&quot;, dprint dnl
+
+  if tcon#=NULL goto tcp_close1
+
+ tcon#, dprint_connection
+
+  tcon#,  TCP_HEADER_FLAG_FINACK, tcp_send_signal
+
+  tcon#, free
+
+tcp_close1:
+
+  &quot;tcp_close end:&quot;, dprint dnl
+  
+  tcp_busy#--
+  
+   0, end
+</codetext>
+</operation>
+<relation>
+<ID>_R100</ID>
+<pin1name>_P39</pin1name>
+<pin2name>_O99</pin2name>
+</relation>
+<relation>
+<ID>_R101</ID>
+<pin1name>_P40</pin1name>
+<pin2name>_O70</pin2name>
+</relation>
+<relation>
+<ID>_R102</ID>
+<pin1name>_P41</pin1name>
+<pin2name>_O71</pin2name>
+</relation>
+<codeclip>
+<ID>_C103</ID>
+<x0>628</x0>
+<y0>323</y0>
+<width>338</width>
+<height>311</height>
+<codetext>  struct connection
+     long callback#
+     long src_ipaddr#
+     long dst_ipaddr#
+     long src_port#
+     long dst_port#
+     long snd_number# // 自分がどこまで送信したか
+     long seq_number# // 相手がどこまで受信したか
+     long ack_number# // 自分がどこまで受信したか
+     long status#
+     long sending#
+     long send_queue#
+     long send_queue_end#
+     long recv_queue#
+     long recv_queue_end#
+     long next#
+     long prev#
+     long tx_busy#
+  end
+
+  enum
+    TCP_CONNECTION_STATUS_CLOSED
+    TCP_CONNECTION_STATUS_LISTEN
+    TCP_CONNECTION_STATUS_SYNSENT1
+    TCP_CONNECTION_STATUS_SYNSENT2
+    TCP_CONNECTION_STATUS_SYNRECV
+    TCP_CONNECTION_STATUS_ESTAB
+    TCP_CONNECTION_STATUS_FINWAIT1
+    TCP_CONNECTION_STATUS_FINWAIT2
+    TCP_CONNECTION_STATUS_CLOSEWAIT
+    TCP_CONNECTION_STATUS_LASTACK
+  end
+
+</codetext>
+</codeclip>
+<operation>
+<ID>_O106</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>109</x0>
+<y0>252</y0>
+<width>100</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>tcp_init:
+
+
+
+  &quot;tcp_init:&quot;, dprint dnl
+
+
+  NULL, top_connection#=
+  47323, tcp_port#=
+  0, tcp_busy#=
+  
+  &quot;tcp_init:end&quot;, dprint dnl
+end
+</codetext>
+</operation>
+<relation>
+<ID>_R107</ID>
+<pin1name>_P57</pin1name>
+<pin2name>_O106</pin2name>
+</relation>
+<operation>
+<ID>_O108</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>576</x0>
+<y0>154</y0>
+<width>126</width>
+<height>44</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>26</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>2</inpinlinkcount>
+<description></description>
+<codetext>tcp_create_pkt:
+
+
+
+  tdata#= pop tsize#= pop twindow_scale#= pop
+  tmss#=  pop  twindow#=  pop tflags#= pop tcon#=
+
+  &quot;tcp_create_pkt:&quot;, dprint dnl
+//  &quot;connection=&quot;, dprint dnl tcon#, dprint_connection
+  
+//  &quot;flags=&quot;, dprint tflags#, hex dprint dnl
+//  &quot;window=&quot;, dprint twindow#, dec dprint dnl
+//  &quot;tmss=&quot;, dprint tmss#, dec dprint dnl
+//  &quot;window scale=&quot;, dprint twindow_scale#, hex dprint dnl
+//  &quot;data size=&quot;, dprint tsize#, dec dprint dnl
+//  &quot;data=&quot;, dprint tdata#, hex dprint dnl
+
+  tcp_header.SIZE, thdrlen#=
+  DEFAULT_NETBUF_SIZE, malloc tpkt#=
+  tpkt#, 0, DEFAULT_NETBUF_SIZE, memset
+  tpkt#, -&gt;netbuf.data 64, + tcphdr#= tpkt#, -&gt;netbuf.top#=
+  tcon#, -&gt;connection.src_port# tcphdr#, -&gt;tcp_header.src_port set_int16
+  tcon#, -&gt;connection.dst_port# tcphdr#, -&gt;tcp_header.dst_port set_int16
+  tflags#,                                     tcphdr#, -&gt;tcp_header.flags$=
+  twindow#,                                 tcphdr#, -&gt;tcp_header.window set_int16
+  0,                                               tcphdr#, -&gt;tcp_header.urgent%=
+
+  tcphdr#, tcp_header.SIZE, + toption#=
+  if tmss#=0 goto tcp_create_pkt1
+  TCP_OPTION_TYPE_MAXSEG,     (toption)$=  toption#++
+  TCP_OPTION_LENGTH_MAXSEG, (toption)$= toption#++
+  tmss#,                                        toption#, set_int16 toption#++ toption#++
+
+tcp_create_pkt1:
+  if twindow_scale#=0 goto tcp_create_pkt2
+  TCP_OPTION_TYPE_NOP,              (toption)$= toption#++
+  TCP_OPTION_TYPE_WINDOW,      (toption)$= toption#++
+  TCP_OPTION_LENGTH_WINDOW, (toption)$= toption#++
+  twindow_scale#,                          (toption)$= toption#++
+  
+tcp_create_pkt2:
+   if tdata#&lt;&gt;NULL then tdata#, toption#, tsize#, memcpy
+   toption#, tcphdr#, - thdrlen#=
+   thdrlen#, 4, / 0x0f, and 16, * 
+   tcphdr#, -&gt;tcp_header.offset$=
+   thdrlen#, tsize#, + tpkt#, -&gt;netbuf.size#=
+
+//  &quot;made tcp packet offset=&quot;, dprint 
+//  tpkt#, -&gt;netbuf.top# tcphdr#, - dec dprint
+//  &quot; ,size=&quot;, dprint
+//  tpkt#, -&gt;netbuf.size# dec dprint dnl
+  
+//  tcphdr#, dprint_tcp_header
+
+  &quot;tcp_create_pkt: end&quot;, dprint dnl
+
+   tpkt#, end
+</codetext>
+</operation>
+<operation>
+<ID>_O109</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>527</x0>
+<y0>40</y0>
+<width>148</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>tcp_get_connection:
+
+
+  tdst_port#= pop tsrc_port#= pop tdst_addr#= pop tsrc_addr#=
+  tdst_port, get_int16 tdst_port#=
+  tsrc_port, get_int16 tsrc_port#=
+  
+
+  &quot;tcp_get_connection:&quot;, dprint dnl
+//  &quot;src addr=&quot;, dprint tsrc_addr#,  dprint_ipaddr dnl
+//  &quot;dst addr=&quot;, dprint tdst_addr#, dprint_ipaddr dnl
+//  &quot;src port=&quot;,  dprint tsrc_port#,  dec dprint dnl
+//  &quot;dst port=&quot;,  dprint tdst_port#, dec dprint dnl
+
+
+
+// &quot;serch connection list&quot;, dprint dnl
+  if top_connection#=NULL then goto tcp_get_connection3
+  top_connection#, tt#=  
+tcp_get_connection1:
+  tt#, -&gt;connection.src_ipaddr# ss#=
+//  &quot;src addr=&quot;, dprint ss#, dprint_ipaddr dnl 
+  if tsrc_addr#&lt;&gt;0 then if ss#&lt;&gt;tsrc_addr# goto tcp_get_connection2
+  tt#, -&gt;connection.dst_ipaddr# ss#=
+//  &quot;dst addr=&quot;, dprint ss#, dprint_ipaddr dnl 
+  if tdst_addr#&lt;&gt;0 then if ss#&lt;&gt;tdst_addr# goto tcp_get_connection2
+  tt#, -&gt;connection.src_port# ss#=
+//  &quot;src port=&quot;, dprint ss#, dec dprint dnl 
+  if tsrc_port#&lt;&gt;0 then if ss#&lt;&gt;tsrc_port# goto tcp_get_connection2
+  tt#, -&gt;connection.dst_port# ss#=
+//  &quot;dst port=&quot;, dprint ss#, dec dprint dnl 
+  if tdst_port#&lt;&gt;0 then if ss#&lt;&gt;tdst_port# goto tcp_get_connection2
+
+  &quot;tcp_get_connection:found&quot;, dprint dnl
+
+  tt#, end
+tcp_get_connection2:
+  tt#, -&gt;connection.next# tt#=
+  if tt#&lt;&gt;NULL goto tcp_get_connection1
+
+tcp_get_connection3:
+  &quot;tcp_get_connection:not found&quot;, dprint dnl
+
+  NULL, end
+</codetext>
+</operation>
+<operation>
+<ID>_O111</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>531</x0>
+<y0>92</y0>
+<width>183</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>tcp_delete_connection:
+
+
+  long tconxx#
+  tconxx#=
+
+  &quot;tcp_delete_connection:&quot;, dprint dnl
+
+  if top_connection#=NULL goto tcp_delete_connection3
+  top_connection#, tt#=
+tcp_delete_connection1:
+  if tt#&lt;&gt;tconxx# goto tcp_delete_connection2
+  tt#,  -&gt;connection.prev# pp#=
+  tt#,  -&gt;connection.next# qq#=
+  if tt#=top_connection# then qq#, top_connection#=
+  if pp#&lt;&gt;NULL then qq#, pp#, -&gt;connection.next#= 
+  if qq#&lt;&gt;NULL then pp#, qq#, -&gt;connection.prev#= 
+  tt#, free
+
+  &quot;tcp_delete_connection:success&quot;, dprint dnl
+
+  0, end
+  
+tcp_delete_connection2:
+  tt#,  -&gt;connection.next# tt#=
+  if tt#&lt;&gt;NULL goto tcp_delete_connection1
+
+
+tcp_delete_connection3:
+  &quot;tcp_delete_connection:fault&quot;, dprint dnl
+
+  -1, end
+</codetext>
+</operation>
+<relation>
+<ID>_R116</ID>
+<pin1name>_O70</pin1name>
+<pin2name>_O109</pin2name>
+</relation>
+<relation>
+<ID>_R118</ID>
+<pin1name>_O70</pin1name>
+<pin2name>_O111</pin2name>
+</relation>
+<codeclip>
+<ID>_C122</ID>
+<x0>304</x0>
+<y0>484</y0>
+<width>296</width>
+<height>166</height>
+<codetext>  long tcp_busy#,top_connection#
+  long tcp_port#
+  long tcon#,tpkt#,tcphdr#
+  long tbuf#,tcallback#
+  long tsize#,tdata#,twindow#
+  long toption#,tmss#
+  long twindow_scale#,thdrlen#
+  long tdst_addr#,tsrc_addr#
+  long tdst_port#,tsrc_port#
+  long tnumber#,tflags#
+</codetext>
+</codeclip>
+<operation>
+<ID>_O124</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>260</x0>
+<y0>190</y0>
+<width>174</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>2</inpinlinkcount>
+<description></description>
+<codetext>tcp_create_connection:
+
+
+  long tsaddr#,tdaddr#,tsport#,tdport#,tstatus#
+  tcallback#= pop tstatus#= pop
+  tdport#=      pop  tsport#= pop
+  tdaddr#=     pop  tsaddr#=
+  
+  &quot;create connection:&quot;, dprint dnl
+  
+  connection.SIZE, malloc tcon#=
+  tcon#, 0, connection.SIZE, memset
+  tcallback#, tcon#, -&gt;connection.callback#=
+  tsaddr#, tcon#, -&gt;connection.src_ipaddr#=
+  tdaddr#, tcon#, -&gt;connection.dst_ipaddr#=
+  tsport#,  tcon#, -&gt;connection.src_port#=
+  tdport#,  tcon#, -&gt;connection.dst_port#=
+  1, tcon#, -&gt;connection.snd_number#=
+  1, tcon#, -&gt;connection.seq_number#=
+  0, tcon#, -&gt;connection.ack_number#=
+  tstatus#, tcon#, -&gt;connection.status#=
+  NULL, tcon#, -&gt;connection.sending#=
+  NULL, tcon#, -&gt;connection.send_queue#=
+  NULL, tcon#, -&gt;connection.recv_queue#=
+  tcon#, -&gt;connection.send_queue  tcon#, -&gt;connection.send_queue_end#=
+  tcon#, -&gt;connection.recv_queue   tcon#, -&gt;connection.recv_queue_end#=
+  0, tcon#, -&gt;connection.tx_busy#=
+
+  NULL, tcon#, -&gt;connection.prev#=
+  top_connection#, tcon#, -&gt;connection.next#=
+  tcon#, top_connection#, -&gt;connection.prev#=
+  tcon#, top_connection#=
+  
+  dprint_connection
+  
+  &quot;create connection:end&quot;, dprint dnl
+  
+  tcon#, end
+
+</codetext>
+</operation>
+<relation>
+<ID>_R125</ID>
+<pin1name>_O97</pin1name>
+<pin2name>_O124</pin2name>
+</relation>
+<relation>
+<ID>_R126</ID>
+<pin1name>_O95</pin1name>
+<pin2name>_O124</pin2name>
+</relation>
+<codeclip>
+<ID>_C128</ID>
+<x0>770</x0>
+<y0>44</y0>
+<width>148</width>
+<height>22</height>
+<codetext>dprint_connection:
+
+     long xxtcon#,xxstatus#
+     xxtcon#=
+     
+     if xxtcon#=NULL then &quot;null connection&quot;, dprint dnl end
+     
+     &quot;con src ipaddr=&quot;, dprint xxtcon#, -&gt;connection.src_ipaddr#  dprint_ipaddr dnl
+     &quot;con dst ipaddr=&quot;, dprint xxtcon#, -&gt;connection.dst_ipaddr# dprint_ipaddr dnl
+     &quot;con src port=&quot;, dprint xxtcon#, -&gt;connection.src_port#  dec dprint dnl
+     &quot;con dst port=&quot;, dprint xxtcon#, -&gt;connection.dst_port# dec dprint dnl
+     &quot;con status=&quot;, dprint
+     xxtcon#, -&gt;connection.status# xxstatus#=
+    if xxstatus#=TCP_CONNECTION_STATUS_CLOSED  then &quot;CLOSED&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_LISTEN  then &quot;LISTEN&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_SYNSENT1  then &quot;SYNSENT1&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_SYNSENT2  then &quot;SYNSENT2&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_SYNRECV  then &quot;SYNRECV&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_ESTAB  then &quot;ESTAB&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_FINWAIT1  then &quot;FINWAIT1&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_FINWAIT2  then &quot;FINWAIT2&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_CLOSEWAIT  then &quot;CLOSEWAIT&quot;, dprint
+    if xxstatus#=TCP_CONNECTION_STATUS_LASTACK  then &quot;LASTACK&quot;, dprint
+    dnl
+     &quot;con sending=&quot;, dprint xxtcon#, -&gt;connection.sending# dec dprint dnl
+     end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C129</ID>
+<x0>773</x0>
+<y0>71</y0>
+<width>149</width>
+<height>22</height>
+<codetext>dprint_tcp_header:
+
+
+
+   long aaahdr#,aaaflg#
+   aaahdr#=
+   &quot;dprint tcp header:&quot;, dprint dnl
+   &quot;src port=&quot;,  dprint aaahdr#, -&gt;tcp_header.src_port get_int16 dec dprint dnl
+   &quot;dst port=&quot;,  dprint aaahdr#, -&gt;tcp_header.dst_port get_int16 dec dprint dnl
+   &quot;seq_number=&quot;,  dprint aaahdr#, -&gt;tcp_header.seq_number get_int32 dec dprint dnl
+   &quot;ack_number=&quot;,  dprint aaahdr#, -&gt;tcp_header.ack_number get_int32 dec dprint dnl
+   &quot;offset=&quot;,  dprint aaahdr#, -&gt;tcp_header.offset$  dec dprint dnl
+   &quot;flags: &quot;, dprint 
+    aaahdr#, -&gt;tcp_header.flags$  aaaflg#=
+  aaaflg#, TCP_HEADER_FLAG_FIN, and tt#=
+  if tt#&lt;&gt;0 then &quot;FIN &quot;, dprint
+  aaaflg#, TCP_HEADER_FLAG_SYN, and tt#=
+  if tt#&lt;&gt;0 then &quot;SYN &quot;, dprint
+  aaaflg#, TCP_HEADER_FLAG_RST, and tt#=
+  if tt#&lt;&gt;0 then &quot;RST &quot;, dprint
+  aaaflg#, TCP_HEADER_FLAG_PSH, and tt#=
+  if tt#&lt;&gt;0 then &quot;PSH &quot;, dprint
+  aaaflg#, TCP_HEADER_FLAG_ACK, and tt#=
+  if tt#&lt;&gt;0 then &quot;ACK &quot;, dprint
+  aaaflg#, TCP_HEADER_FLAG_URG, and tt#=
+  if tt#&lt;&gt;0 then &quot;URG &quot;, dprint
+  aaaflg#, TCP_HEADER_FLAG_ECE, and tt#=
+  if tt#&lt;&gt;0 then &quot;ECE &quot;, dprint
+  aaaflg#, TCP_HEADER_FLAG_CWR, and tt#=
+  if tt#&lt;&gt;0 then &quot;CWR &quot;, dprint
+  dnl
+   &quot;window=&quot;,  dprint aaahdr#, -&gt;tcp_header.window get_int16 dec dprint dnl
+   &quot;checksum=&quot;,  dprint aaahdr#, -&gt;tcp_header.checksum get_int16 dec dprint dnl
+   &quot;urgent=&quot;,  dprint aaahdr#, -&gt;tcp_header.urgent get_int16 dec dprint dnl
+   &quot;dprint tcp header:end&quot;, dprint dnl
+   end
+  
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C131</ID>
+<x0>308</x0>
+<y0>315</y0>
+<width>309</width>
+<height>168</height>
+<codetext> const TCP_HEADER_FLAG_FIN 0x01
+ const TCP_HEADER_FLAG_SYN 0x02
+ const TCP_HEADER_FLAG_RST 0x04
+ const TCP_HEADER_FLAG_PSH 0x08
+ const TCP_HEADER_FLAG_ACK 0x10
+ const TCP_HEADER_FLAG_URG 0x20
+ const TCP_HEADER_FLAG_ECE 0x40
+ const TCP_HEADER_FLAG_CWR 0x80
+ const TCP_HEADER_FLAG_SYNACK 0x12
+ const TCP_HEADER_FLAG_FINACK 0x11
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C132</ID>
+<x0>11</x0>
+<y0>344</y0>
+<width>284</width>
+<height>89</height>
+<codetext> const TCP_OPTION_TYPE_NOP      1
+ const TCP_OPTION_TYPE_MAXSEG   2
+ const TCP_OPTION_TYPE_WINDOW   3
+ const TCP_OPTION_LENGTH_WINDOW 3
+ const TCP_OPTION_LENGTH_MAXSEG 4
+
+</codetext>
+</codeclip>
+<operation>
+<ID>_O133</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>368</x0>
+<y0>136</y0>
+<width>139</width>
+<height>45</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>25</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>25</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>3</inpinlinkcount>
+<description></description>
+<codetext>  tcp_send_signal:
+
+
+
+  tflags#= pop tcon#=
+  
+  &quot;tcp_send_signal:&quot;, dprint dnl
+
+  tcon#, tflags#, 1460, 0, 0, 0, NULL, tcp_create_pkt
+  tcon#, tcp_send_pkt
+
+  &quot;tcp_send_signal:end&quot;, dprint dnl
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R134</ID>
+<pin1name>_O70</pin1name>
+<pin2name>_O133</pin2name>
+</relation>
+<relation>
+<ID>_R135</ID>
+<pin1name>_O97</pin1name>
+<pin2name>_O133</pin2name>
+</relation>
+<relation>
+<ID>_R136</ID>
+<pin1name>_O133</pin1name>
+<pin2name>_O76</pin2name>
+</relation>
+<relation>
+<ID>_R137</ID>
+<pin1name>_O133</pin1name>
+<pin2name>_O108</pin2name>
+</relation>
+<relation>
+<ID>_R138</ID>
+<pin1name>_O99</pin1name>
+<pin2name>_O133</pin2name>
+</relation>
+<relation>
+<ID>_R139</ID>
+<pin1name>_O71</pin1name>
+<pin2name>_O108</pin2name>
+</relation>
+<relation>
+<ID>_R140</ID>
+<pin1name>_O71</pin1name>
+<pin2name>_O76</pin2name>
+</relation>
+<relation>
+<ID>_R141</ID>
+<pin1name>_O70</pin1name>
+<pin2name>_P89</pin2name>
+</relation>
+</xobject>
+<xobject>
+<ID>_X_G29</ID>
+<x0>325</x0>
+<y0>195</y0>
+<width>153</width>
+<height>140</height>
+<objectname>arp</objectname>
+<description></description>
+<ID_maker>92</ID_maker>
+<codeclip>
+<ID>_C37</ID>
+<x0>570</x0>
+<y0>16</y0>
+<width>353</width>
+<height>407</height>
+<codetext> const ARP_HARDWARE_ETHER 0x0100
+ const ARP_OPERATION_REQUEST 0x0100
+ const ARP_OPERATION_REPLY   0x0200
+
+struct arp_header
+  short hardware%
+  short protocol%
+  char  macaddr_size$
+  char  ipaddr_size$
+  short operation%
+  char sender_macaddr$
+  char sender_macaddr1$
+  char sender_macaddr2$
+  char sender_macaddr3$
+  char sender_macaddr4$
+  char sender_macaddr5$
+  int sender_ipaddr!
+  char target_macaddr$
+  char target_macaddr1$
+  char target_macaddr2$
+  char target_macaddr3$
+  char target_macaddr4$
+  char target_macaddr5$
+  int target_ipaddr!
+ end
+</codetext>
+</codeclip>
+<pin>
+<ID>_P38</ID>
+<x0>10</x0>
+<y0>132</y0>
+<width>67</width>
+<height>26</height>
+<text>getaddr()</text>
+<px>83</px>
+<py>105</py>
+</pin>
+<pin>
+<ID>_P39</ID>
+<x0>14</x0>
+<y0>205</y0>
+<width>70</width>
+<height>24</height>
+<text>recved()</text>
+<px>81</px>
+<py>27</py>
+</pin>
+<pin>
+<ID>_P47</ID>
+<x0>16</x0>
+<y0>62</y0>
+<width>60</width>
+<height>30</height>
+<text>init()</text>
+<px>44</px>
+<py>114</py>
+</pin>
+<operation>
+<ID>_O50</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>107</x0>
+<y0>109</y0>
+<width>111</width>
+<height>51</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>31</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>63</outpinx0>
+<outpiny0>31</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>arp_getaddr:
+
+
+  long ip_ad\#,mac_ad\#,ss\#,tt\#
+  ip_ad\#=
+
+  &quot;arp_getaddr:&quot;, dprint
+  &quot; ip=&quot;, dprint ip_ad\#, dprint_ipaddr dnl
+
+  NULL, mac_ad\#=
+  ip_ad\#, 0xffffffff, and ip_ad\#=
+
+  if arp_top_addr#=NULL then   &quot;no addr list&quot;, dprint dnl gotoarp_getaddr2
+//    if arp_top_addr#=NULL goto arp_getaddr2
+
+  arp_top_addr#, tt\#=
+arp_getaddr1:
+  tt\#,  -&gt;addrset.ipaddr# ss\#=
+
+  if ss\#=ip_ad\# then tt\#, -&gt;addrset.macaddr# mac_ad\#= &quot;addr found&quot;, dprint dnl gotoarp_getaddr2
+//    if ss\#=ip_ad\# then tt\#, -&gt;addrset.macaddr# mac_ad\#= gotoarp_getaddr2
+
+  tt\#,  -&gt;addrset.next# ss\#=
+  if ss\#&lt;&gt;NULL goto arp_getaddr1
+
+ &quot;addr not found&quot;, dprint dnl
+
+arp_getaddr2:
+  if mac_ad\#=NULL then ARP_OPERATION_REQUEST, 0xffffffffffff, ip_ad\#, arp_sendpkt
+
+  &quot;arp_getaddr end:&quot;, dprint 
+  &quot; mac=&quot;, dprint mac_ad\#, dprint_macaddr dnl
+
+    mac_ad\#, end
+</codetext>
+</operation>
+<operation>
+<ID>_O51</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>113</x0>
+<y0>184</y0>
+<width>103</width>
+<height>46</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>54</outpinx0>
+<outpiny0>26</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>arp_recv:
+
+
+  long apkt\#,addr\#,arpop\#,arphdr\#,ipaddr\#,tt\#
+  apkt\#=
+
+  &quot;arp_recv:&quot;, dprint dnl
+  apkt\#, display_pkt
+  
+  apkt\#, -&gt;netbuf.top# arphdr\#=
+  arphdr\#, -&gt;arp_header.hardware% tt\#=
+  
+  if tt\#&lt;&gt;ARP_HARDWARE_ETHER then &quot;not ethernet hardware&quot;, dprint dnl gotoarp_recv2
+//    if tt\#&lt;&gt;ARP_HARDWARE_ETHER goto arp_recv2
+
+  arphdr\#, -&gt;arp_header.protocol% tt\#=
+
+  if tt\#&lt;&gt;ETHERNET_TYPE_IP then &quot;not ip protocol&quot;, dprint dnl gotoarp_recv2
+//  if tt\#&lt;&gt;ETHERNET_TYPE_IP goto arp_recv2
+
+  arphdr\#, -&gt;arp_header.operation% arpop\#=
+  if arpop\#=ARP_OPERATION_REPLY goto arp_recv1
+  if arpop\#=ARP_OPERATION_REQUEST goto arp_recv1
+
+  &quot;arp_recv invalid&quot;, dprint dnl
+
+  goto arp_recv2
+
+arp_recv1:
+  arphdr\#, -&gt;arp_header.sender_ipaddr! ipaddr\#=
+  ipaddr\#, arphdr\#, -&gt;arp_header.sender_macaddr# arp_setaddr
+  if arpop\#=ARP_OPERATION_REPLY goto arp_recv2
+  arphdr\#, -&gt;arp_header.target_ipaddr! ipaddr\#=
+  if ipaddr\#&lt;&gt;my_ipaddr# goto arp_recv2
+  ARP_OPERATION_REPLY,
+  arphdr\#, -&gt;arp_header.sender_macaddr#
+  arphdr\#, -&gt;arp_header.sender_ipaddr!
+  arp_sendpkt
+
+arp_recv2:
+  apkt\#, free
+
+  &quot;arp_recv end:&quot;, dprint dnl
+
+  end
+</codetext>
+</operation>
+<operation>
+<ID>_O52</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>282</x0>
+<y0>135</y0>
+<width>103</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>31</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>53</outpinx0>
+<outpiny0>29</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>2</inpinlinkcount>
+<description></description>
+<codetext>arp_sendpkt:
+
+
+
+  long apkt\#,arphdr\#,operation\#,ipaddr\#,macaddr\#
+  ipaddr\#= pop macaddr\#= pop operation\#=
+
+  &quot;arp_sendpkt:&quot;, dprint dnl
+
+  DEFAULT_NETBUF_SIZE, malloc apkt\#=
+  apkt\#, 0, DEFAULT_NETBUF_SIZE, memset
+  arp_header.SIZE, apkt\#, -&gt;netbuf.size#=
+  apkt\#, -&gt;netbuf.data 64, +  arphdr\#= apkt\#, -&gt;netbuf.top#=
+  macaddr\#, apkt\#, -&gt;netbuf.ethernet_addr#=
+  ARP_HARDWARE_ETHER, arphdr\#, -&gt;arp_header.hardware%=
+  ETHERNET_TYPE_IP,         arphdr\#, -&gt;arp_header.protocol%=
+  MACADDR_SIZE,               arphdr\#, -&gt;arp_header.macaddr_size$=
+  IPADDR_SIZE,                   arphdr\#, -&gt;arp_header.ipaddr_size$=
+  operation\#,                    arphdr\#, -&gt;arp_header.operation%=
+  my_macaddr,                  arphdr\#, -&gt;arp_header.sender_macaddr MACADDR_SIZE, memcpy
+  my_ipaddr,                      arphdr\#, -&gt;arp_header.sender_ipaddr    IPADDR_SIZE,      memcpy
+  macaddr\,                       arphdr\#, -&gt;arp_header.target_macaddr  MACADDR_SIZE, memcpy
+  ipaddr\,                          arphdr\#, -&gt;arp_header.target_ipaddr      IPADDR_SIZE,      memcpy
+  ETHERNET_TYPE_ARP, apkt\#, -&gt;netbuf.ethernet_type#=
+  
+  &quot;top=&quot;,  dprint apkt\#, -&gt;netbuf.top#  hex dprint dnl
+  &quot;size=&quot;, dprint apkt\#, -&gt;netbuf.size# dec dprint dnl
+  
+  apkt\#, ethernet_send
+
+  &quot;arp_sendpkt end:&quot;, dprint dnl
+
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R63</ID>
+<pin1name>_O50</pin1name>
+<pin2name>_O52</pin2name>
+</relation>
+<relation>
+<ID>_R66</ID>
+<pin1name>_O51</pin1name>
+<pin2name>_O52</pin2name>
+</relation>
+<pin>
+<ID>_P68</ID>
+<x0>420</x0>
+<y0>182</y0>
+<width>61</width>
+<height>24</height>
+<text>send()</text>
+<px>84</px>
+<py>63</py>
+</pin>
+<relation>
+<ID>_R69</ID>
+<pin1name>_O52</pin1name>
+<pin2name>_P68</pin2name>
+</relation>
+<relation>
+<ID>_R79</ID>
+<pin1name>_P38</pin1name>
+<pin2name>_O50</pin2name>
+</relation>
+<relation>
+<ID>_R80</ID>
+<pin1name>_P39</pin1name>
+<pin2name>_O51</pin2name>
+</relation>
+<codeclip>
+<ID>_C81</ID>
+<x0>394</x0>
+<y0>15</y0>
+<width>161</width>
+<height>108</height>
+<codetext> long arp_top_addr#
+ struct addrset
+   long ipaddr#
+   long macaddr#
+   long next#
+ end
+</codetext>
+</codeclip>
+<operation>
+<ID>_O84</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>283</x0>
+<y0>203</y0>
+<width>104</width>
+<height>49</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>29</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>arp_setaddr:
+
+
+  long mac_ad\#,ip_ad\#,ss\#,tt\#
+  mac_ad\#= pop ip_ad\#=
+
+  &quot;arp_setaddr:&quot;, dprint
+  &quot; mac_addr=&quot;, dprint mac_ad\#, dprint_macaddr
+  &quot;, &quot;, dprint
+  &quot;ip addr=&quot;, dprint ip_ad\#, dprint_ipaddr dnl
+
+
+  mac_ad\#, 0xffffffffffff, and mac_ad\#=
+  ip_ad\#, 0xffffffff, and ip_ad\#=
+  arp_top_addr#, tt\#=
+  if arp_top_addr#&lt;&gt;NULL goto arp_setaddr1
+  addrset.SIZE, malloc arp_top_addr#=
+  ip_ad\#,     arp_top_addr#, -&gt;addrset.ipaddr#=
+  mac_ad\#, arp_top_addr#, -&gt;addrset.macaddr#=
+  NULL,       arp_top_addr#, -&gt;addrset.next#=
+  &quot;new address&quot;, dprint dnl
+  goto arp_setaddr2
+arp_setaddr1:
+  tt\#,  -&gt;addrset.ipaddr# ss\#=
+  
+  if ss\#=ip_ad\# then mac_ad\#, tt\#, -&gt;addrset.macaddr#= &quot;update address&quot;, dprint dnl gotoarp_setaddr2
+//    if ss\#=ip_ad\# then mac_ad\#, tt\#, -&gt;addrset.macaddr#= gotoarp_setaddr2
+
+  tt\#,  -&gt;addrset.next# ss\#=
+  if ss\#&lt;&gt;NULL goto arp_setaddr1
+  &quot;append address&quot;, dprint dnl
+  addrset.SIZE, malloc  ss\#= tt\#, -&gt;addrset.next#=
+  ip_ad\#,     ss\#, -&gt;addrset.ipaddr#=
+  mac_ad\#, ss\#, -&gt;addrset.macaddr#=
+  NULL,         ss\#, -&gt;addrset.next#=
+
+arp_setaddr2:
+
+  &quot;arp_setaddr end:&quot;, dprint dnl
+
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R85</ID>
+<pin1name>_O51</pin1name>
+<pin2name>_O84</pin2name>
+</relation>
+<operation>
+<ID>_O86</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>93</x0>
+<y0>45</y0>
+<width>183</width>
+<height>51</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>30</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>//  &quot;arp init:&quot;, dprint dnl
+
+
+ NULL, arp_top_addr#=
+</codetext>
+</operation>
+<relation>
+<ID>_R87</ID>
+<pin1name>_P47</pin1name>
+<pin2name>_O86</pin2name>
+</relation>
+<operation>
+<ID>_O88</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>119</x0>
+<y0>250</y0>
+<width>104</width>
+<height>50</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>30</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>arp_clraddr:
+
+
+//  &quot;arp_clraddr:&quot;, dprint dnl
+
+  long ss\#,tt\#
+  arp_top_addr#, tt\#=
+arp_clraddr1:
+  if tt\#=NULL goto arp_clraddr2
+  tt\#,  -&gt;addrset.next# ss\#=
+  tt\#, free
+  ss\#, tt\#=
+  goto arp_clraddr1
+arp_clraddr2:
+
+//  &quot;arp_clraddr end:&quot;, dprint dnl
+
+  end
+</codetext>
+</operation>
+<pin>
+<ID>_P89</ID>
+<x0>23</x0>
+<y0>259</y0>
+<width>60</width>
+<height>30</height>
+<text>finish()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R90</ID>
+<pin1name>_P89</pin1name>
+<pin2name>_O88</pin2name>
+</relation>
+</xobject>
+<xobject>
+<ID>_X_G30</ID>
+<x0>522</x0>
+<y0>200</y0>
+<width>147</width>
+<height>151</height>
+<objectname>ethernet</objectname>
+<description></description>
+<ID_maker>71</ID_maker>
+<pin>
+<ID>_P39</ID>
+<x0>5</x0>
+<y0>141</y0>
+<width>73</width>
+<height>25</height>
+<text>recved()</text>
+<px>75</px>
+<py>84</py>
+</pin>
+<pin>
+<ID>_P40</ID>
+<x0>31</x0>
+<y0>76</y0>
+<width>27</width>
+<height>27</height>
+<text>tx()</text>
+<px>19</px>
+<py>77</py>
+</pin>
+<codeclip>
+<ID>_C43</ID>
+<x0>385</x0>
+<y0>3</y0>
+<width>313</width>
+<height>293</height>
+<codetext> const ETHERNET_HEADER_SIZE 14
+ const ETHERNET_TYPE_IP  0x0008
+ const ETHERNET_TYPE_ARP 0x0608
+struct ethernet_header
+  char dst_addr$
+  char dst_addr1$
+  char dst_addr2$
+  char dst_addr3$
+  char dst_addr4$
+  char dst_addr5$
+  char src_addr$
+  char src_addr1$
+  char src_addr2$
+  char src_addr3$
+  char src_addr4$
+  char src_addr5$
+  short type%
+ end
+
+</codetext>
+</codeclip>
+<operation>
+<ID>_O45</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>85</x0>
+<y0>45</y0>
+<width>179</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>29</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>131</outpinx0>
+<outpiny0>29</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>ethernet_send:
+
+
+  long pkt\#,hdr\#
+   pkt\#=
+
+//  &quot;ethernet_send:&quot;, dprint dnl
+//  &quot;top=&quot;,  dprint pkt\#, -&gt;netbuf.top#  hex dprint dnl
+//  &quot;size=&quot;, dprint pkt\#, -&gt;netbuf.size# dec dprint dnl
+//  &quot;addr=&quot;, dprint  pkt\#, -&gt;netbuf.ethernet_addr# dprint_macaddr dnl  
+
+   pkt\#, -&gt;netbuf.top#  ethernet_header.SIZE, -  pkt\#, -&gt;netbuf.top#= 
+   pkt\#, -&gt;netbuf.size# ethernet_header.SIZE, + pkt\#, -&gt;netbuf.size#= 
+   pkt\#, -&gt;netbuf.top#  hdr\#=
+   my_macaddr,  hdr\#, -&gt;ethernet_header.src_addr  MACADDR_SIZE, memcpy
+   pkt\#, -&gt;netbuf.ethernet_addr    hdr\#, -&gt;ethernet_header.dst_addr  MACADDR_SIZE, memcpy
+   pkt\#, -&gt;netbuf.ethernet_type# hdr\#, -&gt;ethernet_header.type%=
+
+//  &quot;top=&quot;,  dprint pkt\#, -&gt;netbuf.top#  hex dprint dnl
+//  &quot;size=&quot;, dprint pkt\#, -&gt;netbuf.size# dec dprint dnl
+
+   pkt\#, netdrv_send
+
+ethernet_send1:
+//  &quot;ethernet_send end:&quot;, dprint dnl
+
+   end
+</codetext>
+</operation>
+<operation>
+<ID>_O46</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>93</x0>
+<y0>122</y0>
+<width>169</width>
+<height>52</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>30</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>123</outpinx0>
+<outpiny0>34</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>ethernet_recved:
+
+
+  long pkt\#,hdr\#,ss\#,tt\#
+  pkt\#=
+
+//  &quot;ethernet_received:&quot;, dprint dnl
+
+  pkt\#, -&gt;netbuf.top# hdr\#=
+  hdr\#, -&gt;ethernet_header.dst_addr# tt\#= 1, and ss\#=
+  if ss\#=0x01 then &quot;multi cast&quot;, dprint dnl gotoethernet_recved1 // マルチキャストの場合
+  tt\#, 0xffffffffffff, and tt\#=
+  if tt\#&lt;&gt;my_macaddr# then &quot;not my mac address:&quot;, dprint dnl gotoethernet_recved2
+ethernet_recved1:
+   hdr\#, -&gt;ethernet_header.src_addr#  pkt\#, -&gt;netbuf.ethernet_addr#=
+   hdr\#, -&gt;ethernet_header.type%        pkt\#, -&gt;netbuf.ethernet_type#=
+   pkt\#, -&gt;netbuf.top#  ethernet_header.SIZE, + pkt\#, -&gt;netbuf.top#= 
+   pkt\#, -&gt;netbuf.size# ethernet_header.SIZE, -  pkt\#, -&gt;netbuf.size#= 
+   hdr\#, -&gt;ethernet_header.type% tt\#=
+   if tt\#=ETHERNET_TYPE_ARP then pkt\#, arp_recv
+   if tt\#=ETHERNET_TYPE_IP    then pkt\#, ip_recv
+
+ethernet_recved2:
+//  &quot;ethernet_received end:&quot;, dprint dnl
+
+   end
+</codetext>
+</operation>
+<pin>
+<ID>_P57</ID>
+<x0>292</x0>
+<y0>78</y0>
+<width>42</width>
+<height>24</height>
+<text>send()</text>
+<px>47</px>
+<py>108</py>
+</pin>
+<pin>
+<ID>_P58</ID>
+<x0>293</x0>
+<y0>150</y0>
+<width>50</width>
+<height>26</height>
+<text>rx_ip()</text>
+<px>4</px>
+<py>128</py>
+</pin>
+<pin>
+<ID>_P59</ID>
+<x0>296</x0>
+<y0>186</y0>
+<width>62</width>
+<height>25</height>
+<text>rx_arp()</text>
+<px>0</px>
+<py>36</py>
+</pin>
+<relation>
+<ID>_R60</ID>
+<pin1name>_O46</pin1name>
+<pin2name>_P58</pin2name>
+</relation>
+<relation>
+<ID>_R61</ID>
+<pin1name>_O46</pin1name>
+<pin2name>_P59</pin2name>
+</relation>
+<relation>
+<ID>_R62</ID>
+<pin1name>_O45</pin1name>
+<pin2name>_P57</pin2name>
+</relation>
+<relation>
+<ID>_R69</ID>
+<pin1name>_P39</pin1name>
+<pin2name>_O46</pin2name>
+</relation>
+<relation>
+<ID>_R70</ID>
+<pin1name>_P40</pin1name>
+<pin2name>_O45</pin2name>
+</relation>
+</xobject>
+<xobject>
+<ID>_X_G32</ID>
+<x0>330</x0>
+<y0>340</y0>
+<width>146</width>
+<height>134</height>
+<objectname>ip</objectname>
+<description></description>
+<ID_maker>81</ID_maker>
+<pin>
+<ID>_P37</ID>
+<x0>45</x0>
+<y0>419</y0>
+<width>60</width>
+<height>30</height>
+<text>recved()</text>
+<px>75</px>
+<py>80</py>
+</pin>
+<pin>
+<ID>_P38</ID>
+<x0>51</x0>
+<y0>340</y0>
+<width>60</width>
+<height>30</height>
+<text>tx()</text>
+<px>21</px>
+<py>110</py>
+</pin>
+<codeclip>
+<ID>_C43</ID>
+<x0>52</x0>
+<y0>6</y0>
+<width>442</width>
+<height>243</height>
+<codetext> const IP_PROTOCOL_ICMP  1
+ const IP_PROTOCOL_TCP   6
+ const IP_PROTOCOL_UDP  17
+ struct ip_header
+   char v_hl$
+   char tos$
+   short length% // IPヘッダ以降のパケットサイズ(IPヘッダを含む)
+   short id%
+   short fragment%
+   char  ttl$
+   char  protocol$
+   short checksum%
+   int src_addr!
+   int dst_addr!
+ end
+
+ const PROTOCOL_MAXNUM IP_PROTOCOL_UDP /* UDPまで利用可能 */
+
+ struct protoinfo
+   long cmd#
+   long client#
+ end
+
+ char _protoinfo$(PROTOCOL_MAXNUM*protoinfo.SIZE)
+
+</codetext>
+</codeclip>
+<pin>
+<ID>_P45</ID>
+<x0>315</x0>
+<y0>359</y0>
+<width>55</width>
+<height>29</height>
+<text>send()</text>
+<px>86</px>
+<py>43</py>
+</pin>
+<pin>
+<ID>_P46</ID>
+<x0>323</x0>
+<y0>537</y0>
+<width>101</width>
+<height>30</height>
+<text>rx_tcp()</text>
+<px>19</px>
+<py>60</py>
+</pin>
+<pin>
+<ID>_P47</ID>
+<x0>322</x0>
+<y0>474</y0>
+<width>99</width>
+<height>29</height>
+<text>rx_udp()</text>
+<px>6</px>
+<py>36</py>
+</pin>
+<pin>
+<ID>_P48</ID>
+<x0>324</x0>
+<y0>420</y0>
+<width>104</width>
+<height>29</height>
+<text>rx_icmp()</text>
+<px>0</px>
+<py>77</py>
+</pin>
+<operation>
+<ID>_O53</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>179</x0>
+<y0>318</y0>
+<width>105</width>
+<height>50</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>32</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>56</outpinx0>
+<outpiny0>32</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>ip_send:
+
+
+
+  long ipkt\#,mac0\#,maci\#,iphdr\#,hdrlen\#
+  ipkt\#=
+
+  &quot;ip_send:&quot;, dprint dnl
+
+  &quot;req addr&quot;, dprint dnl
+  RETRY_COUNT, maci\#=
+ip_send1:
+   maci\#--
+
+   if maci\#&lt;0 then &quot;req addr fault&quot;, dprint dnl gotoip_send2
+//  if maci\#&lt;0 goto ip_send2
+
+   ipkt\#, -&gt;netbuf.ip_addr# arp_getaddr mac0\#=
+   if mac0\#=NULL then 100, wait gotoip_send1
+  &quot;req addr success&quot;, dprint dnl
+   mac0\#, ipkt\#, -&gt;netbuf.ethernet_addr#=
+
+  ip_header.SIZE, hdrlen\#=
+  ipkt\#, -&gt;netbuf.top#  hdrlen\#, -  ipkt\#, -&gt;netbuf.top#=
+  ipkt\#, -&gt;netbuf.size# hdrlen\#, + ipkt\#, -&gt;netbuf.size#=
+  ipkt\#, -&gt;netbuf.top# iphdr\#=
+  hdrlen\#, 4, / 64, or iphdr\#, -&gt;ip_header.v_hl$=
+  0,   iphdr\#, -&gt;ip_header.tos$=
+  ipkt\#, -&gt;netbuf.size# iphdr\#, -&gt;ip_header.length set_int16
+  id#, iphdr\#, -&gt;ip_header.id%= id#++
+  0,     iphdr\#, -&gt;ip_header.fragment set_int16
+  64,   iphdr\#, -&gt;ip_header.ttl$=
+  ipkt\#, -&gt;netbuf.ip_protocol# iphdr\#, -&gt;ip_header.protocol$=
+  my_ipaddr#, iphdr\#, -&gt;ip_header.src_addr!=
+  ipkt\#, -&gt;netbuf.ip_addr# iphdr\#, -&gt;ip_header.dst_addr!=
+  0, iphdr\#, -&gt;ip_header.checksum%=
+  iphdr\#, hdrlen\#, calc_checksum iphdr\#, -&gt;ip_header.checksum set_int16
+  ETHERNET_TYPE_IP, ipkt\#, -&gt;netbuf.ethernet_type#=
+  ipkt\#, ethernet_send
+
+ip_send2:
+//  &quot;ip_send end:&quot;, dprint dnl
+  end
+</codetext>
+</operation>
+<operation>
+<ID>_O54</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>180</x0>
+<y0>402</y0>
+<width>99</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>56</outpinx0>
+<outpiny0>26</outpiny0>
+<outpinwidth>37</outpinwidth>
+<outpinheight>22</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>ip_recv:
+
+
+  long ipkt\#,iphdr\#,hdrlen\#,ss\#,tt\#
+  ipkt\#=
+  &quot;ip_recv:&quot;, dprint dnl
+
+  ipkt\#, -&gt;netbuf.top# iphdr\#=
+  iphdr\#, -&gt;ip_header.v_hl$ 16, / 0x0f, and tt\#=
+
+  if tt\#&lt;&gt;4 then &quot;no ip packet&quot;, dprint dnl gotoip_recv1
+//    if tt\#&lt;&gt;4 goto ip_recv1
+
+  iphdr\#, -&gt;ip_header.dst_addr! tt\#=
+
+  if tt\#&lt;&gt;my_ipaddr# then &quot;not my addr&quot;, dprint dnl gotoip_recv1
+//    if tt\#&lt;&gt;my_ipaddr# goto ip_recv1
+
+  iphdr\#, -&gt;ip_header.v_hl$ 0x0f, and 4, * hdrlen\#=
+  
+  &quot;ip header length=&quot;, dprint hdrlen\#, dec dprint dnl
+  
+  iphdr\#,  hdrlen\#, + ipkt\#, -&gt;netbuf.top#=
+  ipkt\#, -&gt;netbuf.size# ss\#=
+  iphdr\#, -&gt;ip_header.length get_int16 tt\#=
+  if ss\#&gt;tt\# then tt\#, ss\#=
+  
+  &quot;ip pkt size=&quot;, dprint ss\#, dec dprint dnl
+  
+  ss\#,  hdrlen\#,  -  ipkt\#, -&gt;netbuf.size#=
+
+  iphdr\#, -&gt;ip_header.src_addr!            ipkt\#, -&gt;netbuf.ip_addr#=
+  iphdr\#, -&gt;ip_header.protocol$ tt\#= ipkt\#, -&gt;netbuf.ip_protocol#=
+
+  if tt\#=IP_PROTOCOL_ICMP then  ipkt\#, icmp_recv
+
+  if tt\#&lt;&gt;IP_PROTOCOL_TCP goto ip_recvxx2
+ip_recvxx1:
+   if tcp_busy#&gt;0 then sync gotoip_recvxx1
+   ipkt\#, tcp_recv
+   goto ip_recv1
+
+ip_recvxx2:
+  if tt\#&lt;&gt;IP_PROTOCOL_UDP goto ip_recv1
+ip_recvxx3:
+   if udp_busy#&gt;0 then sync gotoip_recvxx3
+   ipkt\#, udp_recv
+
+ip_recv1:
+
+  &quot;ip_recv end:&quot;, dprint dnl
+
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R62</ID>
+<pin1name>_O53</pin1name>
+<pin2name>_P45</pin2name>
+</relation>
+<relation>
+<ID>_R63</ID>
+<pin1name>_O54</pin1name>
+<pin2name>_P48</pin2name>
+</relation>
+<relation>
+<ID>_R64</ID>
+<pin1name>_O54</pin1name>
+<pin2name>_P47</pin2name>
+</relation>
+<relation>
+<ID>_R65</ID>
+<pin1name>_O54</pin1name>
+<pin2name>_P46</pin2name>
+</relation>
+<relation>
+<ID>_R70</ID>
+<pin1name>_P38</pin1name>
+<pin2name>_O53</pin2name>
+</relation>
+<relation>
+<ID>_R71</ID>
+<pin1name>_P37</pin1name>
+<pin2name>_O54</pin2name>
+</relation>
+<codeclip>
+<ID>_C74</ID>
+<x0>161</x0>
+<y0>286</y0>
+<width>110</width>
+<height>23</height>
+<codetext>id: data 0
+</codetext>
+</codeclip>
+<pin>
+<ID>_P77</ID>
+<x0>318</x0>
+<y0>305</y0>
+<width>60</width>
+<height>30</height>
+<text>getaddr()</text>
+<px>75</px>
+<py>5</py>
+</pin>
+<relation>
+<ID>_R78</ID>
+<pin1name>_O53</pin1name>
+<pin2name>_P77</pin2name>
+</relation>
+<codeclip>
+<ID>_C80</ID>
+<x0>129</x0>
+<y0>259</y0>
+<width>198</width>
+<height>22</height>
+<codetext> const RETRY_COUNT 10</codetext>
+</codeclip>
+</xobject>
+<xobject>
+<ID>_X_G35</ID>
+<x0>142</x0>
+<y0>483</y0>
+<width>169</width>
+<height>94</height>
+<objectname>icmp</objectname>
+<description></description>
+<ID_maker>86</ID_maker>
+<pin>
+<ID>_P39</ID>
+<x0>51</x0>
+<y0>202</y0>
+<width>74</width>
+<height>31</height>
+<text>recved()</text>
+<px>70</px>
+<py>21</py>
+</pin>
+<codeclip>
+<ID>_C43</ID>
+<x0>44</x0>
+<y0>22</y0>
+<width>273</width>
+<height>148</height>
+<codetext> const ICMP_TYPE_REPLY   0
+ const ICMP_TYPE_REQUEST 8
+ struct icmp_header
+   char type$
+   char code$
+   short checksum%
+   short param_id%
+   short param_sequence_number%
+ end
+
+</codetext>
+</codeclip>
+<pin>
+<ID>_P44</ID>
+<x0>539</x0>
+<y0>298</y0>
+<width>60</width>
+<height>30</height>
+<text>send()</text>
+<px>91</px>
+<py>48</py>
+</pin>
+<operation>
+<ID>_O48</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>184</x0>
+<y0>191</y0>
+<width>95</width>
+<height>46</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>47</outpinx0>
+<outpiny0>26</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>icmp_recv:
+
+
+
+  long icmp_pkt\#,icmp_hdr\#,tt\#
+  icmp_pkt\#=
+
+  &quot;icmp_recv:&quot;, dprint dnl
+
+  icmp_pkt\#, -&gt;netbuf.top# icmp_hdr\#=
+
+
+  &quot;icmp recved: &quot;, dprint 
+  icmp_hdr\#, -&gt;icmp_header.type$           hex dprint &quot;  &quot;,  dprint
+  icmp_hdr\#, -&gt;icmp_header.code$          hex dprint &quot;  &quot;,  dprint
+  icmp_hdr\#, -&gt;icmp_header.checksum% hex dprint dnl
+
+  icmp_hdr\#, -&gt;icmp_header.type$ tt\#=
+  if tt\#=ICMP_TYPE_REQUEST then icmp_pkt\#, icmp_sendpkt gotoicmp_recv1
+  if tt\#=ICMP_TYPE_REPLY then icmp_pkt\#, @icmp_callback
+  icmp_pkt\#, free
+icmp_recv1:
+  &quot;icmp_recv:end&quot;, dprint dnl
+
+  end
+  
+</codetext>
+</operation>
+<operation>
+<ID>_O49</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>329</x0>
+<y0>252</y0>
+<width>113</width>
+<height>46</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>63</outpinx0>
+<outpiny0>27</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>2</inpinlinkcount>
+<description></description>
+<codetext>icmp_sendpkt:
+
+
+
+  long icmp_pkt\#,icmp_hdr\#
+  icmp_pkt\#=  
+
+  &quot;icmp_sendpkt:&quot;, dprint dnl
+  icmp_pkt\#, -&gt;netbuf.top# icmp_hdr\#=
+
+  &quot;size=&quot;, dprint icmp_pkt\#, -&gt;netbuf.size# dec dprint dnl
+  &quot;code=&quot;, dprint  icmp_hdr\#, -&gt;icmp_header.code$ dec dprint dnl
+  &quot;param_id=&quot;, dprint icmp_hdr\#, -&gt;icmp_header.param_id%  dec dprint dnl
+  &quot;param_sequence_number=&quot;, dprint icmp_hdr\#, -&gt;icmp_header.param_sequence_number%  dec dprint dnl
+
+  ICMP_TYPE_REPLY,   icmp_hdr\#, -&gt;icmp_header.type$=
+  0, icmp_hdr\#, -&gt;icmp_header.checksum%=
+  icmp_hdr\#,  icmp_pkt\#, -&gt;netbuf.size#  calc_checksum icmp_hdr\#, -&gt;icmp_header.checksum  set_int16 
+
+  IP_PROTOCOL_ICMP, icmp_pkt\#, -&gt;netbuf.ip_protocol#=
+  icmp_pkt\#, ip_send
+
+//  &quot;icmp_sendpkt:end&quot;, dprint dnl
+
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R58</ID>
+<pin1name>_O49</pin1name>
+<pin2name>_P44</pin2name>
+</relation>
+<relation>
+<ID>_R63</ID>
+<pin1name>_P39</pin1name>
+<pin2name>_O48</pin2name>
+</relation>
+<pin>
+<ID>_P69</ID>
+<x0>349</x0>
+<y0>184</y0>
+<width>60</width>
+<height>30</height>
+<text>rx()</text>
+<px>0</px>
+<py>34</py>
+</pin>
+<relation>
+<ID>_R70</ID>
+<pin1name>_O48</pin1name>
+<pin2name>_P69</pin2name>
+</relation>
+<codeclip>
+<ID>_C71</ID>
+<x0>333</x0>
+<y0>13</y0>
+<width>167</width>
+<height>20</height>
+<codetext>  long icmp_callback#
+</codetext>
+</codeclip>
+<pin>
+<ID>_P72</ID>
+<x0>54</x0>
+<y0>312</y0>
+<width>60</width>
+<height>30</height>
+<text>ping()</text>
+<px>2</px>
+<py>55</py>
+</pin>
+<operation>
+<ID>_O73</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>188</x0>
+<y0>294</y0>
+<width>101</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>53</outpinx0>
+<outpiny0>26</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>icmp_ping:
+</codetext>
+</operation>
+<relation>
+<ID>_R74</ID>
+<pin1name>_P72</pin1name>
+<pin2name>_O73</pin2name>
+</relation>
+<relation>
+<ID>_R75</ID>
+<pin1name>_O73</pin1name>
+<pin2name>_O49</pin2name>
+</relation>
+<pin>
+<ID>_P76</ID>
+<x0>66</x0>
+<y0>396</y0>
+<width>89</width>
+<height>29</height>
+<text>set_callback()</text>
+<px>0</px>
+<py>73</py>
+</pin>
+<pin>
+<ID>_P77</ID>
+<x0>68</x0>
+<y0>475</y0>
+<width>60</width>
+<height>30</height>
+<text>init()</text>
+<px>127</px>
+<py>68</py>
+</pin>
+<operation>
+<ID>_O78</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>216</x0>
+<y0>450</y0>
+<width>187</width>
+<height>49</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>30</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext> nop, icmp_callback#=
+</codetext>
+</operation>
+<relation>
+<ID>_R79</ID>
+<pin1name>_P77</pin1name>
+<pin2name>_O78</pin2name>
+</relation>
+<operation>
+<ID>_O80</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>222</x0>
+<y0>371</y0>
+<width>131</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext> icmp_callback#=
+</codetext>
+</operation>
+<relation>
+<ID>_R81</ID>
+<pin1name>_P76</pin1name>
+<pin2name>_O80</pin2name>
+</relation>
+<relation>
+<ID>_R85</ID>
+<pin1name>_O48</pin1name>
+<pin2name>_O49</pin2name>
+</relation>
+</xobject>
+<xobject>
+<ID>_X_G36</ID>
+<x0>143</x0>
+<y0>130</y0>
+<width>168</width>
+<height>158</height>
+<objectname>udp</objectname>
+<description></description>
+<ID_maker>97</ID_maker>
+<pin>
+<ID>_P37</ID>
+<x0>14</x0>
+<y0>42</y0>
+<width>60</width>
+<height>30</height>
+<text>init()</text>
+<px>125</px>
+<py>75</py>
+</pin>
+<pin>
+<ID>_P39</ID>
+<x0>27</x0>
+<y0>283</y0>
+<width>60</width>
+<height>30</height>
+<text>regport()</text>
+<px>0</px>
+<py>101</py>
+</pin>
+<pin>
+<ID>_P40</ID>
+<x0>34</x0>
+<y0>344</y0>
+<width>60</width>
+<height>30</height>
+<text>relport()</text>
+<px>2</px>
+<py>121</py>
+</pin>
+<pin>
+<ID>_P41</ID>
+<x0>22</x0>
+<y0>139</y0>
+<width>60</width>
+<height>30</height>
+<text>recved()</text>
+<px>55</px>
+<py>83</py>
+</pin>
+<pin>
+<ID>_P42</ID>
+<x0>24</x0>
+<y0>208</y0>
+<width>29</width>
+<height>27</height>
+<text>tx()</text>
+<px>9</px>
+<py>68</py>
+</pin>
+<codeclip>
+<ID>_C51</ID>
+<x0>478</x0>
+<y0>8</y0>
+<width>188</width>
+<height>117</height>
+<codetext>  long udphdr#,uhdrlen#
+  struct udp_header
+    short src_port%
+    short dst_port%
+    short length%
+    short checksum%
+  end
+</codetext>
+</codeclip>
+<pin>
+<ID>_P52</ID>
+<x0>409</x0>
+<y0>247</y0>
+<width>60</width>
+<height>30</height>
+<text>send()</text>
+<px>57</px>
+<py>134</py>
+</pin>
+<operation>
+<ID>_O55</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>126</x0>
+<y0>189</y0>
+<width>92</width>
+<height>49</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>31</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>42</outpinx0>
+<outpiny0>30</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>udp_send:
+
+
+
+
+  ubuf#=
+//  udp_busy#++
+  
+  &quot;udp_send:&quot;, dprint dnl
+
+  ubuf#, -&gt;netbuf.udp_send_src_port#
+  ubuf#, -&gt;netbuf.udp_send_dst_port#
+  ubuf#, -&gt;netbuf.size#
+  ubuf#, -&gt;netbuf.top#
+  udp_makepkt upkt#=
+  if upkt#=NULL then &quot;no packet&quot;, dprint dnl gotoudp_send1
+  upkt#, my_ipaddr#, ubuf#, -&gt;netbuf.udp_send_addr# udp_sendpkt
+udp_send1:
+
+  &quot;udp_send:&quot;, dprint dnl
+  
+//  udp_busy#--
+  
+  end
+</codetext>
+</operation>
+<operation>
+<ID>_O56</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>122</x0>
+<y0>102</y0>
+<width>108</width>
+<height>45</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>57</outpinx0>
+<outpiny0>26</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>udp_recv:
+
+
+
+  upkt#=
+//  udp_busy#++
+
+  &quot;udp_recv:&quot;, dprint dnl
+
+  upkt#, -&gt;netbuf.top# udphdr#=
+  0,
+  upkt#, -&gt;netbuf.ip_addr#
+  udphdr#, -&gt;udp_header.dst_port%
+  udphdr#, -&gt;udp_header.src_port%
+  udp_get_portinfo pinfo#=
+  if pinfo#&lt;&gt;NULL goto udp_recv1
+    0, 0, udphdr#, -&gt;udp_header.dst_port% 0, udp_get_portinfo pinfo#=
+    goto udp_recv2
+  udp_recv1:
+  pinfo#, -&gt;portinfo.callback# ucallback#=
+  upkt#, -&gt;netbuf.top#  udp_header.SIZE, + upkt#, -&gt;netbuf.top#=
+  upkt#, -&gt;netbuf.size# udp_header.SIZE,  -  upkt#, -&gt;netbuf.size#=
+  udphdr#, -&gt;udp_header.src_port% upkt#, -&gt;netbuf.udp_recv_port#=
+  upkt#,  @ucallback
+
+udp_recv2:
+
+  &quot;udp_recv:end&quot;, dprint dnl
+//  udp_busy#--
+
+  end  
+</codetext>
+</operation>
+<operation>
+<ID>_O63</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>277</x0>
+<y0>231</y0>
+<width>104</width>
+<height>46</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>42</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>59</outpinx0>
+<outpiny0>27</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>udp_sendpkt:
+
+
+
+
+  long udp_src_adr#,udp_dst_adr#
+  udp_dst_adr#= pop udp_src_adr#= pop upkt#=
+
+  &quot;udp_sendpkt:&quot;, dprint dnl
+
+  upkt#, -&gt;netbuf.top# udphdr#=
+  
+  udp_src_adr#, udp_dst_adr#, IP_PROTOCOL_UDP, upkt#, -&gt;netbuf.size# calc_pseudosum
+  udphdr#, -&gt;udp_header.checksum%=
+  
+  0, udphdr#, -&gt;udp_header.checksum%=
+  udphdr#,  upkt#, -&gt;netbuf.size#  calc_checksum  udphdr#, -&gt;udp_header.checksum set_int16
+
+  IP_PROTOCOL_UDP, upkt#, -&gt;netbuf.ip_protocol#=
+  udp_dst_adr#, upkt#, -&gt;netbuf.ip_addr#=
+  upkt#, ip_send
+
+  &quot;udp_sendpkt:end&quot;, dprint dnl
+
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R64</ID>
+<pin1name>_O55</pin1name>
+<pin2name>_O63</pin2name>
+</relation>
+<relation>
+<ID>_R65</ID>
+<pin1name>_O63</pin1name>
+<pin2name>_P52</pin2name>
+</relation>
+<pin>
+<ID>_P69</ID>
+<x0>273</x0>
+<y0>145</y0>
+<width>40</width>
+<height>26</height>
+<text>rx()</text>
+<px>10</px>
+<py>43</py>
+</pin>
+<relation>
+<ID>_R70</ID>
+<pin1name>_O56</pin1name>
+<pin2name>_P69</pin2name>
+</relation>
+<codeclip>
+<ID>_C75</ID>
+<x0>478</x0>
+<y0>129</y0>
+<width>228</width>
+<height>166</height>
+<codetext>  long top_portinfo#,pinfo#
+  struct portinfo
+   long callback#
+   long src_addr#
+   long dst_addr#
+   long src_port#
+   long dst_port#
+   long prev#
+   long next#
+  end
+</codetext>
+</codeclip>
+<relation>
+<ID>_R76</ID>
+<pin1name>_P41</pin1name>
+<pin2name>_O56</pin2name>
+</relation>
+<relation>
+<ID>_R77</ID>
+<pin1name>_P42</pin1name>
+<pin2name>_O55</pin2name>
+</relation>
+<operation>
+<ID>_O78</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>130</x0>
+<y0>264</y0>
+<width>107</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>39</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>udp_regport:
+
+
+
+
+  ubuf#=
+//  udp_busy#++
+  
+  &quot;udp_regport:&quot;, dprint dnl
+
+  portinfo.SIZE, malloc pinfo#=
+  portinfo.SIZE, 0, memset
+  ubuf#, -&gt;netbuf.udp_callback#             pinfo#, -&gt;portinfo.callback#=
+  my_ipaddr#,                                            pinfo#, -&gt;portinfo.src_addr#=
+  ubuf#, -&gt;netbuf.udp_regport_addr#      pinfo#, -&gt;portinfo.dst_addr#=
+  ubuf#, -&gt;netbuf.udp_regport_src_port# pinfo#, -&gt;portinfo.src_port#=
+  ubuf#, -&gt;netbuf.udp_regport_dst_port# pinfo#, -&gt;portinfo.dst_port#=
+  NULL, pinfo#, -&gt;portinfo.prev#=
+  top_portinfo#, pinfo#, -&gt;portinfo.next#=
+  pinfo#, top_portinfo#, -&gt;portinfo.prev#=
+  pinfo#, top_portinfo#=
+
+  &quot;udp_regport:end&quot;, dprint dnl
+  
+//  udp_busy#--
+  
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R79</ID>
+<pin1name>_P39</pin1name>
+<pin2name>_O78</pin2name>
+</relation>
+<operation>
+<ID>_O80</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>136</x0>
+<y0>323</y0>
+<width>103</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>54</outpinx0>
+<outpiny0>29</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>udp_relport:
+
+
+
+    ubuf#=
+  
+//  udp_busy#++
+  
+  &quot;udp_relport:&quot;, dprint dnl
+
+    ubuf#, -&gt;netbuf.udp_relport_port# udp_delete_portinfo
+
+  &quot;udp_relport:end&quot;, dprint dnl
+
+//    udp_busy#--
+    
+    end
+</codetext>
+</operation>
+<relation>
+<ID>_R81</ID>
+<pin1name>_P40</pin1name>
+<pin2name>_O80</pin2name>
+</relation>
+<operation>
+<ID>_O85</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>115</x0>
+<y0>24</y0>
+<width>164</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>  &quot;udp_init:&quot;, dprint dnl
+
+
+
+  NULL, top_portinfo#=
+  0, udp_busy#=
+  
+</codetext>
+</operation>
+<relation>
+<ID>_R86</ID>
+<pin1name>_P37</pin1name>
+<pin2name>_O85</pin2name>
+</relation>
+<pin>
+<ID>_P87</ID>
+<x0>38</x0>
+<y0>416</y0>
+<width>60</width>
+<height>30</height>
+<text>finish()</text>
+<px>84</px>
+<py>14</py>
+</pin>
+<operation>
+<ID>_O88</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>137</x0>
+<y0>398</y0>
+<width>117</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>29</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>clear_portinfo:
+
+
+
+  &quot;clear_portinfo:&quot;, dprint dnl
+
+//  udp_busy#++
+  
+  if top_portinfo#=NULL then end
+  top_portinfo#, tt#=
+clear_portinfo1:
+  tt#, -&gt;portinfo.next# ss#=
+  tt#, free
+  ss#, tt#=
+  if tt#&lt;&gt;NULL goto clear_portinfo1
+  NULL, top_portinfo#=
+
+  &quot;clear_portinfo:end&quot;, dprint dnl
+  
+//  udp_busy#--
+  
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R89</ID>
+<pin1name>_P87</pin1name>
+<pin2name>_O88</pin2name>
+</relation>
+<operation>
+<ID>_O90</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>273</x0>
+<y0>175</y0>
+<width>105</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>udp_makepkt:
+
+
+  udata#= pop usize#= pop udst_port#= pop usrc_port#= 
+
+  &quot;udp_makepkt:&quot;, dprint dnl
+
+  udp_header.SIZE, uhdrlen#=
+  DEFAULT_NETBUF_SIZE, malloc upkt#=
+  upkt#, 0, DEFAULT_NETBUF_SIZE, memset
+  upkt#, -&gt;netbuf.data 64, + upkt#, -&gt;netbuf.top#=
+  upkt#, -&gt;netbuf.top# udphdr#=
+  usrc_port#, udphdr#, -&gt;udp_header.src_port set_int16
+  udst_port#, udphdr#, -&gt;udp_header.dst_port set_int16
+  uhdrlen#, usize#, + udphdr#, -&gt;udp_header.length set_int16
+  if udata#&lt;&gt;NULL then udphdr#, uhdrlen#, + udata#, usize#, memcpy
+  uhdrlen#, usize#, + upkt#, -&gt;netbuf.size#=
+
+  &quot;udp_makepkt:end&quot;, dprint dnl
+
+  upkt#, end
+</codetext>
+</operation>
+<relation>
+<ID>_R91</ID>
+<pin1name>_O55</pin1name>
+<pin2name>_O90</pin2name>
+</relation>
+<operation>
+<ID>_O92</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>268</x0>
+<y0>88</y0>
+<width>153</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>udp_get_portinfo:
+
+
+  udst_port#= pop usrc_port#= pop udst_addr#= pop usrc_addr#=
+
+  &quot;udp_get_portinfo:&quot;, dprint dnl
+
+  if top_portinfo#=NULL then NULL, end
+  top_portinfo#, tt#=  
+udp_get_portinfo1:
+  tt#, -&gt;portinfo.src_addr# ss#=
+  if usrc_addr#&lt;&gt;0 then if ss#&lt;&gt;usrc_addr# goto udp_get_portinfo2
+  tt#, -&gt;portinfo.dst_addr# ss#=
+  if udst_addr#&lt;&gt;0 then if ss#&lt;&gt;udst_addr# goto udp_get_portinfo2
+  tt#, -&gt;portinfo.src_port# ss#=
+  if usrc_port#&lt;&gt;0 then if ss#&lt;&gt;usrc_port# goto udp_get_portinfo2
+  tt#, -&gt;portinfo.dst_port# ss#=
+  if udst_port#&lt;&gt;0 then if ss#&lt;&gt;udst_port# goto udp_get_portinfo2
+
+  &quot;udp_get_portinfo:portinfo found, end&quot;, dprint dnl
+
+  tt#, end
+udp_get_portinfo2:
+  tt#, -&gt;portinfo.next# tt#=
+  if tt#&lt;&gt;NULL goto udp_get_portinfo1
+
+  &quot;udp_get_portinfo:portinfo not found, end&quot;, dprint dnl
+
+  NULL, end
+</codetext>
+</operation>
+<relation>
+<ID>_R93</ID>
+<pin1name>_O56</pin1name>
+<pin2name>_O92</pin2name>
+</relation>
+<operation>
+<ID>_O94</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>272</x0>
+<y0>326</y0>
+<width>151</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>udp_delete_portinfo:
+
+
+  long uport#
+  uport#=
+
+  &quot;udp_delete_portinfo:&quot;, dprint dnl
+
+  if top_portinfo#=NULL goto udp_delete_portinfo3
+  top_portinfo#, tt#=
+udp_delete_portinfo1:
+  tt#,  -&gt;portinfo.src_port# ss#=
+  if ss#&lt;&gt;uport# goto udp_delete_portinfo2
+  tt#,  -&gt;portinfo.prev# pp#=
+  tt#,  -&gt;portinfo.next# qq#=
+  if tt#=top_portinfo# then qq#, top_portinfo#=
+  if pp#&lt;&gt;NULL then qq#, pp#, -&gt;portinfo.next#= 
+  if qq#&lt;&gt;NULL then pp#, qq#, -&gt;portinfo.prev#= 
+  tt#, free
+
+  &quot;udp_delete_portinfo:success, end&quot;, dprint dnl
+
+  0, end
+  
+udp_delete_portinfo2:
+  tt#,  -&gt;portinfo.next# tt#=
+  if tt#&lt;&gt;NULL goto udp_delete_portinfo1
+udp_delete_portinfo3:
+
+  &quot;udp_delete_portinfo:fault, end&quot;, dprint dnl
+
+  -1, end
+</codetext>
+</operation>
+<relation>
+<ID>_R95</ID>
+<pin1name>_O80</pin1name>
+<pin2name>_O94</pin2name>
+</relation>
+<codeclip>
+<ID>_C96</ID>
+<x0>481</x0>
+<y0>314</y0>
+<width>303</width>
+<height>71</height>
+<codetext>  long usrc_port#,udst_port#,usize#,udata#
+  long uprotocol#,udst_addr#,usrc_addr#
+  long ubuf#,upkt#,ucallback#
+  long udp_busy#
+</codetext>
+</codeclip>
+</xobject>
+<xobject>
+<ID>_X_G37</ID>
+<x0>491</x0>
+<y0>389</y0>
+<width>167</width>
+<height>60</height>
+<objectname>netdrv</objectname>
+<description></description>
+<ID_maker>118</ID_maker>
+<pin>
+<ID>_P39</ID>
+<x0>14</x0>
+<y0>174</y0>
+<width>60</width>
+<height>30</height>
+<text>init()</text>
+<px>10</px>
+<py>41</py>
+</pin>
+<pin>
+<ID>_P40</ID>
+<x0>11</x0>
+<y0>248</y0>
+<width>60</width>
+<height>30</height>
+<text>tx()</text>
+<px>85</px>
+<py>9</py>
+</pin>
+<codeclip>
+<ID>_C48</ID>
+<x0>195</x0>
+<y0>11</y0>
+<width>422</width>
+<height>119</height>
+<codetext> long netdrv_sp#,netdrv_stack#
+ char netdrv_task$(TCB.SIZE)
+  long locate_handle#,snp_protocol#
+  long _snp_start#,_snp_stop#,_snp_initialise#,_snp_reset#
+  long _snp_transmit#,_snp_receive#,_snp_shutdown#
+  long _snp_statistics#,_snp_get_status#
+  long tx_status#,tx_buf#</codetext>
+</codeclip>
+<pin>
+<ID>_P63</ID>
+<x0>15</x0>
+<y0>354</y0>
+<width>72</width>
+<height>28</height>
+<text>rx()</text>
+<px>124</px>
+<py>11</py>
+</pin>
+<operation>
+<ID>_O88</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>122</x0>
+<y0>139</y0>
+<width>223</width>
+<height>62</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>44</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>174</outpinx0>
+<outpiny0>41</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>  // パケット受信タスクを生成する
+netdrv_init:
+
+
+
+// &quot;netdrv_init:&quot;, dprint dnl
+
+  const DRIVER_STACK_SIZE 16384
+  snp_protocol_guid, snp_protocol, locate_protocol
+
+  snp_protocol#, -&gt;SNP.Start# _snp_start#=
+  snp_protocol#, -&gt;SNP.Stop# _snp_stop#=
+  snp_protocol#, -&gt;SNP.Initialise# _snp_initialise#=
+  snp_protocol#, -&gt;SNP.Reset# _snp_reset#=
+  snp_protocol#, -&gt;SNP.Statistics# _snp_statistics#=
+  snp_protocol#, -&gt;SNP.GetStatus# _snp_get_status#=
+  snp_protocol#, -&gt;SNP.Shutdown# _snp_shutdown#=
+  snp_protocol#, -&gt;SNP.Transmit# _snp_transmit#=
+  snp_protocol#, -&gt;SNP.Receive# _snp_receive#=
+
+
+  tx_status, tx_buf, snp_get_status 
+  &quot;get_status=&quot;, dprint tt#, hex dprint dnl
+
+//  snp_clr_statistics
+//  snp_reset
+
+  DRIVER_STACK_SIZE, malloc netdrv_stack#= DRIVER_STACK_SIZE-8, + netdrv_sp#=
+  netdrv_task, netdrv_recv, netdrv_sp#, create_task
+  &quot;*netdrv&quot;, netdrv_task, -&gt;TCB.cmd_line#=
+  netdrv_task, run_task
+
+// &quot;netdrv_init end:&quot;, dprint dnl
+  end
+</codetext>
+</operation>
+<operation>
+<ID>_O90</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>123</x0>
+<y0>236</y0>
+<width>136</width>
+<height>64</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>43</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>150</outpinx0>
+<outpiny0>43</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// パケットを送信
+netdrv_send:
+
+
+  long pkt\#,len\#,ss\#,tt\#
+  
+  pkt\#=
+  if pkt\#=NULL then end
+
+   pkt\#, -&gt;netbuf.size# len\#=
+   if len\#&lt;64 then 64, len\#=
+
+  &quot;netdrv_send=&quot;, dprint len\#,  dec dprint dnl
+  pkt\#, display_pkt
+
+netdrv_send1:
+   pkt\#, -&gt;netbuf.top# len\#, snp_transmit ss\#=
+   tx_status, tx_buf, snp_get_status tt\#= 
+   
+   &quot;tranmit=0x&quot;, dprint ss\#, hex dprint dnl
+   &quot;get status=0x&quot;, dprint tt\#, hex dprint dnl  
+   
+   pkt\#, free
+
+    &quot;netdrv_send: end&quot;, dprint dnl 
+
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R91</ID>
+<pin1name>_P40</pin1name>
+<pin2name>_O90</pin2name>
+</relation>
+<operation>
+<ID>_O95</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>116</x0>
+<y0>341</y0>
+<width>148</width>
+<height>65</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>114</inpinx0>
+<inpiny0>42</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>0</outpinx0>
+<outpiny0>45</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>0</inpinlinkcount>
+<description></description>
+<codetext>// パケット受信ループ
+netdrv_recv:
+
+
+
+//  &quot;netdrv_recv:&quot;, dprint dnl
+   long pkt\#,tt\#
+
+   DEFAULT_NETBUF_SIZE, malloc pkt\#=
+   0, DEFAULT_NETBUF_SIZE, memset
+   pkt\#, -&gt;netbuf.data pkt\#, -&gt;netbuf.top#=
+   1024, pkt\#, -&gt;netbuf.size#=
+netdrv_recv_loop:
+   pkt\#, -&gt;netbuf.top#  pkt\#, -&gt;netbuf.size snp_receive tt\#=
+   
+   
+//   tt\#, hex dprint dnl
+   
+   
+   if tt\#=0 goto netdrv_recv_success
+   if tt\#=0x8000000000000005 goto netdrv_recv_success
+   sync 
+   goto netdrv_recv_loop
+
+
+netdrv_recv_success:
+
+  &quot;netdrv_recved: &quot;, dprint dnl
+  pkt\#, display_pkt
+
+   pkt\#, ethernet_recved
+   sync
+   goto netdrv_recv
+</codetext>
+</operation>
+<relation>
+<ID>_R97</ID>
+<pin1name>_O95</pin1name>
+<pin2name>_P63</pin2name>
+</relation>
+<relation>
+<ID>_R98</ID>
+<pin1name>_P39</pin1name>
+<pin2name>_O88</pin2name>
+</relation>
+<codeclip>
+<ID>_C103</ID>
+<x0>706</x0>
+<y0>155</y0>
+<width>194</width>
+<height>294</height>
+<codetext>  struct SNP
+  long Revision#
+  long Start#
+  long Stop#
+  long Initialise#
+  long Reset#
+  long Shutdown#
+  long ReceiveFilters#
+  long StationAddress#
+  long Statistics#
+  long MCastIpToMac#
+  long NvData#
+  long GetStatus#
+  long Transmit#
+  long Receive#
+  long WaitForPacket#
+  long Mode#
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C104</ID>
+<x0>628</x0>
+<y0>52</y0>
+<width>230</width>
+<height>71</height>
+<codetext>  .data
+snp_protocol_guid:
+  data 0x11d3ac25a19832b9
+  data 0x4dc13f2790002d9a
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C105</ID>
+<x0>456</x0>
+<y0>300</y0>
+<width>116</width>
+<height>21</height>
+<codetext>snp_transmit:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=0/
+/ r8=rdi/
+/ r9=rsi/
+/ rdi=0/
+/ 0x20(rsp)=rdi/
+/ 0x28(rsp)=rdi/
+/ 0x30(rsp)=rdi/
+/ rax=_snp_transmit/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C106</ID>
+<x0>455</x0>
+<y0>324</y0>
+<width>107</width>
+<height>20</height>
+<codetext>snp_receive:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=0/
+/ r8=rdi/
+/ r9=rsi/
+/ rdi=0/
+/ 0x20(rsp)=rdi/
+/ 0x28(rsp)=rdi/
+/ 0x30(rsp)=rdi/
+/ rax=_snp_receive/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C111</ID>
+<x0>459</x0>
+<y0>213</y0>
+<width>107</width>
+<height>20</height>
+<codetext>snp_reset:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=1/
+/ rax=_snp_reset/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C112</ID>
+<x0>454</x0>
+<y0>347</y0>
+<width>126</width>
+<height>20</height>
+<codetext>snp_shutdown:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=1/
+/ rax=_snp_shutdown/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C113</ID>
+<x0>457</x0>
+<y0>234</y0>
+<width>114</width>
+<height>21</height>
+<codetext>snp_initialise:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=rsi/
+/ r8=rdi/
+/ r9=0/
+/ rax=_snp_initialise/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C114</ID>
+<x0>456</x0>
+<y0>259</y0>
+<width>152</width>
+<height>17</height>
+<codetext>snp_clr_statistics:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=-1/
+/ r8=0/
+/ r9=0/
+/ rax=_snp_statistics/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C115</ID>
+<x0>459</x0>
+<y0>190</y0>
+<width>107</width>
+<height>20</height>
+<codetext>snp_start:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=1/
+/ rax=_snp_start/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C116</ID>
+<x0>453</x0>
+<y0>372</y0>
+<width>107</width>
+<height>20</height>
+<codetext>snp_stop:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=1/
+/ rax=_snp_stop/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C117</ID>
+<x0>456</x0>
+<y0>278</y0>
+<width>123</width>
+<height>18</height>
+<codetext>snp_get_status:
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=snp_protocol/
+/ rcx=(rcx)/
+/ rdx=rsi/
+/ r8=rdi/
+/ r9=0/
+/ rax=_snp_get_status/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+</codetext>
+</codeclip>
+</xobject>
+<relation>
+<ID>_R46</ID>
+<pin1name>_X_G30(_P57)</pin1name>
+<pin2name>_X_G37(_P40)</pin2name>
+</relation>
+<relation>
+<ID>_R47</ID>
+<pin1name>_X_G37(_P63)</pin1name>
+<pin2name>_X_G30(_P39)</pin2name>
+</relation>
+<relation>
+<ID>_R48</ID>
+<pin1name>_X_G29(_P68)</pin1name>
+<pin2name>_X_G30(_P40)</pin2name>
+</relation>
+<relation>
+<ID>_R50</ID>
+<pin1name>_X_G30(_P58)</pin1name>
+<pin2name>_X_G32(_P37)</pin2name>
+</relation>
+<relation>
+<ID>_R52</ID>
+<pin1name>_X_G30(_P59)</pin1name>
+<pin2name>_X_G29(_P39)</pin2name>
+</relation>
+<relation>
+<ID>_R53</ID>
+<pin1name>_X_G32(_P45)</pin1name>
+<pin2name>_X_G30(_P40)</pin2name>
+</relation>
+<relation>
+<ID>_R63</ID>
+<pin1name>_X_G32(_P46)</pin1name>
+<pin2name>_X_G28(_P40)</pin2name>
+</relation>
+<relation>
+<ID>_R65</ID>
+<pin1name>_X_G36(_P52)</pin1name>
+<pin2name>_X_G32(_P38)</pin2name>
+</relation>
+<relation>
+<ID>_R66</ID>
+<pin1name>_X_G28(_P59)</pin1name>
+<pin2name>_X_G32(_P38)</pin2name>
+</relation>
+<codeclip>
+<ID>_C91</ID>
+<x0>142</x0>
+<y0>67</y0>
+<width>127</width>
+<height>18</height>
+<codetext>calc_pseudosum:
+  usize#= pop uprotocol#= pop udst_addr#= pop usrc_addr#=
+
+//  &quot;calc_pseudosum:&quot;, dprint dnl
+  
+  struct pseudo_header
+    int src_ipaddr!
+    int dst_ipaddr!
+    char zero$
+    char protocol$
+    short size%
+  end
+  char phdr$(pseudo_header.SIZE)
+  
+  usrc_addr#, phdr, -&gt;pseudo_header.src_ipaddr!=
+  udst_addr#, phdr, -&gt;pseudo_header.dst_ipaddr!=
+  0,  phdr, -&gt;pseudo_header.zero$=
+  uprotocol#,  phdr, -&gt;pseudo_header.protocol$=
+  usize#,  phdr, -&gt;pseudo_header.size set_int16
+  phdr, pseudo_header.SIZE, calc_checksum
+  0xffff, swap - tt#=
+
+//  &quot;calc_pseudosum: end&quot;, dprint dnl
+
+  tt#, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C92</ID>
+<x0>325</x0>
+<y0>13</y0>
+<width>253</width>
+<height>67</height>
+<codetext>// 各種定数
+ const NETDRV_DEVICE_NUM 1
+ const MACADDR_SIZE 6
+ const IPADDR_SIZE 4
+</codetext>
+</codeclip>
+<relation>
+<ID>_R98</ID>
+<pin1name>_X_G32(_P47)</pin1name>
+<pin2name>_X_G36(_P41)</pin2name>
+</relation>
+<relation>
+<ID>_R99</ID>
+<pin1name>_X_G29(_P47)</pin1name>
+<pin2name>_X_G36(_P37)</pin2name>
+</relation>
+<pin>
+<ID>_P100</ID>
+<x0>16</x0>
+<y0>134</y0>
+<width>88</width>
+<height>26</height>
+<text>udp_recved()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<pin>
+<ID>_P101</ID>
+<x0>12</x0>
+<y0>169</y0>
+<width>75</width>
+<height>25</height>
+<text>udp_send()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R102</ID>
+<pin1name>_X_G36(_P69)</pin1name>
+<pin2name>_P100</pin2name>
+</relation>
+<relation>
+<ID>_R103</ID>
+<pin1name>_P101</pin1name>
+<pin2name>_X_G36(_P42)</pin2name>
+</relation>
+<pin>
+<ID>_P104</ID>
+<x0>11</x0>
+<y0>212</y0>
+<width>92</width>
+<height>25</height>
+<text>udp_regport()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<pin>
+<ID>_P105</ID>
+<x0>12</x0>
+<y0>248</y0>
+<width>84</width>
+<height>27</height>
+<text>udp_relport()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R106</ID>
+<pin1name>_P104</pin1name>
+<pin2name>_X_G36(_P39)</pin2name>
+</relation>
+<relation>
+<ID>_R107</ID>
+<pin1name>_P105</pin1name>
+<pin2name>_X_G36(_P40)</pin2name>
+</relation>
+<pin>
+<ID>_P110</ID>
+<x0>15</x0>
+<y0>296</y0>
+<width>89</width>
+<height>27</height>
+<text>tcp_recved()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R111</ID>
+<pin1name>_X_G28(_P89)</pin1name>
+<pin2name>_P110</pin2name>
+</relation>
+<pin>
+<ID>_P114</ID>
+<x0>17</x0>
+<y0>336</y0>
+<width>76</width>
+<height>27</height>
+<text>tcp_send()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R115</ID>
+<pin1name>_P114</pin1name>
+<pin2name>_X_G28(_P41)</pin2name>
+</relation>
+<pin>
+<ID>_P116</ID>
+<x0>17</x0>
+<y0>386</y0>
+<width>83</width>
+<height>26</height>
+<text>tcp_accept()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R117</ID>
+<pin1name>_P116</pin1name>
+<pin2name>_X_G28(_P37)</pin2name>
+</relation>
+<pin>
+<ID>_P118</ID>
+<x0>14</x0>
+<y0>424</y0>
+<width>95</width>
+<height>24</height>
+<text>tcp_connect()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R119</ID>
+<pin1name>_P118</pin1name>
+<pin2name>_X_G28(_P38)</pin2name>
+</relation>
+<pin>
+<ID>_P120</ID>
+<x0>20</x0>
+<y0>457</y0>
+<width>78</width>
+<height>28</height>
+<text>tcp_close()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R121</ID>
+<pin1name>_P120</pin1name>
+<pin2name>_X_G28(_P39)</pin2name>
+</relation>
+<pin>
+<ID>_P124</ID>
+<x0>15</x0>
+<y0>504</y0>
+<width>92</width>
+<height>25</height>
+<text>icmp_recved()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R125</ID>
+<pin1name>_X_G35(_P69)</pin1name>
+<pin2name>_P124</pin2name>
+</relation>
+<codeclip>
+<ID>_C128</ID>
+<x0>53</x0>
+<y0>10</y0>
+<width>262</width>
+<height>52</height>
+<codetext> .data
+my_ipaddr:     data 0x0b01a8c0
+my_macaddr:  data 0xd8d372b58eec
+</codetext>
+</codeclip>
+<xobject>
+<ID>_X_O129</ID>
+<x0>371</x0>
+<y0>520</y0>
+<width>104</width>
+<height>57</height>
+<ID_maker>4</ID_maker>
+<objectname>telnet</objectname>
+<description></description>
+<operation>
+<ID>_OX</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>126</x0>
+<y0>268</y0>
+<width>108</width>
+<height>49</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>telnet:
+
+
+  char xxbuf$(256)
+  long tel_addr#,tel_port#,tbb#,tcc#,tdd#,tel_con#
+  long tt9#
+
+  &quot;address: ? &quot;, prints xxbuf, inputs
+  xxbuf, 16, atoi tel_addr#=
+ 
+  
+  &quot;port: ? &quot;, prints xxbuf, inputs
+  xxbuf, 10, atoi tel_port#=
+  
+  tel_addr#, tel_port#, tel_callback, tcp_connect tel_con#=
+  if tel_con#=ERROR then end
+
+  0, txp\#= rxp\#=
+  
+
+// ネゴシエーション
+negos_loop:
+
+//  &quot;recv tel_loop1: &quot;, prints
+tel_loop01:
+    tel_recv1 tbb#=
+    sync
+    if tbb#&lt;0 goto tel_loop01
+//  &quot;recv tbb=&quot;, prints tbb#, printd nl
+
+  if tbb#&lt;&gt;255 then &quot;telnet enter&quot;, prints nl gototel_enter
+
+//  &quot;recv tel_loop2: &quot;, prints
+tel_loop02:
+    tel_recv1 tcc#=
+    sync
+    if tcc#&lt;0 goto tel_loop02
+//  &quot;recv tcc=&quot;, prints tcc#, printd nl
+
+//  &quot;recv tel_loop3: &quot;, prints nl
+tel_loop03:
+    tel_recv1 tdd#=
+    sync
+    if tdd#&lt;0 goto tel_loop03
+//  &quot;recv tdd=&quot;, prints tdd#, printd nl
+
+  if tcc#=253 then 252, tcc#=
+
+//  &quot;send: tel_loop4&quot;, prints nl
+tel_loop4:
+  tbb#, tel_send1 tt9#=
+  if tt9#=-1 then sync gototel_loop4
+  
+//  &quot;send: tel_loop5&quot;, prints nl
+tel_loop5:
+  tcc#, tel_send1 tt9#=
+  if tt9#=-1 then sync gototel_loop5
+  
+//  &quot;send: tel_loop6&quot;, prints nl
+tel_loop6:
+  tdd#, tel_send1 tt9#=
+  if tt9#=-1 then sync gototel_loop6
+  
+  goto negos_loop
+
+// 受信ループ
+tel_recv:
+  tel_recv1 tbb#=
+  sync
+  if tbb#&gt;=0 then tbb#, putchar0 gototel_recv
+
+
+// 1バイト送信
+tel_enter:
+  getch tcc#=
+  if tcc#=0 goto tel_recv
+  if tcc#=3 goto tel_exit
+  tcc#, tel_send1
+  goto tel_recv
+
+// 終了
+tel_exit:
+ nl
+ tel_con#, tcp_close
+ dclose
+ end
+
+
+// 受信コールバック
+tel_callback:
+  char buf\$(BUFFERSIZE)
+  long pkt\#,pp\#,ss\#,tt\#,ii\#,txp\#,rxp\#
+  pkt\#=
+  pkt\#, -&gt;netbuf.top# pp\#=
+  pkt\#, -&gt;netbuf.size# tt\#=
+  0, ii\#=
+tel_callback1:
+  if ii\#&gt;=tt\# goto tel_callback2
+  txp\#, BUFFERSIZE, mod ss\#=
+  (pp\)$(ii\#), buf\$(ss\#)=
+  ii\#++
+  txp\#++
+  goto tel_callback1
+tel_callback2:
+ end
+ 
+
+// 1バイト受信
+tel_recv1:
+  if rxp\#&gt;=txp\# then -1, end
+  rxp\#, BUFFERSIZE, mod ss\#= 
+  rxp\#++
+  buf\$(ss\#), end
+
+
+// 1バイト送信
+tel_send1:
+  char buf0\$
+  buf0\$=
+  buf0\, 1, tel_con#, tcp_send
+  end
+</codetext>
+</operation>
+<pin>
+<ID>_Pin</ID>
+<x0>12</x0>
+<y0>286</y0>
+<width>56</width>
+<height>24</height>
+<text>start()</text>
+<px>0</px>
+<py>38</py>
+</pin>
+<relation>
+<ID>_Rin</ID>
+<pin1name>_Pin</pin1name>
+<pin2name>_OX</pin2name>
+</relation>
+<codeclip>
+<ID>_C1</ID>
+<x0>10</x0>
+<y0>185</y0>
+<width>279</width>
+<height>34</height>
+<codetext>// エスケープシーケンスを含む文字を表示する
+putchar0:
+  char c\$
+  c\$=
+
+esc_mode_start:
+  if EscapeMode#&lt;&gt;ESC_START goto esc_mode_sharp
+    if c\$=&apos;#&apos; then ESC_SHARP,     EscapeMode#= end 
+    if c\$=&apos;(&apos;  then  ESC_LPARM,     EscapeMode#= end
+    if c\$=&apos;)&apos;  then  ESC_RPARM,    EscapeMode#= end
+    if c\$=&apos;[&apos;  then  ESC_BRACKET, EscapeMode#= end
+    ESC_NONE, EscapeMode#=
+    end
+
+esc_mode_sharp:
+  if EscapeMode#&lt;&gt;ESC_SHARP goto esc_mode_lparm
+    ESC_NONE, EscapeMode#=
+    end
+
+esc_mode_lparm:
+  if EscapeMode#&lt;&gt;ESC_LPARM goto esc_mode_rparm
+    ESC_NONE, EscapeMode#=
+    end
+
+esc_mode_rparm:
+  if EscapeMode#&lt;&gt;ESC_RPARM goto esc_mode_bracket
+    ESC_NONE, EscapeMode#=
+     end
+
+esc_mode_bracket:
+  if EscapeMode#&lt;&gt;ESC_BRACKET goto esc_mode_non
+    if c\$=&apos;;&apos;  then  end
+    if c\$&lt;&apos;0&apos; then  ESC_NONE, EscapeMode#= end
+    if c\$&gt;&apos;9&apos; then  ESC_NONE, EscapeMode#= end
+    end
+
+esc_mode_non:
+  if c\$=0x1b then ESC_START, EscapeMode#= end
+  if c\$=10 then nl end
+  c\$, putchar end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C2</ID>
+<x0>9</x0>
+<y0>10</y0>
+<width>218</width>
+<height>168</height>
+<codetext>// エスケープモード
+ const  ESC_NONE      0
+ const  ESC_START     1
+ const  ESC_SHARP     2
+ const  ESC_LPARM     3
+ const  ESC_RPARM    4
+ const  ESC_BRACKET 5
+
+EscapeMode:
+   data ESC_NONE
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C3</ID>
+<x0>49</x0>
+<y0>225</y0>
+<width>205</width>
+<height>38</height>
+<codetext>// 受信バッファのサイズ
+ const BUFFERSIZE 16384
+ 
+</codetext>
+</codeclip>
+</xobject>
+<codeclip>
+<ID>_C131</ID>
+<x0>329</x0>
+<y0>84</y0>
+<width>100</width>
+<height>25</height>
+<codetext>// メモリ操作
+
+
+// メモリコピー
+memcpy:
+  long __p1#,__p2#,__p3#,pp#,qq#,cc#
+ __p3#= pop __p2#= pop __p1#=
+ __memcpy1:
+  if __p3#&lt;=0 then end
+  (__p1)$, (__p2)$=
+  __p1#++
+  __p2#++
+  __p3#--
+ goto __memcpy1
+ end
+
+
+// メモリセット
+memset:
+ __p3#= pop __p2#= pop __p1#=
+ __memset1:
+  if __p3#&lt;=0 then end
+  __p2#, (__p1)$=
+  __p1#++
+  __p3#--
+ goto __memset1
+ end
+
+
+// ビッグエンディアンの16bit変数に代入
+set_int16:
+  long sss0#,sss1#
+  sss1#= pop sss0#=
+  sss0+0$, (sss1)$(1)=
+  sss0+1$, (sss1)$(0)=
+  end
+
+
+get_int16:
+  sss1#=
+  (sss1)$(1), sss0+0$=
+  (sss1)$(0), sss0+1$=
+  sss0%, end
+  
+
+// ビッグエンディアンの32bit変数に代入
+set_int32:
+  sss1#= pop sss0#=
+  sss0+0$, (sss1)$(3)=
+  sss0+1$, (sss1)$(2)=
+  sss0+2$, (sss1)$(1)=
+  sss0+3$, (sss1)$(0)=
+  end
+
+
+get_int32:
+  sss1#=
+  (sss1)$(3), sss0+0$=
+  (sss1)$(2), sss0+1$=
+  (sss1)$(1), sss0+2$=
+  (sss1)$(0), sss0+3$=
+  sss0!, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C132</ID>
+<x0>331</x0>
+<y0>116</y0>
+<width>95</width>
+<height>20</height>
+<codetext>nop: end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C133</ID>
+<x0>456</x0>
+<y0>86</y0>
+<width>141</width>
+<height>34</height>
+<codetext>// デバッグ関係
+dbg_mode: data 0
+dopen:
+  char log$(FILE_SIZE)
+  if dbg_mode#=1 then &quot;log.txt&quot;, log, wopen
+  end
+
+dclose:
+  if dbg_mode#=1 then log, wclose
+  end
+
+dprint:
+  long uuuu#
+  uuuu#=
+  if dbg_mode#=1 then uuuu#, log, fprints
+  if dbg_mode#=2 then uuuu#, prints
+  end
+
+dnl:
+  if dbg_mode#=1 then log, fnl
+  if dbg_mode#=2 then nl
+  end
+ 
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C134</ID>
+<x0>455</x0>
+<y0>126</y0>
+<width>142</width>
+<height>51</height>
+<codetext>// パケットの
+// 詳細を表示する
+display_pkt:
+
+  long xxpkt#,xxframe#
+  long iii#,lll#,sss#,tt1#
+  xxpkt#=
+
+
+  &quot;size=&quot;, dprint  xxpkt#, -&gt;netbuf.size# lll#=  dec dprint dnl
+  if lll#&gt;64 then 64, lll#=
+  xxpkt#, -&gt;netbuf.top# sss#=
+   0, iii#=
+display_pkt1:
+  if iii#&gt;=lll# then  dnl gotodisplay_pkt2
+  (sss)$(iii#), hex ss#= strlen tt1#=
+  if tt1#&lt;2 then &quot;0&quot;, dprint
+  ss#, dprint &quot; &quot;, dprint
+  iii#++  iii#, 16, mod tt1#=
+  if tt1#=0 then dnl
+  goto display_pkt1
+display_pkt2:
+
+  xxpkt#, -&gt;netbuf.top# xxframe#=
+  &quot;dst macaddr=&quot;, dprint
+  xxframe#, -&gt;ethernet_header.dst_addr# dprint_macaddr dnl
+  xxframe#, -&gt;ethernet_header.dst_addr# 1, and ss#=
+  if ss#&lt;&gt;0 then &quot; &lt;multicast&gt;&quot;, dprint dnl
+
+  &quot;src macaddr=&quot;, dprint
+  xxframe#, -&gt;ethernet_header.src_addr# dprint_macaddr dnl
+  xxframe#, -&gt;ethernet_header.type% tt1#=
+
+
+
+display_pkt_arp:
+  if tt1#&lt;&gt;ETHERNET_TYPE_ARP goto display_pkt_ip
+  &quot;ethernet:type=arp&quot;, dprint dnl
+  xxframe#, ethernet_header.SIZE, + xxframe#=
+  xxframe#, -&gt;arp_header.hardware% tt1#=
+  if tt1#=ARP_HARDWARE_ETHER  then &quot;hardware is ethernet&quot;,     dprint dnl
+  if tt1#&lt;&gt;ARP_HARDWARE_ETHER then &quot;hardware is not ethernet&quot;, dprint dnl
+  xxframe#, -&gt;arp_header.protocol% tt1#=
+  if tt1#=ETHERNET_TYPE_IP  then &quot;protocol is ip&quot;,     dprint dnl
+  if tt1#&lt;&gt;ETHERNET_TYPE_IP then &quot;protocol is not ip&quot;, dprint dnl
+  xxframe#, -&gt;arp_header.operation% tt1#=
+  if tt1#=ARP_OPERATION_REPLY   then &quot;operation is reply&quot;,   dprint dnl gotodisplay_pkt_arp1
+  if tt1#=ARP_OPERATION_REQUEST then &quot;operation is request&quot;, dprint dnl gotodisplay_pkt_arp1
+  &quot;operation is unknown&quot;, dprint dnl
+display_pkt_arp1:
+  end
+
+
+display_pkt_ip:
+  if tt1#&lt;&gt;ETHERNET_TYPE_IP goto display_pkt_unknown
+  &quot;ethernet:type=ip&quot;, dprint dnl
+  xxframe#, ethernet_header.SIZE, + xxframe#=
+  xxframe#, -&gt;ip_header.v_hl$ 16, / 0x0f, and tt1#=
+  if tt1#&lt;&gt;4 then &quot;but, no ip packet&quot;, dprint dnl end
+
+  &quot;dst ipaddr=&quot;, dprint
+  xxframe#, -&gt;ip_header.dst_addr! dprint_ipaddr dnl
+
+  &quot;src ipaddr=&quot;, dprint
+  xxframe#, -&gt;ip_header.src_addr! dprint_ipaddr dnl
+
+  &quot;ip protocol=&quot;, dprint
+  xxframe#, -&gt;ip_header.protocol$ ss#=
+  if ss#=IP_PROTOCOL_ICMP then &quot;icmp&quot;, dprint dnl gotodisplay_pkt_ip1
+  if ss#=IP_PROTOCOL_TCP  then &quot;tcp&quot;,  dprint dnl gotodisplay_pkt_ip1
+  if ss#=IP_PROTOCOL_UDP  then &quot;udp&quot;,  dprint dnl gotodisplay_pkt_ip1
+  &quot;unknown&quot;, dprint dnl
+display_pkt_ip1:
+  &quot;tos=&quot;, dprint
+  xxframe#, -&gt;ip_header.tos$ dec dprint dnl
+  &quot;length=&quot;, dprint
+  xxframe#, -&gt;ip_header.length% dec dprint dnl
+  &quot;id=&quot;, dprint
+  xxframe#, -&gt;ip_header.id% dec dprint dnl
+  &quot;fragment=&quot;, dprint
+  xxframe#, -&gt;ip_header.fragment% dec dprint dnl
+  &quot;ttl=&quot;, dprint
+  xxframe#, -&gt;ip_header.ttl$ dec dprint dnl
+  &quot;checksum=&quot;, dprint
+  xxframe#, -&gt;ip_header.checksum% dec dprint dnl
+  &quot;header length=&quot;, dprint
+  xxframe#, -&gt;ip_header.v_hl$ 0x0f, and 4, * tt1#=
+  tt1#, dec dprint dnl
+  xxframe#, tt1#, + xxframe#=
+
+display_pkt_icmp:
+  if ss#&lt;&gt;IP_PROTOCOL_ICMP goto display_pkt_tcp 
+  xxframe#, -&gt;icmp_header.type$ tt1#=
+  if tt1#=ICMP_TYPE_REPLY   then &quot;icmp_type_reply&quot;,   dprint dnl gotodisplay_pkt_icmp1
+  if tt1#=ICMP_TYPE_REQUEST then &quot;icmp_type_request&quot;, dprint dnl gotodisplay_pkt_icmp1
+   &quot;icmp_type_unknown&quot;, dprint dnl
+display_pkt_icmp1:
+   &quot;icmp_code=&quot;, dprint xxframe#, -&gt;icmp_header.code$ hex dprint dnl
+   &quot;icmp_checksum=&quot;, dprint xxframe#, -&gt;icmp_header.checksum% hex dprint dnl
+  end
+
+display_pkt_tcp:
+  if ss#&lt;&gt;IP_PROTOCOL_TCP goto display_pkt_udp 
+  &quot;dst port=&quot;,   dprint xxframe#, -&gt;tcp_header.dst_port%   dec dprint dnl
+  &quot;src port=&quot;,   dprint xxframe#, -&gt;tcp_header.src_port%   dec dprint dnl
+  &quot;seq_number=&quot;, dprint xxframe#, -&gt;tcp_header.seq_number! dec dprint dnl
+  &quot;ack_number=&quot;, dprint xxframe#, -&gt;tcp_header.ack_number! dec dprint dnl
+  &quot;offset=&quot;,     dprint xxframe#, -&gt;tcp_header.offset$     dec dprint dnl
+  &quot;flags=&quot;,      dprint xxframe#, -&gt;tcp_header.flags$      bin dprint dnl
+  &quot;window=&quot;,     dprint xxframe#, -&gt;tcp_header.window%     hex dprint dnl
+  &quot;checksum=&quot;,   dprint xxframe#, -&gt;tcp_header.checksum%   hex dprint dnl
+  &quot;urgent=&quot;,     dprint xxframe#, -&gt;tcp_header.urgent%     hex dprint dnl
+  end
+
+display_pkt_udp:
+  if ss#&lt;&gt;IP_PROTOCOL_UDP then end 
+  &quot;src port=&quot;, dprint xxframe#, -&gt;udp_header.src_port% dec dprint dnl
+  &quot;dst port=&quot;, dprint xxframe#, -&gt;udp_header.dst_port% dec dprint dnl
+  &quot;length=&quot;,   dprint xxframe#, -&gt;udp_header.length%   dec dprint dnl
+  &quot;checksum=&quot;, dprint xxframe#, -&gt;udp_header.checksum% hex dprint dnl
+  end
+
+display_pkt_unknown:
+  &quot;ethernet:type=unknown&quot;, dprint dnl
+   end
+
+dprint_macaddr:
+  long  vvvv#,zzzz#
+  count iiii#
+  vvvv#=
+  for iiii#=0 to 5
+  vvvv$(iiii#), dprint_hex2
+  if iiii#&lt;5 then &quot;:&quot;, dprint
+  next iiii#
+  vvvv#, 0xffffffffffff, and my_macaddr#, - zzzz#=
+  if zzzz#=0 then &quot; (me)&quot;, dprint
+  end
+  
+dprint_hex2:
+  long yyyy#
+  yyyy#=
+  if yyyy#&lt;16 then &quot;0&quot;, dprint
+  yyyy#, hex dprint
+  end
+
+dprint_ipaddr:
+  vvvv#=
+  for iiii#=0 to 3
+  vvvv$(iiii#), dec dprint
+  if iiii#&lt;3 then &quot;.&quot;, dprint
+  next iiii#
+  vvvv#, 0xffffffff, and my_ipaddr#, - zzzz#=
+  if zzzz#=0 then &quot; (me)&quot;, dprint
+  end
+
+dump_netbuf:
+   long yypkt#
+   yypkt#=
+   &quot;size=&quot;, dprint yypkt#, -&gt;netbuf.size# dec dprint dnl
+   &quot;top=&quot;, dprint yypkt#, -&gt;netbuf.top# hex dprint dnl
+   &quot;next=&quot;, dprint yypkt#, -&gt;netbuf.next# hex dprint dnl
+   &quot;ethernet_type=&quot;, dprint yypkt#, -&gt;netbuf.ethernet_type# dec dprint dnl
+   &quot;ethernet_addr=&quot;, dprint yypkt#, -&gt;netbuf.ethernet_addr# dprint_macaddr dnl
+   &quot;ip_protocol=&quot;, dprint yypkt#, -&gt;netbuf.ip_protocol# dec dprint dnl
+   &quot;ip_cmd=&quot;, dprint yypkt#, -&gt;netbuf.ip_cmd# dec dprint dnl
+   &quot;ip_addr=&quot;, dprint yypkt#, -&gt;netbuf.ip_addr# dprint_ipaddr dnl
+   &quot;icmp_number=&quot;, dprint yypkt#, -&gt;netbuf.icmp_number# dec dprint dnl
+   &quot;icmp_addr=&quot;, dprint yypkt#, -&gt;netbuf.icmp_addr# dprint_ipaddr dnl
+   &quot;icmp_callback=&quot;, dprint yypkt#, -&gt;netbuf.icmp_callback# hex dprint dnl
+   &quot;tcp_accept_port=&quot;, dprint yypkt#, -&gt;netbuf.tcp_accept_port# dec dprint dnl
+   &quot;tcp_connect_port=&quot;, dprint yypkt#, -&gt;netbuf.tcp_connect_port# dec dprint dnl
+   &quot;tcp_connect_addr=&quot;, dprint yypkt#, -&gt;netbuf.tcp_connect_addr# dprint_ipaddr dnl
+   &quot;tcp_callback=&quot;, dprint yypkt#, -&gt;netbuf.tcp_callback# hex dprint dnl
+   &quot;tcp_establish_number=&quot;, dprint yypkt#, -&gt;netbuf.tcp_establish_number# dec dprint dnl
+   &quot;tcp_close_number=&quot;, dprint yypkt#, -&gt;netbuf.tcp_close_number# dec dprint dnl
+   &quot;tcp_send_number=&quot;, dprint yypkt#, -&gt;netbuf.tcp_send_number# dec dprint dnl
+   &quot;udp_regport_src_port=&quot;, dprint yypkt#, -&gt;netbuf.udp_regport_src_port# dec dprint dnl
+   &quot;udp_regport_dst_port=&quot;, dprint yypkt#, -&gt;netbuf.udp_regport_dst_port# dec dprint dnl
+   &quot;udp_regport_addr=&quot;, dprint yypkt#, -&gt;netbuf.udp_regport_addr# dprint_ipaddr dnl
+   &quot;udp_callback=&quot;, dprint yypkt#, -&gt;netbuf.udp_callback# hex dprint dnl
+   &quot;udp_relport_port=&quot;, dprint yypkt#, -&gt;netbuf.udp_relport_port# dec dprint dnl
+   &quot;udp_recv_port=&quot;, dprint yypkt#, -&gt;netbuf.udp_recv_port# dec dprint dnl
+   &quot;udp_send_src_port=&quot;, dprint yypkt#, -&gt;netbuf.udp_send_src_port# dec dprint dnl
+   &quot;udp_send_dst_port=&quot;, dprint yypkt#, -&gt;netbuf.udp_send_dst_port# dec dprint dnl
+   &quot;udp_send_addr=&quot;, dprint yypkt#, -&gt;netbuf.udp_send_addr# dprint_ipaddr dnl
+   yypkt#, -&gt;netbuf.data#
+  yypkt#, end
+</codetext>
+</codeclip>
+<relation>
+<ID>_R135</ID>
+<pin1name>_X_G36(_P37)</pin1name>
+<pin2name>_X_G28(_P57)</pin2name>
+</relation>
+<relation>
+<ID>_R138</ID>
+<pin1name>_X_G37(_P39)</pin1name>
+<pin2name>_X_G29(_P47)</pin2name>
+</relation>
+<operation>
+<ID>_O143</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>579</x0>
+<y0>465</y0>
+<width>87</width>
+<height>64</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>44</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>0</outpinx0>
+<outpiny0>25</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext> dopen
+</codetext>
+</operation>
+<relation>
+<ID>_R146</ID>
+<pin1name>_X_G32(_P77)</pin1name>
+<pin2name>_X_G29(_P38)</pin2name>
+</relation>
+<codeclip>
+<ID>_C147</ID>
+<x0>144</x0>
+<y0>90</y0>
+<width>118</width>
+<height>18</height>
+<codetext>calc_checksum:
+
+  long pp0#,siz0#,sum0#,uuu0#
+  siz0#= pop pp0#=
+//  &quot;calc_checksum:&quot;, dprint dnl
+  0, sum0#=
+calc_checksum1:
+  pp0#, get_int16 uuu0#=
+  if siz0#=1 then uuu0#, 0xff00, and uuu0#=
+  uuu0#, sum0#, + sum0#=
+  pp0#, 2, + pp0#=
+  siz0#, 2, - siz0#=
+  if siz0#&gt;0 goto calc_checksum1
+calc_checksum2:
+  if sum0#&gt;0xffff then sum0%, sum0+2%, + sum0#= gotocalc_checksum2
+  0xffff, sum0%, - sum0#=
+//  &quot;checksum=&quot;, dprint sum0#, hex dprint dnl 
+//  &quot;calc_checksum: end&quot;, dprint dnl
+  sum0#, end
+</codetext>
+</codeclip>
+<pin>
+<ID>_P149</ID>
+<x0>15</x0>
+<y0>542</y0>
+<width>77</width>
+<height>26</height>
+<text>icmp_ping()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R150</ID>
+<pin1name>_P149</pin1name>
+<pin2name>_X_G35(_P72)</pin2name>
+</relation>
+<pin>
+<ID>_P151</ID>
+<x0>9</x0>
+<y0>578</y0>
+<width>99</width>
+<height>28</height>
+<text>icmp_callback()</text>
+<px>10</px>
+<py>40</py>
+</pin>
+<relation>
+<ID>_R152</ID>
+<pin1name>_P151</pin1name>
+<pin2name>_X_G35(_P76)</pin2name>
+</relation>
+<relation>
+<ID>_R153</ID>
+<pin1name>_X_G32(_P48)</pin1name>
+<pin2name>_X_G35(_P39)</pin2name>
+</relation>
+<relation>
+<ID>_R154</ID>
+<pin1name>_X_G35(_P44)</pin1name>
+<pin2name>_X_G32(_P38)</pin2name>
+</relation>
+<relation>
+<ID>_R155</ID>
+<pin1name>_X_G28(_P57)</pin1name>
+<pin2name>_X_G35(_P77)</pin2name>
+</relation>
+<codeclip>
+<ID>_C158</ID>
+<x0>768</x0>
+<y0>556</y0>
+<width>162</width>
+<height>23</height>
+<codetext> long ss#,tt#,hdrlen#
+</codetext>
+</codeclip>
+<relation>
+<ID>_R161</ID>
+<pin1name>_PSTART</pin1name>
+<pin2name>_O143</pin2name>
+</relation>
+<relation>
+<ID>_R164</ID>
+<pin1name>_O143</pin1name>
+<pin2name>_X_G37(_P39)</pin2name>
+</relation>
+<relation>
+<ID>_R165</ID>
+<pin1name>_X_G35(_P77)</pin1name>
+<pin2name>_X_O129(_Pin)</pin2name>
+</relation>
+</xobject>

@@ -4,8 +4,10 @@
 本プログラム群はUEFIで起動しX86-64アーキテクチャ上で動作するOSを形成します 
 
 ### 起動画面
-![enter image description here](https://imgur.com/ZDg0Yyl.jpg)
   
+![enter image description here](https://imgur.com/2npIPMK.jpg)
+  
+
 ・操作法
   
 デスクトップ画面やアイコンを右クリックすると
@@ -13,13 +15,16 @@
 
 
 アイコンメニュー画面
-![enter image description here](https://imgur.com/CzIMNNu.jpg)
+  ![enter image description here](https://imgur.com/IapmxCB.jpg)
 
 
-
+  
 　　　
-　アイコン作成・変更画面　![enter image description here](https://imgur.com/v67k4WK.jpg)　
-　　
+　アイコン作成・変更画面　
+  
+![enter image description here](https://imgur.com/pQ9ToyB.jpg)  
+    
+    　　
 ・マウス操作
   操作はマウスで行えますがキーボードをマウスの代わりに使うことまできます。
   
@@ -58,25 +63,34 @@ Ctrl+D・・・コマンドモードにする
   
   
 ### ・エクスプローラ
-
-![](https://imgur.com/pWnql0b.jpg)
+  
+ ![enter image description here](https://imgur.com/YVEXNrf.jpg) 
     
   ファイルを左クリックするとファイルを開くことができます。
  右クリックするとメニューが表示されて、ファイルのコピー、編集、削除、プロパティ(名前)変更などができます。
-   ![enter image description here](https://imgur.com/3UM6ODS.jpg)  
- 
+     
+ ![enter image description here](https://imgur.com/E4yr7lL.jpg)
    
     
 ### ・メモ帳
-![enter image description here](https://imgur.com/SHD4cdG.jpg)
-
+  
+![enter image description here](https://imgur.com/iM8FQdy.jpg)  
+   
  ### ・電卓    
-  ![enter image description here](https://imgur.com/Djepx4s.jpg)
-
-
+  
+![enter image description here](https://imgur.com/Hbw7zKI.jpg)  
+  
  ###  ・ペイント    
-![enter image description here](https://imgur.com/WRgHAjA.jpg)
-
+  
+![enter image description here](https://imgur.com/OY2ifJn.jpg)  
+  
+ ###  ・TELNETクライアント
+       
+ ![enter image description here](https://imgur.com/mVqVaOu.jpg) 
+ 今回のバージョンではネットワーク機能を追加しました。
+ TELNETクライアントアプリケーションを使うとネットワークを介して他のパソコンに接続することができます。
+   
+   
  ###  ・BASIC
  ![enter image description here](https://imgur.com/wqStfS8.jpg)
 
@@ -222,9 +236,14 @@ binディレクトリのファイルをUSBメモリにコピーしてパソコ�
 
 
 ## 5. 謝辞
-壁紙に使用した画像は　ふり〜フォトフォト〈著作権フリー無料画像〉様に提供していただきました。
-この場を借りてお礼申し上げます
-https://free2photo2.blogspot.com/
+ネットワークプログラミングについては坂井弘亮様のページが大変参考になりました。
+  
+http://kozos.jp/
 
+また壁紙に使用した画像は　pixabay様に提供していただきました。
+  
+https://pixabay.com/ja/
+
+この場を借りてお礼申し上げます
 
 

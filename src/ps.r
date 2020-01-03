@@ -1,22 +1,18 @@
 //  ディレクトリ表示
 main:
-  long p#,mode#
+  long p#,q#,mode#
   
    1, mode#=
    if argc#>1 then argv#(1), "-wait", strcmp mode#=
    tcb0, p#=
    loop:
-    if (p)#(STATUS)=RUN    then "RUN     ", prints
-    if (p)#(STATUS)=READY then "READY   ", prints
-    if (p)#(STATUS)=WAIT    then "WAIT    ", prints
+    p#, ->TCB.status# q#=
+    if q#=RUN    then "RUN     ", prints
+    if q#=READY then "READY   ", prints
+    if q#=WAIT    then "WAIT    ", prints
      p#, hex prints " : ", prints 
-     p#, CMD_LINE, + prints "  ....  ", prints 
-     (p)#(MESSAGE/8), hex prints "<--", prints
-     (p)#(CLIENT/8), hex prints
-     "    ", prints (p)#(PREV_TCB/8), hex prints
-     "    ", prints (p)#(NEXT_TCB/8), hex prints
-     nl
-     (p)#(NEXT_TCB/8), p#=
+     p#, ->TCB.cmd_line# prints nl 
+     p#, ->TCB.next# p#=
    if p#<>tcb0 goto loop 
    if mode#<>0 then end
    loop1:

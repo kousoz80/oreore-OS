@@ -31,7 +31,8 @@
  long   __file_sys#,__vol_open#
  long   __allocate_pages#,__free_pages#
  long   __allocate_pool#,__free_pool#
- long   __create_event#,__set_timer#
+ long   __create_event#,__wait_event#,__close_event#
+ long   __set_timer#
 
  short  __wide_str%(32)
  long   __fbuf_length#

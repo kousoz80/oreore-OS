@@ -32,81 +32,83 @@
  const FILE_GET_INFO  0x0000000000000040
  const FILE_SET_INFO  0x0000000000000048
  const FILE_FLUSH  0x0000000000000050
- const TCB_SIZE  0x0000000000000080
- const STATUS  0x0000000000000000
- const CMD_LINE  0x0000000000000008
- const START  0x0000000000000010
- const SIZE  0x0000000000000018
- const STACK  0x0000000000000020
- const INDEV  0x0000000000000028
- const OUTDEV  0x0000000000000030
- const MESSAGE  0x0000000000000038
- const CLIENT  0x0000000000000040
- const RCX  0x0000000000000048
- const RDX  0x0000000000000050
- const RDI  0x0000000000000058
- const RSI  0x0000000000000060
- const NEXT_TCB  0x0000000000000068
- const PREV_TCB  0x0000000000000070
- const SP  0x0000000000000078
+ const TCB.status  0x0000000000000000
+ const TCB.cmd_line  0x0000000000000008
+ const TCB.prog_start  0x0000000000000010
+ const TCB.prog_size  0x0000000000000018
+ const TCB.stack  0x0000000000000020
+ const TCB.indev  0x0000000000000028
+ const TCB.outdev  0x0000000000000030
+ const TCB.message  0x0000000000000038
+ const TCB.client  0x0000000000000040
+ const TCB.rcx  0x0000000000000048
+ const TCB.rdx  0x0000000000000050
+ const TCB.rdi  0x0000000000000058
+ const TCB.rsi  0x0000000000000060
+ const TCB.r8  0x0000000000000068
+ const TCB.r9  0x0000000000000070
+ const TCB.r10  0x0000000000000078
+ const TCB.r11  0x0000000000000080
+ const TCB.r12  0x0000000000000088
+ const TCB.prev  0x00000000000000a0
+ const TCB.next  0x00000000000000a8
+ const TCB.sp  0x00000000000000b0
+ const TCB.SIZE  0x00000000000000b8
  const RUN  0x0000000000000000
  const READY  0x0000000000000001
  const WAIT  0x0000000000000002
  const _start  0x0000000000404000
- const dprint  0x000000000040444f
  const SYNC  0x0000000000000000
  const CREATE_TASK  0x0000000000000001
- const EXIT_TASK  0x0000000000000002
- const KILL_TASK  0x0000000000000003
- const RUN_TASK  0x0000000000000004
- const STOP_TASK  0x0000000000000005
- const WAIT_TASK  0x0000000000000006
- const GO_TASK  0x0000000000000007
- const RET_TASK  0x0000000000000008
- const SEND_MESSAGE  0x0000000000000009
- const GET_MESSAGE  0x000000000000000a
- const EXIT_PROCESS  0x000000000000000b
- const _WIDE  0x000000000000000c
- const _NALLOW  0x000000000000000d
- const GETC  0x000000000000000e
- const _READ  0x000000000000000f
- const PUTC  0x0000000000000010
- const _WRITE  0x0000000000000011
- const WOPEN  0x0000000000000012
- const ROPEN  0x0000000000000013
- const OPEN  0x0000000000000014
- const RCLOSE  0x0000000000000015
- const WCLOSE  0x0000000000000016
- const DELETE  0x0000000000000017
- const VOL_OPEN  0x0000000000000018
- const VOL_CLOSE  0x0000000000000019
- const VOL_READ  0x000000000000001a
- const FPRINTS  0x000000000000001b
- const FPRINTD  0x000000000000001c
- const FNL  0x000000000000001d
- const FINPUTS  0x000000000000001e
- const STRCMP  0x000000000000001f
- const STRNCMP  0x0000000000000020
- const STRCPY  0x0000000000000021
- const STRNCPY  0x0000000000000022
- const STRCAT  0x0000000000000023
- const STRNCAT  0x0000000000000024
- const STRSTR  0x0000000000000025
- const STRLEN  0x0000000000000026
- const ATOI  0x0000000000000027
- const ITOA  0x0000000000000028
- const BIN  0x0000000000000029
- const OCT  0x000000000000002a
- const DEC  0x000000000000002b
- const HEX  0x000000000000002c
- const ABS  0x000000000000002d
- const PALLOC  0x000000000000002e
- const PFREE  0x000000000000002f
- const MALLOC  0x0000000000000030
- const FREE  0x0000000000000031
- const LOAD  0x0000000000000032
- const EXEC_COMMAND  0x0000000000000033
- const LOCATE_PROTOCOL  0x0000000000000034
+ const KILL_TASK  0x0000000000000002
+ const RUN_TASK  0x0000000000000003
+ const STOP_TASK  0x0000000000000004
+ const WAIT_TASK  0x0000000000000005
+ const GO_TASK  0x0000000000000006
+ const RET_TASK  0x0000000000000007
+ const SEND_MESSAGE  0x0000000000000008
+ const GET_MESSAGE  0x0000000000000009
+ const _WIDE  0x000000000000000a
+ const _NALLOW  0x000000000000000b
+ const GETC  0x000000000000000c
+ const _READ  0x000000000000000d
+ const PUTC  0x000000000000000e
+ const _WRITE  0x000000000000000f
+ const WOPEN  0x0000000000000010
+ const ROPEN  0x0000000000000011
+ const OPEN  0x0000000000000012
+ const RCLOSE  0x0000000000000013
+ const WCLOSE  0x0000000000000014
+ const DELETE  0x0000000000000015
+ const VOL_OPEN  0x0000000000000016
+ const VOL_CLOSE  0x0000000000000017
+ const VOL_READ  0x0000000000000018
+ const FPRINTS  0x0000000000000019
+ const FPRINTD  0x000000000000001a
+ const FNL  0x000000000000001b
+ const FINPUTS  0x000000000000001c
+ const STRCMP  0x000000000000001d
+ const STRNCMP  0x000000000000001e
+ const STRCPY  0x000000000000001f
+ const STRNCPY  0x0000000000000020
+ const STRCAT  0x0000000000000021
+ const STRNCAT  0x0000000000000022
+ const STRSTR  0x0000000000000023
+ const STRLEN  0x0000000000000024
+ const ATOI  0x0000000000000025
+ const ITOA  0x0000000000000026
+ const BIN  0x0000000000000027
+ const OCT  0x0000000000000028
+ const DEC  0x0000000000000029
+ const HEX  0x000000000000002a
+ const ABS  0x000000000000002b
+ const PALLOC  0x000000000000002c
+ const PFREE  0x000000000000002d
+ const MALLOC  0x000000000000002e
+ const FREE  0x000000000000002f
+ const LOAD  0x0000000000000030
+ const EXEC_COMMAND  0x0000000000000031
+ const LOCATE_PROTOCOL  0x0000000000000032
  const CLS  0x0000000000000064
  const LOCATE  0x0000000000000065
  const CURSOR  0x0000000000000066
@@ -114,57 +116,58 @@
  const GETCH  0x0000000000000068
  const PUTCH  0x0000000000000069
  const WPUTS  0x000000000000006a
- const math_sin  0x000000000040e745
- const math_cos  0x000000000040eca7
- const math_tan  0x000000000040eda6
- const math_arctan  0x000000000040f066
- const math_exp  0x000000000040fb39
- const math_log  0x00000000004103a6
- const math_random  0x0000000000410ac8
- const math_power  0x0000000000410b55
- const xdraw_point  0x0000000000410d0b
- const xget_point  0x0000000000410f34
- const xdraw_line  0x00000000004110aa
- const xgcls  0x0000000000411ca5
- const xfill_rect  0x0000000000411f20
- const xdraw_rect  0x000000000041251f
- const xfill_circle  0x0000000000412d1f
- const xdraw_circle  0x0000000000412e97
- const xpaint  0x0000000000413a47
- const xdraw_image  0x00000000004148c0
- const load_image  0x0000000000415349
- const save_image  0x0000000000415a5a
- const xval  0x00000000004173b8
- const xstr  0x0000000000418fee
- const printr  0x000000000041aa31
- const fprintr  0x000000000041ab1d
- const __critical  0x000000000041beb8
- const __stack_p  0x000000000041bec0
- const __int_enable  0x000000000041bec8
- const __int_busy  0x000000000041bed0
- const __sys_nest  0x000000000041bed8
- const time  0x000000000041bee8
- const SYS_CALL  0x000000000041bef0
- const SYS_EXT  0x000000000041bef8
- const tasks  0x000000000041bf00
- const present_task  0x000000000041bf08
- const __stack_top  0x000000000041bf10
- const tcb0  0x000000000041bf18
- const cmd_buf  0x000000000041c0a8
- const argc  0x000000000041c3a8
- const argv  0x000000000041c3b0
- const graphic_protocol  0x000000000041c620
- const pointer_protocol  0x000000000041c628
- const graphic_mode  0x000000000041c630
- const graphic_info  0x000000000041c638
- const graphic_base  0x000000000041c640
- const set_mode  0x000000000041c648
- const screen_width  0x000000000041c650
- const screen_height  0x000000000041c658
- const mouse_reset  0x000000000041c660
- const mouse_get_state  0x000000000041c668
- const xcolor  0x000000000041c808
- const _end  0x00000000004249a8
+ const math_sin  0x000000000040ecde
+ const math_cos  0x000000000040f240
+ const math_tan  0x000000000040f33f
+ const math_arctan  0x000000000040f5ff
+ const math_exp  0x00000000004100d2
+ const math_log  0x000000000041093f
+ const math_random  0x0000000000411061
+ const math_power  0x00000000004110ee
+ const xdraw_point  0x00000000004112a4
+ const xget_point  0x00000000004114cd
+ const xdraw_line  0x0000000000411643
+ const xgcls  0x000000000041223e
+ const xfill_rect  0x00000000004124b9
+ const xdraw_rect  0x0000000000412ab8
+ const xfill_circle  0x00000000004132b8
+ const xdraw_circle  0x0000000000413430
+ const xpaint  0x0000000000413fe0
+ const xdraw_image  0x0000000000414e59
+ const load_image  0x00000000004158e2
+ const save_image  0x0000000000415ff3
+ const xval  0x0000000000417950
+ const xstr  0x0000000000419586
+ const printr  0x000000000041afc9
+ const fprintr  0x000000000041b0b5
+ const __critical  0x000000000041c468
+ const __stack_p  0x000000000041c470
+ const __int_enable  0x000000000041c478
+ const __int_busy  0x000000000041c480
+ const __sys_nest  0x000000000041c488
+ const time  0x000000000041c498
+ const SYS_CALL  0x000000000041c4a0
+ const SYS_EXT  0x000000000041c4a8
+ const tasks  0x000000000041c4b0
+ const present_task  0x000000000041c4b8
+ const __stack_top  0x000000000041c4c0
+ const tcb0  0x000000000041c4c8
+ const cmd_buf  0x000000000041c670
+ const argc  0x000000000041c970
+ const argv  0x000000000041c978
+ const taskman  0x000000000041ca50
+ const graphic_protocol  0x000000000041cd28
+ const pointer_protocol  0x000000000041cd30
+ const graphic_mode  0x000000000041cd38
+ const graphic_info  0x000000000041cd40
+ const graphic_base  0x000000000041cd48
+ const set_mode  0x000000000041cd50
+ const screen_width  0x000000000041cd58
+ const screen_height  0x000000000041cd60
+ const mouse_reset  0x000000000041cd68
+ const mouse_get_state  0x000000000041cd70
+ const xcolor  0x000000000041cf10
+ const _end  0x00000000004250b0
 // "stdio.base" the base text of "stdio.rh"
 
 __xxmain1:
@@ -175,6 +178,7 @@ __xxmain1:
 __tcb:
  data 0,0,0,0,0,0,0,0
  data 0,0,0,0,0,0,0,0
+ data 0,0,0,0,0,0,0,0
 
  long   read_p#
 
@@ -183,9 +187,6 @@ sync:
   end
 create_task:
  @SYS_CALL(CREATE_TASK)
-  end
-exit_task:
- @SYS_CALL(EXIT_TASK)
   end
 kill_task:
  @SYS_CALL(KILL_TASK)
@@ -210,9 +211,6 @@ send_message:
   end
 get_message:
  @SYS_CALL(GET_MESSAGE)
-  end
-exit_process:
- @SYS_CALL(EXIT_PROCESS)
   end
 _wide:
  @SYS_CALL(_WIDE)
@@ -358,6 +356,9 @@ wputs:
 exec_command:
  @SYS_CALL(EXEC_COMMAND)
   end
+exit_process:
+  taskman, @SYS_CALL(GO_TASK)
+  end
 
 putchar:
   stdout#, putc
@@ -397,25 +398,27 @@ __wait1:
 
 __xxmain2:
 
-  long   _indev#,_outdev#,stdin#,stdout#,_f#
+  long   _indev#,_outdev#,stdin#,stdout#,_flags#
   char  _infile$(FILE_SIZE),_outfile$(FILE_SIZE)
 
   CONIN,    stdin#=
   CONOUT, stdout#=
-  (present_task)#(INDEV/8),    _indev#=
-  (present_task)#(OUTDEV/8), _outdev#=
+  present_task#, ->TCB.indev#    _indev#=
+  present_task#, ->TCB.outdev#  _outdev#=
   if (_indev)$=NULL goto __xxmain3
-    _indev#,  _infile, ropen _f#=
-    if _f#<>ERROR then _infile, stdin#=
+    _indev#,  _infile, ropen _flags#=
+    if _flags#<>ERROR then _infile, stdin#=
 __xxmain3:
   if (_outdev)$=NULL goto __xxmain4
-    _outdev#,  _outfile, wopen _f#=
-    if _f#<>ERROR then _outfile, stdout#=
+    _outdev#,  _outfile, wopen _flags#=
+    if _flags#<>ERROR then _outfile, stdout#=
 __xxmain4:
-  if (present_task)$(CMD_LINE)='B' then "*** background ***", prints nl
+  present_task#, ->TCB.cmd_line# _flags#=
+  if (_flags)$='B' then "*** background ***", prints nl
   main
   stdin#,   rclose
   stdout#, wclose
-  if (present_task)$(CMD_LINE)='F' then  (present_task)#(CLIENT/8), run_task
+  if (_flags)$='F' then  present_task#, ->TCB.client# run_task
+  _flags#, free
   exit_process
   end

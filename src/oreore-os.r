@@ -1,5 +1,5 @@
-//  "oreore-os.r" oreore-OS ver 0.0.8  for oregengo-R (x64) UEFIアプリケーション  
-// (Pauseキーでスクリーンキャプチャ機能を追加)
+//  "oreore-os.r" oreore-OS ver 0.0.9  for oregengo-R (x64) UEFIアプリケーション  
+// 変更点：タスク切り替えのときの保存レジスタを追加
 
  const TIMER_INTERVAL 10000 // 割り込み周期(0.1us単位)
  const EOF         -1         // ファイルの終わりをあらわす文字コード 
@@ -41,24 +41,32 @@
   const FILE_SET_INFO  0x48
   const FILE_FLUSH       0x50
  
-// TCBの構造 （128バイト／タスク）
-  const TCB_SIZE    128
-  const STATUS       0x00  // 現在のタスクの状態 （ 1:RUN / 0:STOP ) 
-  const CMD_LINE  0x08  // コマンドライン
-  const START         0x10  // プログラムの先頭アドレス
-  const SIZE           0x18  // プログラムサイズ
-  const STACK        0x20  // スタックの先頭アドレス
-  const INDEV        0x28  // タスクの入力デバイス
-  const OUTDEV     0x30  // タスクの出力デバイス
-  const MESSAGE   0x38  // メッセージ
-  const CLIENT       0x40  // メッセージの発信元(タスク)
-  const RCX            0x48  // rcxレジスタ
-  const RDX           0x50  // rdxレジスタ
-  const RDI            0x58  // rdiレジスタ
-  const RSI             0x60  // rsiレジスタ
-  const NEXT_TCB  0x68  // 次のTCB アドレス 
-  const PREV_TCB  0x70  // 前のTCB アドレス 
-  const SP              0x78  // スタックポインタ
+// タスク制御ブロック
+  struct TCB
+    long status#
+    long cmd_line#       // コマンドライン
+    long prog_start#     // プログラム開始アドレス
+    long prog_size#      // プログラムサイズ
+    long stack#             // スタックの先頭アドレス
+    long indev#            // タスクの入力デバイス
+    long outdev#          // タスクの出力デバイス
+    long message#      // メッセージ
+    long client#           // メッセージの発信元(タスク)
+    long rcx#               // レジスタrcx
+    long rdx#               // レジスタrdx
+    long rdi#               // レジスタrdi
+    long rsi#                // レジスタrsi
+    long r8#                // レジスタr8
+    long r9#                // レジスタr9
+    long r10#              // レジスタr10
+    long r11#              // レジスタr11
+    long r12#              // レジスタr12
+    long xmm0#         // レジスタxmm0
+    long xmm1#         // レジスタxmm1
+    long prev#            // 前のTCB
+    long next#          // 次のTCB 
+    long sp#               // スタックポインタ
+  end
 
 // タスクの状態
   enum
@@ -116,7 +124,7 @@
  long  __stack_top#
 
  // デフォルトのTCB
- char tcb0$(TCB_SIZE)
+ char tcb0$(TCB.SIZE)
 
 
 // プログラム開始位置
@@ -182,18 +190,19 @@ _start:
 / rcx=present_task/
 / (rcx)=rax/
 / rcx=RUN/
-/ STATUS(rax)=rcx/
-/ NEXT_TCB(rax)=rax/
-/ PREV_TCB(rax)=rax/
+/ TCB.status(rax)=rcx/
+/ TCB.next(rax)=rax/
+/ TCB.prev(rax)=rax/
 / rcx=__stack_p/
 / rcx=(rcx)/
-/ SP(rax)=rcx/
+/ TCB.sp(rax)=rcx/
 / rax=main/
 / (rcx)=rax /              // プログラム開始番地はmain 
 
-  "*shell", tcb0+CMD_LINE, strcpy
+  "*shell", tcb0, ->TCB.cmd_line#=
 
   1, __int_enable#=                                 // 割り込みを許可
+  taskman_init                                          // タスクマネージャを初期化する
   console_init                                           // コンソールデバイスドライバを初期化する
   goto switch_task                                   // メインタスクに切り替える
  
@@ -256,25 +265,43 @@ sys_call1:
 switch_task:
 / rax=present_task/     // TCBアドレスをロード
 / rax=(rax)/
-/ RCX(rax)=rcx/     // レジスタを退避する
-/ RDX(rax)=rdx/
-/ RDI(rax)=rdi/
-/ RSI(rax)=rsi/
+/ TCB.rcx(rax)=rcx/     // レジスタを退避する
+/ TCB.rdx(rax)=rdx/
+/ TCB.rdi(rax)=rdi/
+/ TCB.rsi(rax)=rsi/
+/ TCB.r8(rax)=r8/
+/ TCB.r9(rax)=r9/
+/ TCB.r10(rax)=r10/
+/ TCB.r11(rax)=r11/
+/ TCB.r12(rax)=r12/
+/ rcx=xmm0/
+/ TCB.xmm0(rax)=rcx/
+/ rcx=xmm1/
+/ TCB.xmm1(rax)=rcx/
 / rcx=__stack_p/
 / rcx=(rcx)/
-/ SP(rax)=rcx/
+/ TCB.sp(rax)=rcx/
 switch_loop:
-/ rax=NEXT_TCB(rax)/
-/ r15=STATUS(rax)/
+/ rax=TCB.next(rax)/
+/ r15=TCB.status(rax)/
 / r15&r15/            // タスクの状態がRUNならタスクを切り替える
 / jnz switch_loop/ // RUN状態のタスクが1つもないとハングするので注意
 / rcx=present_task/
 / (rcx)=rax/
-/ rcx=RCX(rax)/         // レジスタを復帰する
-/ rdx=RDX(rax)/
-/ rdi=RDI(rax)/
-/ rsi=RSI(rax)/
-/ r15=SP(rax)/
+/ rcx=TCB.xmm0(rax)/         // レジスタを復帰する
+/ xmm0=rcx/
+/ rcx=TCB.xmm1(rax)/
+/ xmm1=rcx/
+/ rcx=TCB.rcx(rax)/
+/ rdx=TCB.rdx(rax)/
+/ rdi=TCB.rdi(rax)/
+/ rsi=TCB.rsi(rax)/
+/ r8=TCB.r8(rax)/
+/ r9=TCB.r9(rax)/
+/ r10=TCB.r10(rax)/
+/ r11=TCB.r11(rax)/
+/ r12=TCB.r12(rax)/
+/ r15=TCB.sp(rax)/
 / rax=__stack_p/
 / (rax)=r15/
 sys_call2:
@@ -345,7 +372,6 @@ __int_entry:
  enum
     SYNC
     CREATE_TASK
-    EXIT_TASK
     KILL_TASK
     RUN_TASK
     STOP_TASK
@@ -354,7 +380,6 @@ __int_entry:
     RET_TASK
     SEND_MESSAGE
     GET_MESSAGE
-    EXIT_PROCESS  
     _WIDE
     _NALLOW
     GETC
@@ -403,7 +428,6 @@ __int_entry:
 jmp_tbl:
  data sync
  data create_task
- data exit_task
  data kill_task
  data run_task
  data stop_task
@@ -412,7 +436,6 @@ jmp_tbl:
  data ret_task
  data send_message
  data get_message
- data exit_process
  data _wide
  data _nallow
  data getc
@@ -470,13 +493,13 @@ create_task:
 / rsi=READY/
 / rax=present_task/
 / rax=(rax)/                  // rax:現在のタスク
-/ rcx=PREV_TCB(rax)/  // rcx:前のタスク
-/ STATUS(rdx)=rsi/       // 新しいタスクはREADY状態にする
-/ NEXT_TCB(rdx)=rax/  // 新しいタスクのNEXT_TCBエリアに現在のタスクをセット
-/ PREV_TCB(rdx)=rcx/  // 新しいタスクのPREV_TCBエリアに前のタスクをセット
-/ SP(rdx)=rdi/              // 新しいタスクのスタックポインタ値をセット
-/ NEXT_TCB(rcx)=rdx/  // 前のタスクのNEXT_TCBエリアに新しいタスクをセット
-/ PREV_TCB(rax)=rdx/  // 現在のタスクのPREV_TCBエリアを新しいタスクにセット
+/ rcx=TCB.prev(rax)/  // rcx:前のタスク
+/ TCB.status(rdx)=rsi/       // 新しいタスクはREADY状態にする
+/ TCB.next(rdx)=rax/  // 新しいタスクのTCB.nextエリアに現在のタスクをセット
+/ TCB.prev(rdx)=rcx/  // 新しいタスクのTCB.prevエリアに前のタスクをセット
+/ TCB.sp(rdx)=rdi/              // 新しいタスクのスタックポインタ値をセット
+/ TCB.next(rcx)=rdx/  // 前のタスクのTCB.nextエリアに新しいタスクをセット
+/ TCB.prev(rax)=rdx/  // 現在のタスクのTCB.prevエリアを新しいタスクにセット
 / rax=tasks/                // tasksを＋１する 
 / rcx=(rax)/
 / rcx++/
@@ -484,25 +507,19 @@ create_task:
   end
 
 
-// 現在実行中のタスクを終了する
-exit_task:
-/ rax=present_task/
-/ rdi=(rax)/
-
-
-// タスク削除
+// タスクを削除する
 // 入力パラメータ｜rdi:削除するタスク
 kill_task:
   long __d0#,__dn#,__dp#
   __d0#=
-  if __d0#=tcb0 then end
-  READY, (__d0)#(STATUS/8)=
-  (__d0)#(NEXT_TCB/8), __dn#=
-  (__d0)#(PREV_TCB/8), __dp#=
-  __dn#, (__dp)#(NEXT_TCB/8)=
-  __dp#, (__dn)#(PREV_TCB/8)=
+  if __d0#=tcb0 then end                  // タスク0は削除できない
+  if __d0#=present_task# then end  // 自分自身のタスクは削除できない
+  READY, __d0#, ->TCB.status#=
+  __d0#, ->TCB.next# __dn#=
+  __d0#, ->TCB.prev# __dp#=
+  __dn#, __dp#, ->TCB.next#=
+  __dp#, __dn#, ->TCB.prev#=
   tasks#--
-  __dn#, present_task#= // 削除したタスクの次のタスクから実行する
   end
 
 
@@ -510,7 +527,7 @@ kill_task:
 // 入力パラメータ|rdi:走らせるタスク
 run_task:
 / rax=RUN/
-/ STATUS(rdi)=rax/
+/ TCB.status(rdi)=rax/
   end
 
 
@@ -518,7 +535,7 @@ run_task:
 // 入力パラメータ|rdi:走らせるタスク
 stop_task:
 / rax=READY/
-/ STATUS(rdi)=rax/
+/ TCB.status(rdi)=rax/
   end
 
 
@@ -526,14 +543,14 @@ stop_task:
 // 入力パラメータ|rdi:走らせるタスク
 wait_task:
 / rax=WAIT/
-/ STATUS(rdi)=rax/
+/ TCB.status(rdi)=rax/
   end
 
 
 // タスクにメッセージを送って実行を依頼してWAIT状態に遷移する
 // 入力パラメータ|rsi:メッセージ,rdi:呼び出すタスク
 go_task:
-/ rax=STATUS(rdi)/
+/ rax=TCB.status(rdi)/
 / rcx=READY/
 / rax-rcx/            // 呼び出すタスクがREADY状態でないときははエラー
 / jnz error_end/
@@ -542,26 +559,26 @@ go_task:
 / rdi=present_task/
 / rdi=(rdi)/
 / rax=WAIT/
-/ STATUS(rdi)=rax/
+/ TCB.status(rdi)=rax/
   end
 
 
 // 実行を依頼してきたタスクにメッセージを送って実行を移してREADY状態に遷移する
 // 入力パラメータ|rsi:メッセージ,rdi:返すタスク
 ret_task:
-/ rax=STATUS(rdi)/
+/ rax=TCB.status(rdi)/
 / rcx=WAIT/
 / rax-rcx/            // 呼び出すタスクがWAIT状態でないときははエラー
 / jnz error_end/
 / rcx=present_task/
 / rcx=(rcx)/
-/ rax=CLIENT(rcx)/
+/ rax=TCB.client(rcx)/
 / rax-rdi/            // 呼び出すタスクが依頼してきたタスクでないときはエラー
 / jnz error_end/
-/ MESSAGE(rdi)=rsi/
+/ TCB.message(rdi)=rsi/
  run_task
 / rax=READY/
-/ STATUS(rcx)=rax/
+/ TCB.status(rcx)=rax/
   end
 
 
@@ -570,8 +587,8 @@ ret_task:
 send_message:
 / rax=present_task/
 / rax=(rax)/
-/ MESSAGE(rdi)=rsi/
-/ CLIENT(rdi)=rax/
+/ TCB.message(rdi)=rsi/
+/ TCB.client(rdi)=rax/
   end
 
 
@@ -579,46 +596,10 @@ send_message:
 get_message:
 / rax=present_task/
 / rax=(rax)/
-/ rdi=MESSAGE(rax)/
-/ rsi=CLIENT(rax)/
+/ rdi=TCB.message(rax)/
+/ rsi=TCB.client(rax)/
   end
 
-
-// プロセスを終了して使用メモリを開放する
-exit_process:
-  long __k1#,__k2#,__k3#,__k4#
-   present_task#,    __k1#=
-  (__k1)#(START/8),  __k2#=
-  (__k1)#(SIZE/8),    __k3#=
-  (__k1)#(STACK/8), __k4#=
-  __k1#, @SYS_CALL(KILL_TASK)
-  __k4#, @SYS_CALL(FREE)
-
-  0, __sys_nest#=  // システムコール状態を解除する
-
-// タスクをリロードする
-/ rax=present_task/
-/ rax=(rax)/
-/ rcx=RCX(rax)/         // レジスタを復帰する
-/ rdx=RDX(rax)/
-/ rdi=RDI(rax)/
-/ rsi=RSI(rax)/
-/ r15=SP(rax)/
-/ rax=__stack_p/
-/ (rax)=r15/
-/ r15++/
-/ r15++/
-/ r15++/
-/ r15++/
-/ r15++/
-/ r15++/
-/ r15++/
-/ r15++/
-/ (rax)=r15/
-/ rax=r15/
-/ rax=-8(rax)/
-/ jmp (rax)/
-  
 
 // ワイド文字列に変換する
 _wide:
@@ -1016,7 +997,15 @@ itoa:
   1,      __p4#=
   __p1#,  __p5#=
 __itoa1:
- if __p5#<__p2# goto __itoa2
+
+// if __p5#<__p2# goto __itoa2
+/ rax=__p5/
+/ rax=(rax)/
+/ rdi=__p2/
+/ rdi=(rdi)/
+/ rax-rdi/
+/ jb __itoa2/
+
   __p5#, __p2#, udiv __p5#=
   __p4#, __p2#, umul __p4#=
   goto __itoa1
@@ -1242,22 +1231,23 @@ split_arg:
 
    exe_file, @SYS_CALL(LOAD) s#= pop t#=
    if s#=ERROR goto error_end
+
    APPLICATION_STACK_SIZE, @SYS_CALL(MALLOC) stack#=
-//   if stack#=NULL then s#, t#, @SYS_CALL(PFREE) gotoerror_end
    stack#, APPLICATION_STACK_SIZE, + sp#=
    s#, 8, + task#=                       // TCB領域はプログラム領域の先頭から8バイト目
    task#, s#, sp#, @SYS_CALL(CREATE_TASK)
-   s#, (task)#(START/8)=
-   t#, (task)#(SIZE/8)=
-   stack#, (task)#(STACK/8)=    
-   indev#, (task)#(INDEV/8)=    
-   outdev#, (task)#(OUTDEV/8)=
-   task#, CMD_LINE, + p#=
-   mode$, (p)$= p#++                          // 実行モードを書き込む
-   cmd0, p#, 6, @SYS_CALL(STRNCPY)  // コマンドライン文字列を書き込む
-   present_task#, (task)#(CLIENT/8)=  // クライアント領域に現在のタスクを書き込む
-   task#, @SYS_CALL(RUN_TASK)
-   if mode$='F' then present_task#, @SYS_CALL(STOP_TASK) // フォアグラウンドの場合は停止状態に入る
+   s#, task#, ->TCB.prog_start#=
+   t#, task#, ->TCB.prog_size#=
+   stack#, task#, ->TCB.stack#=    
+   indev#, task#, ->TCB.indev#=    
+   outdev#, task#, ->TCB.outdev#=
+   cmd0, @SYS_CALL(STRLEN) 1, + @SYS_CALL(MALLOC) p#= // コマンドライン文字列を生成
+   mode, p#, 1, @SYS_CALL(STRNCPY)     // 実行モードを書き込む
+   cmd0, p#, @SYS_CALL(STRCAT)            // コマンドライン文字列を書き込む
+   p#, task#, ->TCB.cmd_line#=              // コマンドライン文字列領域をセット
+   present_task#, task#, ->TCB.client#= // クライアント領域に現在のタスクを書き込む
+   task#, @SYS_CALL(RUN_TASK)              // アプリのタスクを起動
+   if mode$='F' then present_task#, @SYS_CALL(STOP_TASK) // フォアグラウンド起動の場合は停止状態に入る
    0, end
 
 
@@ -1275,29 +1265,58 @@ locate_protocol:
   end
 
 
+//  以下は タスクマネージャ(現在は削除のみ)
+
+// 初期化
+taskman_init:
+  char taskman$(TCB.SIZE)
+  long  taskman_stack#,taskman_sp#
+
+  // タスクを生成する
+  DRIVER_STACK_SIZE, @SYS_CALL(MALLOC) taskman_stack#= DRIVER_STACK_SIZE-8, + taskman_sp#=
+  taskman, taskman_loop, taskman_sp#, @SYS_CALL(CREATE_TASK)
+  "*task manager", taskman, ->TCB.cmd_line#=
+  end
+
+// 終了
+taskman_remove:
+  taskman, @SYS_CALL(KILL_TASK)
+  taskman_stack#, @SYS_CALL(FREE)
+  end
+
+// タスク削除処理
+taskman_loop:
+  long  t_client#  // 削除を依頼してきたタスク
+
+  @SYS_CALL(GET_MESSAGE) pop t_client#=
+  t_client#, @SYS_CALL(KILL_TASK)
+  present_task#, @SYS_CALL(STOP_TASK)
+  goto taskman_loop
+
+
 //  以下はコンソールデバイスドライバ
 
-// ドライバ初期化
+// 初期化
 console_init:
-  char keyin_task$(TCB_SIZE),inline_task$(TCB_SIZE)
+  char keyin_task$(TCB.SIZE),inline_task$(TCB.SIZE)
   long sys_ext0#
   long _xx#,_yy#,_zz#,_uu#,_vv#
 
   // キー入力タスクを生成する
   DRIVER_STACK_SIZE, @SYS_CALL(MALLOC) keyin_stack#= DRIVER_STACK_SIZE-8, + keyin_sp#=
   keyin_task, keyin, keyin_sp#, @SYS_CALL(CREATE_TASK)
-  "*keyin", keyin_task+CMD_LINE, strcpy
+  "*keyin task", keyin_task, ->TCB.cmd_line#=
 
   // １行入力タスクを生成する
   DRIVER_STACK_SIZE, @SYS_CALL(MALLOC) inline_stack#= DRIVER_STACK_SIZE-8, + inline_sp#=
   inline_task, inline, inline_sp#, @SYS_CALL(CREATE_TASK)
-  "*inline", inline_task+CMD_LINE, strcpy
+  "*inline task", inline_task, ->TCB.cmd_line#=
 
   SYS_EXT#, sys_ext0#=
   console_handler, SYS_EXT#=
   end
 
-// ドライバ削除
+// 終了
 console_remove:
   sys_ext0#, SYS_EXT#=
   inline_task, @SYS_CALL(KILL_TASK)
@@ -1316,7 +1335,7 @@ keyin:
     @SYS_CALL(SYNC)  // 他のタスクとの同期をとる
     getch k_cc#=
   if k_cc#=NULL   goto loop_keyin
-  k_cc#, (k_client)#(RDI/8)=           // 戻り値をセットする
+  k_cc#, k_client#, ->TCB.rdi#=      // 戻り値をセットする
   k_client#, @SYS_CALL(RET_TASK) // 呼び出したタスクに戻る
   goto keyin
 
@@ -1336,7 +1355,7 @@ inline:
     goto loop_inline
   exit_inline:
   NULL, (i_st)$=
-  i_cc#, (i_client)#(RDI/8)=            // 戻り値をセットする
+  i_cc#, i_client#, ->TCB.rdi#=       // 戻り値をセットする
   i_client#, @SYS_CALL(RET_TASK) // 呼び出したタスクに戻る
   goto inline
 
@@ -1592,7 +1611,7 @@ main:
 
   1, @SYS_CALL(CURSOR)
   @SYS_CALL(CLS)
-  "oreore-OS version 0.07", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
+  "oreore-OS version 0.09", CONOUT, @SYS_CALL(FPRINTS) CONOUT, @SYS_CALL(FNL)
 
   // バッチファイル"autoexec.bat"が存在すれば、それを実行する
   "autoexec.bat", bat_file, ropen f#=
@@ -1603,6 +1622,7 @@ main_loop:
   "# ", CONOUT, @SYS_CALL(FPRINTS)
   fault:
   cmd_buf, infile#, @SYS_CALL(FINPUTS) f#=
+
   // バッチファイルの終わりに達したらコンソール入力に切り替える
   if f#=EOF then infile#, rclose CONIN, infile#= gotofault
   if f#=LF goto main2

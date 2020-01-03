@@ -198,6 +198,18 @@ compile_s:
       mode11:       // 空白を読み飛ばす
         if (s)$=' ' then s#++ gotomode11
 
+        // field文が検出された場合
+        mode1_field:
+        s#, "field ", 6, strncmp k#=
+        if k#<>0 goto mode1_long 
+        s#, 6, + s#=
+        mode110:       // 空白を読み飛ばす
+        if (s)$=' ' then s#++ gotomode110
+        " const_plus ", wfp, fprints  sname, wfp, fprints
+        ".",  wfp, fprints s#, wfp, fprints
+        " 0", wfp, fprints wfp, fnl
+        goto cmp_loop
+        
         // long文が検出された場合
         mode1_long:
         s#, "long ", 5, strncmp k#=

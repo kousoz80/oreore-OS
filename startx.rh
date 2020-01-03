@@ -36,28 +36,29 @@
  const TYPE_MENU  0x000000000000000b
  const TYPE_LIST  0x000000000000000c
  const TYPE_TABLE  0x000000000000000d
- const create_component  0x00000000004285da
- const remove_component  0x0000000000428f39
- const repaint  0x000000000042aeec
+ const create_component  0x00000000004295f5
+ const remove_component  0x0000000000429f54
+ const repaint  0x000000000042bf07
  const NULL_BORDER  0x0000000000000000
  const LINE_BORDER  0x0000000000000001
  const RAISED_BORDER  0x0000000000000002
  const LOWERD_BORDER  0x0000000000000003
- const is_visible  0x000000000042d3dc
- const set_visible  0x000000000042dc0f
- const is_on_rectangle  0x000000000042de00
- const is_on_component  0x000000000042e254
- const pop_up_component  0x000000000042f366
- const set_bounds  0x000000000042f88e
- const request_focus  0x000000000042fcc0
- const no_operation  0x000000000042ff5a
+ const is_visible  0x000000000042e3f7
+ const set_visible  0x000000000042ec2a
+ const is_on_rectangle  0x000000000042ee1b
+ const is_on_component  0x000000000042f26f
+ const pop_up_component  0x0000000000430381
+ const set_bounds  0x00000000004308a9
+ const request_focus  0x0000000000430cdb
+ const no_operation  0x0000000000430f75
  const Label.subclass  0x0000000000000000
  const Label.text  0x0000000000000008
  const Label.paint  0x0000000000000010
- const Label.component  0x0000000000000020
- const Label.SIZE  0x00000000000000d8
- const create_label  0x000000000042fff8
- const set_label_text  0x0000000000430b1b
+ const Label.keyinput  0x0000000000000018
+ const Label.component  0x0000000000000028
+ const Label.SIZE  0x00000000000000e0
+ const create_label  0x0000000000431010
+ const set_label_text  0x0000000000431dcb
  const Button.subclass  0x0000000000000000
  const Button.text  0x0000000000000008
  const Button.imagefile  0x0000000000000010
@@ -69,28 +70,28 @@
  const Button.paint  0x0000000000000040
  const Button.component  0x0000000000000050
  const Button.SIZE  0x0000000000000108
- const create_button  0x0000000000430cd0
- const set_button_lclicked  0x0000000000431f42
- const set_button_lclicked2  0x0000000000432022
- const set_button_rclicked  0x0000000000432102
- const set_button_text  0x00000000004321e2
- const set_button_image  0x000000000043235a
+ const create_button  0x0000000000431f80
+ const set_button_lclicked  0x00000000004331f2
+ const set_button_lclicked2  0x00000000004332d2
+ const set_button_rclicked  0x00000000004333b2
+ const set_button_text  0x0000000000433492
+ const set_button_image  0x000000000043360a
  const CheckBox.subclass  0x0000000000000000
  const CheckBox.is_selected  0x0000000000000008
  const CheckBox.changed  0x0000000000000010
  const CheckBox.paint  0x0000000000000018
  const CheckBox.component  0x0000000000000028
  const CheckBox.SIZE  0x00000000000000e0
- const create_checkbox  0x0000000000432510
- const set_checkbox_changed  0x000000000043349d
+ const create_checkbox  0x00000000004337c0
+ const set_checkbox_changed  0x000000000043474d
  const RadioButton.subclass  0x0000000000000000
  const RadioButton.is_selected  0x0000000000000008
  const RadioButton.changed  0x0000000000000010
  const RadioButton.paint  0x0000000000000018
  const RadioButton.component  0x0000000000000028
  const RadioButton.SIZE  0x00000000000000e0
- const create_radiobutton  0x00000000004335b8
- const set_radiobutton_changed  0x00000000004348f1
+ const create_radiobutton  0x0000000000434868
+ const set_radiobutton_changed  0x0000000000435ba1
  const HScrollBar.subclass  0x0000000000000000
  const HScrollBar.value  0x0000000000000008
  const HScrollBar.min  0x0000000000000010
@@ -100,8 +101,8 @@
  const HScrollBar.paint  0x0000000000000030
  const HScrollBar.component  0x0000000000000040
  const HScrollBar.SIZE  0x00000000000000f8
- const create_hscrollbar  0x0000000000434a10
- const set_hscrollbar_changed  0x0000000000435f1a
+ const create_hscrollbar  0x0000000000435cc0
+ const set_hscrollbar_changed  0x00000000004371ca
  const VScrollBar.subclass  0x0000000000000000
  const VScrollBar.value  0x0000000000000008
  const VScrollBar.min  0x0000000000000010
@@ -111,8 +112,8 @@
  const VScrollBar.paint  0x0000000000000030
  const VScrollBar.component  0x0000000000000040
  const VScrollBar.SIZE  0x00000000000000f8
- const create_vscrollbar  0x0000000000436038
- const set_vscrollbar_changed  0x0000000000437522
+ const create_vscrollbar  0x00000000004372e8
+ const set_vscrollbar_changed  0x00000000004387d2
  const TextField.subclass  0x0000000000000000
  const TextField.text  0x0000000000000008
  const TextField.display_pos  0x0000000000000010
@@ -121,28 +122,28 @@
  const TextField.paint  0x0000000000000028
  const TextField.component  0x0000000000000038
  const TextField.SIZE  0x00000000000000f0
- const create_textfield  0x0000000000437640
- const set_textfield_text  0x000000000043a3f2
- const set_color  0x000000000043d07b
- const get_color  0x000000000043d0e8
- const _disp  0x000000000043d16a
- const gcls  0x000000000043d3d3
- const draw_point  0x000000000043d5c1
- const get_point  0x000000000043d7ea
- const draw_line  0x000000000043d960
- const fill_rect  0x000000000043e55b
- const draw_rect  0x000000000043eb5a
- const fill_circle  0x000000000043f35a
- const draw_circle  0x000000000043f4d2
- const fill_triangle  0x0000000000440082
- const draw_triangle  0x000000000044034a
- const paint  0x00000000004407c2
- const put_pset  0x0000000000440fe0
- const draw_image  0x000000000044163b
- const copy_image  0x0000000000441d70
- const paste_image  0x000000000044252a
- const draw_string  0x0000000000442617
- const draw_font  0x0000000000442a5a
+ const create_textfield  0x00000000004388f0
+ const set_textfield_text  0x000000000043b6a2
+ const set_color  0x000000000043e32b
+ const get_color  0x000000000043e398
+ const _disp  0x000000000043e41a
+ const gcls  0x000000000043e683
+ const draw_point  0x000000000043e871
+ const get_point  0x000000000043ea9a
+ const draw_line  0x000000000043ec10
+ const fill_rect  0x000000000043f80b
+ const draw_rect  0x000000000043fe0a
+ const fill_circle  0x000000000044060a
+ const draw_circle  0x0000000000440782
+ const fill_triangle  0x0000000000441332
+ const draw_triangle  0x00000000004415fa
+ const paint  0x0000000000441a72
+ const put_pset  0x0000000000442290
+ const draw_image  0x00000000004428eb
+ const copy_image  0x0000000000443020
+ const paste_image  0x00000000004437da
+ const draw_string  0x00000000004438c7
+ const draw_font  0x0000000000443d0a
  const COLOR_BLACK  0x0000000000000000
  const COLOR_WHITE  0x0000000000ffffff
  const COLOR_RED  0x0000000000ff0000
@@ -175,7 +176,7 @@
  const Desktop.paint  0x0000000000000018
  const Desktop.component  0x0000000000000020
  const Desktop.SIZE  0x00000000000000d8
- const paint_desktop  0x0000000000444407
+ const paint_desktop  0x00000000004456b7
  const Window.subclass  0x0000000000000000
  const Window.title  0x0000000000000010
  const Window.state  0x0000000000000018
@@ -192,14 +193,14 @@
  const Window.close_button  0x0000000000000070
  const Window.component  0x0000000000000178
  const Window.SIZE  0x0000000000000230
- const create_window  0x000000000044b2a8
- const set_window_title  0x000000000044f192
- const set_window_icon  0x000000000044f272
- const set_window_resizable  0x000000000044f352
- const show_desktop_menu  0x000000000044fd52
- const show_icon_menu  0x0000000000451663
- const create_property_sheet  0x0000000000452791
- const show_property_sheet  0x0000000000453ce5
+ const create_window  0x000000000044c558
+ const set_window_title  0x000000000045038a
+ const set_window_icon  0x000000000045046a
+ const set_window_resizable  0x000000000045054a
+ const show_desktop_menu  0x0000000000450f4a
+ const show_icon_menu  0x000000000045285b
+ const create_property_sheet  0x0000000000453989
+ const show_property_sheet  0x0000000000454edd
  const TextArea.subclass  0x0000000000000000
  const TextArea.text  0x0000000000000008
  const TextArea.line  0x0000000000000010
@@ -214,25 +215,25 @@
  const TextArea.hscrollbar  0x0000000000000110
  const TextArea.vscrollbar  0x0000000000000208
  const TextArea.SIZE  0x0000000000000300
- const create_textarea  0x0000000000455030
- const set_textarea_text  0x000000000045af74
- const Filer.SIZE  0x00000000000001f8
- const create_filer  0x000000000045c2a2
- const update_filer  0x000000000045e866
- const set_filer_open_action  0x000000000045f1ae
- const get_file_command  0x000000000046729f
- const get_file_icon  0x00000000004675ff
- const get_file_type  0x000000000046779a
- const get_file_extention  0x0000000000467cf3
- const show_open_dialog  0x0000000000469688
- const show_save_dialog  0x00000000004696ac
- const show_xfiler  0x000000000046a6f4
- const mouse_x  0x000000000046cfb8
- const mouse_y  0x000000000046cfc0
- const copy_area  0x000000000046d008
- const font_area  0x000000000046d010
- const gui_is_running  0x000000000046d020
- const key_code  0x000000000046d030
- const key_mask  0x000000000046d038
- const desktop  0x0000000000475d90
- const gui_end  0x00000000004796f8
+ const create_textarea  0x0000000000456228
+ const set_textarea_text  0x000000000045c16c
+ const Filer.SIZE  0x0000000000000200
+ const create_filer  0x000000000045d49a
+ const update_filer  0x000000000045fa5e
+ const set_filer_open_action  0x00000000004603a6
+ const get_file_command  0x0000000000468497
+ const get_file_icon  0x00000000004687f7
+ const get_file_type  0x0000000000468992
+ const get_file_extention  0x0000000000468eeb
+ const show_open_dialog  0x000000000046a880
+ const show_save_dialog  0x000000000046a8a4
+ const show_xfiler  0x000000000046b8ec
+ const mouse_x  0x000000000046e1b0
+ const mouse_y  0x000000000046e1b8
+ const copy_area  0x000000000046e200
+ const font_area  0x000000000046e208
+ const gui_is_running  0x000000000046e218
+ const key_code  0x000000000046e228
+ const key_mask  0x000000000046e230
+ const desktop  0x0000000000476f88
+ const gui_end  0x000000000047a930

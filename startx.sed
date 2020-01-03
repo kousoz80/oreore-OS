@@ -51,6 +51,7 @@
  /const Label.subclass  / p
  /const Label.text  / p
  /const Label.paint  / p
+ /const Label.keyinput  / p
  /const Label.component  / p
  /const Label.SIZE  / p
  /const create_label  / p

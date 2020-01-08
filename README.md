@@ -12,15 +12,14 @@
   
 デスクトップ画面やアイコンを右クリックすると
 メニューが表示されてアイコンの作成や移動、削除、変更することができます。
-
-
+  
+  
 アイコンメニュー画面
-  ![enter image description here](https://imgur.com/IapmxCB.jpg)
-
+   ![enter image description here](https://imgur.com/IapmxCB.jpg)
 
   
-　　　
-　アイコン作成・変更画面　
+  
+アイコン作成・変更画面
   
 ![enter image description here](https://imgur.com/pQ9ToyB.jpg)  
     

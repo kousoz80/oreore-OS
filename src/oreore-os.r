@@ -41,6 +41,82 @@
   const FILE_SET_INFO  0x48
   const FILE_FLUSH       0x50
  
+// ブートサービスコールテーブル
+  struct BootService
+    long signature#
+    int revision!
+    int headersize!
+    int crc32!
+    int reserved!
+    long raise_tpl#
+    long restore_tpl#
+    long allocate_pages#
+    long free_pages#
+    long get_memory_map#
+    long allocate_pool#
+    long free_pool#
+    long create_event#
+    long set_timer#
+    long wait_for_event#
+    long signal_event#
+    long close_event#
+    long check_event#
+    long install_protocol_interface#
+    long reinstall_protocol_interface#
+    long uninstall_protocol_interface#
+    long handle_protocol#
+    long __reserved#
+    long register_protocol_notify#
+    long locate_handle#
+    long locate_device_path#
+    long install_configuration_table#
+    long load_image#
+    long start_image#
+    long exit#
+    long unload_image#
+    long exit_boot_services#
+    long get_next_monotonic_count#
+    long stall#
+    long set_watchdog_timer#
+    long connect_controller#
+    long disconnect_controller#
+    long open_protocol#
+    long close_protocol#
+    long open_protocol_information#
+    long protocols_per_handle#
+    long locate_handle_buffer#
+    long locate_protocol#
+    long install_multiple_protocol_interfaces#
+    long uninstall_multiple_protocol_interfaces#
+    long calculate_crc32#
+    long copy_mem#
+    long set_mem#
+    long create_event_ex#
+  end
+
+// ランタイムサービスコールテーブル
+  struct RuntimeService
+    long signature#
+    int revision!
+    int headersize!
+    int crc32!
+    int reserved!
+    long get_time#
+    long set_time#
+    long get_wakeup_time#
+    long set_wakeup_time#
+    long set_virtual_address_map#
+    long convert_pointer#
+    long get_variable#
+    long get_next_variable#
+    long set_variable#
+    long get_next_high_mono_count#
+    long reset_system#
+    long update_capsule#
+    long query_capsule_caps#
+    long query_variable_info#
+  end
+
 // タスク制御ブロック
   struct TCB
     long status#

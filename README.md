@@ -141,7 +141,8 @@ https://github.com/kousoz80/Oreore-Basic
   
  shutdown      ・・・シャットダウン
   
-
+ lsusb      ・・・USB機器の一覧を表示
+  
 ### edit       ・・・エディタ
 
 テキストファイルを編集します

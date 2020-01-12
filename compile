@@ -170,7 +170,15 @@ echo compile shutdown.r
 ./orc stdio.rh src/shutdown.r
 java -jar asm_x64.jar -p0xa7000 -efi asm.s bin/shutdown.EFI
 
+# telnet
+echo compile telnet.r
+./orc stdio.rh src/telnet.r
+java -jar asm_x64.jar -p0xa7000 -efi asm.s bin/telnet.EFI
 
+# lsusb
+echo compile lsusb.r
+./orc stdio.rh src/lsusb.r
+java -jar asm_x64.jar -p0xa7000 -efi asm.s bin/lsusb.EFI
 
 
 # notepad

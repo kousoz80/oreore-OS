@@ -180,6 +180,11 @@ echo compile lsusb.r
 ./orc stdio.rh src/lsusb.r
 java -jar asm_x64.jar -p0xa7000 -efi asm.s bin/lsusb.EFI
 
+# mouse_test
+echo compile mouse_test.r
+./orc stdio.rh src/mouse_test.r
+java -jar asm_x64.jar -p0xa7000 -efi asm.s bin/mouse_test.EFI
+
 
 # notepad
 echo compile notepad.r

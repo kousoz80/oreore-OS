@@ -3,7 +3,7 @@ main:
  const IMAGE_BASE 22
  const IMAGE_SIZE  52
  const PROG_ADDR 42
- char    buf$(128),xbuf$(128),infile$(FILE_SIZE),outfile$(FILE_SIZE)
+ char    buf$(256),xbuf$(256),infile$(FILE_SIZE),outfile$(FILE_SIZE)
  long    in_fname#,out_fname#,start_adrs#,blist#,prev_loc#
  count  i#,j#
  long    cmnt1#,cmnt2#,pc#,ofset#
@@ -160,11 +160,11 @@ asm_1line:
  const ALIGN      4
  const EQU_PP   5
  const LABEL      0
- const MAX_WORD 15
+ const MAX_WORD 64
  const END      -1
 
  count k#
- char  ins$(MAX_WORD),field$(MAX_WORD),arg$(128)
+ char  ins$(MAX_WORD),field$(MAX_WORD),arg$(256)
  long  location#,ins_type#,wordlen#,address#,line#,pass#
  long  lbl#,stt#,ref#,sou#,start_adr#,end_adr#,last_equ#
 

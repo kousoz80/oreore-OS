@@ -1,0 +1,1797 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+<!-- なんちゃってXML version 0.1( ObjectEditor専用 ) -->
+<xobject>
+<ID>project</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>200</width>
+<height>100</height>
+<ID_maker>29</ID_maker>
+<objectname>mouse_test</objectname>
+<description>新規のアプリケーション</description>
+<プロパティ>
+<ID>properties</ID>
+<LookandFeel>javax.swing.plaf.metal.MetalLookAndFeel</LookandFeel>
+<MainWinx0>0</MainWinx0>
+<MainWiny0>0</MainWiny0>
+<MainWinWidth>1024</MainWinWidth>
+<MainWinHeight>745</MainWinHeight>
+<MesgWinx0>0</MesgWinx0>
+<MesgWiny0>559</MesgWiny0>
+<MesgWinWidth>1024</MesgWinWidth>
+<MesgWinHeight>186</MesgWinHeight>
+<FileWinx0>80</FileWinx0>
+<FileWiny0>305</FileWiny0>
+<FileWinWidth>578</FileWinWidth>
+<FileWinHeight>262</FileWinHeight>
+<EditWinx0>347</EditWinx0>
+<EditWiny0>0</EditWiny0>
+<EditWinWidth>676</EditWinWidth>
+<EditWinHeight>541</EditWinHeight>
+<PropWinx0>1</PropWinx0>
+<PropWiny0>1</PropWiny0>
+<PropWinWidth>615</PropWinWidth>
+<PropWinHeight>448</PropWinHeight>
+<DividerLocation1>2</DividerLocation1>
+<DividerLocation2>2</DividerLocation2>
+<ToolBarVisible>1</ToolBarVisible>
+<ViewSourceAtCompile>0</ViewSourceAtCompile>
+<NoSourceCreate>0</NoSourceCreate>
+<JavaEditCommand>geany</JavaEditCommand>
+<JavaViewCommand></JavaViewCommand>
+<HelpCommand></HelpCommand>
+<ApplicationType>7</ApplicationType>
+<CompileCommand0>./compile_java</CompileCommand0>
+<RunCommand0>./run_java</RunCommand0>
+<GUIDesignerCommand0>java -jar guidsin.jar -java</GUIDesignerCommand0>
+<ImportFiles0> import java.awt.*;
+ import java.awt.event.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import javax.swing.border.*;
+import javax.swing.filechooser.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.image.BufferedImage;
+import javax.sound.sampled.*;
+
+class Starter{
+  public static void main( String args[] ){
+    %AppName% ap = new %AppName%();
+    ap.ARGS = args;
+    ap.Start();
+  }
+}
+</ImportFiles0>
+<ProgramStartupCode0> String[] ARGS;
+</ProgramStartupCode0>
+<NativeHelpCommand0></NativeHelpCommand0>
+<CompileCommand1></CompileCommand1>
+<RunCommand1></RunCommand1>
+<GUIDesignerCommand1>java -jar guidsin.jar -applet</GUIDesignerCommand1>
+<ImportFiles1> import java.awt.*;
+ import java.awt.event.*;
+ import java.applet.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+ public class javatext extends Applet {
+   %AppName% ap;
+   public void init() {
+     ap = new %AppName%();
+     ap.APPLET = this;
+     ap.Start();
+   }
+ }
+</ImportFiles1>
+<ProgramStartupCode1> Applet APPLET;
+</ProgramStartupCode1>
+<NativeHelpCommand1></NativeHelpCommand1>
+<CompileCommand2></CompileCommand2>
+<RunCommand2></RunCommand2>
+<GUIDesignerCommand2></GUIDesignerCommand2>
+<ImportFiles2>#include &lt;stdio.h&gt;
+
+void Startup();
+</ImportFiles2>
+<ProgramStartupCode2>int main(){
+ Startup();
+ %AppName%::Start();
+ }
+</ProgramStartupCode2>
+<NativeHelpCommand2></NativeHelpCommand2>
+<CompileCommand3></CompileCommand3>
+<RunCommand3></RunCommand3>
+<GUIDesignerCommand3>java -jar guidsin.jar -cpp</GUIDesignerCommand3>
+<ImportFiles3>#include &lt;stdio.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;math.h&gt;
+#include &quot;Ekagen.h&quot;
+void Startup();
+</ImportFiles3>
+<ProgramStartupCode3>void Emain(){
+Startup();
+%AppName%::Start();
+}
+</ProgramStartupCode3>
+<NativeHelpCommand3></NativeHelpCommand3>
+<MoveStep>8</MoveStep>
+<ImageEditCommand></ImageEditCommand>
+<CompilerFileName>javac.exe</CompilerFileName>
+<CompileCommand4>./compile_android Test com example test</CompileCommand4>
+<RunCommand4>echo no action</RunCommand4>
+<GUIDesignerCommand4>java -jar guidsin.jar -android</GUIDesignerCommand4>
+<ImportFiles4>package com.example.test;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.widget.Button;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.widget.EditText;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.graphics.Matrix;
+import android.graphics.Typeface;
+import android.graphics.RectF;
+import android.graphics.BitmapFactory;
+import java.io.*;
+ import java.net.*;
+import java.util.*;
+import java.text.SimpleDateFormat;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.content.res.Configuration;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.app.Activity;
+import android.graphics.Color;
+
+import android.widget.AbsoluteLayout;
+import android.widget.*;
+import android.view.Gravity;
+import android.view.View.OnClickListener;
+
+import android.hardware.Camera;
+
+public class HelloWorld extends Activity {
+  public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    %AppName% ap = new %AppName%();
+    ap.ACTIVITY = this;
+    ap.Start();
+  }
+}
+</ImportFiles4>
+<ProgramStartupCode4>Activity ACTIVITY;
+</ProgramStartupCode4>
+<NativeHelpCommand4>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.test&quot;
+    android:versionCode=&quot;1&quot;
+    android:versionName=&quot;1.0&quot; &gt;
+
+    
+    
+  &lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.usb.host&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.RECORD_AUDIO&quot;/&gt;
+  &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+
+  &lt;uses-sdk android:minSdkVersion=&quot;3&quot; android:targetSdkVersion=&quot;21&quot;/&gt;
+  
+ 
+    &lt;application android:label=&quot;@string/app_name&quot; &gt;
+        &lt;activity
+            android:name=&quot;HelloWorld&quot;
+            android:label=&quot;@string/app_name&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</NativeHelpCommand4>
+<HtmlEditCommand></HtmlEditCommand>
+<CompileCommand5></CompileCommand5>
+<RunCommand5></RunCommand5>
+<GUIDesignerCommand5></GUIDesignerCommand5>
+<ImportFiles5></ImportFiles5>
+<ProgramStartupCode5>gosub @_PSTART
+end
+</ProgramStartupCode5>
+<NativeHelpCommand5></NativeHelpCommand5>
+<NoOptimizePin>0</NoOptimizePin>
+<CompileCommand6>./compile_c</CompileCommand6>
+<RunCommand6>./run_c</RunCommand6>
+<GUIDesignerCommand6></GUIDesignerCommand6>
+<ImportFiles6>#include &lt;setjmp.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;math.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netdb.h&gt;
+
+#include &lt;X11/Xlib.h&gt;
+#include &lt;X11/Xutil.h&gt;
+#include &lt;X11/Xlocale.h&gt; /* ロケール用ヘッダーファイル */
+#include &lt;X11/xpm.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;errno.h&gt;
+</ImportFiles6>
+<ProgramStartupCode6>int ARGC; char** ARGV;
+int main( int argc, char** argv ){
+  ARGC=argc;
+  ARGV=argv;
+  _PSTART();
+}
+</ProgramStartupCode6>
+<NativeHelpCommand6></NativeHelpCommand6>
+<CompileCommand7>./compile_mouse</CompileCommand7>
+<RunCommand7>./run_startx</RunCommand7>
+<GUIDesignerCommand7>java -jar guidsin.jar -ore</GUIDesignerCommand7>
+<ImportFiles7></ImportFiles7>
+<ProgramStartupCode7>main:
+  _INIT_STATES
+  goto _PSTART
+</ProgramStartupCode7>
+<NativeHelpCommand7></NativeHelpCommand7>
+<IDF_LocalVariable5>%</IDF_LocalVariable5>
+<IDF_LocalVariable7>\</IDF_LocalVariable7>
+</プロパティ>
+<pin>
+<ID>_PSTART</ID>
+<x0>23</x0>
+<y0>198</y0>
+<width>55</width>
+<height>24</height>
+<text>Start()</text>
+<px>50</px>
+<py>50</py>
+</pin>
+<codeclip>
+<ID>_C7</ID>
+<x0>392</x0>
+<y0>81</y0>
+<width>268</width>
+<height>259</height>
+<codetext>// USBIOプロトコルのコールテーブル
+ struct UsbIO 
+    long ControlTransfer#
+    long BulkTransfer#
+    long AsyncInterruptTransfer#
+    long SyncInterruptTransfer#
+    long IsochronousTransfer#
+    long AsyncIsochronousTransfer#
+    long GetDeviceDescriptor#
+    long GetConfigDescriptor#
+    long GetInterfaceDescriptor#
+    long GetEndpointDescriptor#
+    long GetStringDescriptor#
+    long GetSupportedLanguages#
+    long PortReset#
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C6</ID>
+<x0>391</x0>
+<y0>356</y0>
+<width>237</width>
+<height>275</height>
+<codetext>// デバイスディスクリプタ
+ struct DeviceDescriptor
+   char  Length$
+   char  Type$
+   short USB_bcd%
+   char  DeviceClass$
+   char  DeviceSubClass$
+   char  DeviceProtocol$
+   char  MaxPacketSize0$
+   short VendorID%
+   short ProductID%
+   short Device_bcd%
+   char  Manufacture_str$
+   char  Product_str$
+   char  SerialNumber_str$
+   char  NumConfiguretions$
+ end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C5</ID>
+<x0>695</x0>
+<y0>273</y0>
+<width>232</width>
+<height>196</height>
+<codetext>// インターフェースディスクリプタ
+  struct InterfaceDescriptor
+    char Length$
+    char Type$
+    char InterfaceNumber$
+    char AlternateSetting$
+    char NumEndpoints$
+    char InterfaceClass$
+    char InterfaceSubClass$
+    char InterfaceProtocol$
+    char Interface$
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C4</ID>
+<x0>686</x0>
+<y0>87</y0>
+<width>263</width>
+<height>181</height>
+<codetext> // コンフィギュレーションディスクリプタ
+ struct ConfigDescriptor
+    char  Length$
+    char  Type$
+    short TotalLength%
+    char  NumInterfaces$
+    char  ConfigurationValue$
+    char  Configuration$
+    char  Attributes$
+    char  MaxPower$
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C3</ID>
+<x0>687</x0>
+<y0>493</y0>
+<width>251</width>
+<height>149</height>
+<codetext>// エンドポイントディスクリプタ
+  struct EndpointDescriptor
+    char  Length$
+    char  Type$
+    char  EndpointAddress$
+    char  Attributes$
+    short MaxPacketSize%
+    char  Interval$
+  end
+</codetext>
+</codeclip>
+<xobject>
+<ID>_X_G9</ID>
+<x0>72</x0>
+<y0>131</y0>
+<width>130</width>
+<height>56</height>
+<objectname>mouse_driver</objectname>
+<description></description>
+<ID_maker>48</ID_maker>
+<pin>
+<ID>_P10</ID>
+<x0>34</x0>
+<y0>359</y0>
+<width>60</width>
+<height>30</height>
+<text>start()</text>
+<px>7</px>
+<py>29</py>
+</pin>
+<operation>
+<ID>_O11</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>95</x0>
+<y0>289</y0>
+<width>120</width>
+<height>47</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>1</inpinx0>
+<inpiny0>26</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>71</outpinx0>
+<outpiny0>26</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>mouse_start:
+
+
+  count ii#,jj#
+  long ss#,tt#,handle_count#,handle_buffer#,endpoints#
+  long  interval#,packet_size#
+
+  handle_buffer, handle_count, locate_handle_buffer tt#=
+  if tt#&lt;&gt;0 then &quot;ERROR : Get USBIO count fail.&quot;, prints nl end
+  if handle_count#=0 then  &quot;no devices.&quot;, prints nl end
+  &quot;USB Devices=&quot;, prints handle_count#, printd nl
+  handle_count#--
+  for ii#=0 to handle_count#
+    nl  &quot;[Device&quot;, prints ii#, printd &quot;]&quot;, prints nl 
+    (handle_buffer)#(ii#), handle_protocol tt#=
+    if tt#&lt;&gt;0 goto usb_init_error
+    usb_io#, is_usb_mouse tt#=
+    if tt#=0 goto next_usb_device
+    usb_io#, if_desc, get_interface_descriptor tt#=
+    if tt#&lt;&gt;0 then &quot;error on get interface descriptor&quot;, prints nl gotousb_init_error
+    if_desc, -&gt;InterfaceDescriptor.NumEndpoints$ endpoints#=
+    endpoints#--
+    for jj#=0 to endpoints#
+       end_desc, EndpointDescriptor.SIZE, 0, memset
+       usb_io#, jj#, end_desc, get_endpoint_descriptor tt#=
+       
+       tt#, hex prints nl
+       
+       if tt#&lt;&gt;0 then &quot;error on get endpoint descriptor&quot;, prints nl gotousb_init_error
+       end_desc, -&gt;EndpointDescriptor.Attributes$ BIT0+BIT1, and tt#=
+       if tt#=USB_ENDPOINT_INTERRUPT goto usb_init_success
+    next jj#
+
+next_usb_device:
+  next ii#
+  handle_buffer, free 
+
+usb_init_error:
+  &quot;usb init error&quot;, prints nl
+  end
+
+usb_init_success:
+  end_desc, -&gt;EndpointDescriptor.EndpointAddress$ endpoint#=
+  end_desc, -&gt;EndpointDescriptor.Interval$                interval#=
+  end_desc, -&gt;EndpointDescriptor.MaxPacketSize%   packet_size#=
+  
+  initialize_mouse_device tt#=
+  if tt#&lt;&gt;0 goto usb_init_error
+  
+  &quot;device no=&quot;, prints ii#, printd nl
+  endpoints#++ &quot;endpoints=&quot;, prints endpoints#, printd nl
+  &quot;endpoint=&quot;, prints endpoint#, hex prints nl
+  
+  // マウス受信ループへジャンプ
+  goto mouse_recv
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R12</ID>
+<pin1name>_P10</pin1name>
+<pin2name>_O11</pin2name>
+</relation>
+<operation>
+<ID>_O13</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>237</x0>
+<y0>280</y0>
+<width>181</width>
+<height>49</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>131</outpinx0>
+<outpiny0>30</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>initialize_mouse_device:
+
+
+  long start\#,pos\#,buf\#,head\#,hid_desc\#,report_desc\#
+  long total_length\#,rep_len\#,protocol\#,tt\#,status\#
+  
+  &quot;initialize_mouse_device:&quot;, prints nl
+  
+  usb_io#, conf_desc, get_config_descriptor tt\#=
+  if tt\#&lt;&gt;0 then &quot;error in get_config_descriptor&quot;, prints nl end
+  conf_desc, -&gt;ConfigDescriptor.TotalLength% total_length\#= malloc buf\#=
+  
+  &quot;total_length=&quot;, prints total_length\#, printd nl
+  
+  buf\#, total_length\#, 0, memset
+  conf_desc, -&gt;ConfigDescriptor.ConfigurationValue$ 1, - USB_DESC_TYPE_CONFIG*256, or tt\#=
+  usb_io#, tt\#, 0, total_length\#, buf\#, get_descriptor  tt\#=
+
+  tt\#, hex prints nl
+
+  if tt\#&lt;&gt;0 then &quot;get_descriptor: error&quot;, prints nl gotoexit2\
+
+  buf\#, total_length\#, dump_mem
+
+  0, start\#=
+  0, pos\#=
+  buf\#, head\#=
+  NULL, hid_desc\#=
+loop1\:
+
+  &quot;pos=&quot;, prints pos\#, printd nl
+
+  if pos\#&gt;=total_length\# goto exit1\
+  head\#, -&gt;InterfaceDescriptor.InterfaceNumber$ 
+  if_desc, -&gt;InterfaceDescriptor.InterfaceNumber$ - tt\#=
+  head\#, -&gt;InterfaceDescriptor.AlternateSetting$ 
+  if_desc, -&gt;InterfaceDescriptor.AlternateSetting$  - tt\#, or tt\#=
+  if tt\#=0 then 1, start\#= 
+  if start\#=0 goto skip1\
+  head\#, -&gt;Descriptor.Type$  USB_DESC_TYPE_ENDPOINT, - tt\#=
+  if tt\#=0 goto exit1\
+  head\#, -&gt;Descriptor.Type$  USB_DESC_TYPE_HID, - tt\#=
+  if tt\#=0 then head\#, hid_desc\#= gotoexit1\
+skip1\:
+  head\#, -&gt;Descriptor.Length$ pos\#, + pos\#=
+  buf\#, pos\#, + head\#=
+  goto loop1\ 
+exit1\:
+  -1, status\$=
+  if hid_desc\#=NULL then &quot;no endpoint&quot;, prints nl gotoexit3\
+  
+  &quot;hid desc type=&quot;, prints hid_desc\#, -&gt;HidDescriptor.DescriptorType$ hex prints nl
+  
+  hid_desc\#, -&gt;HidDescriptor.DescriptorType$ USB_DESC_TYPE_REPORT, - tt\#=
+  if tt\#&lt;&gt;0 then &quot;is not report descriptor&quot;, prints nl gotoexit3\
+  hid_desc\#, -&gt;HidDescriptor.DescriptorLength% rep_len\#= malloc report_desc\#=
+  report_desc\#, rep_len\#, 0, memset
+  usb_io#,  if_desc, -&gt;InterfaceDescriptor.InterfaceNumber$  rep_len\#,  report_desc\#,  get_report_descriptor tt\#=
+  
+  tt\#, hex prints nl
+  
+  if tt\#&lt;&gt;0 then &quot;error&quot;, prints nl gotoexit2\
+  report_desc\#, rep_len\#, parse_report_descriptor tt\#=
+  if tt\#&lt;&gt;0 then &quot;error&quot;, prints nl gotoexit2\
+  usb_io#, if_desc, -&gt;InterfaceDescriptor.InterfaceNumber$ protocol\, get_protocol_request tt\#=
+  
+  tt\#, hex prints nl
+  
+  if protocol\#=BOOT_PROTOCOL goto skip2\
+    usb_io#, if_desc, -&gt;InterfaceDescriptor.InterfaceNumber$ BOOT_PROTOCOL, set_protocol_request
+  
+  tt\#, hex prints nl
+  
+  skip2\:
+  0, status\$=
+exit2\:
+  report_desc\#, free
+exit3\:
+  buf\#, free
+  status\#, end
+</codetext>
+</operation>
+<relation>
+<ID>_R14</ID>
+<pin1name>_O11</pin1name>
+<pin2name>_O13</pin2name>
+</relation>
+<operation>
+<ID>_O16</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>475</x0>
+<y0>189</y0>
+<width>137</width>
+<height>46</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>26</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>get_descriptor:
+
+  long status\#,descriptor\#,length\#,index\#,value\#,usb_io\#
+  char dev_req\$(DeviceRequest.SIZE)
+  
+  descriptor\#= pop length\#= pop
+  index\#= pop  value\#= pop usb_io\#=
+  
+  &quot;get_descriptor:&quot;, prints nl
+  
+  USB_DEV_GET_DESCRIPTOR_REQ_TYPE, dev_req\, -&gt;DeviceRequest.Type$=
+  USB_REQ_GET_DESCRIPTOR, dev_req\, -&gt;DeviceRequest.Request$=
+  value\#,   dev_req\, -&gt;DeviceRequest.Value%=
+  index\#,   dev_req\, -&gt;DeviceRequest.Index%=
+  length\#, dev_req\, -&gt;DeviceRequest.Length%=
+  usb_io\#,  dev_req\,  XDATA_IN, XTIMEOUT,  descriptor\#,  length\#,  status\,  control_transfer
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R17</ID>
+<pin1name>_O13</pin1name>
+<pin2name>_O16</pin2name>
+</relation>
+<operation>
+<ID>_O18</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>485</x0>
+<y0>245</y0>
+<width>181</width>
+<height>50</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>30</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>get_report_descriptor:
+
+
+  long status\#,interface\#,descriptor\#,length\#,usb_io\#
+  char dev_req\$(DeviceRequest.SIZE)
+  
+  descriptor\#= pop length\#= pop interface\#= pop usb_io\#=
+  
+  &quot;get_report_descriptor:&quot;, prints nl
+  
+  USB_HID_GET_DESCRIPTOR_REQ_TYPE, dev_req\, -&gt;DeviceRequest.Type$=
+  USB_REQ_GET_DESCRIPTOR, dev_req\, -&gt;DeviceRequest.Request$=
+  USB_DESC_TYPE_REPORT*256,   dev_req\, -&gt;DeviceRequest.Value%=
+  interface\#,   dev_req\, -&gt;DeviceRequest.Index%=
+  length\#, dev_req\, -&gt;DeviceRequest.Length%=
+  usb_io\#,  dev_req\,  XDATA_IN, XTIMEOUT,  descriptor\#,  length\#,  status\,  control_transfer
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R19</ID>
+<pin1name>_O13</pin1name>
+<pin2name>_O18</pin2name>
+</relation>
+<operation>
+<ID>_O20</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>459</x0>
+<y0>302</y0>
+<width>180</width>
+<height>49</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>132</outpinx0>
+<outpiny0>30</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>parse_report_descriptor:
+
+
+  long rep_desc\#,size\#,rep_end\#,pp\#,tt\#
+  char hid_item\$(HidItem.SIZE)
+  
+  size\#= pop rep_desc\#= 
+  
+  &quot;parse_report_descriptor:&quot;, prints nl
+  
+  rep_desc\#, size\#, +  rep_end\#=
+  rep_desc\#, rep_end\#, hid_item\, get_next_item pp\#=
+loop1\:
+  if pp\#=NULL goto exit1\
+  hid_item\, -&gt;HidItem.Format% tt\#=
+  if tt\#&lt;&gt;HID_ITEM_FORMAT_SHORT then ERROR, end
+  hid_item\, parse_item
+  pp\#, rep_end\#, hid_item\, get_next_item pp\#=
+  goto loop1\
+exit1\:
+  button_max_index#, button_min_index#, - 1, + number_of_buttons#=
+   127, xmax#= ymax#=
+  -127, xmin#=  ymin#=
+  0, end
+
+</codetext>
+</operation>
+<relation>
+<ID>_R21</ID>
+<pin1name>_O13</pin1name>
+<pin2name>_O20</pin2name>
+</relation>
+<operation>
+<ID>_O22</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>712</x0>
+<y0>338</y0>
+<width>130</width>
+<height>46</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>26</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>64</outpinx0>
+<outpiny0>26</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>parse_item:
+
+
+  long hid_item\#,dat\#,tt\#
+  hid_item\#=
+  
+  &quot;parse_item:&quot;, prints nl
+  
+  hid_item\#, -&gt;HidItem.Type$ tt\#=
+  
+case_HID_ITEM_TYPE_MAIN:
+  if tt\#&lt;&gt;HID_ITEM_TYPE_MAIN goto case_HID_ITEM_TYPE_GLOBAL 
+  end
+
+case_HID_ITEM_TYPE_GLOBAL:
+  if tt\#&lt;&gt;HID_ITEM_TYPE_GLOBAL goto case_HID_ITEM_TYPE_LOCAL
+  hid_item\#, -&gt;HidItem.Tag$ tt\#=
+  if tt\#&lt;&gt;HID_GLOBAL_ITEM_TAG_USAGE_PAGE then end
+  hid_item\#, -&gt;HidItem.Data# tt\#=
+  if tt\#=0x09 then 1, button_detected#=    
+  end
+
+case_HID_ITEM_TYPE_LOCAL:
+  if tt\#&lt;&gt;HID_ITEM_TYPE_LOCAL then end
+  hid_item\#, -&gt;HidItem.Size$ tt\#=
+  if tt\#=0 then end
+  hid_item\#, -&gt;HidItem.Data# dat\#=
+  hid_item\#, -&gt;HidItem.Tag$ tt\#=
+
+case_HID_LOCAL_ITEM_TAG_USAGE_MINIMUM:
+  if tt\#&lt;&gt;HID_LOCAL_ITEM_TAG_USAGE_MINIMUM goto case_HID_LOCAL_ITEM_TAG_USAGE_MAXIMUM
+  if button_detected#&lt;&gt;0 then end
+  dat\#, button_min_index#=
+  end
+
+case_HID_LOCAL_ITEM_TAG_USAGE_MAXIMUM:
+  if tt\#&lt;&gt;HID_LOCAL_ITEM_TAG_USAGE_MAXIMUM then end
+  if button_detected#&lt;&gt;0 then end
+  dat\#, button_max_index#=
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R23</ID>
+<pin1name>_O20</pin1name>
+<pin2name>_O22</pin2name>
+</relation>
+<operation>
+<ID>_O24</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>711</x0>
+<y0>282</y0>
+<width>130</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>29</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>78</outpinx0>
+<outpiny0>29</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>get_next_item:
+  
+
+   long start\#,end\#,hid_item\#,ss\#,tt\#
+   
+   hid_item\#= pop end\#= pop start\#=
+   
+   &quot;get_next_item:&quot;, prints nl
+   
+   if end\#&lt;=start\# then NULL, end
+   (start\)$, tt\#=
+   start\#++
+   
+  //
+  // Bit format of prefix byte:
+  // Bits 0-1: Size
+  // Bits 2-3: Type
+  // Bits 4-7: Tag
+  //
+  tt\#, 2, 3, read_bit_field hid_item\#, -&gt;HidItem.Type$=
+  tt\#, 4, 7, read_bit_field  ss\#= hid_item\#, -&gt;HidItem.Tag$=
+
+format_long\:
+  if ss\#&lt;&gt;HID_ITEM_TAG_LONG goto format_short\ 
+    HID_ITEM_FORMAT_LONG, hid_item\#, -&gt;HidItem.Format%=
+    end\#, start\#, - tt\#=
+     if tt\#&lt;2 then NULL, end 
+      (start\)$, hid_item\#, -&gt;HidItem.Size$= start\#++
+      (start\)$, hid_item\#, -&gt;HidItem.Tag$=  start\#++
+      hid_item\#, -&gt;HidItem.Size$ end\#, - start\#, + tt\#=
+      if tt\#&gt;0 then NULL, end
+      start\#, hid_item\#, -&gt;HidItem.Data#=
+      hid_item\#, -&gt;HidItem.Size$ start\#, + start\#=
+      start\#, end 
+
+format_short\:
+    HID_ITEM_FORMAT_SHORT, hid_item\#, -&gt;HidItem.Format%=
+    tt\#, 0, 1, read_bit_field  tt\#= hid_item\#, -&gt;HidItem.Size$=
+    if tt\#=0 then start\#, end
+
+format_short1\:
+    if tt\#&lt;&gt;1 goto format_short2\
+    if end\#&lt;=start\# then NULL, end
+    (start\)$, hid_item\#, -&gt;HidItem.Data#=
+    start\#++
+    start\#, end
+
+format_short2\:
+    if tt\#&lt;&gt;2 goto format_short3\
+    end\#, start\#, - 2, - tt\#=
+    if tt\#&lt;0 then NULL, end
+    (start\)%, hid_item\#, -&gt;HidItem.Data#=
+    start\#++
+    start\#++
+    start\#, end
+    
+format_short3\:
+    if tt\#&lt;&gt;3 then NULL, end
+    4, hid_item\#, -&gt;HidItem.Size$=
+    end\#, start\#, - 4, - tt\#=
+    if tt\#&lt;0 then NULL, end
+    (start\)!, hid_item\#, -&gt;HidItem.Data#=
+    start\#, 4, + start\#=
+    start\#, end
+</codetext>
+</operation>
+<relation>
+<ID>_R25</ID>
+<pin1name>_O20</pin1name>
+<pin2name>_O24</pin2name>
+</relation>
+<operation>
+<ID>_O28</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>498</x0>
+<y0>362</y0>
+<width>177</width>
+<height>48</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>27</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>get_protocol_request:
+
+
+
+  long protocol\#,interface\#,usb_io\#,status\#
+  char dev_req\$(DeviceRequest.SIZE)
+  
+  protocol\#= pop interface\#= pop usb_io\#=
+  
+  &quot;get_protocol_request:&quot;, prints nl
+  
+  USB_HID_CLASS_GET_REQ_TYPE, dev_req\, -&gt;DeviceRequest.Type$=
+  EFI_USB_GET_PROTOCOL_REQUEST, dev_req\, -&gt;DeviceRequest.Request$=
+  0,   dev_req\, -&gt;DeviceRequest.Value%=
+  interface\#,   dev_req\, -&gt;DeviceRequest.Index%=
+  1, dev_req\, -&gt;DeviceRequest.Length%=
+  usb_io\#,  dev_req\,  XDATA_IN, XTIMEOUT,  protocol\#,  1,  status\,  control_transfer
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R29</ID>
+<pin1name>_O13</pin1name>
+<pin2name>_O28</pin2name>
+</relation>
+<operation>
+<ID>_O30</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>498</x0>
+<y0>415</y0>
+<width>175</width>
+<height>46</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>28</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>set_protocol_request:
+
+
+
+  long protocol\#,interface\#,usb_io\#,status\#
+  char dev_req\$(DeviceRequest.SIZE)
+  
+  protocol\#= pop interface\#= pop usb_io\#=
+  
+  &quot;set_protocol_request:&quot;, prints nl
+  
+  USB_HID_CLASS_SET_REQ_TYPE, dev_req\, -&gt;DeviceRequest.Type$=
+  EFI_USB_SET_PROTOCOL_REQUEST, dev_req\, -&gt;DeviceRequest.Request$=
+  protocol\#,    dev_req\, -&gt;DeviceRequest.Value%=
+  interface\#,   dev_req\, -&gt;DeviceRequest.Index%=
+  0, dev_req\, -&gt;DeviceRequest.Length%=
+  usb_io\#,  dev_req\,  XDATA_NON, XTIMEOUT,  NULL,  0,  status\,  control_transfer
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R31</ID>
+<pin1name>_O13</pin1name>
+<pin2name>_O30</pin2name>
+</relation>
+<operation>
+<ID>_O32</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>241</x0>
+<y0>341</y0>
+<width>144</width>
+<height>64</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>43</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>94</outpinx0>
+<outpiny0>44</outpiny0>
+<outpinwidth>41</outpinwidth>
+<outpinheight>19</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// マウス受信ループ
+mouse_recv:
+
+
+   char data\$(256)
+   long length\#,status\#,tt\#
+
+   inkey tt\#=
+   if tt\#&lt;&gt;0 then end  // 何かキー入力すると終了
+
+   packet_size#, length\#=
+   usb_io#, endpoint#, data\, length\, interval#, status\, interrupt_transfer tt\#=
+
+//  &quot;usbio=&quot;, prints usb_io#, hex prints
+//  &quot;, endpoint=0x&quot;, prints endpoint#, hex prints 
+//  &quot;, length=&quot;, prints length\#, printd 
+//  &quot;, status=&quot;, prints status\#, hex prints 
+//  &quot;, ret=&quot;, prints tt\#, hex prints nl
+
+   if tt\#&lt;&gt;0 goto mouse_recv
+   if length\#=0 goto mouse_recv
+
+  //
+  // Check mouse Data
+  // USB HID Specification specifies following data format:
+  // Byte    Bits    Description
+  // 0       0       Button 1
+  //         1       Button 2
+  //         2       Button 3
+  //         4 to 7  Device-specific
+  // 1       0 to 7  X displacement
+  // 2       0 to 7  Y displacement
+  // 3 to n  0 to 7  Device specific (optional)
+  //
+  0, mouse_L#= mouse_R#=
+  data\$(0), BIT0, and tt\#=
+  if tt\#&lt;&gt;0 then 1, mouse_L#=
+  data\$(0), BIT1, and tt\#=
+  if tt\#&lt;&gt;0 then 1, mouse_R#=
+  data\$(1), tt\#=
+  if tt\#&gt;127 then tt\#, 256, - tt\#=
+  tt\#, mouse_rx#=
+  data\$(2), tt\#=
+  if tt\#&gt;127 then tt\#, 256, - tt\#=
+  tt\#, mouse_ry#=
+  
+  mouse_L#, mouse_R#, mouse_rx#, mouse_ry#,  print_mouse_data
+  
+  goto mouse_recv
+
+
+
+</codetext>
+</operation>
+<pin>
+<ID>_P35</ID>
+<x0>382</x0>
+<y0>419</y0>
+<width>60</width>
+<height>30</height>
+<text>out()</text>
+<px>73</px>
+<py>30</py>
+</pin>
+<relation>
+<ID>_R36</ID>
+<pin1name>_O32</pin1name>
+<pin2name>_P35</pin2name>
+</relation>
+<codeclip>
+<ID>_C38</ID>
+<x0>67</x0>
+<y0>12</y0>
+<width>344</width>
+<height>167</height>
+<codetext>// 変数
+  long usb_io#,endpoint#
+  char if_desc$(InterfaceDescriptor.SIZE)
+  char end_desc$(EndpointDescriptor.SIZE)
+  char conf_desc$(ConfigDescriptor.SIZE)
+  char hid_desc$(HidDescriptor.SIZE)
+  long mouse_L#,mouse_R#,mouse_rx#,mouse_ry#
+  long button_max_index#,button_min_index#
+  long number_of_buttons#,button_detected#
+  long xmax#,ymax#,xmin#,ymin#
+
+</codetext>
+</codeclip>
+<operation>
+<ID>_O39</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>244</x0>
+<y0>213</y0>
+<width>118</width>
+<height>50</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>31</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>is_usb_mouse:
+
+
+   long usb_io\#,tt\#
+   char if_desc\$(InterfaceDescriptor.SIZE)
+
+  usb_io\#= 
+  
+  &quot;is_usb_mouse:&quot;, prints nl
+  
+  usb_io\#, if_desc\, get_interface_descriptor tt\#=
+  if tt\#&lt;&gt;0 goto not_usb_mouse\
+
+  if_desc\, -&gt;InterfaceDescriptor.InterfaceClass$ tt\#=
+  if tt\#&lt;&gt;CLASS_HID goto not_usb_mouse\
+
+  if_desc\, -&gt;InterfaceDescriptor.InterfaceSubClass$ tt\#=
+  if tt\#&lt;&gt;SUBCLASS_BOOT goto not_usb_mouse\
+
+  if_desc\, -&gt;InterfaceDescriptor.InterfaceProtocol$ tt\#=
+  if tt\#&lt;&gt;PROTOCOL_MOUSE goto not_usb_mouse\
+
+  &quot;1&quot;, prints nl 
+  1, end
+
+not_usb_mouse\:
+  &quot;0&quot;, prints nl 
+  0, end
+  
+</codetext>
+</operation>
+<relation>
+<ID>_R40</ID>
+<pin1name>_O11</pin1name>
+<pin2name>_O39</pin2name>
+</relation>
+<codeclip>
+<ID>_C41</ID>
+<x0>87</x0>
+<y0>442</y0>
+<width>256</width>
+<height>169</height>
+<codetext>// HIDディスクリプタ
+  struct HidDescriptor
+    char   Length$
+    char   Type$
+    short  HID_bcd%
+    char   CountryCode$
+    char   Descriptors$
+    char   DescriptorType$
+    short  DescriptorLength%
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C42</ID>
+<x0>370</x0>
+<y0>475</y0>
+<width>195</width>
+<height>133</height>
+<codetext>// デバイスリクエスト
+  struct DeviceRequest
+    char  Type$
+    char  Request$
+    short Value%
+    short Index%
+    short Length%
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C43</ID>
+<x0>591</x0>
+<y0>476</y0>
+<width>164</width>
+<height>134</height>
+<codetext>// HID項目
+  struct HidItem
+    short  Format%
+    char   Size$
+    char   Type$
+    char   Tag$
+    long    Data#
+  end
+</codetext>
+</codeclip>
+<operation>
+<ID>_O44</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>862</x0>
+<y0>315</y0>
+<width>116</width>
+<height>45</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>25</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>read_bit_field:
+
+
+  long d\#,s\#,e\#,x\#,y\#,a\#,r\#,t\#
+  e\#= pop s\#= pop d\#=
+
+  &quot;read_bit_field:&quot;, prints nl
+
+  1, x\#= y\#=
+  0, r\#= t\#=
+loop1\:
+  if t\#&lt;s\# then t\#++ x\#, 2, * x\#= gotoloop1\
+loop2\:
+  if t\#&gt;e\# goto exit2\
+  x\#, d\#, and a\#=
+  if a\#&lt;&gt;0 then y\#, r\#, + r\#=
+  x\#, 2, * x\#=
+  y\#, 2, * y\#=
+  t\#++
+  goto loop2\
+exit2\:
+  r\#, end
+</codetext>
+</operation>
+<relation>
+<ID>_R45</ID>
+<pin1name>_O24</pin1name>
+<pin2name>_O44</pin2name>
+</relation>
+<codeclip>
+<ID>_C46</ID>
+<x0>450</x0>
+<y0>14</y0>
+<width>333</width>
+<height>161</height>
+<codetext>// 定数
+  const DRIVER_STACK_SIZE 16384
+  const EFI_LOCATE_BY_PROTOCOL 2
+  const BIT0 1
+  const BIT1 2
+  const USB_ENDPOINT_INTERRUPT 0x03
+  const CLASS_HID  3
+  const SUBCLASS_BOOT  1
+  const PROTOCOL_MOUSE 2
+  const XTIMEOUT 15
+  const USB_DESC_TYPE_ENDPOINT 0x05 
+  const USB_DESC_TYPE_HID  0x21
+  const USB_DESC_TYPE_REPORT 0x22 
+  const BOOT_PROTOCOL 0x0 
+  const USB_DESC_TYPE_CONFIG 0x02 
+  const USB_DEV_GET_DESCRIPTOR_REQ_TYPE 0x80 
+  const USB_HID_GET_DESCRIPTOR_REQ_TYPE 0x81
+  const USB_REQ_GET_DESCRIPTOR 0x06 
+  const XDATA_IN 0
+  const XDATA_OUT 1
+  const XDATA_NON 2
+  const HID_ITEM_FORMAT_SHORT 0 
+  const HID_ITEM_FORMAT_LONG 1
+  const USB_HID_CLASS_GET_REQ_TYPE 0xa1 
+  const EFI_USB_GET_PROTOCOL_REQUEST 0x03 
+  const USB_HID_CLASS_SET_REQ_TYPE 0x21
+  const EFI_USB_SET_PROTOCOL_REQUEST 0x0b
+  const HID_ITEM_TAG_LONG 15 
+  const HID_ITEM_TYPE_MAIN 0x00
+  const HID_ITEM_TYPE_GLOBAL 0x01
+  const HID_GLOBAL_ITEM_TAG_USAGE_PAGE 0x00 
+  const HID_ITEM_TYPE_LOCAL 0x02
+  const HID_LOCAL_ITEM_TAG_USAGE_MINIMUM   0x01 
+  const HID_LOCAL_ITEM_TAG_USAGE_MAXIMUM  0x02
+</codetext>
+</codeclip>
+<relation>
+<ID>_R47</ID>
+<pin1name>_O11</pin1name>
+<pin2name>_O32</pin2name>
+</relation>
+</xobject>
+<relation>
+<ID>_R10</ID>
+<pin1name>_PSTART</pin1name>
+<pin2name>_X_G9(_P10)</pin2name>
+</relation>
+<operation>
+<ID>_O11</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>221</x0>
+<y0>136</y0>
+<width>139</width>
+<height>65</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>46</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>// データを表示
+print_mouse_data:
+
+
+  long mouse_l\#,mouse_r\#,mouse_rx\#,mouse_ry\#
+  mouse_ry\#= pop mouse_rx\#= pop mouse_r\#= pop mouse_l\#=
+
+ &quot;L_Button=&quot;,  prints mouse_l\#,  printd nl
+ &quot;R_Button=&quot;, prints mouse_r\#,  printd nl
+ &quot;movement_X=&quot;, prints mouse_rx\#, printd nl
+ &quot;movement_Y=&quot;, prints mouse_ry\#, printd nl
+ nl
+ 
+ end 
+</codetext>
+</operation>
+<relation>
+<ID>_R12</ID>
+<pin1name>_X_G9(_P35)</pin1name>
+<pin2name>_O11</pin2name>
+</relation>
+<codeclip>
+<ID>_C13</ID>
+<x0>34</x0>
+<y0>237</y0>
+<width>210</width>
+<height>53</height>
+<codetext>usb_io_guid:
+  data 0x44cf0cd22b2f68d6
+  data 0x755b1b0ba2bb8b8e
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C14</ID>
+<x0>35</x0>
+<y0>298</y0>
+<width>164</width>
+<height>21</height>
+<codetext>locate_handle_buffer:
+
+  long handle_buffer\#,handle_count\#,ss\#
+  handle_count\#= pop handle_buffer\#=
+  __boot_service#, -&gt;BootService.locate_handle_buffer# ss\#=
+
+  &quot;locate_handle_buffer:&quot;, prints nl
+
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rcx=EFI_LOCATE_BY_PROTOCOL/
+/ rdx=usb_io_guid/
+/ r8=NULL/
+/ rax=handle_count\/
+/ r9=(rax)/
+/ rax=handle_buffer\/
+/ rdi=(rax)/
+/ 0x20(rsp)=rdi/
+/ rax=ss\/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C15</ID>
+<x0>32</x0>
+<y0>323</y0>
+<width>132</width>
+<height>21</height>
+<codetext>handle_protocol:
+
+
+   long ss\#,tt\#
+   tt\#=
+    __boot_service#, -&gt;BootService.handle_protocol# ss\#=
+
+  &quot;handle_protocol:&quot;, prints nl
+
+/   rax=tt\/ 
+/   rcx=(rax)/
+/   rdx=usb_io_guid/
+/   r8=usb_io/
+/   rax=ss\/
+/   rax=(rax)/
+/   call (rax)/
+/   rdi=rax/
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C16</ID>
+<x0>31</x0>
+<y0>347</y0>
+<width>172</width>
+<height>19</height>
+<codetext>get_device_descriptor:
+
+   long usb_io\#,device_descriptor\#,ss\#
+   device_descriptor\#= pop usb_io\#= 
+    usb_io\#, -&gt;UsbIO.GetDeviceDescriptor# ss\#=
+    
+    &quot;get_device_descriptor:&quot;, prints nl
+    
+/   rax=usb_io\/
+/   rcx=(rax)/
+/   rax=device_descriptor\/
+/   rdx=(rax)/
+/   rax=ss\/
+/   rax=(rax)/
+/   call (rax)/
+/   rdi=rax/
+    end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C17</ID>
+<x0>26</x0>
+<y0>447</y0>
+<width>164</width>
+<height>21</height>
+<codetext>get_string_descriptor:
+    long usb_io\#,buf\#,ss\#,tt\#
+    buf\#= pop tt\#= pop usb_io\#=
+    usb_io#, -&gt;UsbIO.GetStringDescriptor# ss\#=
+    
+    &quot;get_string_descriptor:&quot;, prints nl
+    
+/   rax=usb_io\/
+/   rcx=(rax)/
+/   rdx=0x0409/  // english
+/   rax=tt\/
+/   r8=(rax)/
+/   rax=buf\/
+/   r9=(rax)/
+/   rax=ss\/
+/   rax=(rax)/
+/   call (rax)/
+/   rdi=rax/
+    end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C18</ID>
+<x0>30</x0>
+<y0>371</y0>
+<width>172</width>
+<height>19</height>
+<codetext>get_config_descriptor:
+
+   long usb_io\#,config_descriptor\#,ss\#
+   config_descriptor\#= pop usb_io\#= 
+    usb_io\#, -&gt;UsbIO.GetConfigDescriptor# ss\#=
+    
+    &quot;get_config_descriptor:&quot;, prints nl
+    
+/   rax=usb_io\/
+/   rcx=(rax)/
+/   rax=config_descriptor\/
+/   rdx=(rax)/
+/   rax=ss\/
+/   rax=(rax)/
+/   call (rax)/
+/   rdi=rax/
+    end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C19</ID>
+<x0>26</x0>
+<y0>395</y0>
+<width>172</width>
+<height>19</height>
+<codetext>get_interface_descriptor:
+
+   long usb_io\#,interface_descriptor\#,ss\#
+   interface_descriptor\#= pop usb_io\#= 
+    usb_io\#, -&gt;UsbIO.GetInterfaceDescriptor# ss\#=
+
+  &quot;get_interface_descriptor:&quot;, prints nl
+
+/   rax=usb_io\/
+/   rcx=(rax)/
+/   rax=interface_descriptor\/
+/   rdx=(rax)/
+/   rax=ss\/
+/   rax=(rax)/
+/   call (rax)/
+/   rdi=rax/
+    end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C20</ID>
+<x0>28</x0>
+<y0>421</y0>
+<width>180</width>
+<height>21</height>
+<codetext>get_endpoint_descriptor:
+    long usb_io\#,buf\#,ss\#,tt\#
+    buf\#= pop tt\#= pop usb_io\#=
+    usb_io#, -&gt;UsbIO.GetEndpointDescriptor# ss\#=
+    
+    &quot;get_endpoint_descriptor:&quot;, prints nl
+    
+/   rax=usb_io\/
+/   rcx=(rax)/
+/   rax=tt\/
+/   rdx=(rax)/
+/   rax=buf\/
+/   r8=(rax)/
+/   rax=ss\/
+/   rax=(rax)/
+/   call (rax)/
+/   rdi=rax/
+    end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C21</ID>
+<x0>27</x0>
+<y0>470</y0>
+<width>133</width>
+<height>21</height>
+<codetext>control_transfer:
+
+   long usb_io\#,request\#,direction\#,timeout\#,data\#,length\#,status\#,ss\#
+
+   status\#= pop length\#= pop data\#= pop timeout\#= pop
+   direction\#= pop request\#= pop usb_io\#=
+   usb_io\#, -&gt;UsbIO.ControlTransfer# ss\#=
+   
+   &quot;control_transfer:&quot;, prints nl
+   
+/  rcx=0x100/
+/  rsp-=rcx/
+/  rax=usb_io\/
+/  rcx=(rax)/
+/  rax=request\/
+/  rdx=(rax)/
+/  rax=direction\/
+/  r8=(rax)/
+/  rax=timeout\/
+/  r9=(rax)/
+/  rax=data\/
+/  rax=(rax)/
+/  0x20(rsp)=rax/
+/  rax=length\/
+/  rax=(rax)/
+/  0x28(rsp)=rax/
+/  rax=status\/
+/  rax=(rax)/
+/  0x30(rsp)=rax/
+/  rax=ss\/
+/  rax=(rax)/
+/  call (rax)/
+/  rcx=0x100/
+/  rsp+=rcx/
+/  rdi=rax/
+   ss\#=
+
+  &quot;control_transfer: end&quot;, prints nl
+
+   ss\#, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C22</ID>
+<x0>23</x0>
+<y0>522</y0>
+<width>196</width>
+<height>21</height>
+<codetext>async_interrupt_transfer:
+
+   long usb_io\#,endpoint\#,isnew\#,interval\#,length\#,callback\#,context\#,ss\#
+   context\#= pop callback\#= pop length\#= pop interval\#= pop
+   isnew\#= pop endpoint\#= pop usb_io\#=
+   
+   usb_io\#, -&gt;UsbIO.AsyncInterruptTransfer# ss\#=
+   
+   &quot;async_interrupt_transfer:&quot;, prints nl
+   
+/  rcx=0x100/
+/  rsp-=rcx/
+/  rax=usb_io\/
+/  rcx=(rax)/
+/  rax=endpoint\/
+/  rdx=(rax)/
+/  rax=isnew\/
+/  r8=(rax)/
+/  rax=interval\/
+/  r9=(rax)/
+/  rax=length\/
+/  rax=(rax)/
+/  0x20(rsp)=rax/
+/  rax=callback\/
+/  rax=(rax)/
+/  0x28(rsp)=rax/
+/  rax=context\/
+/  rax=(rax)/
+/  0x30(rsp)=rax/
+/  rax=ss\/
+/  rax=(rax)/
+/  call (rax)/
+/  rcx=0x100/
+/  rsp+=rcx/
+/  rdi=rax/
+   end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C23</ID>
+<x0>24</x0>
+<y0>496</y0>
+<width>140</width>
+<height>20</height>
+<codetext>interrupt_transfer:
+
+   long usb_io\#,endpoint\#,data\#,length\#,timeout\#,status\#,ss\#,tt\#
+   status\#= pop timeout\#= pop length\#= pop
+   data\#= pop endpoint\#= pop usb_io\#=
+   usb_io\#, -&gt;UsbIO.SyncInterruptTransfer# ss\#=
+   
+/  rcx=0x100/
+/  rsp-=rcx/
+/  rax=usb_io\/
+/  rcx=(rax)/
+/  rax=endpoint\/
+/  rdx=(rax)/
+/  rax=data\/
+/  r8=(rax)/
+/  rax=length\/
+/  r9=(rax)/
+/  rax=timeout\/
+/  rax=(rax)/
+/  0x20(rsp)=rax/
+/  rax=status\/
+/  rax=(rax)/
+/  0x28(rsp)=rax/
+/  rax=ss\/
+/  rax=(rax)/
+/  call (rax)/
+/  rcx=0x100/
+/  rsp+=rcx/
+/  rdi=rax/
+   end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C24</ID>
+<x0>165</x0>
+<y0>550</y0>
+<width>207</width>
+<height>83</height>
+<codetext>// ディスクリプタ共通構造
+ struct Descriptor
+   char  Length$
+   char  Type$
+ end
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C25</ID>
+<x0>21</x0>
+<y0>552</y0>
+<width>77</width>
+<height>21</height>
+<codetext>memset:
+  long st\#,len\#,val\#
+  val\#= pop len\#= pop st\#=
+memset1:
+  if len\#&lt;=0 then end
+  val\#, (st\)$=
+  st\#++
+  len\#--
+  goto memset1
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C26</ID>
+<x0>19</x0>
+<y0>581</y0>
+<width>101</width>
+<height>20</height>
+<codetext>dump_mem:
+  long adr\#,size\#,ss\#,tt\#
+  size\#= pop adr\#=
+  &quot;memory dump: &quot;, prints
+  &quot; addr=&quot;, prints  adr\#,  hex prints
+  &quot; size=&quot;,  prints  size\#, printd nl
+  if size\#&gt;64 then 64, size\#=
+  0, tt\#=
+dump_mem1:
+  if size\#&lt;=0 then  nl gotodump_mem2
+  if (adr\)$&lt;16 then &quot;0&quot;, prints
+  (adr\)$, hex prints
+  &quot; &quot;, prints
+  adr\#++
+  size\#--
+  tt\#++  tt\#, 16, mod ss\#= 
+  if ss\#=0 then nl
+  goto dump_mem1
+dump_mem2:
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C28</ID>
+<x0>254</x0>
+<y0>12</y0>
+<width>394</width>
+<height>58</height>
+<codetext>// マウスドライバテストプログラム ver 0.0.1
+// EFI_SIMPLE_POINTER_PROTOCOLとほぼ同等の機能を実装
+// ご使用の際は適当にカスタマイズして使って下さい</codetext>
+</codeclip>
+</xobject>

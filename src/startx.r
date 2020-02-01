@@ -1491,29 +1491,30 @@ init_mouse:
 // 入力デバイスの状態を読み取る
 read_input_device:
   0, mouse_left#= mouse_right#= mouse_dx#= mouse_dy#= key_code#=
-  inkey key_code#= key_code#=
-  if key_code#=quit_key# then 0, gui_is_running#= end                       // 終了
+  inkey key_code#=
+  if key_code#=quit_key# then 0, gui_is_running#= end                          // 終了
   if key_code#=mode_key# then 1, mouse_mode#, - mouse_mode#=    // マウス・キーボードの切り替え
   if mouse_mode#=0 goto get_keyboad_mouse
 
 // マウスの状態を読み込む
-/ rcx=pointer_protocol/
-/ rcx=(rcx)/
+/ rax=pointer_protocol/
+/ rcx=(rax)/
 / rdx=mouse_data/
 / rax=mouse_get_state/
 / rax=(rax)/
 / call (rax)/
 / rdi=rax/
   tt#=
-
-  if tt#<>0 then 1, mouse_mode#= gotoget_keyboad_mouse // エラーが出たときはキーボードマウスを有効にする
+  if tt#<>0 then end
   
   // マウスのデータを読み込む
   mouse_data+MOUSE_X!, MOUSE_SENSIVITY, / mouse_dx#=
   mouse_data+MOUSE_Y!, MOUSE_SENSIVITY, / mouse_dy#=
   mouse_data+MOUSE_LEFT$,   mouse_left#=
   mouse_data+MOUSE_RIGHT$, mouse_right#=
-  goto set_cursor_position
+  if mouse_dx#<>0 goto set_cursor_position  // マウスが移動したときはマウスカーソルを再描画する
+  if mouse_dy#<>0 goto set_cursor_position
+  end
 
 // キーボードマウス
 get_keyboad_mouse:
@@ -4575,10 +4576,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _197078315_in
+ _439487369_in
 
  end
-_197078315_in:
+_439487369_in:
 // ウィンドウシステムメイン関数
 
 

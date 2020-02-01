@@ -444,15 +444,15 @@ exit_pwr2:
  end
 
 // シンボルを定義する
- const LEN_SYMBOL 32
+ const LEN_SYMBOL 256
  const TYPE       0
  const VALUE      1
  const NAME       9
- const LIMIT      31
+ const LIMIT      255
 
  char symbl_type$,ex$
  long  symbl_name#,symbl_p#
- char symbol$(65536)
+ char symbol$(1024000)
 
 def_symbl:
  z#= swap x#=

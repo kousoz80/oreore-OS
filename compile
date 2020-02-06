@@ -170,6 +170,11 @@ echo compile shutdown.r
 ./orc stdio.rh src/shutdown.r
 java -jar asm_x64.jar -p0xa7000 -efi asm.s bin/shutdown.EFI
 
+# reboot
+echo compile reboot.r
+./orc stdio.rh src/reboot.r
+java -jar asm_x64.jar -p0xa7000 -efi asm.s bin/reboot.EFI
+
 # telnet
 echo compile telnet.r
 ./orc stdio.rh src/telnet.r

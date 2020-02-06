@@ -18,4 +18,5 @@
 /const __free_pool / p
 /const __create_event / p
 /const __set_timer / p
+/const __wait_event / p
 d

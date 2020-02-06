@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+<!-- なんちゃってXML version 0.1( ObjectEditor専用 ) -->
+<xobject>
+<ID>project</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>200</width>
+<height>100</height>
+<ID_maker>43</ID_maker>
+<objectname>sndplay</objectname>
+<description>新規のアプリケーション</description>
+<プロパティ>
+<ID>properties</ID>
+<LookandFeel>javax.swing.plaf.metal.MetalLookAndFeel</LookandFeel>
+<MainWinx0>0</MainWinx0>
+<MainWiny0>0</MainWiny0>
+<MainWinWidth>1024</MainWinWidth>
+<MainWinHeight>745</MainWinHeight>
+<MesgWinx0>0</MesgWinx0>
+<MesgWiny0>559</MesgWiny0>
+<MesgWinWidth>1024</MesgWinWidth>
+<MesgWinHeight>186</MesgWinHeight>
+<FileWinx0>80</FileWinx0>
+<FileWiny0>305</FileWiny0>
+<FileWinWidth>578</FileWinWidth>
+<FileWinHeight>262</FileWinHeight>
+<EditWinx0>347</EditWinx0>
+<EditWiny0>0</EditWiny0>
+<EditWinWidth>676</EditWinWidth>
+<EditWinHeight>541</EditWinHeight>
+<PropWinx0>1</PropWinx0>
+<PropWiny0>1</PropWiny0>
+<PropWinWidth>615</PropWinWidth>
+<PropWinHeight>448</PropWinHeight>
+<DividerLocation1>2</DividerLocation1>
+<DividerLocation2>2</DividerLocation2>
+<ToolBarVisible>1</ToolBarVisible>
+<ViewSourceAtCompile>0</ViewSourceAtCompile>
+<NoSourceCreate>0</NoSourceCreate>
+<JavaEditCommand>geany</JavaEditCommand>
+<JavaViewCommand></JavaViewCommand>
+<HelpCommand></HelpCommand>
+<ApplicationType>7</ApplicationType>
+<CompileCommand0>./compile_java</CompileCommand0>
+<RunCommand0>./run_java</RunCommand0>
+<GUIDesignerCommand0>java -jar guidsin.jar -java</GUIDesignerCommand0>
+<ImportFiles0> import java.awt.*;
+ import java.awt.event.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import javax.swing.border.*;
+import javax.swing.filechooser.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.image.BufferedImage;
+import javax.sound.sampled.*;
+
+class Starter{
+  public static void main( String args[] ){
+    %AppName% ap = new %AppName%();
+    ap.ARGS = args;
+    ap.Start();
+  }
+}
+</ImportFiles0>
+<ProgramStartupCode0> String[] ARGS;
+</ProgramStartupCode0>
+<NativeHelpCommand0></NativeHelpCommand0>
+<CompileCommand1></CompileCommand1>
+<RunCommand1></RunCommand1>
+<GUIDesignerCommand1>java -jar guidsin.jar -applet</GUIDesignerCommand1>
+<ImportFiles1> import java.awt.*;
+ import java.awt.event.*;
+ import java.applet.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+ public class javatext extends Applet {
+   %AppName% ap;
+   public void init() {
+     ap = new %AppName%();
+     ap.APPLET = this;
+     ap.Start();
+   }
+ }
+</ImportFiles1>
+<ProgramStartupCode1> Applet APPLET;
+</ProgramStartupCode1>
+<NativeHelpCommand1></NativeHelpCommand1>
+<CompileCommand2></CompileCommand2>
+<RunCommand2></RunCommand2>
+<GUIDesignerCommand2></GUIDesignerCommand2>
+<ImportFiles2>#include &lt;stdio.h&gt;
+
+void Startup();
+</ImportFiles2>
+<ProgramStartupCode2>int main(){
+ Startup();
+ %AppName%::Start();
+ }
+</ProgramStartupCode2>
+<NativeHelpCommand2></NativeHelpCommand2>
+<CompileCommand3></CompileCommand3>
+<RunCommand3></RunCommand3>
+<GUIDesignerCommand3>java -jar guidsin.jar -cpp</GUIDesignerCommand3>
+<ImportFiles3>#include &lt;stdio.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;math.h&gt;
+#include &quot;Ekagen.h&quot;
+void Startup();
+</ImportFiles3>
+<ProgramStartupCode3>void Emain(){
+Startup();
+%AppName%::Start();
+}
+</ProgramStartupCode3>
+<NativeHelpCommand3></NativeHelpCommand3>
+<MoveStep>8</MoveStep>
+<ImageEditCommand></ImageEditCommand>
+<CompilerFileName>javac.exe</CompilerFileName>
+<CompileCommand4>./compile_android Test com example test</CompileCommand4>
+<RunCommand4>echo no action</RunCommand4>
+<GUIDesignerCommand4>java -jar guidsin.jar -android</GUIDesignerCommand4>
+<ImportFiles4>package com.example.test;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.widget.Button;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.widget.EditText;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.graphics.Matrix;
+import android.graphics.Typeface;
+import android.graphics.RectF;
+import android.graphics.BitmapFactory;
+import java.io.*;
+ import java.net.*;
+import java.util.*;
+import java.text.SimpleDateFormat;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.content.res.Configuration;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.app.Activity;
+import android.graphics.Color;
+
+import android.widget.AbsoluteLayout;
+import android.widget.*;
+import android.view.Gravity;
+import android.view.View.OnClickListener;
+
+import android.hardware.Camera;
+
+public class HelloWorld extends Activity {
+  public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    %AppName% ap = new %AppName%();
+    ap.ACTIVITY = this;
+    ap.Start();
+  }
+}
+</ImportFiles4>
+<ProgramStartupCode4>Activity ACTIVITY;
+</ProgramStartupCode4>
+<NativeHelpCommand4>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.test&quot;
+    android:versionCode=&quot;1&quot;
+    android:versionName=&quot;1.0&quot; &gt;
+
+    
+    
+  &lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.usb.host&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.RECORD_AUDIO&quot;/&gt;
+  &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+
+  &lt;uses-sdk android:minSdkVersion=&quot;3&quot; android:targetSdkVersion=&quot;21&quot;/&gt;
+  
+ 
+    &lt;application android:label=&quot;@string/app_name&quot; &gt;
+        &lt;activity
+            android:name=&quot;HelloWorld&quot;
+            android:label=&quot;@string/app_name&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</NativeHelpCommand4>
+<HtmlEditCommand></HtmlEditCommand>
+<CompileCommand5></CompileCommand5>
+<RunCommand5></RunCommand5>
+<GUIDesignerCommand5></GUIDesignerCommand5>
+<ImportFiles5></ImportFiles5>
+<ProgramStartupCode5>gosub @_PSTART
+end
+</ProgramStartupCode5>
+<NativeHelpCommand5></NativeHelpCommand5>
+<NoOptimizePin>0</NoOptimizePin>
+<CompileCommand6>./compile_c</CompileCommand6>
+<RunCommand6>./run_c</RunCommand6>
+<GUIDesignerCommand6></GUIDesignerCommand6>
+<ImportFiles6>#include &lt;setjmp.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;math.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netdb.h&gt;
+
+#include &lt;X11/Xlib.h&gt;
+#include &lt;X11/Xutil.h&gt;
+#include &lt;X11/Xlocale.h&gt; /* ロケール用ヘッダーファイル */
+#include &lt;X11/xpm.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;errno.h&gt;
+</ImportFiles6>
+<ProgramStartupCode6>int ARGC; char** ARGV;
+int main( int argc, char** argv ){
+  ARGC=argc;
+  ARGV=argv;
+  _PSTART();
+}
+</ProgramStartupCode6>
+<NativeHelpCommand6></NativeHelpCommand6>
+<CompileCommand7>./compile_sndplay</CompileCommand7>
+<RunCommand7>./run_startx</RunCommand7>
+<GUIDesignerCommand7>java -jar guidsin.jar -ore</GUIDesignerCommand7>
+<ImportFiles7></ImportFiles7>
+<ProgramStartupCode7>main:
+  _INIT_STATES
+  goto _PSTART
+</ProgramStartupCode7>
+<NativeHelpCommand7></NativeHelpCommand7>
+<IDF_LocalVariable5>%</IDF_LocalVariable5>
+<IDF_LocalVariable7>\</IDF_LocalVariable7>
+</プロパティ>
+<pin>
+<ID>_PSTART</ID>
+<x0>55</x0>
+<y0>238</y0>
+<width>55</width>
+<height>24</height>
+<text>Start()</text>
+<px>50</px>
+<py>50</py>
+</pin>
+<codeclip>
+<ID>_C28</ID>
+<x0>96</x0>
+<y0>6</y0>
+<width>486</width>
+<height>55</height>
+<codetext>// 音声再生プログラム ver 0.0.1
+// システムスピーカを使用
+// サポートしているフォーマットは Windows wav形式 PCM モノラル8bit 8KS/s
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C30</ID>
+<x0>95</x0>
+<y0>67</y0>
+<width>453</width>
+<height>55</height>
+<codetext> const INTERVAL 95// サンプリング周期((8KS/s)
+ const HEADER_SIZE 0x3a // wavファイルのヘッダサイズ
+ const DATA_SIZE 0x36    // wavファイルのデータサイズ
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C37</ID>
+<x0>92</x0>
+<y0>128</y0>
+<width>219</width>
+<height>90</height>
+<codetext>  long sound_data#
+  long sound_end#
+  long volume#
+  char header$(256)
+  char fp$(FILE_SIZE)
+</codetext>
+</codeclip>
+<operation>
+<ID>_O38</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>145</x0>
+<y0>228</y0>
+<width>143</width>
+<height>52</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>33</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>90</outpinx0>
+<outpiny0>40</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>start_player:
+
+
+
+
+
+
+
+  count ii#
+  long interval#,pp#,tt#,time0#,time1#
+  if argc#&lt;2 then &quot;argument&quot;, gotoerror_end
+  argv#(1), fp, ropen tt#=
+  if tt#=ERROR then &quot;file open&quot;, gotoerror_end
+  
+// I/O初期化
+/ rax=0xb0/
+/ rdx=0x43/
+/ out (dx),al/
+/ rax=0x01/
+/ rdx=0x42/
+/ out (dx),al/
+/ rax=0x00/
+/ rdx=0x42/
+/ out (dx),al/
+/ rdx=0x61/
+/ in al,(dx)/
+/ ext al/
+/ rdi=0x03/
+/ rax|=rdi/
+/ rdx=0x61/
+/ out (dx),al/
+
+  // ヘッダをロード
+  HEADER_SIZE, header, fp, _read tt#=
+  if tt#=ERROR then fp, rclose &quot;header read&quot;,  gotoerror_end
+  
+  // メモリを割り当てる
+  header+DATA_SIZE!, malloc sound_data#= pp#=
+  if sound_data#=NULL then fp, rclose &quot;data alloc&quot;, gotoerror_end
+
+  // データをロード
+  header+DATA_SIZE!, sound_data#, fp, _read tt#=
+  fp, rclose
+  if tt#=ERROR then sound_data#, free &quot;data load&quot;, gotoerror_end
+  sound_data#, header+DATA_SIZE!, + sound_end#=
+  INTERVAL, interval#=
+   3, volume#=
+
+// 再生開始
+/ cli/
+loop:
+  (pp)$, volume#, / time0#=
+  interval#, time0#, - time1#=
+
+/ rdx=0x61/
+/ in al,(dx)/
+/ ext al/
+/ rdi=0x03/
+/ rax|=rdi/
+/ rdx=0x61/
+/ out (dx),al/
+  for ii#=0 to time0#
+/ rdx=0x80/
+/ in al,(dx)/
+  next ii#
+  
+/ rdx=0x61/
+/ in al,(dx)/
+/ ext al/
+/ rdi=0xfd/
+/ rax&amp;=rdi/
+/ rdx=0x61/
+/ out (dx),al/
+  for ii#=0 to time1#
+/ rdx=0x80/
+/ in al,(dx)/
+  next ii#
+
+  pp#++
+  if pp#&lt;sound_end# goto loop
+/ sti/  
+
+// メモリ開放
+  sound_data#, free
+  end
+
+// エラー終了
+error_end:
+  prints
+  &quot; ERROR!&quot;, prints nl
+/ rdx=0x61/
+/ in al,(dx)/
+/ ext al/
+/ rdi=0xfc/
+/ rax&amp;=rdi/
+/ rdx=0x61/
+/ out (dx),al/
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R39</ID>
+<pin1name>_PSTART</pin1name>
+<pin2name>_O38</pin2name>
+</relation>
+</xobject>

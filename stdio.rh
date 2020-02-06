@@ -2,6 +2,9 @@
  const __sys_table  0x00000000004023e8
  const __boot_service  0x0000000000402428
  const __runtime_service  0x0000000000402430
+ const __create_event  0x0000000000402478
+ const __wait_event  0x0000000000402480
+ const __set_timer  0x0000000000402490
  const EOF  0xffffffffffffffff
  const ERROR  0xffffffffffffffff
  const NULL  0x0000000000000000

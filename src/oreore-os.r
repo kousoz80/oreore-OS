@@ -223,6 +223,8 @@ _start:
 
  // 割り込み用変数の初期化
  0, __critical#= __int_enable#=  __int_busy#= time#=
+ goto open_volume
+
 
 // タイマー割り込みを設定
 / rax=0x40/
@@ -247,6 +249,7 @@ _start:
 / rsp+=rax/
 
 // ボリュームを開く
+open_volume:
   vol_open __p1#=
   if __p1#<>0 goto __end_loop
 

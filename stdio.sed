@@ -239,4 +239,7 @@
 /const RuntimeService.update_capsule / p
 /const RuntimeService.query_capsule_caps / p
 /const RuntimeService.query_variable_info / p
+/const __set_timer / p
+/const __create_event / p
+/const __wait_event / p
 d

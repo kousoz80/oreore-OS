@@ -918,6 +918,10 @@ def_ins:
  data 72,15,183,192,END
  data "ext eax",NORMAL,2
  data 72,152,END
+ data "cli",NORMAL,1
+ data 250,END
+ data "sti",NORMAL,1
+ data 251,END
  data "nop",NORMAL,1
  data 144,END
  data NULL

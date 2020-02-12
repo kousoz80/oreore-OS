@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+<!-- なんちゃってXML version 0.1( ObjectEditor専用 ) -->
+<xobject>
+<ID>project</ID>
+<x0>0</x0>
+<y0>0</y0>
+<width>200</width>
+<height>100</height>
+<ID_maker>70</ID_maker>
+<objectname>mplayer</objectname>
+<description>新規のアプリケーション</description>
+<プロパティ>
+<ID>properties</ID>
+<LookandFeel>javax.swing.plaf.metal.MetalLookAndFeel</LookandFeel>
+<MainWinx0>0</MainWinx0>
+<MainWiny0>0</MainWiny0>
+<MainWinWidth>1024</MainWinWidth>
+<MainWinHeight>745</MainWinHeight>
+<MesgWinx0>0</MesgWinx0>
+<MesgWiny0>559</MesgWiny0>
+<MesgWinWidth>1024</MesgWinWidth>
+<MesgWinHeight>186</MesgWinHeight>
+<FileWinx0>69</FileWinx0>
+<FileWiny0>436</FileWiny0>
+<FileWinWidth>578</FileWinWidth>
+<FileWinHeight>262</FileWinHeight>
+<EditWinx0>347</EditWinx0>
+<EditWiny0>0</EditWiny0>
+<EditWinWidth>676</EditWinWidth>
+<EditWinHeight>541</EditWinHeight>
+<PropWinx0>1</PropWinx0>
+<PropWiny0>1</PropWiny0>
+<PropWinWidth>615</PropWinWidth>
+<PropWinHeight>448</PropWinHeight>
+<DividerLocation1>2</DividerLocation1>
+<DividerLocation2>2</DividerLocation2>
+<ToolBarVisible>1</ToolBarVisible>
+<ViewSourceAtCompile>0</ViewSourceAtCompile>
+<NoSourceCreate>0</NoSourceCreate>
+<JavaEditCommand>geany</JavaEditCommand>
+<JavaViewCommand></JavaViewCommand>
+<HelpCommand></HelpCommand>
+<ApplicationType>7</ApplicationType>
+<CompileCommand0>./compile_java</CompileCommand0>
+<RunCommand0>./run_java</RunCommand0>
+<GUIDesignerCommand0>java -jar guidsin.jar -java</GUIDesignerCommand0>
+<ImportFiles0> import java.awt.*;
+ import java.awt.event.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import javax.swing.border.*;
+import javax.swing.filechooser.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+import java.awt.image.BufferedImage;
+import javax.sound.sampled.*;
+
+class Starter{
+  public static void main( String args[] ){
+    %AppName% ap = new %AppName%();
+    ap.ARGS = args;
+    ap.Start();
+  }
+}
+</ImportFiles0>
+<ProgramStartupCode0> String[] ARGS;
+</ProgramStartupCode0>
+<NativeHelpCommand0></NativeHelpCommand0>
+<CompileCommand1></CompileCommand1>
+<RunCommand1></RunCommand1>
+<GUIDesignerCommand1>java -jar guidsin.jar -applet</GUIDesignerCommand1>
+<ImportFiles1> import java.awt.*;
+ import java.awt.event.*;
+ import java.applet.*;
+ import javax.swing.*;
+ import javax.swing.event.*;
+ import javax.swing.tree.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+ public class javatext extends Applet {
+   %AppName% ap;
+   public void init() {
+     ap = new %AppName%();
+     ap.APPLET = this;
+     ap.Start();
+   }
+ }
+</ImportFiles1>
+<ProgramStartupCode1> Applet APPLET;
+</ProgramStartupCode1>
+<NativeHelpCommand1></NativeHelpCommand1>
+<CompileCommand2></CompileCommand2>
+<RunCommand2></RunCommand2>
+<GUIDesignerCommand2></GUIDesignerCommand2>
+<ImportFiles2>#include &lt;stdio.h&gt;
+
+void Startup();
+</ImportFiles2>
+<ProgramStartupCode2>int main(){
+ Startup();
+ %AppName%::Start();
+ }
+</ProgramStartupCode2>
+<NativeHelpCommand2></NativeHelpCommand2>
+<CompileCommand3></CompileCommand3>
+<RunCommand3></RunCommand3>
+<GUIDesignerCommand3>java -jar guidsin.jar -cpp</GUIDesignerCommand3>
+<ImportFiles3>#include &lt;stdio.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;math.h&gt;
+#include &quot;Ekagen.h&quot;
+void Startup();
+</ImportFiles3>
+<ProgramStartupCode3>void Emain(){
+Startup();
+%AppName%::Start();
+}
+</ProgramStartupCode3>
+<NativeHelpCommand3></NativeHelpCommand3>
+<MoveStep>8</MoveStep>
+<ImageEditCommand></ImageEditCommand>
+<CompilerFileName>javac.exe</CompilerFileName>
+<CompileCommand4>./compile_android Test com example test</CompileCommand4>
+<RunCommand4>echo no action</RunCommand4>
+<GUIDesignerCommand4>java -jar guidsin.jar -android</GUIDesignerCommand4>
+<ImportFiles4>package com.example.test;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.widget.Button;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.widget.EditText;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.graphics.Matrix;
+import android.graphics.Typeface;
+import android.graphics.RectF;
+import android.graphics.BitmapFactory;
+import java.io.*;
+ import java.net.*;
+import java.util.*;
+import java.text.SimpleDateFormat;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.content.res.Configuration;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.app.Activity;
+import android.graphics.Color;
+
+import android.widget.AbsoluteLayout;
+import android.widget.*;
+import android.view.Gravity;
+import android.view.View.OnClickListener;
+
+import android.hardware.Camera;
+
+public class HelloWorld extends Activity {
+  public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    %AppName% ap = new %AppName%();
+    ap.ACTIVITY = this;
+    ap.Start();
+  }
+}
+</ImportFiles4>
+<ProgramStartupCode4>Activity ACTIVITY;
+</ProgramStartupCode4>
+<NativeHelpCommand4>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.test&quot;
+    android:versionCode=&quot;1&quot;
+    android:versionName=&quot;1.0&quot; &gt;
+
+    
+    
+  &lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt; 
+  &lt;uses-feature android:name=&quot;android.hardware.usb.host&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.RECORD_AUDIO&quot;/&gt;
+  &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt; 
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+
+  &lt;uses-sdk android:minSdkVersion=&quot;3&quot; android:targetSdkVersion=&quot;21&quot;/&gt;
+  
+ 
+    &lt;application android:label=&quot;@string/app_name&quot; &gt;
+        &lt;activity
+            android:name=&quot;HelloWorld&quot;
+            android:label=&quot;@string/app_name&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+
+&lt;/manifest&gt;
+</NativeHelpCommand4>
+<HtmlEditCommand></HtmlEditCommand>
+<CompileCommand5></CompileCommand5>
+<RunCommand5></RunCommand5>
+<GUIDesignerCommand5></GUIDesignerCommand5>
+<ImportFiles5></ImportFiles5>
+<ProgramStartupCode5>gosub @_PSTART
+end
+</ProgramStartupCode5>
+<NativeHelpCommand5></NativeHelpCommand5>
+<NoOptimizePin>0</NoOptimizePin>
+<CompileCommand6>./compile_c</CompileCommand6>
+<RunCommand6>./run_c</RunCommand6>
+<GUIDesignerCommand6></GUIDesignerCommand6>
+<ImportFiles6>#include &lt;setjmp.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;math.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netdb.h&gt;
+
+#include &lt;X11/Xlib.h&gt;
+#include &lt;X11/Xutil.h&gt;
+#include &lt;X11/Xlocale.h&gt; /* ロケール用ヘッダーファイル */
+#include &lt;X11/xpm.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;errno.h&gt;
+</ImportFiles6>
+<ProgramStartupCode6>int ARGC; char** ARGV;
+int main( int argc, char** argv ){
+  ARGC=argc;
+  ARGV=argv;
+  _PSTART();
+}
+</ProgramStartupCode6>
+<NativeHelpCommand6></NativeHelpCommand6>
+<CompileCommand7>./compile_mplayer</CompileCommand7>
+<RunCommand7>./run_startx</RunCommand7>
+<GUIDesignerCommand7>java -jar guidsin.jar -ore</GUIDesignerCommand7>
+<ImportFiles7></ImportFiles7>
+<ProgramStartupCode7>main:
+  _INIT_STATES
+  goto _PSTART
+</ProgramStartupCode7>
+<NativeHelpCommand7></NativeHelpCommand7>
+<IDF_LocalVariable5>%</IDF_LocalVariable5>
+<IDF_LocalVariable7>\</IDF_LocalVariable7>
+</プロパティ>
+<pin>
+<ID>_PSTART</ID>
+<x0>21</x0>
+<y0>108</y0>
+<width>55</width>
+<height>24</height>
+<text>Start()</text>
+<px>50</px>
+<py>50</py>
+</pin>
+<codeclip>
+<ID>_C28</ID>
+<x0>88</x0>
+<y0>9</y0>
+<width>469</width>
+<height>53</height>
+<codetext>// メディアプレーヤ ver 0.0.1
+// システムスピーカを使用
+// サポートしているフォーマットは Windows wav形式 PCM 8bit 8KS/s
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C30</ID>
+<x0>92</x0>
+<y0>66</y0>
+<width>380</width>
+<height>35</height>
+<codetext> const INTERVAL 400000 // サンプリング周期((8KS/s)
+ const INTERVAL_VIDEO 1000
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C37</ID>
+<x0>576</x0>
+<y0>10</y0>
+<width>224</width>
+<height>121</height>
+<codetext>  long sound_data#,sound_end#
+  long video_data#,video_timer#
+  long interval#,volume#,tevent#
+  long gbuf#,disp_x#,disp_y#
+  long is_running#
+  char header$(256)
+  char fp$(FILE_SIZE)
+</codetext>
+</codeclip>
+<operation>
+<ID>_O38</ID>
+<state1>_SINIT</state1>
+<state2>_SINIT</state2>
+<x0>124</x0>
+<y0>111</y0>
+<width>143</width>
+<height>52</height>
+<inconnectx0>0</inconnectx0>
+<inconnecty0>40</inconnecty0>
+<outconnectx0>0</outconnectx0>
+<outconnecty0>40</outconnecty0>
+<inpintext>in()</inpintext>
+<inpinx0>0</inpinx0>
+<inpiny0>33</inpiny0>
+<inpinwidth>40</inpinwidth>
+<inpinheight>20</inpinheight>
+<outpintext>out()</outpintext>
+<outpinx0>93</outpinx0>
+<outpiny0>31</outpiny0>
+<outpinwidth>40</outpinwidth>
+<outpinheight>20</outpinheight>
+<inpinlinkcount>1</inpinlinkcount>
+<description></description>
+<codetext>start_player:
+
+
+
+
+
+  long tt#,pp#,qq#,time0#,time1#
+  if argc#&lt;2 then &quot;argument&quot;, gotoerror_end
+  argv#(1), fp, ropen tt#=
+  if tt#=ERROR then &quot;file open&quot;, gotoerror_end
+  
+// I/O初期化
+/ rax=0xb0/
+/ rdx=0x43/
+/ out (dx),al/
+/ rax=0x01/
+/ rdx=0x42/
+/ out (dx),al/
+/ rax=0x00/
+/ rdx=0x42/
+/ out (dx),al/
+/ rdx=0x61/
+/ in al,(dx)/
+/ ext al/
+/ rdi=0x03/
+/ rax|=rdi/
+/ rdx=0x61/
+/ out (dx),al/
+/ rdi=rax/
+ 
+// クロックを計測してサンプリングインターバルを求める(クロックが4GHz超えると変になるので注意)
+  read_rtc_second pp#=
+loop01:
+  wait_1us
+  read_rtc_second qq#=
+  if pp#=qq# goto loop01
+  read_tsc time0#=
+loop02:
+  wait_1us
+  read_rtc_second pp#=
+  if pp#=qq# goto loop02
+  read_tsc time1#=
+  time1#, time0#, - 0xffffffff, and 8000, / interval#=
+
+  // 表示バッファを確保する
+  screen_width#, screen_height#, * 4, * malloc gbuf#=
+  if gbuf#=NULL then &quot;display buffer alloc&quot;, gotoerror_end
+
+  // ヘッダをロード
+  8, header, fp, _read tt#=
+  if tt#=ERROR then fp, rclose &quot;header read&quot;,  gotoerror_end
+  
+  // メモリを割り当てる
+  header+4!, qq#= malloc sound_data#=
+  if sound_data#=NULL then fp, rclose &quot;data alloc&quot;, gotoerror_end
+
+  // データをロード
+  qq#, sound_data#, fp, _read tt#=
+  if tt#=ERROR then fp, rclose sound_data#, free &quot;data load&quot;, gotoerror_end
+  sound_data#, pp#= qq#, + sound_end#=
+  
+// 音声データの先頭を探す
+loopx:
+  if pp#&gt;=sound_end# then fp, rclose sound_data#, free &quot;data format&quot;, gotoerror_end
+  if (pp)$&lt;&gt;&apos;d&apos; then pp#++ gotoloopx
+  pp#++
+  if (pp)$&lt;&gt;&apos;a&apos; goto loopx
+  pp#++
+  if (pp)$&lt;&gt;&apos;t&apos;  goto loopx
+  pp#++
+  if (pp)$&lt;&gt;&apos;a&apos; goto loopx
+  pp#++
+
+  INTERVAL, interval#=
+  300, /  volume#=
+  INTERVAL_VIDEO, video_timer#=
+
+// 再生開始
+  1, is_running#=
+  play_video, vector_ap1#=
+
+// 演奏開始
+/ cli/
+loop:
+  (pp)$, volume#, * time0#=
+  interval#, time0#, - time1#=
+
+// rsi:直前のTSCレジスタの値
+// rdi:タイマー値
+
+/ rdx=0x61/
+/ in al,(dx)/
+/ rcx=0x03/
+/ rax|=rcx/
+/ out (dx),al/
+
+/ rax=0/
+/ cpuid/
+/ rdtsc/
+/ ext eax/
+/ rsi=rax/
+
+/ rdi=time0/
+/ rdi=(rdi)/
+
+loop0:
+/ rdx=0x61/
+/ in al,(dx)/
+/ rax=0/
+/ cpuid/
+/ rdtsc/
+/ ext eax/
+/ rax-=rdi/
+/ rax-=rsi/
+/ rdx=0x80000000/
+/ rax&amp;=rdx/
+/ jnz loop0/
+
+/ rdx=0x61/
+/ in al,(dx)/
+/ rcx=0xfc/
+/ rax&amp;=rcx/
+/ out (dx),al/
+
+/ rax=0/
+/ cpuid/
+/ rdtsc/
+/ ext eax/
+/ rsi=rax/
+
+/ rdi=time1/
+/ rdi=(rdi)/
+
+loop1:
+/ rdx=0x61/
+/ in al,(dx)/
+/ rax=0/
+/ cpuid/
+/ rdtsc/
+/ ext eax/
+/ rax-=rdi/
+/ rax-=rsi/
+/ rdx=0x80000000/
+/ rax&amp;=rdx/
+/ jnz loop1/
+
+  video_timer#++
+  pp#++
+  if pp#&lt;sound_end# goto loop
+  0, is_running#=
+/ sti/  
+
+// 終了処理
+  fp, rclose
+  sound_data#, free
+  gbuf#, free
+  end
+
+// エラー終了
+error_end:
+  prints
+  &quot; ERROR!&quot;, prints nl
+  tt#, hex prints nl
+/ rdx=0x61/
+/ in al,(dx)/
+/ ext al/
+/ rdi=0xfc/
+/ rax&amp;=rdi/
+/ rdx=0x61/
+/ out (dx),al/
+  end
+</codetext>
+</operation>
+<relation>
+<ID>_R39</ID>
+<pin1name>_PSTART</pin1name>
+<pin2name>_O38</pin2name>
+</relation>
+<codeclip>
+<ID>_C50</ID>
+<x0>293</x0>
+<y0>114</y0>
+<width>165</width>
+<height>36</height>
+<codetext>// ビデオ画像を再生する
+play_video:
+
+
+  long fsize#,tt0#
+
+  if video_timer#&gt;=INTERVAL_VIDEO goto play_video1
+  if is_running#=0 goto play_video_end
+/ rdx=0x80/
+/ in al,(dx)/
+  goto play_video  
+
+play_video1:
+  if is_running#=0 goto play_video_end
+  0, video_timer#=
+  0, (gbuf)#=
+  8, gbuf#, fp,
+/ push rbx/
+/ rax=32/
+/ rsp-=rax/
+/  call _read0/
+/ rbx=32/
+/ rsp+=rbx/
+/ pop rbx/ 
+  if (gbuf)#=0 goto play_video_end
+
+  screen_width#, 2, / tt0#=
+  (gbuf)!, 2, / tt0#, swap - disp_x#=
+  screen_height#, 2, / tt0#=
+  (gbuf)!(1), 2, / tt0#, swap - disp_y#=
+
+  gbuf#, 8, + tt0#=
+  (gbuf)!, (gbuf)!(1), * 4, *
+  tt0#, fp,
+/ push rbx/
+/ rax=32/
+/ rsp-=rax/
+/ call _read0/
+/ rbx=32/
+/ rsp+=rbx/
+/ pop rbx/ 
+  tt0#=
+  if tt0#=0 goto play_video_end
+  disp_x#, disp_y#, gbuf#,
+/ push rbx/
+/ rax=32/
+/ rsp-=rax/
+/ call draw_image0/
+/ rbx=32/
+/ rsp+=rbx/
+/ pop rbx/ 
+  if is_running#&lt;&gt;0 goto play_video
+
+play_video_end:
+/ ret/
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C60</ID>
+<x0>293</x0>
+<y0>159</y0>
+<width>166</width>
+<height>35</height>
+<codetext>// ファイルから読み込む 
+_read0:
+  long len\#
+/ rcx=FILE_FP(rdi)/
+/ rax=rdx/
+/ rdx=len\/
+/ (rdx)=rax/
+/ r8=rsi/
+/ push rbx/
+/ rax=32/
+/ rsp-=rax/
+/ rax=FILE_READ(rcx)/
+/ call (rax)/
+/ rbx=32/
+/ rsp+=rbx/
+/ pop rbx/
+/ rax=len\/
+/ rdi=(rax)/
+/ ret/
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C61</ID>
+<x0>290</x0>
+<y0>198</y0>
+<width>163</width>
+<height>35</height>
+<codetext>// イメージを描画する
+draw_image0:
+  count ii#,jj#
+  long pp0#,qq0#,gx#,gy#,gx1#,gy1#,rx#,ry#
+  qq0#= pop gy#= pop gx#=
+  if qq0#=NULL goto xdraw_image1
+  (qq0)!, rx#=
+  if rx#&lt;0 then end
+  if rx#&gt;=screen_width# goto xdraw_image1
+  qq0#, 4, + qq0#=
+  (qq0)!, ry#=
+  if ry#&lt;0 goto xdraw_image1
+  if ry#&gt;=screen_height# goto xdraw_image1
+  qq0#, 4, + qq0#=
+  gx#, rx#, + 1, - gx1#=
+  gy#, ry#, + 1, - gy1#=
+  for ii#=gy# to gy1#
+    for jj#=gx# to gx1#
+      ii#, screen_width#, * jj#, +
+      4, * graphic_base#, + pp0#=
+      if (qq0)$(3)=0 then (qq0)!, (pp0)!=
+      qq0#, 4, + qq0#=
+    next jj#
+  next ii#
+  jj#, ii#,
+xdraw_image1:
+/ ret/
+
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C66</ID>
+<x0>470</x0>
+<y0>156</y0>
+<width>134</width>
+<height>22</height>
+<codetext>read_rtc_second:
+
+  char time_val$(256)
+/ rcx=time_val/
+/ rdx=time_cap/
+/ rax=__runtime_service/
+/ rax=(rax)/
+/ rax=0x18(rax)/
+/ call (rax)/
+  time_val$(6), end
+
+
+ .data
+time_cap:
+ data 0x100000001
+ data 0x0
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C68</ID>
+<x0>472</x0>
+<y0>180</y0>
+<width>100</width>
+<height>20</height>
+<codetext>wait_1us:
+/ rdx=0x80/
+/ in al,(dx)/
+  end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C69</ID>
+<x0>471</x0>
+<y0>204</y0>
+<width>100</width>
+<height>20</height>
+<codetext>read_tsc:
+/ rax=0/
+/ cpuid/
+/ rdtsc/
+/ ext eax/
+/ rdi=rax/
+  end
+</codetext>
+</codeclip>
+</xobject>

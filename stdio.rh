@@ -1,7 +1,11 @@
 // header file for oreore-OS application
  const __sys_table  0x00000000004023e8
+ const __conout  0x00000000004023f8
+ const __puts  0x0000000000402408
  const __boot_service  0x0000000000402428
  const __runtime_service  0x0000000000402430
+ const __allocate_pool  0x0000000000402468
+ const __free_pool  0x0000000000402470
  const __create_event  0x0000000000402478
  const __wait_event  0x0000000000402480
  const __set_timer  0x0000000000402490
@@ -187,58 +191,59 @@
  const GETCH  0x0000000000000068
  const PUTCH  0x0000000000000069
  const WPUTS  0x000000000000006a
- const math_sin  0x000000000040ecde
- const math_cos  0x000000000040f240
- const math_tan  0x000000000040f33f
- const math_arctan  0x000000000040f5ff
- const math_exp  0x00000000004100d2
- const math_log  0x000000000041093f
- const math_random  0x0000000000411061
- const math_power  0x00000000004110ee
- const xdraw_point  0x00000000004112a4
- const xget_point  0x00000000004114cd
- const xdraw_line  0x0000000000411643
- const xgcls  0x000000000041223e
- const xfill_rect  0x00000000004124b9
- const xdraw_rect  0x0000000000412ab8
- const xfill_circle  0x00000000004132b8
- const xdraw_circle  0x0000000000413430
- const xpaint  0x0000000000413fe0
- const xdraw_image  0x0000000000414e59
- const load_image  0x00000000004158e2
- const save_image  0x0000000000415ff3
- const xval  0x0000000000417950
- const xstr  0x0000000000419586
- const printr  0x000000000041afc9
- const fprintr  0x000000000041b0b5
- const __critical  0x000000000041c468
- const __stack_p  0x000000000041c470
- const __int_enable  0x000000000041c478
- const __int_busy  0x000000000041c480
- const __sys_nest  0x000000000041c488
- const time  0x000000000041c498
- const SYS_CALL  0x000000000041c4a0
- const SYS_EXT  0x000000000041c4a8
- const tasks  0x000000000041c4b0
- const present_task  0x000000000041c4b8
- const __stack_top  0x000000000041c4c0
- const tcb0  0x000000000041c4c8
- const cmd_buf  0x000000000041c670
- const argc  0x000000000041c970
- const argv  0x000000000041c978
- const taskman  0x000000000041ca50
- const graphic_protocol  0x000000000041cd28
- const pointer_protocol  0x000000000041cd30
- const graphic_mode  0x000000000041cd38
- const graphic_info  0x000000000041cd40
- const graphic_base  0x000000000041cd48
- const set_mode  0x000000000041cd50
- const screen_width  0x000000000041cd58
- const screen_height  0x000000000041cd60
- const mouse_reset  0x000000000041cd68
- const mouse_get_state  0x000000000041cd70
- const xcolor  0x000000000041cf10
- const _end  0x00000000004250b0
+ const math_sin  0x000000000040f11e
+ const math_cos  0x000000000040f680
+ const math_tan  0x000000000040f77f
+ const math_arctan  0x000000000040fa3f
+ const math_exp  0x0000000000410512
+ const math_log  0x0000000000410d7f
+ const math_random  0x00000000004114a1
+ const math_power  0x000000000041152e
+ const xdraw_point  0x00000000004116e4
+ const xget_point  0x000000000041190d
+ const xdraw_line  0x0000000000411a83
+ const xgcls  0x000000000041267e
+ const xfill_rect  0x00000000004128f9
+ const xdraw_rect  0x0000000000412ef8
+ const xfill_circle  0x00000000004136f8
+ const xdraw_circle  0x0000000000413870
+ const xpaint  0x0000000000414420
+ const xdraw_image  0x0000000000415299
+ const load_image  0x0000000000415d22
+ const save_image  0x0000000000416433
+ const xval  0x0000000000417d90
+ const xstr  0x00000000004199c6
+ const printr  0x000000000041b409
+ const fprintr  0x000000000041b4f5
+ const __critical  0x000000000041cc28
+ const __stack_p  0x000000000041cc30
+ const __int_enable  0x000000000041cc38
+ const __int_busy  0x000000000041cc40
+ const __sys_nest  0x000000000041cc48
+ const time  0x000000000041cc58
+ const SYS_CALL  0x000000000041cc60
+ const SYS_EXT  0x000000000041cc68
+ const tasks  0x000000000041cc70
+ const present_task  0x000000000041cc78
+ const __stack_top  0x000000000041cc80
+ const tcb0  0x000000000041cc88
+ const cmd_buf  0x000000000041ce30
+ const argc  0x000000000041d130
+ const argv  0x000000000041d138
+ const taskman  0x000000000041d210
+ const graphic_protocol  0x000000000041d4e8
+ const pointer_protocol  0x000000000041d4f0
+ const graphic_mode  0x000000000041d500
+ const graphic_info  0x000000000041d508
+ const graphic_base  0x000000000041d510
+ const set_mode  0x000000000041d518
+ const screen_width  0x000000000041d520
+ const screen_height  0x000000000041d528
+ const mouse_reset  0x000000000041d530
+ const mouse_get_state  0x000000000041d538
+ const vector_ap1  0x000000000041d548
+ const xcolor  0x000000000041d708
+ const _end  0x00000000004258b0
 // "stdio.base" the base text of "stdio.rh"
 
 __xxmain1:

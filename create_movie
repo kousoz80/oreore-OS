@@ -1,0 +1,54 @@
+#!
+# oreore-OS用動画ファイル作成プログラム
+# 第1引数：入力動画ファイル(必須)
+# 第2引数：出力ファイル(デフォルトは"output.mov")
+# 第3引数：音量調節(例:10dB,デフォルトは0dB)
+# 第4引数：横幅(デフォルトは128ドット)
+# 第5引数：高さ(デフォルトは96ドット)
+# <使用例> ./create_movie input.mp4 output.mov 15dB 256 192
+
+# 注意事項:
+# ・無圧縮のためファイルサイズが大きくなります
+# ・作業のため"work"という名前のディレクトリを作成して、その後削除します
+# ・ffmpegを使用します
+# ・Javaプログラムの実行環境が必要です
+
+output=output.mov
+volume=0dB
+xwidth=128
+xheight=96
+
+if test $# -lt 1
+then 
+  exit 0
+fi
+
+if test $# -gt 1
+then
+  output=$2
+fi
+
+if test $# -gt 2
+then
+  volume=$3
+fi
+
+if test $# -gt 3
+then
+  xwidth=$4
+fi
+
+if test $# -gt 4
+then
+  xheight=$5
+fi
+
+rm -r work
+mkdir work
+
+ffmpeg -y -i $1 -ac 1 -ar 8000 -acodec pcm_u8 -af volume=$volume output.wav
+ffmpeg -y -i $1 -r 8 -f image2 work/%d.jpg
+java -jar create_movie.jar output.wav work $xwidth $xheight
+
+mv output.wav $output
+rm -r work

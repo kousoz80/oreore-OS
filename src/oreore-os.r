@@ -1,5 +1,5 @@
-//  "oreore-os.r" oreore-OS ver 0.0.9  for oregengo-R (x64) UEFIアプリケーション  
-// 変更点：タスク切り替えのときの保存レジスタを追加
+//  "oreore-os.r" oreore-OS ver 0.1.0  for oregengo-R (x64) UEFIアプリケーション  
+// 変更点：マルチコアCPUに対応
 
  const TIMER_INTERVAL 10000 // 割り込み周期(0.1us単位)
  const EOF         -1         // ファイルの終わりをあらわす文字コード 
@@ -115,6 +115,17 @@
     long update_capsule#
     long query_capsule_caps#
     long query_variable_info#
+  end
+
+// マルチプロセッササービスコールテーブル
+  struct EFI_MP_SERVICES_PROTOCOL
+    long GetNumberOfProcessors#
+    long GetProcessorInfo#
+    long StartupAllAPs#
+    long StartupThisAP#
+    long SwitchBSP#
+    long EnableDisableAP#
+    long WhoAmI#
   end
 
 // タスク制御ブロック
@@ -1672,9 +1683,16 @@ main:
 
   long graphic_protocol#
   long pointer_protocol#
+  long mp_protocol#
   long graphic_mode#,graphic_info#,graphic_base#
   long set_mode#,screen_width#,screen_height#
   long mouse_reset#,mouse_get_state#
+  long  msp_event#
+  long  vector_ap1#  // AP1用関数呼び出しアドレスが入る
+  long  _get_number_of_processors#
+  long  _startup_this_ap#
+  long  _who_am_i#
+  long  _enable_disable_ap#
 
 // スタートアップルーチン
   graphic_guid, graphic_protocol, locate_protocol    // UEFIのグラフィックAPIを取得する
@@ -1687,6 +1705,20 @@ main:
   pointer_guid, pointer_protocol, locate_protocol    // UEFIのマウスAPIを取得する
   (pointer_protocol)#(0), mouse_reset#=
   (pointer_protocol)#(1), mouse_get_state#=
+
+  // マルチプロセッササービスAPIを取得する
+  // (現在起動可能なAPはCPU1のみ)
+  NULL, vector_ap1#=
+  msp_guid, mp_protocol, locate_protocol  f#=
+  if f#<>0 goto msp_skip
+  mp_protocol#, ->EFI_MP_SERVICES_PROTOCOL.GetNumberOfProcessors# _get_number_of_processors#=
+  mp_protocol#, ->EFI_MP_SERVICES_PROTOCOL.StartupThisAP# _startup_this_ap#=
+  mp_protocol#, ->EFI_MP_SERVICES_PROTOCOL.WhoAmI# _who_am_i#=
+  mp_protocol#, ->EFI_MP_SERVICES_PROTOCOL.EnableDisableAP# _enable_disable_ap#=
+  0, 0, NULL, NULL, msp_event, create_event f#=
+  if f#<>0 goto msp_skip
+  ap1_thread_loop, 1, msp_event#, startup_this_ap
+msp_skip:
 
   1, @SYS_CALL(CURSOR)
   @SYS_CALL(CLS)
@@ -2494,6 +2526,111 @@ fprintr:
  end
 
 
+// CPUコアの数を求める
+get_number_of_processors:
+/ rax=mp_protocol/
+/ rcx=(rax)/
+/ rdx=rsi/
+/ r8=rdi/
+/ rax=_get_number_of_processors/
+/ rax=(rax)/
+/ call (rax)/
+/ rdi=rax/
+  end
+
+
+// 指定されたCPUコアを起動する
+startup_this_ap:
+  long finished#
+/ rcx=0x100/
+/ rsp-=rcx/
+/ rax=mp_protocol/
+/ rcx=(rax)/
+// rdx=rdx/
+/ r8=rsi/
+/ r9=rdi/
+/ rax=0/
+/ 0x20(rsp)=rax/
+/ 0x28(rsp)=rax/
+/ rax=finished/
+/ 0x30(rsp)=rax/
+/ rax=_startup_this_ap/
+/ rax=(rax)/
+/ call (rax)/
+/ rcx=0x100/
+/ rsp+=rcx/
+/ rdi=rax/
+  end
+
+
+// 自分のCPUコア番号を求める
+who_am_i:
+/ rax=mp_protocol/
+/ rcx=(rax)/
+/ rdx=rdi/
+/ rax=_who_am_i/
+/ rax=(rax)/
+/ call (rax)/
+/ rdi=rax/
+  end
+
+
+// 指定されたCPUコアの有効/無効にする
+enable_disable_ap:
+/ rax=mp_protocol/
+/ rcx=(rax)/
+/ rdx=rsi/
+/ r8=rdi/
+/ r9=0/
+/ rax=_enable_disable_ap/
+/ rax=(rax)/
+/ call (rax)/
+/ rdi=rax/
+  end
+
+
+// AP1のスレッドループ
+ap1_thread_loop:
+/ rax=vector_ap1/
+/ rax=(rax)/
+/ rax&=rax/
+/ jnz ap1_thread_loop1/
+/ rdx=0x80/
+/ in al,(dx)/
+/ jmp ap1_thread_loop/
+ap1_thread_loop1:
+/ push rbx/
+/ rdx=32/
+/ rsp-=rdx/
+/ call (rax)/
+/ rdx=32/
+/ rsp+=rdx/
+/ pop rbx/
+/ rdx=0/
+/ rax=vector_ap1/
+/ (rax)=rdx/
+/ jmp ap1_thread_loop/
+
+
+create_event:
+/ rax=0x40/
+/ rsp-=rax/
+/ rax=rdx/
+/ rcx=r9/
+/ rdx=r8/
+/ r8=rax/
+/ r9=rsi/ 
+/ 0x20(rsp)=rdi/
+/ rax=__create_event/
+/ rax=(rax)/
+/ call (rax)/
+/ rdi=rax/
+/ rax=0x40/
+/ rsp+=rax/
+  end
+
+
+
  .data
 
 // グラフィックAPIのガイド
@@ -2505,6 +2642,11 @@ graphic_guid:
 pointer_guid:
  data 0x11d50b7531878c87
  data 0x4dc13f2790004f9a
+
+// マルチプロセッササービスAPIのガイド
+msp_guid:
+  data 0x4f46a76e3fdda605
+  data 0x083d1b53f41229ad
 
  long _end#
  

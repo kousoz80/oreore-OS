@@ -242,4 +242,9 @@
 /const __set_timer / p
 /const __create_event / p
 /const __wait_event / p
+/const __allocate_pool / p
+/const __free_pool / p
+/const __conout / p
+/const __puts / p
+/const vector_ap1 / p
 d

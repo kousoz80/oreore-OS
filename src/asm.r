@@ -11,7 +11,7 @@ main:
 
  // ファイル名・オプション設定
  NULL,  in_fname#= out_fname#=
- 0x4a3000, start_adrs#=
+ 0x4a8000, start_adrs#=
  0, blist#=
  if argc#<2 then " command input error", prints nl end
  for i#=2 to argc#

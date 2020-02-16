@@ -1,5 +1,5 @@
-//  "oreore-os.r" oreore-OS ver 0.1.0  for oregengo-R (x64) UEFIアプリケーション  
-// 変更点：マルチコアCPUに対応
+//  "oreore-os.r" oreore-OS ver 1.0  for oregengo-R (x64) UEFIアプリケーション  
+// 変更点：スタートボタン、aboutアプリを追加
 
  const TIMER_INTERVAL 10000 // 割り込み周期(0.1us単位)
  const EOF         -1         // ファイルの終わりをあらわす文字コード 

@@ -193,8 +193,7 @@ java -jar asm_x64.jar -p0xa8000 -efi asm.s bin/mouse_test.EFI
 # mplayer
 echo compile mplayer.r
 ./orc stdio.rh src/mplayer.r
-java -jar asm_x64.jar -p0xa8000 -efi asm.s bin/mplayer.EFI
-
+java -jar asm_x64.jar -p0xfe000 -efi asm.s bin/mplayer.EFI
 
 # notepad
 echo compile notepad.r
@@ -216,6 +215,12 @@ java -jar asm_x64.jar -p0xc8000 -efi asm.s bin/paint.EFI
 echo compile explore.r
 ./orc stdio.rh startx.rh src/explore.r
 java -jar asm_x64.jar -p0xd8000 -efi asm.s bin/explore.EFI
+
+
+# about
+echo compile about.r
+./orc stdio.rh startx.rh src/about.r
+java -jar asm_x64.jar -p0xa8000 -efi asm.s bin/about.EFI
 
 
 # 作業ファイルを消去

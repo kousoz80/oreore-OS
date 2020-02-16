@@ -193,14 +193,14 @@
  const Window.close_button  0x0000000000000070
  const Window.component  0x0000000000000178
  const Window.SIZE  0x0000000000000230
- const create_window  0x000000000044d670
- const set_window_title  0x00000000004514a2
- const set_window_icon  0x0000000000451582
- const set_window_resizable  0x0000000000451662
- const show_desktop_menu  0x0000000000452062
- const show_icon_menu  0x0000000000453973
- const create_property_sheet  0x0000000000454aa1
- const show_property_sheet  0x0000000000455ff5
+ const create_window  0x000000000044d878
+ const set_window_title  0x00000000004516aa
+ const set_window_icon  0x000000000045178a
+ const set_window_resizable  0x000000000045186a
+ const show_desktop_menu  0x000000000045226a
+ const show_icon_menu  0x0000000000453b7b
+ const create_property_sheet  0x0000000000454ca9
+ const show_property_sheet  0x00000000004561fd
  const TextArea.subclass  0x0000000000000000
  const TextArea.text  0x0000000000000008
  const TextArea.line  0x0000000000000010
@@ -215,25 +215,25 @@
  const TextArea.hscrollbar  0x0000000000000110
  const TextArea.vscrollbar  0x0000000000000208
  const TextArea.SIZE  0x0000000000000300
- const create_textarea  0x0000000000457340
- const set_textarea_text  0x000000000045d284
+ const create_textarea  0x0000000000457548
+ const set_textarea_text  0x000000000045d48c
  const Filer.SIZE  0x0000000000000200
- const create_filer  0x000000000045e5b2
- const update_filer  0x0000000000460b76
- const set_filer_open_action  0x00000000004614be
- const get_file_command  0x00000000004695af
- const get_file_icon  0x000000000046990f
- const get_file_type  0x0000000000469aaa
- const get_file_extention  0x000000000046a003
- const show_open_dialog  0x000000000046b998
- const show_save_dialog  0x000000000046b9bc
- const show_xfiler  0x000000000046ca04
- const mouse_x  0x000000000046f2c8
- const mouse_y  0x000000000046f2d0
- const copy_area  0x000000000046f318
- const font_area  0x000000000046f320
- const gui_is_running  0x000000000046f330
- const key_code  0x000000000046f340
- const key_mask  0x000000000046f348
- const desktop  0x00000000004780a0
- const gui_end  0x000000000047ba48
+ const create_filer  0x00000000004605a2
+ const update_filer  0x0000000000462b66
+ const set_filer_open_action  0x00000000004634ae
+ const get_file_command  0x000000000046b59f
+ const get_file_icon  0x000000000046b8ff
+ const get_file_type  0x000000000046ba9a
+ const get_file_extention  0x000000000046bff3
+ const show_open_dialog  0x000000000046d988
+ const show_save_dialog  0x000000000046d9ac
+ const show_xfiler  0x000000000046e9f4
+ const mouse_x  0x0000000000471350
+ const mouse_y  0x0000000000471358
+ const copy_area  0x00000000004713a0
+ const font_area  0x00000000004713a8
+ const gui_is_running  0x00000000004713b8
+ const key_code  0x00000000004713c8
+ const key_mask  0x00000000004713d0
+ const desktop  0x000000000047a228
+ const gui_end  0x000000000047dcd8

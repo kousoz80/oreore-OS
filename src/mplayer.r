@@ -9,7 +9,7 @@
   long video_data#,video_timer#
   long interval#,volume#,tevent#
   long gbuf#,disp_x#,disp_y#
-  long is_running#
+  long is_running#,gpu_running#
   char header$(256)
   char fp$(FILE_SIZE)
 
@@ -19,6 +19,7 @@ play_video:
 
   long fsize#,tt0#
 
+  1, gpu_running#=
   if video_timer#>=INTERVAL_VIDEO goto play_video1
   if is_running#=0 goto play_video_end
 / rdx=0x80/
@@ -67,14 +68,15 @@ play_video1:
   if is_running#<>0 goto play_video
 
 play_video_end:
+  0, gpu_running#=
 / ret/
 
 // ファイルから読み込む 
 _read0:
-  long len_199387885#
+  long len_1184484138#
 / rcx=FILE_FP(rdi)/
 / rax=rdx/
-/ rdx=len_199387885/
+/ rdx=len_1184484138/
 / (rdx)=rax/
 / r8=rsi/
 / push rbx/
@@ -85,7 +87,7 @@ _read0:
 / rbx=32/
 / rsp+=rbx/
 / pop rbx/
-/ rax=len_199387885/
+/ rax=len_1184484138/
 / rdi=(rax)/
 / ret/
 
@@ -157,10 +159,10 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _1372669486_in
+ _1291522240_in
 
  end
-_1372669486_in:
+_1291522240_in:
 start_player:
 
 
@@ -203,7 +205,7 @@ loop02:
   read_rtc_second pp#=
   if pp#=qq# goto loop02
   read_tsc time1#=
-  time1#, time0#, - 0xffffffff, and 8000, / interval#=
+  time1#, time0#, - 0xffffffff, and 8700, / interval#=
 
   // 表示バッファを確保する
   screen_width#, screen_height#, * 4, * malloc gbuf#=
@@ -221,7 +223,7 @@ loop02:
   qq#, sound_data#, fp, _read tt#=
   if tt#=ERROR then fp, rclose sound_data#, free "data load", gotoerror_end
   sound_data#, pp#= qq#, + sound_end#=
-  
+
 // 音声データの先頭を探す
 loopx:
   if pp#>=sound_end# then fp, rclose sound_data#, free "data format", gotoerror_end
@@ -234,8 +236,7 @@ loopx:
   if (pp)$<>'a' goto loopx
   pp#++
 
-  INTERVAL, interval#=
-  300, /  volume#=
+  interval#, 300, /  volume#=
   INTERVAL_VIDEO, video_timer#=
 
 // 再生開始
@@ -315,6 +316,8 @@ loop1:
 
 // 終了処理
   fp, rclose
+loop2:
+  if gpu_running#<>0 then sync gotoloop2
   sound_data#, free
   gbuf#, free
   end

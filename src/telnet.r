@@ -808,15 +808,15 @@ snp_get_status:
 
 // エスケープシーケンスを含む文字を表示する
 putchar0:
-  char c_1757126994$
-  c_1757126994$=
+  char c_1921026946$
+  c_1921026946$=
 
 esc_mode_start:
   if EscapeMode#<>ESC_START goto esc_mode_sharp
-    if c_1757126994$='#' then ESC_SHARP,     EscapeMode#= end 
-    if c_1757126994$='('  then  ESC_LPARM,     EscapeMode#= end
-    if c_1757126994$=')'  then  ESC_RPARM,    EscapeMode#= end
-    if c_1757126994$='['  then  ESC_BRACKET, EscapeMode#= end
+    if c_1921026946$='#' then ESC_SHARP,     EscapeMode#= end 
+    if c_1921026946$='('  then  ESC_LPARM,     EscapeMode#= end
+    if c_1921026946$=')'  then  ESC_RPARM,    EscapeMode#= end
+    if c_1921026946$='['  then  ESC_BRACKET, EscapeMode#= end
     ESC_NONE, EscapeMode#=
     end
 
@@ -837,15 +837,15 @@ esc_mode_rparm:
 
 esc_mode_bracket:
   if EscapeMode#<>ESC_BRACKET goto esc_mode_non
-    if c_1757126994$=';'  then  end
-    if c_1757126994$<'0' then  ESC_NONE, EscapeMode#= end
-    if c_1757126994$>'9' then  ESC_NONE, EscapeMode#= end
+    if c_1921026946$=';'  then  end
+    if c_1921026946$<'0' then  ESC_NONE, EscapeMode#= end
+    if c_1921026946$>'9' then  ESC_NONE, EscapeMode#= end
     end
 
 esc_mode_non:
-  if c_1757126994$=0x1b then ESC_START, EscapeMode#= end
-  if c_1757126994$=10 then nl end
-  c_1757126994$, putchar end
+  if c_1921026946$=0x1b then ESC_START, EscapeMode#= end
+  if c_1921026946$=10 then nl end
+  c_1921026946$, putchar end
 
 // エスケープモード
  const  ESC_NONE      0
@@ -870,93 +870,93 @@ main:
   _INIT_STATES
   goto _PSTART
 _PSTART:
- _321205612_in
+ _1682764219_in
 
  end
-_1892934824_udp_recved:
+_76024149_udp_recved:
 
  end
-_1911975657_udp_send:
- _1909199760_tx
+_748434055_udp_send:
+ _730655697_tx
 
  end
-_1930172435_udp_regport:
- _1322047397_regport
+_928842475_udp_regport:
+ _487051888_regport
 
  end
-_426067816_udp_relport:
- _743995207_relport
+_2128662644_udp_relport:
+ _900351036_relport
 
  end
-_1128341696_tcp_recved:
+_1907110269_tcp_recved:
 
  end
-_1201442688_tcp_send:
- _1375796139_tx
+_597084003_tcp_send:
+ _1035112186_tx
 
  end
-_98513084_tcp_accept:
- _2061070257_accept
+_1850982812_tcp_accept:
+ _503668590_accept
 
  end
-_377519252_tcp_connect:
- _366267874_connect
+_835112167_tcp_connect:
+ _2036949814_connect
 
  end
-_627914539_tcp_close:
- _1599715512_close
+_1230887387_tcp_close:
+ _1767805631_close
 
  end
-_173133147_icmp_recved:
+_1085408304_icmp_recved:
 
  end
-_112090249_icmp_ping:
- _519907039_ping
+_1550168652_icmp_ping:
+ _196068822_ping
 
  end
-_2047399472_icmp_callback:
- _22818016_set_callback
+_743098237_icmp_callback:
+ _965616161_set_callback
 
  end
-_321205612_in:
+_1682764219_in:
  dopen
- _1937645764_init
+ _739985465_init
 
  end
-_2061070257_accept:
- _1465884019_in
+_503668590_accept:
+ _545143361_in
 
  end
-_366267874_connect:
- _1801091326_in
+_2036949814_connect:
+ _1518977403_in
 
  end
-_1599715512_close:
- _1334750229_in
+_1767805631_close:
+ _788772797_in
 
  end
-_1038917088_recved:
- _1660825521_in
+_1548249890_recved:
+ _1362622058_in
 
  end
-_1375796139_tx:
- _1239519896_in
+_1035112186_tx:
+ _13267519_in
 
  end
-_994352967_init:
- _1900322514_in
- _1687760126_init
+_1962466663_init:
+ _350026052_in
+ _288888639_init
 
  end
-_593610626_send:
- _123785157_tx
+_620451369_send:
+ _48609740_tx
 
  end
-_1145702806_rx:
- _1128341696_tcp_recved
+_1529368693_rx:
+ _1907110269_tcp_recved
 
  end
-_1660825521_in:
+_1362622058_in:
 tcp_recv:
 
 
@@ -1103,13 +1103,13 @@ tcp_recv_end:
 
   tcp_busy#--
   end
- _1145702806_rx
- _1213715503_in
- _1484806031_in
- _1267755755_in
+ _1529368693_rx
+ _1750542450_in
+ _1211771947_in
+ _651172413_in
 
  end
-_1239519896_in:
+_13267519_in:
 tcp_send:
 
 
@@ -1133,11 +1133,11 @@ tcp_send:
     1, tcon2#, ->connection.tx_busy#=
     tcp_busy#--
     0,   end
- _14166268_in
- _1522416455_in
+ _1316013751_in
+ _1462956070_in
 
  end
-_14166268_in:
+_1316013751_in:
   tcp_send_pkt:
 
 
@@ -1175,10 +1175,10 @@ _14166268_in:
   "tcp_sendpkt:end", dprint dnl
 
    end
- _593610626_send
+ _620451369_send
 
  end
-_1465884019_in:
+_545143361_in:
 tcp_accept:
 
 
@@ -1202,10 +1202,10 @@ tcp_accept:
 
   "tcp_accept:end", dprint dnl
   tcon#,  end
- _489716565_in
+ _464708761_in
 
  end
-_1801091326_in:
+_1518977403_in:
 tcp_connect:
 
 
@@ -1231,11 +1231,11 @@ tcp_connect:
 
   tcp_busy#--
   tcon0#, end
- _1213715503_in
- _489716565_in
+ _1750542450_in
+ _464708761_in
 
  end
-_1334750229_in:
+_788772797_in:
 tcp_close:
 
 
@@ -1260,10 +1260,10 @@ tcp_close1:
   tcp_busy#--
   
    0, end
- _1213715503_in
+ _1750542450_in
 
  end
-_1900322514_in:
+_350026052_in:
 tcp_init:
 
 
@@ -1279,7 +1279,7 @@ tcp_init:
 end
 
  end
-_1522416455_in:
+_1462956070_in:
 tcp_create_pkt:
 
 
@@ -1339,7 +1339,7 @@ tcp_create_pkt2:
    tpkt#, end
 
  end
-_1267755755_in:
+_651172413_in:
 tcp_get_connection:
 
 
@@ -1386,7 +1386,7 @@ tcp_get_connection3:
   NULL, end
 
  end
-_1484806031_in:
+_1211771947_in:
 tcp_delete_connection:
 
 
@@ -1421,7 +1421,7 @@ tcp_delete_connection3:
   -1, end
 
  end
-_489716565_in:
+_464708761_in:
 tcp_create_connection:
 
 
@@ -1463,7 +1463,7 @@ tcp_create_connection:
 
 
  end
-_1213715503_in:
+_1750542450_in:
   tcp_send_signal:
 
 
@@ -1477,192 +1477,192 @@ _1213715503_in:
 
   "tcp_send_signal:end", dprint dnl
   end
- _1522416455_in
- _14166268_in
+ _1462956070_in
+ _1316013751_in
 
  end
-_448928713_getaddr:
- _1288296435_in
+_1542248735_getaddr:
+ _987310595_in
 
  end
-_1007812600_recved:
- _750773069_in
+_57070799_recved:
+ _627187642_in
 
  end
-_147652112_init:
- _2095654480_in
- _688484340_init
+_1186619421_init:
+ _2008688799_in
+ _461795452_init
 
  end
-_1490777031_send:
- _1936272363_tx
+_2123829938_send:
+ _1424048717_tx
 
  end
-_761995636_finish:
- _2115829873_in
+_1965354935_finish:
+ _79732057_in
 
  end
-_1288296435_in:
+_987310595_in:
 arp_getaddr:
 
 
-  long ip_ad_1288296435_in#,mac_ad_1288296435_in#,ss_1288296435_in#,tt_1288296435_in#
-  ip_ad_1288296435_in#=
+  long ip_ad_987310595_in#,mac_ad_987310595_in#,ss_987310595_in#,tt_987310595_in#
+  ip_ad_987310595_in#=
 
   "arp_getaddr:", dprint
-  " ip=", dprint ip_ad_1288296435_in#, dprint_ipaddr dnl
+  " ip=", dprint ip_ad_987310595_in#, dprint_ipaddr dnl
 
-  NULL, mac_ad_1288296435_in#=
-  ip_ad_1288296435_in#, 0xffffffff, and ip_ad_1288296435_in#=
+  NULL, mac_ad_987310595_in#=
+  ip_ad_987310595_in#, 0xffffffff, and ip_ad_987310595_in#=
 
   if arp_top_addr#=NULL then   "no addr list", dprint dnl gotoarp_getaddr2
 //    if arp_top_addr#=NULL goto arp_getaddr2
 
-  arp_top_addr#, tt_1288296435_in#=
+  arp_top_addr#, tt_987310595_in#=
 arp_getaddr1:
-  tt_1288296435_in#,  ->addrset.ipaddr# ss_1288296435_in#=
+  tt_987310595_in#,  ->addrset.ipaddr# ss_987310595_in#=
 
-  if ss_1288296435_in#=ip_ad_1288296435_in# then tt_1288296435_in#, ->addrset.macaddr# mac_ad_1288296435_in#= "addr found", dprint dnl gotoarp_getaddr2
-//    if ss_1288296435_in#=ip_ad_1288296435_in# then tt_1288296435_in#, ->addrset.macaddr# mac_ad_1288296435_in#= gotoarp_getaddr2
+  if ss_987310595_in#=ip_ad_987310595_in# then tt_987310595_in#, ->addrset.macaddr# mac_ad_987310595_in#= "addr found", dprint dnl gotoarp_getaddr2
+//    if ss_987310595_in#=ip_ad_987310595_in# then tt_987310595_in#, ->addrset.macaddr# mac_ad_987310595_in#= gotoarp_getaddr2
 
-  tt_1288296435_in#,  ->addrset.next# ss_1288296435_in#=
-  if ss_1288296435_in#<>NULL goto arp_getaddr1
+  tt_987310595_in#,  ->addrset.next# ss_987310595_in#=
+  if ss_987310595_in#<>NULL goto arp_getaddr1
 
  "addr not found", dprint dnl
 
 arp_getaddr2:
-  if mac_ad_1288296435_in#=NULL then ARP_OPERATION_REQUEST, 0xffffffffffff, ip_ad_1288296435_in#, arp_sendpkt
+  if mac_ad_987310595_in#=NULL then ARP_OPERATION_REQUEST, 0xffffffffffff, ip_ad_987310595_in#, arp_sendpkt
 
   "arp_getaddr end:", dprint 
-  " mac=", dprint mac_ad_1288296435_in#, dprint_macaddr dnl
+  " mac=", dprint mac_ad_987310595_in#, dprint_macaddr dnl
 
-    mac_ad_1288296435_in#, end
- _1930697441_in
+    mac_ad_987310595_in#, end
+ _455206187_in
 
  end
-_750773069_in:
+_627187642_in:
 arp_recv:
 
 
-  long apkt_750773069_in#,addr_750773069_in#,arpop_750773069_in#,arphdr_750773069_in#,ipaddr_750773069_in#,tt_750773069_in#
-  apkt_750773069_in#=
+  long apkt_627187642_in#,addr_627187642_in#,arpop_627187642_in#,arphdr_627187642_in#,ipaddr_627187642_in#,tt_627187642_in#
+  apkt_627187642_in#=
 
   "arp_recv:", dprint dnl
-  apkt_750773069_in#, display_pkt
+  apkt_627187642_in#, display_pkt
   
-  apkt_750773069_in#, ->netbuf.top# arphdr_750773069_in#=
-  arphdr_750773069_in#, ->arp_header.hardware% tt_750773069_in#=
+  apkt_627187642_in#, ->netbuf.top# arphdr_627187642_in#=
+  arphdr_627187642_in#, ->arp_header.hardware% tt_627187642_in#=
   
-  if tt_750773069_in#<>ARP_HARDWARE_ETHER then "not ethernet hardware", dprint dnl gotoarp_recv2
-//    if tt_750773069_in#<>ARP_HARDWARE_ETHER goto arp_recv2
+  if tt_627187642_in#<>ARP_HARDWARE_ETHER then "not ethernet hardware", dprint dnl gotoarp_recv2
+//    if tt_627187642_in#<>ARP_HARDWARE_ETHER goto arp_recv2
 
-  arphdr_750773069_in#, ->arp_header.protocol% tt_750773069_in#=
+  arphdr_627187642_in#, ->arp_header.protocol% tt_627187642_in#=
 
-  if tt_750773069_in#<>ETHERNET_TYPE_IP then "not ip protocol", dprint dnl gotoarp_recv2
-//  if tt_750773069_in#<>ETHERNET_TYPE_IP goto arp_recv2
+  if tt_627187642_in#<>ETHERNET_TYPE_IP then "not ip protocol", dprint dnl gotoarp_recv2
+//  if tt_627187642_in#<>ETHERNET_TYPE_IP goto arp_recv2
 
-  arphdr_750773069_in#, ->arp_header.operation% arpop_750773069_in#=
-  if arpop_750773069_in#=ARP_OPERATION_REPLY goto arp_recv1
-  if arpop_750773069_in#=ARP_OPERATION_REQUEST goto arp_recv1
+  arphdr_627187642_in#, ->arp_header.operation% arpop_627187642_in#=
+  if arpop_627187642_in#=ARP_OPERATION_REPLY goto arp_recv1
+  if arpop_627187642_in#=ARP_OPERATION_REQUEST goto arp_recv1
 
   "arp_recv invalid", dprint dnl
 
   goto arp_recv2
 
 arp_recv1:
-  arphdr_750773069_in#, ->arp_header.sender_ipaddr! ipaddr_750773069_in#=
-  ipaddr_750773069_in#, arphdr_750773069_in#, ->arp_header.sender_macaddr# arp_setaddr
-  if arpop_750773069_in#=ARP_OPERATION_REPLY goto arp_recv2
-  arphdr_750773069_in#, ->arp_header.target_ipaddr! ipaddr_750773069_in#=
-  if ipaddr_750773069_in#<>my_ipaddr# goto arp_recv2
+  arphdr_627187642_in#, ->arp_header.sender_ipaddr! ipaddr_627187642_in#=
+  ipaddr_627187642_in#, arphdr_627187642_in#, ->arp_header.sender_macaddr# arp_setaddr
+  if arpop_627187642_in#=ARP_OPERATION_REPLY goto arp_recv2
+  arphdr_627187642_in#, ->arp_header.target_ipaddr! ipaddr_627187642_in#=
+  if ipaddr_627187642_in#<>my_ipaddr# goto arp_recv2
   ARP_OPERATION_REPLY,
-  arphdr_750773069_in#, ->arp_header.sender_macaddr#
-  arphdr_750773069_in#, ->arp_header.sender_ipaddr!
+  arphdr_627187642_in#, ->arp_header.sender_macaddr#
+  arphdr_627187642_in#, ->arp_header.sender_ipaddr!
   arp_sendpkt
 
 arp_recv2:
-  apkt_750773069_in#, free
+  apkt_627187642_in#, free
 
   "arp_recv end:", dprint dnl
 
   end
- _2142189353_in
- _1930697441_in
+ _830389888_in
+ _455206187_in
 
  end
-_1930697441_in:
+_455206187_in:
 arp_sendpkt:
 
 
 
-  long apkt_1930697441_in#,arphdr_1930697441_in#,operation_1930697441_in#,ipaddr_1930697441_in#,macaddr_1930697441_in#
-  ipaddr_1930697441_in#= pop macaddr_1930697441_in#= pop operation_1930697441_in#=
+  long apkt_455206187_in#,arphdr_455206187_in#,operation_455206187_in#,ipaddr_455206187_in#,macaddr_455206187_in#
+  ipaddr_455206187_in#= pop macaddr_455206187_in#= pop operation_455206187_in#=
 
   "arp_sendpkt:", dprint dnl
 
-  DEFAULT_NETBUF_SIZE, malloc apkt_1930697441_in#=
-  apkt_1930697441_in#, 0, DEFAULT_NETBUF_SIZE, memset
-  arp_header.SIZE, apkt_1930697441_in#, ->netbuf.size#=
-  apkt_1930697441_in#, ->netbuf.data 64, +  arphdr_1930697441_in#= apkt_1930697441_in#, ->netbuf.top#=
-  macaddr_1930697441_in#, apkt_1930697441_in#, ->netbuf.ethernet_addr#=
-  ARP_HARDWARE_ETHER, arphdr_1930697441_in#, ->arp_header.hardware%=
-  ETHERNET_TYPE_IP,         arphdr_1930697441_in#, ->arp_header.protocol%=
-  MACADDR_SIZE,               arphdr_1930697441_in#, ->arp_header.macaddr_size$=
-  IPADDR_SIZE,                   arphdr_1930697441_in#, ->arp_header.ipaddr_size$=
-  operation_1930697441_in#,                    arphdr_1930697441_in#, ->arp_header.operation%=
-  my_macaddr,                  arphdr_1930697441_in#, ->arp_header.sender_macaddr MACADDR_SIZE, memcpy
-  my_ipaddr,                      arphdr_1930697441_in#, ->arp_header.sender_ipaddr    IPADDR_SIZE,      memcpy
-  macaddr_1930697441_in,                       arphdr_1930697441_in#, ->arp_header.target_macaddr  MACADDR_SIZE, memcpy
-  ipaddr_1930697441_in,                          arphdr_1930697441_in#, ->arp_header.target_ipaddr      IPADDR_SIZE,      memcpy
-  ETHERNET_TYPE_ARP, apkt_1930697441_in#, ->netbuf.ethernet_type#=
+  DEFAULT_NETBUF_SIZE, malloc apkt_455206187_in#=
+  apkt_455206187_in#, 0, DEFAULT_NETBUF_SIZE, memset
+  arp_header.SIZE, apkt_455206187_in#, ->netbuf.size#=
+  apkt_455206187_in#, ->netbuf.data 64, +  arphdr_455206187_in#= apkt_455206187_in#, ->netbuf.top#=
+  macaddr_455206187_in#, apkt_455206187_in#, ->netbuf.ethernet_addr#=
+  ARP_HARDWARE_ETHER, arphdr_455206187_in#, ->arp_header.hardware%=
+  ETHERNET_TYPE_IP,         arphdr_455206187_in#, ->arp_header.protocol%=
+  MACADDR_SIZE,               arphdr_455206187_in#, ->arp_header.macaddr_size$=
+  IPADDR_SIZE,                   arphdr_455206187_in#, ->arp_header.ipaddr_size$=
+  operation_455206187_in#,                    arphdr_455206187_in#, ->arp_header.operation%=
+  my_macaddr,                  arphdr_455206187_in#, ->arp_header.sender_macaddr MACADDR_SIZE, memcpy
+  my_ipaddr,                      arphdr_455206187_in#, ->arp_header.sender_ipaddr    IPADDR_SIZE,      memcpy
+  macaddr_455206187_in,                       arphdr_455206187_in#, ->arp_header.target_macaddr  MACADDR_SIZE, memcpy
+  ipaddr_455206187_in,                          arphdr_455206187_in#, ->arp_header.target_ipaddr      IPADDR_SIZE,      memcpy
+  ETHERNET_TYPE_ARP, apkt_455206187_in#, ->netbuf.ethernet_type#=
   
-  "top=",  dprint apkt_1930697441_in#, ->netbuf.top#  hex dprint dnl
-  "size=", dprint apkt_1930697441_in#, ->netbuf.size# dec dprint dnl
+  "top=",  dprint apkt_455206187_in#, ->netbuf.top#  hex dprint dnl
+  "size=", dprint apkt_455206187_in#, ->netbuf.size# dec dprint dnl
   
-  apkt_1930697441_in#, ethernet_send
+  apkt_455206187_in#, ethernet_send
 
   "arp_sendpkt end:", dprint dnl
 
   end
- _1490777031_send
+ _2123829938_send
 
  end
-_2142189353_in:
+_830389888_in:
 arp_setaddr:
 
 
-  long mac_ad_2142189353_in#,ip_ad_2142189353_in#,ss_2142189353_in#,tt_2142189353_in#
-  mac_ad_2142189353_in#= pop ip_ad_2142189353_in#=
+  long mac_ad_830389888_in#,ip_ad_830389888_in#,ss_830389888_in#,tt_830389888_in#
+  mac_ad_830389888_in#= pop ip_ad_830389888_in#=
 
   "arp_setaddr:", dprint
-  " mac_addr=", dprint mac_ad_2142189353_in#, dprint_macaddr
+  " mac_addr=", dprint mac_ad_830389888_in#, dprint_macaddr
   ", ", dprint
-  "ip addr=", dprint ip_ad_2142189353_in#, dprint_ipaddr dnl
+  "ip addr=", dprint ip_ad_830389888_in#, dprint_ipaddr dnl
 
 
-  mac_ad_2142189353_in#, 0xffffffffffff, and mac_ad_2142189353_in#=
-  ip_ad_2142189353_in#, 0xffffffff, and ip_ad_2142189353_in#=
-  arp_top_addr#, tt_2142189353_in#=
+  mac_ad_830389888_in#, 0xffffffffffff, and mac_ad_830389888_in#=
+  ip_ad_830389888_in#, 0xffffffff, and ip_ad_830389888_in#=
+  arp_top_addr#, tt_830389888_in#=
   if arp_top_addr#<>NULL goto arp_setaddr1
   addrset.SIZE, malloc arp_top_addr#=
-  ip_ad_2142189353_in#,     arp_top_addr#, ->addrset.ipaddr#=
-  mac_ad_2142189353_in#, arp_top_addr#, ->addrset.macaddr#=
+  ip_ad_830389888_in#,     arp_top_addr#, ->addrset.ipaddr#=
+  mac_ad_830389888_in#, arp_top_addr#, ->addrset.macaddr#=
   NULL,       arp_top_addr#, ->addrset.next#=
   "new address", dprint dnl
   goto arp_setaddr2
 arp_setaddr1:
-  tt_2142189353_in#,  ->addrset.ipaddr# ss_2142189353_in#=
+  tt_830389888_in#,  ->addrset.ipaddr# ss_830389888_in#=
   
-  if ss_2142189353_in#=ip_ad_2142189353_in# then mac_ad_2142189353_in#, tt_2142189353_in#, ->addrset.macaddr#= "update address", dprint dnl gotoarp_setaddr2
-//    if ss_2142189353_in#=ip_ad_2142189353_in# then mac_ad_2142189353_in#, tt_2142189353_in#, ->addrset.macaddr#= gotoarp_setaddr2
+  if ss_830389888_in#=ip_ad_830389888_in# then mac_ad_830389888_in#, tt_830389888_in#, ->addrset.macaddr#= "update address", dprint dnl gotoarp_setaddr2
+//    if ss_830389888_in#=ip_ad_830389888_in# then mac_ad_830389888_in#, tt_830389888_in#, ->addrset.macaddr#= gotoarp_setaddr2
 
-  tt_2142189353_in#,  ->addrset.next# ss_2142189353_in#=
-  if ss_2142189353_in#<>NULL goto arp_setaddr1
+  tt_830389888_in#,  ->addrset.next# ss_830389888_in#=
+  if ss_830389888_in#<>NULL goto arp_setaddr1
   "append address", dprint dnl
-  addrset.SIZE, malloc  ss_2142189353_in#= tt_2142189353_in#, ->addrset.next#=
-  ip_ad_2142189353_in#,     ss_2142189353_in#, ->addrset.ipaddr#=
-  mac_ad_2142189353_in#, ss_2142189353_in#, ->addrset.macaddr#=
-  NULL,         ss_2142189353_in#, ->addrset.next#=
+  addrset.SIZE, malloc  ss_830389888_in#= tt_830389888_in#, ->addrset.next#=
+  ip_ad_830389888_in#,     ss_830389888_in#, ->addrset.ipaddr#=
+  mac_ad_830389888_in#, ss_830389888_in#, ->addrset.macaddr#=
+  NULL,         ss_830389888_in#, ->addrset.next#=
 
 arp_setaddr2:
 
@@ -1671,26 +1671,26 @@ arp_setaddr2:
   end
 
  end
-_2095654480_in:
+_2008688799_in:
 //  "arp init:", dprint dnl
 
 
  NULL, arp_top_addr#=
 
  end
-_2115829873_in:
+_79732057_in:
 arp_clraddr:
 
 
 //  "arp_clraddr:", dprint dnl
 
-  long ss_2115829873_in#,tt_2115829873_in#
-  arp_top_addr#, tt_2115829873_in#=
+  long ss_79732057_in#,tt_79732057_in#
+  arp_top_addr#, tt_79732057_in#=
 arp_clraddr1:
-  if tt_2115829873_in#=NULL goto arp_clraddr2
-  tt_2115829873_in#,  ->addrset.next# ss_2115829873_in#=
-  tt_2115829873_in#, free
-  ss_2115829873_in#, tt_2115829873_in#=
+  if tt_79732057_in#=NULL goto arp_clraddr2
+  tt_79732057_in#,  ->addrset.next# ss_79732057_in#=
+  tt_79732057_in#, free
+  ss_79732057_in#, tt_79732057_in#=
   goto arp_clraddr1
 arp_clraddr2:
 
@@ -1699,355 +1699,355 @@ arp_clraddr2:
   end
 
  end
-_24117635_recved:
- _225406432_in
+_1657251551_recved:
+ _1401878366_in
 
  end
-_1936272363_tx:
- _988136542_in
+_1424048717_tx:
+ _904865858_in
 
  end
-_2089369819_send:
- _774960946_tx
+_1723716346_send:
+ _1646621917_tx
 
  end
-_513090822_rx_ip:
- _355533579_recved
+_1406577215_rx_ip:
+ _1244447435_recved
 
  end
-_136159277_rx_arp:
- _1007812600_recved
+_884398732_rx_arp:
+ _57070799_recved
 
  end
-_988136542_in:
+_904865858_in:
 ethernet_send:
 
 
-  long pkt_988136542_in#,hdr_988136542_in#
-   pkt_988136542_in#=
+  long pkt_904865858_in#,hdr_904865858_in#
+   pkt_904865858_in#=
 
 //  "ethernet_send:", dprint dnl
-//  "top=",  dprint pkt_988136542_in#, ->netbuf.top#  hex dprint dnl
-//  "size=", dprint pkt_988136542_in#, ->netbuf.size# dec dprint dnl
-//  "addr=", dprint  pkt_988136542_in#, ->netbuf.ethernet_addr# dprint_macaddr dnl  
+//  "top=",  dprint pkt_904865858_in#, ->netbuf.top#  hex dprint dnl
+//  "size=", dprint pkt_904865858_in#, ->netbuf.size# dec dprint dnl
+//  "addr=", dprint  pkt_904865858_in#, ->netbuf.ethernet_addr# dprint_macaddr dnl  
 
-   pkt_988136542_in#, ->netbuf.top#  ethernet_header.SIZE, -  pkt_988136542_in#, ->netbuf.top#= 
-   pkt_988136542_in#, ->netbuf.size# ethernet_header.SIZE, + pkt_988136542_in#, ->netbuf.size#= 
-   pkt_988136542_in#, ->netbuf.top#  hdr_988136542_in#=
-   my_macaddr,  hdr_988136542_in#, ->ethernet_header.src_addr  MACADDR_SIZE, memcpy
-   pkt_988136542_in#, ->netbuf.ethernet_addr    hdr_988136542_in#, ->ethernet_header.dst_addr  MACADDR_SIZE, memcpy
-   pkt_988136542_in#, ->netbuf.ethernet_type# hdr_988136542_in#, ->ethernet_header.type%=
+   pkt_904865858_in#, ->netbuf.top#  ethernet_header.SIZE, -  pkt_904865858_in#, ->netbuf.top#= 
+   pkt_904865858_in#, ->netbuf.size# ethernet_header.SIZE, + pkt_904865858_in#, ->netbuf.size#= 
+   pkt_904865858_in#, ->netbuf.top#  hdr_904865858_in#=
+   my_macaddr,  hdr_904865858_in#, ->ethernet_header.src_addr  MACADDR_SIZE, memcpy
+   pkt_904865858_in#, ->netbuf.ethernet_addr    hdr_904865858_in#, ->ethernet_header.dst_addr  MACADDR_SIZE, memcpy
+   pkt_904865858_in#, ->netbuf.ethernet_type# hdr_904865858_in#, ->ethernet_header.type%=
 
-//  "top=",  dprint pkt_988136542_in#, ->netbuf.top#  hex dprint dnl
-//  "size=", dprint pkt_988136542_in#, ->netbuf.size# dec dprint dnl
+//  "top=",  dprint pkt_904865858_in#, ->netbuf.top#  hex dprint dnl
+//  "size=", dprint pkt_904865858_in#, ->netbuf.size# dec dprint dnl
 
-   pkt_988136542_in#, netdrv_send
+   pkt_904865858_in#, netdrv_send
 
 ethernet_send1:
 //  "ethernet_send end:", dprint dnl
 
    end
- _2089369819_send
+ _1723716346_send
 
  end
-_225406432_in:
+_1401878366_in:
 ethernet_recved:
 
 
-  long pkt_225406432_in#,hdr_225406432_in#,ss_225406432_in#,tt_225406432_in#
-  pkt_225406432_in#=
+  long pkt_1401878366_in#,hdr_1401878366_in#,ss_1401878366_in#,tt_1401878366_in#
+  pkt_1401878366_in#=
 
 //  "ethernet_received:", dprint dnl
 
-  pkt_225406432_in#, ->netbuf.top# hdr_225406432_in#=
-  hdr_225406432_in#, ->ethernet_header.dst_addr# tt_225406432_in#= 1, and ss_225406432_in#=
-  if ss_225406432_in#=0x01 then "multi cast", dprint dnl gotoethernet_recved1 // マルチキャストの場合
-  tt_225406432_in#, 0xffffffffffff, and tt_225406432_in#=
-  if tt_225406432_in#<>my_macaddr# then "not my mac address:", dprint dnl gotoethernet_recved2
+  pkt_1401878366_in#, ->netbuf.top# hdr_1401878366_in#=
+  hdr_1401878366_in#, ->ethernet_header.dst_addr# tt_1401878366_in#= 1, and ss_1401878366_in#=
+  if ss_1401878366_in#=0x01 then "multi cast", dprint dnl gotoethernet_recved1 // マルチキャストの場合
+  tt_1401878366_in#, 0xffffffffffff, and tt_1401878366_in#=
+  if tt_1401878366_in#<>my_macaddr# then "not my mac address:", dprint dnl gotoethernet_recved2
 ethernet_recved1:
-   hdr_225406432_in#, ->ethernet_header.src_addr#  pkt_225406432_in#, ->netbuf.ethernet_addr#=
-   hdr_225406432_in#, ->ethernet_header.type%        pkt_225406432_in#, ->netbuf.ethernet_type#=
-   pkt_225406432_in#, ->netbuf.top#  ethernet_header.SIZE, + pkt_225406432_in#, ->netbuf.top#= 
-   pkt_225406432_in#, ->netbuf.size# ethernet_header.SIZE, -  pkt_225406432_in#, ->netbuf.size#= 
-   hdr_225406432_in#, ->ethernet_header.type% tt_225406432_in#=
-   if tt_225406432_in#=ETHERNET_TYPE_ARP then pkt_225406432_in#, arp_recv
-   if tt_225406432_in#=ETHERNET_TYPE_IP    then pkt_225406432_in#, ip_recv
+   hdr_1401878366_in#, ->ethernet_header.src_addr#  pkt_1401878366_in#, ->netbuf.ethernet_addr#=
+   hdr_1401878366_in#, ->ethernet_header.type%        pkt_1401878366_in#, ->netbuf.ethernet_type#=
+   pkt_1401878366_in#, ->netbuf.top#  ethernet_header.SIZE, + pkt_1401878366_in#, ->netbuf.top#= 
+   pkt_1401878366_in#, ->netbuf.size# ethernet_header.SIZE, -  pkt_1401878366_in#, ->netbuf.size#= 
+   hdr_1401878366_in#, ->ethernet_header.type% tt_1401878366_in#=
+   if tt_1401878366_in#=ETHERNET_TYPE_ARP then pkt_1401878366_in#, arp_recv
+   if tt_1401878366_in#=ETHERNET_TYPE_IP    then pkt_1401878366_in#, ip_recv
 
 ethernet_recved2:
 //  "ethernet_received end:", dprint dnl
 
    end
- _136159277_rx_arp
- _513090822_rx_ip
+ _884398732_rx_arp
+ _1406577215_rx_ip
 
  end
-_355533579_recved:
- _1906988384_in
+_1244447435_recved:
+ _171645279_in
 
  end
-_123785157_tx:
- _1973607473_in
+_48609740_tx:
+ _2120510020_in
 
  end
-_1764039495_send:
- _1936272363_tx
+_531494893_send:
+ _1424048717_tx
 
  end
-_874251990_rx_tcp:
- _1038917088_recved
+_235333366_rx_tcp:
+ _1548249890_recved
 
  end
-_192973678_rx_udp:
- _441761145_recved
+_977116194_rx_udp:
+ _787683777_recved
 
  end
-_525564910_rx_icmp:
- _1846509221_recved
+_1318541184_rx_icmp:
+ _740362117_recved
 
  end
-_2122214336_getaddr:
- _448928713_getaddr
+_1555122358_getaddr:
+ _1542248735_getaddr
 
  end
-_1973607473_in:
+_2120510020_in:
 ip_send:
 
 
 
-  long ipkt_1973607473_in#,mac0_1973607473_in#,maci_1973607473_in#,iphdr_1973607473_in#,hdrlen_1973607473_in#
-  ipkt_1973607473_in#=
+  long ipkt_2120510020_in#,mac0_2120510020_in#,maci_2120510020_in#,iphdr_2120510020_in#,hdrlen_2120510020_in#
+  ipkt_2120510020_in#=
 
   "ip_send:", dprint dnl
 
   "req addr", dprint dnl
-  RETRY_COUNT, maci_1973607473_in#=
+  RETRY_COUNT, maci_2120510020_in#=
 ip_send1:
-   maci_1973607473_in#--
+   maci_2120510020_in#--
 
-   if maci_1973607473_in#<0 then "req addr fault", dprint dnl gotoip_send2
-//  if maci_1973607473_in#<0 goto ip_send2
+   if maci_2120510020_in#<0 then "req addr fault", dprint dnl gotoip_send2
+//  if maci_2120510020_in#<0 goto ip_send2
 
-   ipkt_1973607473_in#, ->netbuf.ip_addr# arp_getaddr mac0_1973607473_in#=
-   if mac0_1973607473_in#=NULL then 100, wait gotoip_send1
+   ipkt_2120510020_in#, ->netbuf.ip_addr# arp_getaddr mac0_2120510020_in#=
+   if mac0_2120510020_in#=NULL then 100, wait gotoip_send1
   "req addr success", dprint dnl
-   mac0_1973607473_in#, ipkt_1973607473_in#, ->netbuf.ethernet_addr#=
+   mac0_2120510020_in#, ipkt_2120510020_in#, ->netbuf.ethernet_addr#=
 
-  ip_header.SIZE, hdrlen_1973607473_in#=
-  ipkt_1973607473_in#, ->netbuf.top#  hdrlen_1973607473_in#, -  ipkt_1973607473_in#, ->netbuf.top#=
-  ipkt_1973607473_in#, ->netbuf.size# hdrlen_1973607473_in#, + ipkt_1973607473_in#, ->netbuf.size#=
-  ipkt_1973607473_in#, ->netbuf.top# iphdr_1973607473_in#=
-  hdrlen_1973607473_in#, 4, / 64, or iphdr_1973607473_in#, ->ip_header.v_hl$=
-  0,   iphdr_1973607473_in#, ->ip_header.tos$=
-  ipkt_1973607473_in#, ->netbuf.size# iphdr_1973607473_in#, ->ip_header.length set_int16
-  id#, iphdr_1973607473_in#, ->ip_header.id%= id#++
-  0,     iphdr_1973607473_in#, ->ip_header.fragment set_int16
-  64,   iphdr_1973607473_in#, ->ip_header.ttl$=
-  ipkt_1973607473_in#, ->netbuf.ip_protocol# iphdr_1973607473_in#, ->ip_header.protocol$=
-  my_ipaddr#, iphdr_1973607473_in#, ->ip_header.src_addr!=
-  ipkt_1973607473_in#, ->netbuf.ip_addr# iphdr_1973607473_in#, ->ip_header.dst_addr!=
-  0, iphdr_1973607473_in#, ->ip_header.checksum%=
-  iphdr_1973607473_in#, hdrlen_1973607473_in#, calc_checksum iphdr_1973607473_in#, ->ip_header.checksum set_int16
-  ETHERNET_TYPE_IP, ipkt_1973607473_in#, ->netbuf.ethernet_type#=
-  ipkt_1973607473_in#, ethernet_send
+  ip_header.SIZE, hdrlen_2120510020_in#=
+  ipkt_2120510020_in#, ->netbuf.top#  hdrlen_2120510020_in#, -  ipkt_2120510020_in#, ->netbuf.top#=
+  ipkt_2120510020_in#, ->netbuf.size# hdrlen_2120510020_in#, + ipkt_2120510020_in#, ->netbuf.size#=
+  ipkt_2120510020_in#, ->netbuf.top# iphdr_2120510020_in#=
+  hdrlen_2120510020_in#, 4, / 64, or iphdr_2120510020_in#, ->ip_header.v_hl$=
+  0,   iphdr_2120510020_in#, ->ip_header.tos$=
+  ipkt_2120510020_in#, ->netbuf.size# iphdr_2120510020_in#, ->ip_header.length set_int16
+  id#, iphdr_2120510020_in#, ->ip_header.id%= id#++
+  0,     iphdr_2120510020_in#, ->ip_header.fragment set_int16
+  64,   iphdr_2120510020_in#, ->ip_header.ttl$=
+  ipkt_2120510020_in#, ->netbuf.ip_protocol# iphdr_2120510020_in#, ->ip_header.protocol$=
+  my_ipaddr#, iphdr_2120510020_in#, ->ip_header.src_addr!=
+  ipkt_2120510020_in#, ->netbuf.ip_addr# iphdr_2120510020_in#, ->ip_header.dst_addr!=
+  0, iphdr_2120510020_in#, ->ip_header.checksum%=
+  iphdr_2120510020_in#, hdrlen_2120510020_in#, calc_checksum iphdr_2120510020_in#, ->ip_header.checksum set_int16
+  ETHERNET_TYPE_IP, ipkt_2120510020_in#, ->netbuf.ethernet_type#=
+  ipkt_2120510020_in#, ethernet_send
 
 ip_send2:
 //  "ip_send end:", dprint dnl
   end
- _2122214336_getaddr
- _1764039495_send
+ _1555122358_getaddr
+ _531494893_send
 
  end
-_1906988384_in:
+_171645279_in:
 ip_recv:
 
 
-  long ipkt_1906988384_in#,iphdr_1906988384_in#,hdrlen_1906988384_in#,ss_1906988384_in#,tt_1906988384_in#
-  ipkt_1906988384_in#=
+  long ipkt_171645279_in#,iphdr_171645279_in#,hdrlen_171645279_in#,ss_171645279_in#,tt_171645279_in#
+  ipkt_171645279_in#=
   "ip_recv:", dprint dnl
 
-  ipkt_1906988384_in#, ->netbuf.top# iphdr_1906988384_in#=
-  iphdr_1906988384_in#, ->ip_header.v_hl$ 16, / 0x0f, and tt_1906988384_in#=
+  ipkt_171645279_in#, ->netbuf.top# iphdr_171645279_in#=
+  iphdr_171645279_in#, ->ip_header.v_hl$ 16, / 0x0f, and tt_171645279_in#=
 
-  if tt_1906988384_in#<>4 then "no ip packet", dprint dnl gotoip_recv1
-//    if tt_1906988384_in#<>4 goto ip_recv1
+  if tt_171645279_in#<>4 then "no ip packet", dprint dnl gotoip_recv1
+//    if tt_171645279_in#<>4 goto ip_recv1
 
-  iphdr_1906988384_in#, ->ip_header.dst_addr! tt_1906988384_in#=
+  iphdr_171645279_in#, ->ip_header.dst_addr! tt_171645279_in#=
 
-  if tt_1906988384_in#<>my_ipaddr# then "not my addr", dprint dnl gotoip_recv1
-//    if tt_1906988384_in#<>my_ipaddr# goto ip_recv1
+  if tt_171645279_in#<>my_ipaddr# then "not my addr", dprint dnl gotoip_recv1
+//    if tt_171645279_in#<>my_ipaddr# goto ip_recv1
 
-  iphdr_1906988384_in#, ->ip_header.v_hl$ 0x0f, and 4, * hdrlen_1906988384_in#=
+  iphdr_171645279_in#, ->ip_header.v_hl$ 0x0f, and 4, * hdrlen_171645279_in#=
   
-  "ip header length=", dprint hdrlen_1906988384_in#, dec dprint dnl
+  "ip header length=", dprint hdrlen_171645279_in#, dec dprint dnl
   
-  iphdr_1906988384_in#,  hdrlen_1906988384_in#, + ipkt_1906988384_in#, ->netbuf.top#=
-  ipkt_1906988384_in#, ->netbuf.size# ss_1906988384_in#=
-  iphdr_1906988384_in#, ->ip_header.length get_int16 tt_1906988384_in#=
-  if ss_1906988384_in#>tt_1906988384_in# then tt_1906988384_in#, ss_1906988384_in#=
+  iphdr_171645279_in#,  hdrlen_171645279_in#, + ipkt_171645279_in#, ->netbuf.top#=
+  ipkt_171645279_in#, ->netbuf.size# ss_171645279_in#=
+  iphdr_171645279_in#, ->ip_header.length get_int16 tt_171645279_in#=
+  if ss_171645279_in#>tt_171645279_in# then tt_171645279_in#, ss_171645279_in#=
   
-  "ip pkt size=", dprint ss_1906988384_in#, dec dprint dnl
+  "ip pkt size=", dprint ss_171645279_in#, dec dprint dnl
   
-  ss_1906988384_in#,  hdrlen_1906988384_in#,  -  ipkt_1906988384_in#, ->netbuf.size#=
+  ss_171645279_in#,  hdrlen_171645279_in#,  -  ipkt_171645279_in#, ->netbuf.size#=
 
-  iphdr_1906988384_in#, ->ip_header.src_addr!            ipkt_1906988384_in#, ->netbuf.ip_addr#=
-  iphdr_1906988384_in#, ->ip_header.protocol$ tt_1906988384_in#= ipkt_1906988384_in#, ->netbuf.ip_protocol#=
+  iphdr_171645279_in#, ->ip_header.src_addr!            ipkt_171645279_in#, ->netbuf.ip_addr#=
+  iphdr_171645279_in#, ->ip_header.protocol$ tt_171645279_in#= ipkt_171645279_in#, ->netbuf.ip_protocol#=
 
-  if tt_1906988384_in#=IP_PROTOCOL_ICMP then  ipkt_1906988384_in#, icmp_recv
+  if tt_171645279_in#=IP_PROTOCOL_ICMP then  ipkt_171645279_in#, icmp_recv
 
-  if tt_1906988384_in#<>IP_PROTOCOL_TCP goto ip_recvxx2
+  if tt_171645279_in#<>IP_PROTOCOL_TCP goto ip_recvxx2
 ip_recvxx1:
    if tcp_busy#>0 then sync gotoip_recvxx1
-   ipkt_1906988384_in#, tcp_recv
+   ipkt_171645279_in#, tcp_recv
    goto ip_recv1
 
 ip_recvxx2:
-  if tt_1906988384_in#<>IP_PROTOCOL_UDP goto ip_recv1
+  if tt_171645279_in#<>IP_PROTOCOL_UDP goto ip_recv1
 ip_recvxx3:
    if udp_busy#>0 then sync gotoip_recvxx3
-   ipkt_1906988384_in#, udp_recv
+   ipkt_171645279_in#, udp_recv
 
 ip_recv1:
 
   "ip_recv end:", dprint dnl
 
   end
- _874251990_rx_tcp
- _192973678_rx_udp
- _525564910_rx_icmp
+ _235333366_rx_tcp
+ _977116194_rx_udp
+ _1318541184_rx_icmp
 
  end
-_1846509221_recved:
- _1778558811_in
+_740362117_recved:
+ _283307187_in
 
  end
-_1235286618_send:
- _123785157_tx
+_1020482189_send:
+ _48609740_tx
 
  end
-_1731195312_rx:
- _173133147_icmp_recved
+_976949514_rx:
+ _1085408304_icmp_recved
 
  end
-_519907039_ping:
- _1254211242_in
+_196068822_ping:
+ _1521897595_in
 
  end
-_22818016_set_callback:
- _1660974239_in
+_965616161_set_callback:
+ _419837942_in
 
  end
-_1687760126_init:
- _2067441721_in
- _1712423512_start
+_288888639_init:
+ _2069351127_in
+ _144862992_start
 
  end
-_1778558811_in:
+_283307187_in:
 icmp_recv:
 
 
 
-  long icmp_pkt_1778558811_in#,icmp_hdr_1778558811_in#,tt_1778558811_in#
-  icmp_pkt_1778558811_in#=
+  long icmp_pkt_283307187_in#,icmp_hdr_283307187_in#,tt_283307187_in#
+  icmp_pkt_283307187_in#=
 
   "icmp_recv:", dprint dnl
 
-  icmp_pkt_1778558811_in#, ->netbuf.top# icmp_hdr_1778558811_in#=
+  icmp_pkt_283307187_in#, ->netbuf.top# icmp_hdr_283307187_in#=
 
 
   "icmp recved: ", dprint 
-  icmp_hdr_1778558811_in#, ->icmp_header.type$           hex dprint "  ",  dprint
-  icmp_hdr_1778558811_in#, ->icmp_header.code$          hex dprint "  ",  dprint
-  icmp_hdr_1778558811_in#, ->icmp_header.checksum% hex dprint dnl
+  icmp_hdr_283307187_in#, ->icmp_header.type$           hex dprint "  ",  dprint
+  icmp_hdr_283307187_in#, ->icmp_header.code$          hex dprint "  ",  dprint
+  icmp_hdr_283307187_in#, ->icmp_header.checksum% hex dprint dnl
 
-  icmp_hdr_1778558811_in#, ->icmp_header.type$ tt_1778558811_in#=
-  if tt_1778558811_in#=ICMP_TYPE_REQUEST then icmp_pkt_1778558811_in#, icmp_sendpkt gotoicmp_recv1
-  if tt_1778558811_in#=ICMP_TYPE_REPLY then icmp_pkt_1778558811_in#, @icmp_callback
-  icmp_pkt_1778558811_in#, free
+  icmp_hdr_283307187_in#, ->icmp_header.type$ tt_283307187_in#=
+  if tt_283307187_in#=ICMP_TYPE_REQUEST then icmp_pkt_283307187_in#, icmp_sendpkt gotoicmp_recv1
+  if tt_283307187_in#=ICMP_TYPE_REPLY then icmp_pkt_283307187_in#, @icmp_callback
+  icmp_pkt_283307187_in#, free
 icmp_recv1:
   "icmp_recv:end", dprint dnl
 
   end
   
- _83754882_in
- _1731195312_rx
+ _2086086298_in
+ _976949514_rx
 
  end
-_83754882_in:
+_2086086298_in:
 icmp_sendpkt:
 
 
 
-  long icmp_pkt_83754882_in#,icmp_hdr_83754882_in#
-  icmp_pkt_83754882_in#=  
+  long icmp_pkt_2086086298_in#,icmp_hdr_2086086298_in#
+  icmp_pkt_2086086298_in#=  
 
   "icmp_sendpkt:", dprint dnl
-  icmp_pkt_83754882_in#, ->netbuf.top# icmp_hdr_83754882_in#=
+  icmp_pkt_2086086298_in#, ->netbuf.top# icmp_hdr_2086086298_in#=
 
-  "size=", dprint icmp_pkt_83754882_in#, ->netbuf.size# dec dprint dnl
-  "code=", dprint  icmp_hdr_83754882_in#, ->icmp_header.code$ dec dprint dnl
-  "param_id=", dprint icmp_hdr_83754882_in#, ->icmp_header.param_id%  dec dprint dnl
-  "param_sequence_number=", dprint icmp_hdr_83754882_in#, ->icmp_header.param_sequence_number%  dec dprint dnl
+  "size=", dprint icmp_pkt_2086086298_in#, ->netbuf.size# dec dprint dnl
+  "code=", dprint  icmp_hdr_2086086298_in#, ->icmp_header.code$ dec dprint dnl
+  "param_id=", dprint icmp_hdr_2086086298_in#, ->icmp_header.param_id%  dec dprint dnl
+  "param_sequence_number=", dprint icmp_hdr_2086086298_in#, ->icmp_header.param_sequence_number%  dec dprint dnl
 
-  ICMP_TYPE_REPLY,   icmp_hdr_83754882_in#, ->icmp_header.type$=
-  0, icmp_hdr_83754882_in#, ->icmp_header.checksum%=
-  icmp_hdr_83754882_in#,  icmp_pkt_83754882_in#, ->netbuf.size#  calc_checksum icmp_hdr_83754882_in#, ->icmp_header.checksum  set_int16 
+  ICMP_TYPE_REPLY,   icmp_hdr_2086086298_in#, ->icmp_header.type$=
+  0, icmp_hdr_2086086298_in#, ->icmp_header.checksum%=
+  icmp_hdr_2086086298_in#,  icmp_pkt_2086086298_in#, ->netbuf.size#  calc_checksum icmp_hdr_2086086298_in#, ->icmp_header.checksum  set_int16 
 
-  IP_PROTOCOL_ICMP, icmp_pkt_83754882_in#, ->netbuf.ip_protocol#=
-  icmp_pkt_83754882_in#, ip_send
+  IP_PROTOCOL_ICMP, icmp_pkt_2086086298_in#, ->netbuf.ip_protocol#=
+  icmp_pkt_2086086298_in#, ip_send
 
 //  "icmp_sendpkt:end", dprint dnl
 
   end
- _1235286618_send
+ _1020482189_send
 
  end
-_1254211242_in:
+_1521897595_in:
 icmp_ping:
- _83754882_in
+ _2086086298_in
 
  end
-_2067441721_in:
+_2069351127_in:
  nop, icmp_callback#=
 
  end
-_1660974239_in:
+_419837942_in:
  icmp_callback#=
 
  end
-_688484340_init:
- _2137545808_in
- _994352967_init
+_461795452_init:
+ _77536454_in
+ _1962466663_init
 
  end
-_1322047397_regport:
- _1049714811_in
+_487051888_regport:
+ _1190773672_in
 
  end
-_743995207_relport:
- _2083338191_in
+_900351036_relport:
+ _896740957_in
 
  end
-_441761145_recved:
- _953643560_in
+_787683777_recved:
+ _160897356_in
 
  end
-_1909199760_tx:
- _1024009826_in
+_730655697_tx:
+ _1119286614_in
 
  end
-_1632389858_send:
- _123785157_tx
+_681942493_send:
+ _48609740_tx
 
  end
-_17333976_rx:
- _1892934824_udp_recved
+_303836342_rx:
+ _76024149_udp_recved
 
  end
-_793813210_finish:
- _187060201_in
+_1123899008_finish:
+ _1903576390_in
 
  end
-_1024009826_in:
+_1119286614_in:
 udp_send:
 
 
@@ -2072,11 +2072,11 @@ udp_send1:
 //  udp_busy#--
   
   end
- _1048671310_in
- _1335449672_in
+ _2031762499_in
+ _1956118447_in
 
  end
-_953643560_in:
+_160897356_in:
 udp_recv:
 
 
@@ -2108,11 +2108,11 @@ udp_recv2:
 //  udp_busy#--
 
   end  
- _730316574_in
- _17333976_rx
+ _1429730555_in
+ _303836342_rx
 
  end
-_1335449672_in:
+_1956118447_in:
 udp_sendpkt:
 
 
@@ -2138,10 +2138,10 @@ udp_sendpkt:
   "udp_sendpkt:end", dprint dnl
 
   end
- _1632389858_send
+ _681942493_send
 
  end
-_1049714811_in:
+_1190773672_in:
 udp_regport:
 
 
@@ -2171,7 +2171,7 @@ udp_regport:
   end
 
  end
-_2083338191_in:
+_896740957_in:
 udp_relport:
 
 
@@ -2189,10 +2189,10 @@ udp_relport:
 //    udp_busy#--
     
     end
- _380693730_in
+ _699575223_in
 
  end
-_2137545808_in:
+_77536454_in:
   "udp_init:", dprint dnl
 
 
@@ -2202,7 +2202,7 @@ _2137545808_in:
   
 
  end
-_187060201_in:
+_1903576390_in:
 clear_portinfo:
 
 
@@ -2227,7 +2227,7 @@ clear_portinfo1:
   end
 
  end
-_1048671310_in:
+_2031762499_in:
 udp_makepkt:
 
 
@@ -2251,7 +2251,7 @@ udp_makepkt:
   upkt#, end
 
  end
-_730316574_in:
+_1429730555_in:
 udp_get_portinfo:
 
 
@@ -2283,7 +2283,7 @@ udp_get_portinfo2:
   NULL, end
 
  end
-_380693730_in:
+_699575223_in:
 udp_delete_portinfo:
 
 
@@ -2318,20 +2318,20 @@ udp_delete_portinfo3:
   -1, end
 
  end
-_1937645764_init:
- _932556543_in
- _147652112_init
+_739985465_init:
+ _1758656520_in
+ _1186619421_init
 
  end
-_774960946_tx:
- _212836723_in
+_1646621917_tx:
+ _1524300318_in
 
  end
-_493460472_rx:
- _24117635_recved
+_1860828130_rx:
+ _1657251551_recved
 
  end
-_932556543_in:
+_1758656520_in:
   // パケット受信タスクを生成する
 netdrv_init:
 
@@ -2368,58 +2368,58 @@ netdrv_init:
   end
 
  end
-_212836723_in:
+_1524300318_in:
 // パケットを送信
 netdrv_send:
 
 
-  long pkt_212836723_in#,len_212836723_in#,ss_212836723_in#,tt_212836723_in#
+  long pkt_1524300318_in#,len_1524300318_in#,ss_1524300318_in#,tt_1524300318_in#
   
-  pkt_212836723_in#=
-  if pkt_212836723_in#=NULL then end
+  pkt_1524300318_in#=
+  if pkt_1524300318_in#=NULL then end
 
-   pkt_212836723_in#, ->netbuf.size# len_212836723_in#=
-   if len_212836723_in#<64 then 64, len_212836723_in#=
+   pkt_1524300318_in#, ->netbuf.size# len_1524300318_in#=
+   if len_1524300318_in#<64 then 64, len_1524300318_in#=
 
-  "netdrv_send=", dprint len_212836723_in#,  dec dprint dnl
-  pkt_212836723_in#, display_pkt
+  "netdrv_send=", dprint len_1524300318_in#,  dec dprint dnl
+  pkt_1524300318_in#, display_pkt
 
 netdrv_send1:
-   pkt_212836723_in#, ->netbuf.top# len_212836723_in#, snp_transmit ss_212836723_in#=
-   tx_status, tx_buf, snp_get_status tt_212836723_in#= 
+   pkt_1524300318_in#, ->netbuf.top# len_1524300318_in#, snp_transmit ss_1524300318_in#=
+   tx_status, tx_buf, snp_get_status tt_1524300318_in#= 
    
-   "tranmit=0x", dprint ss_212836723_in#, hex dprint dnl
-   "get status=0x", dprint tt_212836723_in#, hex dprint dnl  
+   "tranmit=0x", dprint ss_1524300318_in#, hex dprint dnl
+   "get status=0x", dprint tt_1524300318_in#, hex dprint dnl  
    
-   pkt_212836723_in#, free
+   pkt_1524300318_in#, free
 
     "netdrv_send: end", dprint dnl 
 
   end
 
  end
-_435040037_in:
+_1394035945_in:
 // パケット受信ループ
 netdrv_recv:
 
 
 
 //  "netdrv_recv:", dprint dnl
-   long pkt_435040037_in#,tt_435040037_in#
+   long pkt_1394035945_in#,tt_1394035945_in#
 
-   DEFAULT_NETBUF_SIZE, malloc pkt_435040037_in#=
+   DEFAULT_NETBUF_SIZE, malloc pkt_1394035945_in#=
    0, DEFAULT_NETBUF_SIZE, memset
-   pkt_435040037_in#, ->netbuf.data pkt_435040037_in#, ->netbuf.top#=
-   1024, pkt_435040037_in#, ->netbuf.size#=
+   pkt_1394035945_in#, ->netbuf.data pkt_1394035945_in#, ->netbuf.top#=
+   1024, pkt_1394035945_in#, ->netbuf.size#=
 netdrv_recv_loop:
-   pkt_435040037_in#, ->netbuf.top#  pkt_435040037_in#, ->netbuf.size snp_receive tt_435040037_in#=
+   pkt_1394035945_in#, ->netbuf.top#  pkt_1394035945_in#, ->netbuf.size snp_receive tt_1394035945_in#=
    
    
-//   tt_435040037_in#, hex dprint dnl
+//   tt_1394035945_in#, hex dprint dnl
    
    
-   if tt_435040037_in#=0 goto netdrv_recv_success
-   if tt_435040037_in#=0x8000000000000005 goto netdrv_recv_success
+   if tt_1394035945_in#=0 goto netdrv_recv_success
+   if tt_1394035945_in#=0x8000000000000005 goto netdrv_recv_success
    sync 
    goto netdrv_recv_loop
 
@@ -2427,19 +2427,19 @@ netdrv_recv_loop:
 netdrv_recv_success:
 
   "netdrv_recved: ", dprint dnl
-  pkt_435040037_in#, display_pkt
+  pkt_1394035945_in#, display_pkt
 
-   pkt_435040037_in#, ethernet_recved
+   pkt_1394035945_in#, ethernet_recved
    sync
    goto netdrv_recv
- _493460472_rx
+ _1860828130_rx
 
  end
-_1712423512_start:
- _970736102_in
+_144862992_start:
+ _939611777_in
 
  end
-_970736102_in:
+_939611777_in:
 telnet:
 
 
@@ -2457,7 +2457,7 @@ telnet:
   tel_addr#, tel_port#, tel_callback, tcp_connect tel_con#=
   if tel_con#=ERROR then end
 
-  0, txp_970736102_in#= rxp_970736102_in#=
+  0, txp_939611777_in#= rxp_939611777_in#=
   
 
 // ネゴシエーション
@@ -2530,18 +2530,18 @@ tel_exit:
 
 // 受信コールバック
 tel_callback:
-  char buf_970736102_in$(BUFFERSIZE)
-  long pkt_970736102_in#,pp_970736102_in#,ss_970736102_in#,tt_970736102_in#,ii_970736102_in#,txp_970736102_in#,rxp_970736102_in#
-  pkt_970736102_in#=
-  pkt_970736102_in#, ->netbuf.top# pp_970736102_in#=
-  pkt_970736102_in#, ->netbuf.size# tt_970736102_in#=
-  0, ii_970736102_in#=
+  char buf_939611777_in$(BUFFERSIZE)
+  long pkt_939611777_in#,pp_939611777_in#,ss_939611777_in#,tt_939611777_in#,ii_939611777_in#,txp_939611777_in#,rxp_939611777_in#
+  pkt_939611777_in#=
+  pkt_939611777_in#, ->netbuf.top# pp_939611777_in#=
+  pkt_939611777_in#, ->netbuf.size# tt_939611777_in#=
+  0, ii_939611777_in#=
 tel_callback1:
-  if ii_970736102_in#>=tt_970736102_in# goto tel_callback2
-  txp_970736102_in#, BUFFERSIZE, mod ss_970736102_in#=
-  (pp_970736102_in)$(ii_970736102_in#), buf_970736102_in$(ss_970736102_in#)=
-  ii_970736102_in#++
-  txp_970736102_in#++
+  if ii_939611777_in#>=tt_939611777_in# goto tel_callback2
+  txp_939611777_in#, BUFFERSIZE, mod ss_939611777_in#=
+  (pp_939611777_in)$(ii_939611777_in#), buf_939611777_in$(ss_939611777_in#)=
+  ii_939611777_in#++
+  txp_939611777_in#++
   goto tel_callback1
 tel_callback2:
  end
@@ -2549,17 +2549,17 @@ tel_callback2:
 
 // 1バイト受信
 tel_recv1:
-  if rxp_970736102_in#>=txp_970736102_in# then -1, end
-  rxp_970736102_in#, BUFFERSIZE, mod ss_970736102_in#= 
-  rxp_970736102_in#++
-  buf_970736102_in$(ss_970736102_in#), end
+  if rxp_939611777_in#>=txp_939611777_in# then -1, end
+  rxp_939611777_in#, BUFFERSIZE, mod ss_939611777_in#= 
+  rxp_939611777_in#++
+  buf_939611777_in$(ss_939611777_in#), end
 
 
 // 1バイト送信
 tel_send1:
-  char buf0_970736102_in$
-  buf0_970736102_in$=
-  buf0_970736102_in, 1, tel_con#, tcp_send
+  char buf0_939611777_in$
+  buf0_939611777_in$=
+  buf0_939611777_in, 1, tel_con#, tcp_send
   end
 
  end

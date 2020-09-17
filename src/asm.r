@@ -109,6 +109,7 @@ main:
      if blist#=0 goto case_MEMORY
      address#, hex prints ":", prints
      for i#=1 to wordlen#
+       if ins-1$(i#)<16 then "0", prints
        ins-1$(i#),  hex prints " ", prints
      next i#
      for i#=wordlen# to MAX_WORD
@@ -160,7 +161,7 @@ asm_1line:
  const ALIGN      4
  const EQU_PP   5
  const LABEL      0
- const MAX_WORD 64
+ const MAX_WORD 12
  const END      -1
 
  count k#
@@ -174,9 +175,9 @@ asm_1line:
  -1, ins_type#=
 
 // コメントを除去する 
- buf, cmnt1, strstr k#=
+ buf, cmnt1#, strstr k#=
  if k#<>NULL then NULL, (k)$=
- buf, cmnt2, strstr k#=
+ buf, cmnt2#, strstr k#=
  if k#<>NULL then NULL, (k)$=
 
 // 不要なスペースを除去する

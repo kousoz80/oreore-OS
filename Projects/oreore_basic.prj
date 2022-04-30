@@ -178,6 +178,7 @@ Function:
   data &quot;rnd&quot;,func_rnd
   data &quot;point&quot;,func_point
 //  data &quot;netstat&quot;,func_netstat
+  data &quot;time&quot;,func_time
   data NULL,NULL
 </codetext>
 </codeclip>
@@ -761,9 +762,13 @@ cmd_next:
 
   // nextの後に変数名がある場合
   if TokenType#&lt;&gt;VARIABLE goto cmd_next1
-    TokenText, get_variable -&gt;Variable.value# -&gt;Value.data ForStackP#, -&gt;_ForStack.var#  - tt#=
-    if tt#&lt;&gt;0 then &quot;next without for&quot;, assertError
-    getToken
+  TokenText, get_variable -&gt;Variable.value# -&gt;Value.data for_var#=
+cmd_next0:
+    for_var#, ForStackP#, -&gt;_ForStack.var#  - tt#=
+    if tt#=0 then getToken gotocmd_next1
+    if ForStackP#&lt;=ForStack# then  &quot;next without for&quot;, assertError
+    ForStackP#, _ForStack.SIZE, - ForStackP#=
+    goto cmd_next0
 
   // STEP値をループ変数へ加える
 cmd_next1:
@@ -1832,7 +1837,7 @@ func_asc:
   0, end
 </codetext>
 </codeclip>
-<ID_maker>119</ID_maker>
+<ID_maker>120</ID_maker>
 <codeclip>
 <ID>_C95</ID>
 <x0>10</x0>
@@ -2383,6 +2388,23 @@ func_octs:
   &quot;)&quot;, checkToken
   get_number (long) oct put_string
   0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C119</ID>
+<x0>280</x0>
+<y0>9</y0>
+<width>106</width>
+<height>34</height>
+<codetext>// time関数
+func_time:
+
+// &quot;func time:&quot;, prints nl
+
+  getToken
+  time#, 0xffffffff, and (double) put_number
+  0, end
+
 </codetext>
 </codeclip>
 </xobject>
@@ -4000,6 +4022,8 @@ int main( int argc, char** argv ){
   goto _PSTART
 </ProgramStartupCode7>
 <NativeHelpCommand7></NativeHelpCommand7>
+<IDF_LocalVariable5>\</IDF_LocalVariable5>
+<IDF_LocalVariable7>\</IDF_LocalVariable7>
 </プロパティ>
 <codeclip>
 <ID>_C106</ID>
@@ -7692,7 +7716,7 @@ pass2_func_asc:
  0, end
 </codetext>
 </codeclip>
-<ID_maker>121</ID_maker>
+<ID_maker>122</ID_maker>
 <codeclip>
 <ID>_C95</ID>
 <x0>11</x0>
@@ -8228,6 +8252,25 @@ pass2_func_octs:
     &quot; get_number (long) oct put_string&quot;, xxxprints xxxnl
 
   0, end
+</codetext>
+</codeclip>
+<codeclip>
+<ID>_C121</ID>
+<x0>322</x0>
+<y0>10</y0>
+<width>143</width>
+<height>36</height>
+<codetext>// time関数
+pass2_func_time:
+
+// &quot;pass2 func time:&quot;, prints nl
+
+  pass2_getToken
+  
+  &quot; time#, 0xffffffff, and (double) put_number&quot;, xxxprints xxxnl
+
+  0, end
+
 </codetext>
 </codeclip>
 </xobject>
